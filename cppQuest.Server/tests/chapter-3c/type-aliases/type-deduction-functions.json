@@ -1,0 +1,219 @@
+{
+  "quizId": "type-deduction-functions",
+  "title": "Вывод типа возвращаемого значения функции",
+  "type": "paragraph",
+  "pick": 10,
+  "passingScore": 70,
+  "questions": [
+    {
+      "type": "single",
+      "question": "С какой версии C++ можно использовать auto как тип возврата функции?",
+      "answers": [
+        "C++11",
+        "C++14",
+        "C++17",
+        "C++20"
+      ],
+      "correct": 1,
+      "explanation": "auto как тип возврата функции введён в C++14. Компилятор выводит тип из оператора return.",
+      "id": 0
+    },
+    {
+      "type": "code",
+      "question": "Какой тип возвращает функция?",
+      "code": "auto add(int x, int y) {\n    return x + y;\n}",
+      "answers": [
+        "auto",
+        "int",
+        "double",
+        "Ошибка компиляции"
+      ],
+      "correct": 1,
+      "explanation": "x + y — int. Компилятор выводит тип возврата: int.",
+      "id": 1
+    },
+    {
+      "type": "single",
+      "question": "Что такое trailing return type?",
+      "answers": [
+        "Тип возврата в конце функции после ->",
+        "Тип возврата в начале функции",
+        "Вывод типа через auto",
+        "Тип последнего параметра"
+      ],
+      "correct": 0,
+      "explanation": "Trailing return type: auto f(int x) -> int { return x; } — тип указывается после -> в конце объявления.",
+      "id": 2
+    },
+    {
+      "type": "code",
+      "question": "Скомпилируется ли этот код?",
+      "code": "auto someFcn(bool b) {\n    if (b) return 5;\n    else return 6.7;\n}",
+      "answers": [
+        "Да, тип будет double",
+        "Нет, ошибка: разные типы в return",
+        "Да, тип будет auto",
+        "Предупреждение"
+      ],
+      "correct": 1,
+      "explanation": "Все return должны возвращать один тип. 5 — int, 6.7 — double. Разные типы — ошибка компиляции.",
+      "id": 3
+    },
+    {
+      "type": "single",
+      "question": "Какое ограничение есть у функций с auto-возвратом?",
+      "answers": [
+        "Нельзя использовать в классах",
+        "Функция должна быть полностью определена до первого вызова",
+        "Нельзя использовать рекурсию",
+        "Нельзя иметь параметры"
+      ],
+      "correct": 1,
+      "explanation": "Функция с auto-возвратом должна быть полностью определена до вызова. Предварительного объявления недостаточно.",
+      "id": 4
+    },
+    {
+      "type": "code",
+      "question": "Скомпилируется ли этот код?",
+      "code": "auto foo();\nint main() {\n    foo();\n}\nauto foo() { return 5; }",
+      "answers": [
+        "Да",
+        "Нет, ошибка: компилятор не знает тип возврата при вызове",
+        "Да, с предупреждением",
+        "Зависит от компилятора"
+      ],
+      "correct": 1,
+      "explanation": "При вызове foo() компилятор не знает тип возврата (только предварительное объявление). Ошибка компиляции.",
+      "id": 5
+    },
+    {
+      "type": "fill-code",
+      "question": "Заполните пропуск для trailing return type:",
+      "code": "auto add(int x, int y) _____ int {\n    return x + y;\n}",
+      "correct": [
+        "->"
+      ],
+      "explanation": "auto add(int x, int y) -> int — trailing return type. Тип указывается после ->.",
+      "id": 6
+    },
+    {
+      "type": "multiple",
+      "question": "Когда trailing return type полезен?",
+      "answers": [
+        "Для выравнивания объявлений функций",
+        "Для сложных типов возврата",
+        "Когда тип зависит от параметров",
+        "Всегда лучше обычного синтаксиса",
+        "Для документирования"
+      ],
+      "correct": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Trailing return type полезен: выравнивание, сложные типы, тип зависит от параметров. Не всегда лучше обычного синтаксиса.",
+      "id": 7
+    },
+    {
+      "type": "code",
+      "question": "Что выведет программа?",
+      "code": "#include <iostream>\nauto square(int x) { return x * x; }\nint main() {\n    std::cout << square(5);\n}",
+      "answers": [
+        "25",
+        "5",
+        "Ошибка",
+        "auto"
+      ],
+      "correct": 0,
+      "explanation": "square(5): x*x = 5*5 = 25. Тип возврата выводится как int. Вывод: 25.",
+      "id": 8
+    },
+    {
+      "type": "matching",
+      "question": "Соотнесите синтаксис с описанием:",
+      "pairs": [
+        {
+          "left": "int f(int x)",
+          "right": "Обычный синтаксис"
+        },
+        {
+          "left": "auto f(int x) -> int",
+          "right": "Trailing return type"
+        },
+        {
+          "left": "auto f(int x)",
+          "right": "Вывод типа (C++14)"
+        }
+      ],
+      "explanation": "Три способа указать тип возврата функции.",
+      "id": 9
+    },
+    {
+      "type": "single",
+      "question": "Что рекомендуется для большинства функций?",
+      "answers": [
+        "Всегда использовать auto-возврат",
+        "Предпочитать явный тип возврата — он виден в объявлении",
+        "Всегда использовать trailing return type",
+        "Использовать auto только для шаблонов"
+      ],
+      "correct": 1,
+      "explanation": "Рекомендация: явный тип возврата виден в объявлении функции. auto-возврат — когда тип сложный или очевиден.",
+      "id": 10
+    },
+    {
+      "type": "fill",
+      "question": "Напишите синтаксис trailing return type для функции, возвращающей double:",
+      "correct": [
+        "-> double"
+      ],
+      "explanation": "auto f() -> double { ... } — trailing return type. Тип указывается после ->.",
+      "id": 11
+    },
+    {
+      "type": "code",
+      "question": "Что выведет программа?",
+      "code": "#include <iostream>\nauto multiply(double x, int y) {\n    return x * y;\n}\nint main() {\n    std::cout << multiply(2.5, 4);\n}",
+      "answers": [
+        "10",
+        "10.0",
+        "8",
+        "Ошибка"
+      ],
+      "correct": 0,
+      "explanation": "x*y: double * int = double. 2.5 * 4 = 10.0. cout выводит 10 (без .0).",
+      "id": 12
+    },
+    {
+      "type": "single",
+      "question": "Можно ли использовать auto для параметров функции в C++14?",
+      "answers": [
+        "Да, всегда",
+        "Нет, ошибка компиляции (до C++20)",
+        "Да, но только для шаблонов",
+        "Да, с ограничениями"
+      ],
+      "correct": 1,
+      "explanation": "До C++20 auto для параметров функции — ошибка компиляции. С C++20 это создаёт сокращённый шаблон функции.",
+      "id": 13
+    },
+    {
+      "type": "multiple",
+      "question": "Отметьте ВСЕ верные утверждения о auto-возврате функций:",
+      "answers": [
+        "Введён в C++14",
+        "Все return должны возвращать один тип",
+        "Функция должна быть определена до вызова",
+        "Trailing return type — синоним auto-возврата",
+        "Предпочтительнее явного типа для большинства функций"
+      ],
+      "correct": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "auto-возврат: C++14, все return одного типа, нужно полное определение. Trailing return type — отдельный синтаксис. Явный тип предпочтительнее.",
+      "id": 14
+    }
+  ]
+}

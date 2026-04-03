@@ -1,0 +1,182 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+    <script>document.documentElement.setAttribute("data-theme",localStorage.getItem("cpp_theme")||"dark")</script>
+<head>
+    <meta charset="UTF-8"><meta name="created" content="2025-03-31">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Преобразования типов и строки — Курс C++</title>
+    <meta name="description" content="to_string, stoi, stod, c_str, data — преобразования между строками и числами в C++.">
+    <link rel="stylesheet" href="../../../css/variables.css?v=3">
+    <link rel="stylesheet" href="../../../css/theme-picker.css">
+    <link rel="stylesheet" href="../../../css/base.css">
+    <link rel="stylesheet" href="../../../css/layout.css">
+    <link rel="stylesheet" href="../../../css/components.css">
+    <link rel="stylesheet" href="../../../css/theory.css">
+    <link rel="stylesheet" href="../../../components/quiz/css/quiz.css">
+    <link rel="stylesheet" href="../../../components/quiz/css/widget.css">
+    <link rel="stylesheet" href="../../../css/gamification.css">
+    <link rel="stylesheet" href="../../../css/code-highlight.css">
+    <link rel="stylesheet" href="../../../css/compiler.css">
+    <link rel="stylesheet" href="../../../css/feedback.css">
+    <link rel="stylesheet" href="../../../css/callout.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📝</text></svg>">
+</head>
+<body>
+    <div class="reading-progress-bar" id="reading-progress"></div>
+    <header class="site-header">
+        <div class="header-inner">
+            <a href="../../../index.html" class="header-logo">
+                <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="4" y="4" width="20" height="20" rx="2" stroke="currentColor" stroke-width="2"/>
+                    <path d="M10 10 L10 18 M10 14 L14 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M18 10 L18 18 M18 14 L22 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                Курс C++
+            </a>
+            <nav class="header-nav"><a href="../../../index.html">Главная</a><a href="#" class="active">Глава</a></nav>
+            <button class="mobile-menu-btn" aria-label="Открыть меню" aria-expanded="false">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+                </svg>
+            </button>
+        </div>
+    </header>
+    <div class="page-wrapper">
+        <aside class="sidebar"><div class="sidebar-section"><div class="sidebar-title"></div><ul class="sidebar-nav" id="course-nav"></ul></div></aside>
+        <main class="main-content">
+            <div class="chapter-content">
+                <div class="section-badge">Строки</div>
+                <h1>Преобразования типов и строки</h1>
+
+                <p>
+                    Часто нужно преобразовать число в строку или строку в число.
+                    Стандартная библиотека предоставляет удобные функции для этого.
+                </p>
+
+                <h2 id="to-string">Число → строка: std::to_string</h2>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">C++ — to_string</span><div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button></div></div>
+                    <div class="code-content">
+<pre><code class="language-cpp">#include &lt;string&gt;
+#include &lt;iostream&gt;
+
+int main()
+{
+    int age { 25 };
+    double pi { 3.14159 };
+
+    std::string msg1 { "Возраст: " + std::to_string(age) };
+    std::string msg2 { "Pi = " + std::to_string(pi) };
+
+    std::cout &lt;&lt; msg1 &lt;&lt; '\n'; // Возраст: 25
+    std::cout &lt;&lt; msg2 &lt;&lt; '\n'; // Pi = 3.141590
+
+    return 0;
+}</code></pre>
+                    </div>
+                </div>
+
+                <h2 id="from-string">Строка → число: stoi, stod и другие</h2>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">C++ — stoi, stod, stol</span><div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button></div></div>
+                    <div class="code-content">
+<pre><code class="language-cpp">#include &lt;string&gt;
+#include &lt;iostream&gt;
+
+int main()
+{
+    std::string numStr { "42" };
+    std::string piStr  { "3.14" };
+
+    int n    { std::stoi(numStr) };  // string → int
+    double d { std::stod(piStr) };   // string → double
+    long l   { std::stol("1000") };  // string → long
+
+    std::cout &lt;&lt; n &lt;&lt; '\n'; // 42
+    std::cout &lt;&lt; d &lt;&lt; '\n'; // 3.14
+
+    // Обработка ошибок:
+    try {
+        int bad { std::stoi("abc") }; // бросает std::invalid_argument
+    } catch (const std::exception&amp; e) {
+        std::cout &lt;&lt; "Ошибка: " &lt;&lt; e.what() &lt;&lt; '\n';
+    }
+
+    return 0;
+}</code></pre>
+                    </div>
+                </div>
+
+                <h2 id="cstr">Строка → C-строка: c_str() и data()</h2>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">C++ — c_str и data</span><div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button></div></div>
+                    <div class="code-content">
+<pre><code class="language-cpp">#include &lt;string&gt;
+#include &lt;cstdio&gt; // для printf
+
+int main()
+{
+    std::string msg { "hello" };
+
+    // c_str(): указатель на const char* (для C API)
+    const char* cptr = msg.c_str();
+    printf("%s\n", cptr); // hello
+
+    // data(): указатель на char* (C++17, не const если строка не const)
+    char* ptr = msg.data();
+    ptr[0] = 'H'; // изменяем через data()
+    printf("%s\n", ptr); // Hello
+
+    return 0;
+}</code></pre>
+                    </div>
+                </div>
+
+                <h2 id="diagram">Диаграмма: преобразования строк</h2>
+                <div style="display:flex; justify-content:center; margin: var(--space-6) 0">
+                <svg viewBox="0 0 480 120" width="480" height="120" xmlns="http://www.w3.org/2000/svg" style="max-width:100%">
+                    <defs>
+                        <marker id="sa" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="var(--accent-violet)"/></marker>
+                        <marker id="sb" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="var(--accent-green)"/></marker>
+                    </defs>
+                    <!-- number box -->
+                    <rect x="10" y="40" width="120" height="40" rx="6" fill="rgba(88,166,255,.1)" stroke="var(--accent-blue)" stroke-width="1.5"/>
+                    <text x="70" y="65" text-anchor="middle" fill="var(--accent-blue)" font-size="12" font-family="monospace">int / double</text>
+                    <!-- string box -->
+                    <rect x="180" y="40" width="120" height="40" rx="6" fill="var(--accent-violet-dim)" stroke="var(--accent-violet)" stroke-width="1.5"/>
+                    <text x="240" y="65" text-anchor="middle" fill="var(--accent-violet)" font-size="12" font-family="monospace">std::string</text>
+                    <!-- cstr box -->
+                    <rect x="350" y="40" width="120" height="40" rx="6" fill="rgba(126,231,135,.1)" stroke="var(--accent-green)" stroke-width="1.5"/>
+                    <text x="410" y="65" text-anchor="middle" fill="var(--accent-green)" font-size="12" font-family="monospace">const char*</text>
+                    <!-- arrows -->
+                    <line x1="130" y1="55" x2="178" y2="55" stroke="var(--accent-violet)" stroke-width="1.5" marker-end="url(#sa)"/>
+                    <text x="154" y="48" text-anchor="middle" fill="var(--text-tertiary)" font-size="9" font-family="sans-serif">to_string</text>
+                    <line x1="178" y1="65" x2="130" y2="65" stroke="var(--accent-violet)" stroke-width="1.5" marker-end="url(#sa)"/>
+                    <text x="154" y="78" text-anchor="middle" fill="var(--text-tertiary)" font-size="9" font-family="sans-serif">stoi/stod</text>
+                    <line x1="300" y1="60" x2="348" y2="60" stroke="var(--accent-green)" stroke-width="1.5" marker-end="url(#sb)"/>
+                    <text x="324" y="53" text-anchor="middle" fill="var(--text-tertiary)" font-size="9" font-family="sans-serif">c_str()</text>
+                </svg>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-card__title">🔗 Документация</div>
+                    <p><a href="https://en.cppreference.com/w/cpp/string/basic_string/to_string" target="_blank" rel="noopener">std::to_string</a> · <a href="https://en.cppreference.com/w/cpp/string/basic_string/stol" target="_blank" rel="noopener">stoi/stod/stol</a></p>
+                </div>
+
+                <h2 id="tests">Проверьте знания</h2>
+                <div class="quiz-widget" data-final="string-conversions" data-final-desc="Преобразования типов и строки"></div>
+                <section class="feedback-section"></section>
+                <div class="paragraph-nav"></div>
+            </div>
+        </main>
+        <aside class="right-sidebar"><div class="toc-container"><div class="toc-title">Содержание</div><nav class="toc-nav"></nav></div></aside>
+    </div>
+    <footer class="site-footer"><p>Интерактивный курс по языку программирования C++</p></footer>
+    <script src="../../../js/course.js"></script><script src="../../../js/core/callout.js"></script><script src="../../../js/navigation.js"></script><script src="../../../js/toc.js"></script><script src="../../../components/quiz/quiz.js" type="module"></script><script src="../../../components/quiz/widget.js"></script><script src="../../../js/compiler.js"></script><script src="../../../js/gamification.js"></script>
+    <script>
+    (function(){const b=document.getElementById('reading-progress');if(!b)return;window.addEventListener('scroll',()=>{const h=document.documentElement.scrollHeight-document.documentElement.clientHeight;b.style.width=h>0?(window.scrollY/h*100)+'%':'0%';},{passive:true});})();
+    function copyCode(btn){const c=btn.closest('.code-block')?.querySelector('code')?.textContent||'';navigator.clipboard.writeText(c).then(()=>{btn.textContent='Скопировано!';setTimeout(()=>btn.textContent='Копировать',2000);});}
+    </script>
+    <script src="../../../js/theme.js"></script><script src="../../../js/feedback.js"></script>
+</body>
+</html>

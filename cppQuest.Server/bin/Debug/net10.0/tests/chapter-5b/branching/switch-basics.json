@@ -1,0 +1,220 @@
+{
+  "title": "Оператор switch — основы",
+  "passingScore": 70,
+  "questions": [
+    {
+      "type": "single",
+      "question": "Что выведет программа?\n```cpp\nint x {2};\nswitch (x)\n{\n    case 1:\n        std::cout << \"один\\n\";\n        break;\n    case 2:\n        std::cout << \"два\\n\";\n        break;\n    default:\n        std::cout << \"другое\\n\";\n        break;\n}\n```",
+      "answers": [
+        "один",
+        "два",
+        "другое",
+        "один\nдва"
+      ],
+      "correct": 1,
+      "explanation": "Значение x равно 2, поэтому выполняется ветка case 2. После вывода «два» оператор break завершает switch. Ветки case 1 и default не выполняются.",
+      "id": 0
+    },
+    {
+      "type": "single",
+      "question": "Что выведет программа?\n```cpp\nint x {5};\nswitch (x)\n{\n    case 1:\n        std::cout << \"один\\n\";\n        break;\n    case 2:\n        std::cout << \"два\\n\";\n        break;\n}\nstd::cout << \"конец\\n\";\n```",
+      "answers": [
+        "один\nконец",
+        "два\nконец",
+        "конец",
+        "Ничего не выведет"
+      ],
+      "correct": 2,
+      "explanation": "Значение x равно 5, но ни case 1, ни case 2 не совпадают, а метки default нет. Выполнение продолжается после блока switch, поэтому выводится только «конец».",
+      "id": 1
+    },
+    {
+      "type": "single",
+      "question": "Какую конструкцию предпочтительнее использовать для ветвления по 6 конкретным целочисленным значениям переменной?",
+      "answers": [
+        "Цепочку if-else if",
+        "switch с метками case",
+        "Тернарный оператор",
+        "Цикл while"
+      ],
+      "correct": 1,
+      "explanation": "switch оптимален для ветвления по конкретным целочисленным или перечислимым значениям: компилятор может реализовать его через jump table, что эффективнее цепочки if-else if при большом числе вариантов.",
+      "id": 2
+    },
+    {
+      "type": "single",
+      "question": "Какие типы допустимы в выражении switch?",
+      "answers": [
+        "Любые типы, включая float и std::string",
+        "Только bool",
+        "Только целочисленные и перечислимые типы",
+        "Только указатели"
+      ],
+      "correct": 2,
+      "explanation": "Стандарт C++ допускает в switch только целочисленные типы (int, char, long и т.д.) и перечислимые типы (enum). Вещественные числа (float, double) и строки (std::string) не поддерживаются.",
+      "id": 3
+    },
+    {
+      "type": "fill-code",
+      "question": "Заполните пропуск для синтаксиса switch:",
+      "code": "_____ (x) {\n    case 1: std::cout << \"one\"; break;\n    default: break;\n}",
+      "correct": [
+        "switch"
+      ],
+      "explanation": "switch (выражение) { case константа: ... break; default: ... }",
+      "id": 4
+    },
+    {
+      "type": "single",
+      "question": "Что такое 'таблица переходов' (jump table)?",
+      "answers": [
+        "Таблица всех переменных программы",
+        "Массив адресов, позволяющий перейти к нужному case за O(1)",
+        "Список всех функций",
+        "Таблица символов компилятора"
+      ],
+      "correct": 1,
+      "explanation": "Jump table — массив адресов, индексированный значением выражения. Позволяет перейти к нужному case за O(1) вместо O(n) для if-else.",
+      "id": 5
+    },
+    {
+      "type": "code",
+      "question": "Что выведет программа?",
+      "code": "#include <iostream>\nint main() {\n    char c{'A'};\n    switch (c) {\n        case 'A': std::cout << \"alpha\"; break;\n        case 'B': std::cout << \"beta\"; break;\n        default: std::cout << \"other\"; break;\n    }\n}",
+      "answers": [
+        "alpha",
+        "beta",
+        "other",
+        "Ошибка"
+      ],
+      "correct": 0,
+      "explanation": "c='A', совпадает с case 'A'. Выводится 'alpha', break завершает switch.",
+      "id": 6
+    },
+    {
+      "type": "single",
+      "question": "Что произойдёт если не написать break в case?",
+      "answers": [
+        "Ошибка компиляции",
+        "Выполнение 'провалится' в следующий case (fallthrough)",
+        "Цикл завершится",
+        "Предупреждение компилятора"
+      ],
+      "correct": 1,
+      "explanation": "Без break выполнение продолжается в следующий case — это называется fallthrough. Большинство компиляторов предупреждают об этом.",
+      "id": 7
+    },
+    {
+      "type": "multiple",
+      "question": "Отметьте ВСЕ верные утверждения о switch:",
+      "answers": [
+        "Выражение должно быть целочисленным или перечислимым",
+        "default выполняется при отсутствии совпадения",
+        "float можно использовать в switch",
+        "break завершает блок switch",
+        "Метки case должны быть константными выражениями"
+      ],
+      "correct": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "explanation": "switch: целочисленный/enum тип, default при отсутствии совпадения, break завершает, case — константы. float не поддерживается.",
+      "id": 8
+    },
+    {
+      "type": "fill",
+      "question": "Напишите метку, выполняемую при отсутствии совпадения в switch:",
+      "correct": [
+        "default"
+      ],
+      "explanation": "default: выполняется если ни один case не совпал с выражением.",
+      "id": 9
+    },
+    {
+      "type": "code",
+      "question": "Что выведет программа?",
+      "code": "#include <iostream>\nint main() {\n    int x{3};\n    switch (x) {\n        case 1: case 2: case 3:\n            std::cout << \"1-3\"; break;\n        default:\n            std::cout << \"other\"; break;\n    }\n}",
+      "answers": [
+        "1-3",
+        "other",
+        "123",
+        "Ошибка"
+      ],
+      "correct": 0,
+      "explanation": "Стекирование меток: case 1, 2, 3 ведут к одному блоку. x=3 совпадает с case 3. Вывод: 1-3.",
+      "id": 10
+    },
+    {
+      "type": "matching",
+      "question": "Соотнесите элемент switch с его ролью:",
+      "pairs": [
+        {
+          "left": "switch (x)",
+          "right": "Вычисляемое выражение"
+        },
+        {
+          "left": "case 1:",
+          "right": "Метка для значения 1"
+        },
+        {
+          "left": "default:",
+          "right": "Метка при отсутствии совпадения"
+        },
+        {
+          "left": "break;",
+          "right": "Завершение блока switch"
+        }
+      ],
+      "explanation": "Основные элементы оператора switch.",
+      "id": 11
+    },
+    {
+      "type": "single",
+      "question": "Почему switch может быть эффективнее цепочки if-else?",
+      "answers": [
+        "switch компилируется быстрее",
+        "Компилятор может реализовать switch через jump table: O(1) вместо O(n)",
+        "switch использует меньше памяти",
+        "switch не требует вычисления условий"
+      ],
+      "correct": 1,
+      "explanation": "При достаточном числе вариантов компилятор реализует switch через jump table: переход за O(1). if-else проверяет условия последовательно: O(n).",
+      "id": 12
+    },
+    {
+      "type": "single",
+      "question": "Можно ли использовать std::string в выражении switch?",
+      "answers": [
+        "Да, в C++17",
+        "Нет, только целочисленные и перечислимые типы",
+        "Да, всегда",
+        "Только если строка короткая"
+      ],
+      "correct": 1,
+      "explanation": "switch поддерживает только целочисленные и перечислимые типы. Для std::string используйте if-else или std::map.",
+      "id": 13
+    },
+    {
+      "type": "fill-code-drag",
+      "question": "Соберите синтаксис switch:",
+      "code": "_____ (x) {\n    _____ 1: std::cout << \"one\"; break;\n    default: break;\n}",
+      "answers": [
+        "switch",
+        "case",
+        "if",
+        "while"
+      ],
+      "correct": [
+        "switch",
+        "case"
+      ],
+      "explanation": "switch (выражение) { case константа: ... break; default: ... }",
+      "id": 14
+    }
+  ],
+  "pick": 10,
+  "quizId": "switch-basics",
+  "type": "paragraph"
+}

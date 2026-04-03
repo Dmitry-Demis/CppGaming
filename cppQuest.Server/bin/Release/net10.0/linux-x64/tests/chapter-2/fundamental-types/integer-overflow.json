@@ -1,0 +1,144 @@
+{
+  "quizId": "integer-overflow",
+  "title": "Переполнение целых чисел",
+  "type": "paragraph",
+  "pick": 10,
+  "passingScore": 70,
+  "questions": [
+    {
+      "id": 0,
+      "type": "single",
+      "question": "Что происходит при переполнении знакового (signed) целого числа в C++?",
+      "answers": [
+        "Значение обнуляется",
+        "Значение оборачивается по модулю 2^n",
+        "Это неопределённое поведение (UB)",
+        "Генерируется исключение"
+      ],
+      "correct": 2,
+      "explanation": "Переполнение signed-типа — это UB. Компилятор вправе оптимизировать код, считая, что UB никогда не происходит."
+    },
+    {
+      "id": 1,
+      "type": "single",
+      "question": "Что происходит при переполнении беззнакового (unsigned) целого числа?",
+      "answers": [
+        "Неопределённое поведение",
+        "Значение оборачивается по модулю 2^n (wrap-around)",
+        "Генерируется исключение",
+        "Значение остаётся максимальным"
+      ],
+      "correct": 1,
+      "explanation": "Для unsigned-типов переполнение строго определено: результат берётся по модулю 2^n. Это называется wrap-around."
+    },
+    {
+      "id": 2,
+      "type": "code",
+      "question": "Что выведет программа?",
+      "code": "#include <iostream>\n#include <limits>\nint main() {\n    unsigned int u{std::numeric_limits<unsigned int>::max()};\n    ++u;\n    std::cout << u;\n}",
+      "answers": [
+        "4294967295",
+        "0",
+        "Неопределённое поведение",
+        "Ошибка компиляции"
+      ],
+      "correct": 1,
+      "explanation": "UINT_MAX + 1 = 0 по правилу wrap-around для unsigned. Это строго определённое поведение."
+    },
+    {
+      "id": 3,
+      "type": "single",
+      "question": "Какой флаг компилятора позволяет обнаружить signed overflow во время выполнения?",
+      "answers": [
+        "-Wall",
+        "-fsanitize=signed-integer-overflow",
+        "-O2",
+        "-std=c++17"
+      ],
+      "correct": 1,
+      "explanation": "UBSan с флагом -fsanitize=signed-integer-overflow добавляет runtime-проверки на signed overflow."
+    },
+    {
+      "id": 4,
+      "type": "single",
+      "question": "Как безопасно проверить, не переполнится ли сложение a + b (signed int)?",
+      "answers": [
+        "Просто сложить и проверить результат",
+        "Проверить до сложения: b > 0 && a > INT_MAX - b",
+        "Использовать unsigned int",
+        "Использовать float"
+      ],
+      "correct": 1,
+      "explanation": "Нужно проверять ДО операции. Проверка после — уже UB, если переполнение произошло."
+    },
+    {
+      "id": 5,
+      "type": "code",
+      "question": "Что выведет программа?",
+      "code": "#include <iostream>\n#include <limits>\nint main() {\n    unsigned int z{0u};\n    --z;\n    std::cout << z;\n}",
+      "answers": [
+        "0",
+        "-1",
+        "4294967295",
+        "Ошибка"
+      ],
+      "correct": 2,
+      "explanation": "0u - 1 = UINT_MAX = 4294967295 по правилу wrap-around для unsigned."
+    },
+    {
+      "id": 6,
+      "type": "multiple",
+      "question": "Отметьте ВСЕ безопасные способы избежать integer overflow:",
+      "answers": [
+        "Проверять значения до операции",
+        "Использовать __builtin_add_overflow (GCC/Clang)",
+        "Вычислять в типе большего размера (long long)",
+        "Просто игнорировать — компилятор исправит",
+        "Использовать -fsanitize=undefined для отладки"
+      ],
+      "correct": [
+        0,
+        1,
+        2,
+        4
+      ],
+      "explanation": "Безопасные подходы: предварительная проверка, intrinsic-функции, вычисление в более широком типе, UBSan для отладки."
+    },
+    {
+      "id": 7,
+      "type": "single",
+      "question": "Что делает __builtin_add_overflow(a, b, &result)?",
+      "answers": [
+        "Складывает a и b без проверок",
+        "Возвращает true если произошло переполнение, иначе записывает результат",
+        "Всегда возвращает false",
+        "Это стандартная функция C++20"
+      ],
+      "correct": 1,
+      "explanation": "__builtin_add_overflow — расширение GCC/Clang. Возвращает true при переполнении, иначе записывает результат в &result."
+    },
+    {
+      "id": 8,
+      "type": "fill",
+      "question": "Как называется поведение, когда unsigned-тип 'оборачивается' через 0 или максимум?",
+      "correct": [
+        "wrap-around",
+        "wraparound"
+      ],
+      "explanation": "Wrap-around — строго определённое поведение для unsigned: результат берётся по модулю 2^n."
+    },
+    {
+      "id": 9,
+      "type": "single",
+      "question": "Почему signed overflow опасен даже в debug-сборке?",
+      "answers": [
+        "Потому что компилятор всегда выдаёт ошибку",
+        "Потому что компилятор может оптимизировать код, считая что UB не происходит",
+        "Потому что это приводит к исключению",
+        "Потому что это запрещено стандартом C++20"
+      ],
+      "correct": 1,
+      "explanation": "Компилятор вправе считать, что UB никогда не происходит, и удалять 'невозможные' ветки кода. Это может привести к неожиданным результатам."
+    }
+  ]
+}

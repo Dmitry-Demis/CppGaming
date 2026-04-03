@@ -1,0 +1,130 @@
+{
+  "quizId": "sizeof-operator",
+  "title": "Оператор sizeof",
+  "type": "paragraph",
+  "pick": 10,
+  "passingScore": 70,
+  "questions": [
+    {
+      "id": 0,
+      "type": "single",
+      "question": "Что возвращает оператор sizeof?",
+      "answers": [
+        "Количество бит в типе",
+        "Количество байт, занимаемых типом или объектом",
+        "Максимальное значение типа",
+        "Адрес переменной"
+      ],
+      "correct": 1,
+      "explanation": "sizeof возвращает размер в байтах. Результат имеет тип std::size_t."
+    },
+    {
+      "id": 1,
+      "type": "single",
+      "question": "Чему всегда равно sizeof(char)?",
+      "answers": [
+        "8",
+        "2",
+        "1",
+        "Зависит от платформы"
+      ],
+      "correct": 2,
+      "explanation": "По стандарту C++ sizeof(char) == 1 всегда. Это единственный тип с гарантированным размером."
+    },
+    {
+      "id": 2,
+      "type": "code",
+      "question": "Что выведет программа?",
+      "code": "#include <iostream>\nint main() {\n    int x{5};\n    std::cout << sizeof(x++);\n    std::cout << \" \" << x;\n}",
+      "answers": [
+        "4 6",
+        "4 5",
+        "8 5",
+        "Ошибка"
+      ],
+      "correct": 1,
+      "explanation": "sizeof не вычисляет выражение — x++ не выполняется. sizeof(x++) = sizeof(int) = 4, x остаётся 5."
+    },
+    {
+      "id": 3,
+      "type": "single",
+      "question": "Какой тип имеет результат оператора sizeof?",
+      "answers": [
+        "int",
+        "unsigned int",
+        "std::size_t",
+        "long long"
+      ],
+      "correct": 2,
+      "explanation": "sizeof возвращает значение типа std::size_t — беззнаковый тип, достаточный для хранения размера любого объекта."
+    },
+    {
+      "id": 4,
+      "type": "single",
+      "question": "Как правильно вычислить количество элементов в массиве int arr[5]?",
+      "answers": [
+        "sizeof(arr)",
+        "sizeof(arr) / sizeof(int)",
+        "arr.size()",
+        "sizeof(arr[0])"
+      ],
+      "correct": 1,
+      "explanation": "sizeof(arr) / sizeof(arr[0]) или sizeof(arr) / sizeof(int) даёт количество элементов. Работает только для массивов, не для указателей!"
+    },
+    {
+      "id": 5,
+      "type": "multiple",
+      "question": "Отметьте ВСЕ верные утверждения о sizeof:",
+      "answers": [
+        "sizeof — оператор времени компиляции",
+        "sizeof(char) == 1 гарантировано стандартом",
+        "sizeof вычисляет выражение внутри скобок",
+        "Результат sizeof имеет тип std::size_t",
+        "sizeof(int) всегда равно 4"
+      ],
+      "correct": [
+        0,
+        1,
+        3
+      ],
+      "explanation": "sizeof — compile-time оператор, sizeof(char)==1 гарантировано, результат std::size_t. Выражение НЕ вычисляется. sizeof(int) зависит от платформы."
+    },
+    {
+      "id": 6,
+      "type": "code",
+      "question": "Что выведет программа на 64-битной системе?",
+      "code": "#include <iostream>\nint main() {\n    std::cout << sizeof(int) << \" \" << sizeof(long long);\n}",
+      "answers": [
+        "2 4",
+        "4 8",
+        "4 4",
+        "8 8"
+      ],
+      "correct": 1,
+      "explanation": "На x86-64: sizeof(int) = 4, sizeof(long long) = 8. Это типичные значения для большинства платформ."
+    },
+    {
+      "id": 7,
+      "type": "fill",
+      "question": "Напишите выражение для получения размера типа double в байтах:",
+      "correct": [
+        "sizeof(double)",
+        "sizeof double"
+      ],
+      "explanation": "sizeof(double) возвращает размер типа double в байтах (обычно 8 на x86-64)."
+    },
+    {
+      "id": 8,
+      "type": "single",
+      "question": "Почему нельзя использовать sizeof для определения длины массива, переданного в функцию?",
+      "answers": [
+        "sizeof не работает с параметрами функций",
+        "Массив распадается в указатель, sizeof вернёт размер указателя",
+        "Функции не поддерживают массивы",
+        "sizeof работает только с примитивными типами"
+      ],
+      "correct": 1,
+      "explanation": "При передаче массива в функцию он распадается в указатель. sizeof вернёт размер указателя (4 или 8 байт), а не массива."
+    }
+  ]
+}

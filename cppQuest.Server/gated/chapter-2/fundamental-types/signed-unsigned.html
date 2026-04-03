@@ -1,0 +1,71 @@
+<section data-slot="1" data-std="20" coins="5000">
+    <h2 id="cmp-functions">Безопасное сравнение — <code>std::cmp_*</code><span class="std-badge std-badge--20">C++20</span></h2>
+
+    <p>
+        C++20 добавил набор функций в <code>&lt;utility&gt;</code> для безопасного сравнения
+        целых чисел разной знаковости без рисков UB или неожиданных результатов:
+    </p>
+
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr><th>Функция</th><th>Эквивалент</th><th>Безопасна?</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><code>std::cmp_equal(a, b)</code></td><td><code>a == b</code></td><td>&#x2705; да</td></tr>
+                <tr><td><code>std::cmp_less(a, b)</code></td><td><code>a &lt; b</code></td><td>&#x2705; да</td></tr>
+                <tr><td><code>std::cmp_greater(a, b)</code></td><td><code>a &gt; b</code></td><td>&#x2705; да</td></tr>
+                <tr><td><code>std::in_range&lt;T&gt;(n)</code></td><td>проверяет, вмещается ли n в тип T</td><td>&#x2705; да</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="code-block" data-example="chapter-2/fundamental-types/cmp-functions-cpp20.cpp">
+        <div class="code-header">
+            <span class="code-lang">C++20 — std::cmp_less, std::in_range</span>
+            <div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button></div>
+        </div>
+        <div class="code-content"><pre><code class="language-cpp">// загрузка...</code></pre></div>
+    </div>
+</section>
+
+<section data-slot="1" data-std="14" coins="15000">
+    <h2 id="cmp-functions-14">Безопасное сравнение — <code>std::cmp_*</code><span class="std-badge std-badge--20">C++20</span></h2>
+
+    <p>
+        C++20 добавил набор функций в <code>&lt;utility&gt;</code> для безопасного сравнения
+        целых чисел разной знаковости без рисков UB или неожиданных результатов:
+    </p>
+
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr><th>Функция</th><th>Эквивалент</th><th>Безопасна?</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><code>std::cmp_equal(a, b)</code></td><td><code>a == b</code></td><td>&#x2705; да</td></tr>
+                <tr><td><code>std::cmp_less(a, b)</code></td><td><code>a &lt; b</code></td><td>&#x2705; да</td></tr>
+                <tr><td><code>std::cmp_greater(a, b)</code></td><td><code>a &gt; b</code></td><td>&#x2705; да</td></tr>
+                <tr><td><code>std::in_range&lt;T&gt;(n)</code></td><td>проверяет, вмещается ли n в тип T</td><td>&#x2705; да</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="code-block" data-example="chapter-2/fundamental-types/cmp-functions-cpp20.cpp">
+        <div class="code-header">
+            <span class="code-lang">C++20 — std::cmp_less, std::in_range</span>
+            <div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button></div>
+        </div>
+        <div class="code-content"><pre><code class="language-cpp">// загрузка...</code></pre></div>
+    </div>
+</section>
+
+<section data-slot="2" data-std="20" coins="3000">
+    <div class="code-block" data-example="chapter-2/fundamental-types/signed-unsigned-demo.cpp">
+        <div class="code-header">
+            <span class="code-lang">C++ — signed/unsigned демонстрация</span>
+            <div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button></div>
+        </div>
+        <div class="code-content"><pre><code class="language-cpp">// загрузка...</code></pre></div>
+    </div>
+</section>

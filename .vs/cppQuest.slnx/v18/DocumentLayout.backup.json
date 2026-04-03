@@ -1,0 +1,74 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\Studies\\cppQuest\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{D54B432D-21E9-0312-41C7-274A33F0A856}|cppQuest.Server\\cppQuest.Server.csproj|d:\\studies\\cppquest\\cppquest.server\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D54B432D-21E9-0312-41C7-274A33F0A856}|cppQuest.Server\\cppQuest.Server.csproj|solutionrelative:cppquest.server\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D54B432D-21E9-0312-41C7-274A33F0A856}|cppQuest.Server\\cppQuest.Server.csproj|d:\\studies\\cppquest\\cppcourse\\examples\\chapter-1\\basics\\first-program.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{D54B432D-21E9-0312-41C7-274A33F0A856}|cppQuest.Server\\cppQuest.Server.csproj|solutionrelative:cppcourse\\examples\\chapter-1\\basics\\first-program.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D54B432D-21E9-0312-41C7-274A33F0A856}|cppQuest.Server\\cppQuest.Server.csproj|d:\\studies\\cppquest\\cppcourse\\login.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{D54B432D-21E9-0312-41C7-274A33F0A856}|cppQuest.Server\\cppQuest.Server.csproj|solutionrelative:cppcourse\\login.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d84ee353-0bef-5a41-a649-8f89aca5d84d}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "first-program.cpp",
+              "DocumentMoniker": "D:\\Studies\\cppQuest\\CppCourse\\examples\\chapter-1\\basics\\first-program.cpp",
+              "RelativeDocumentMoniker": "CppCourse\\examples\\chapter-1\\basics\\first-program.cpp",
+              "ToolTip": "D:\\Studies\\cppQuest\\CppCourse\\examples\\chapter-1\\basics\\first-program.cpp",
+              "RelativeToolTip": "CppCourse\\examples\\chapter-1\\basics\\first-program.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAA6AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-04-01T15:48:27.931Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "login.html",
+              "DocumentMoniker": "D:\\Studies\\cppQuest\\CppCourse\\login.html",
+              "RelativeDocumentMoniker": "CppCourse\\login.html",
+              "ToolTip": "D:\\Studies\\cppQuest\\CppCourse\\login.html",
+              "RelativeToolTip": "CppCourse\\login.html",
+              "ViewState": "AgIAADsAAAAAAAAAAAAnwEAAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-04-01T14:24:15.146Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "User.cs",
+              "DocumentMoniker": "D:\\Studies\\cppQuest\\cppQuest.Server\\Models\\User.cs",
+              "RelativeDocumentMoniker": "cppQuest.Server\\Models\\User.cs",
+              "ToolTip": "D:\\Studies\\cppQuest\\cppQuest.Server\\Models\\User.cs",
+              "RelativeToolTip": "cppQuest.Server\\Models\\User.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABAAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-01T11:03:12.705Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

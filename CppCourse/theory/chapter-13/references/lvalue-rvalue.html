@@ -1,0 +1,119 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+    <script>document.documentElement.setAttribute("data-theme",localStorage.getItem("cpp_theme")||"dark")</script>
+<head>
+    <meta charset="UTF-8"><meta name="created" content="2025-03-31">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Категории значений: lvalue и rvalue — Курс C++</title>
+    <meta name="description" content="lvalue и rvalue в C++: что это, как различить, почему важно для ссылок и перегрузки.">
+    <link rel="stylesheet" href="../../../css/variables.css?v=3">
+    <link rel="stylesheet" href="../../../css/theme-picker.css">
+    <link rel="stylesheet" href="../../../css/base.css">
+    <link rel="stylesheet" href="../../../css/layout.css">
+    <link rel="stylesheet" href="../../../css/components.css">
+    <link rel="stylesheet" href="../../../css/theory.css">
+    <link rel="stylesheet" href="../../../components/quiz/css/quiz.css">
+    <link rel="stylesheet" href="../../../components/quiz/css/widget.css">
+    <link rel="stylesheet" href="../../../css/gamification.css">
+    <link rel="stylesheet" href="../../../css/code-highlight.css">
+    <link rel="stylesheet" href="../../../css/compiler.css">
+    <link rel="stylesheet" href="../../../css/feedback.css">
+    <link rel="stylesheet" href="../../../css/callout.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔗</text></svg>">
+</head>
+<body>
+    <div class="reading-progress-bar" id="reading-progress"></div>
+    <header class="site-header">
+        <div class="header-inner">
+            <a href="../../../index.html" class="header-logo">
+                <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="4" y="4" width="20" height="20" rx="2" stroke="currentColor" stroke-width="2"/>
+                    <path d="M10 10 L10 18 M10 14 L14 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M18 10 L18 18 M18 14 L22 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                Курс C++
+            </a>
+            <nav class="header-nav"><a href="../../../index.html">Главная</a><a href="#" class="active">Глава</a></nav>
+            <button class="mobile-menu-btn" aria-label="Открыть меню" aria-expanded="false">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+                </svg>
+            </button>
+        </div>
+    </header>
+    <div class="page-wrapper">
+        <aside class="sidebar"><div class="sidebar-section"><div class="sidebar-title"></div><ul class="sidebar-nav" id="course-nav"></ul></div></aside>
+        <main class="main-content">
+            <div class="chapter-content">
+                <div class="section-badge">Ссылки</div>
+                <h1>Категории значений: lvalue и rvalue</h1>
+
+                <p>
+                    Каждое выражение в C++ имеет два свойства: <em>тип</em> и <em>категорию значения</em>.
+                    Категория определяет, где выражение может использоваться — например, слева или справа от оператора присваивания.
+                </p>
+
+                <h2 id="lvalue">lvalue — «именованный объект»</h2>
+                <p>
+                    <span class="key-term">lvalue</span> (left value) — выражение, которое ссылается на идентифицируемый объект,
+                    существующий дольше одного выражения. Проще говоря: если у выражения есть имя или адрес — это lvalue.
+                </p>
+
+                <div class="code-block" data-example="lvalues">
+                    <div class="code-header"><span class="code-lang">C++ — примеры lvalue</span><div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button></div></div>
+                    <div class="code-content"><pre><code class="language-cpp">// загрузка...</code></pre></div>
+                </div>
+
+                <h2 id="rvalue">rvalue — «временное значение»</h2>
+                <p>
+                    <span class="key-term">rvalue</span> (right value) — выражение, которое вычисляется в значение,
+                    но не имеет постоянного адреса. Существует только в рамках выражения.
+                </p>
+
+                <div class="code-block" data-example="rvalues">
+                    <div class="code-header"><span class="code-lang">C++ — примеры rvalue</span><div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button></div></div>
+                    <div class="code-content"><pre><code class="language-cpp">// загрузка...</code></pre></div>
+                </div>
+
+                <h2 id="why-matters">Почему это важно</h2>
+
+                <div style="display:flex; justify-content:center; margin: var(--space-6) 0">
+                <svg viewBox="0 0 480 120" width="480" height="120" xmlns="http://www.w3.org/2000/svg" style="max-width:100%">
+                    <rect x="10" y="20" width="200" height="80" rx="8" fill="rgba(126,231,135,.1)" stroke="var(--accent-green)" stroke-width="1.5"/>
+                    <text x="110" y="48" text-anchor="middle" fill="var(--accent-green)" font-size="13" font-weight="bold" font-family="sans-serif">lvalue</text>
+                    <text x="110" y="68" text-anchor="middle" fill="var(--text-secondary)" font-size="11" font-family="sans-serif">Имеет адрес, имя</text>
+                    <text x="110" y="86" text-anchor="middle" fill="var(--text-secondary)" font-size="11" font-family="sans-serif">Живёт дольше выражения</text>
+                    <rect x="270" y="20" width="200" height="80" rx="8" fill="rgba(255,166,87,.1)" stroke="var(--accent-orange,#ffa657)" stroke-width="1.5"/>
+                    <text x="370" y="48" text-anchor="middle" fill="var(--accent-orange,#ffa657)" font-size="13" font-weight="bold" font-family="sans-serif">rvalue</text>
+                    <text x="370" y="68" text-anchor="middle" fill="var(--text-secondary)" font-size="11" font-family="sans-serif">Временный объект</text>
+                    <text x="370" y="86" text-anchor="middle" fill="var(--text-secondary)" font-size="11" font-family="sans-serif">Нет постоянного адреса</text>
+                </svg>
+                </div>
+
+                <div class="code-block" data-example="assignment">
+                    <div class="code-header"><span class="code-lang">C++ — присваивание требует lvalue слева</span><div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button></div></div>
+                    <div class="code-content"><pre><code class="language-cpp">// загрузка...</code></pre></div>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-card__title">💡 Быстрое правило</div>
+                    <p>Если выражение можно поставить слева от <code>=</code> — это lvalue. Если только справа — rvalue. Переменные — lvalue. Литералы и результаты вычислений — rvalue.</p>
+                </div>
+
+                <h2 id="tests">Проверьте знания</h2>
+                <div class="quiz-widget" data-final="lvalue-rvalue" data-final-desc="Категории значений: lvalue и rvalue"></div>
+                <section class="feedback-section"></section>
+                <div class="paragraph-nav"></div>
+            </div>
+        </main>
+        <aside class="right-sidebar"><div class="toc-container"><div class="toc-title">Содержание</div><nav class="toc-nav"></nav></div></aside>
+    </div>
+    <footer class="site-footer"><p>Интерактивный курс по языку программирования C++</p></footer>
+    <script src="../../../js/course.js"></script><script src="../../../js/core/callout.js"></script><script src="../../../js/navigation.js"></script><script src="../../../js/toc.js"></script><script src="../../../components/quiz/quiz.js" type="module"></script><script src="../../../components/quiz/widget.js"></script><script src="../../../js/compiler.js"></script><script src="../../../js/gamification.js"></script>
+    <script>
+    (function(){const b=document.getElementById('reading-progress');if(!b)return;window.addEventListener('scroll',()=>{const h=document.documentElement.scrollHeight-document.documentElement.clientHeight;b.style.width=h>0?(window.scrollY/h*100)+'%':'0%';},{passive:true});})();
+    function copyCode(btn){const c=btn.closest('.code-block')?.querySelector('code')?.textContent||'';navigator.clipboard.writeText(c).then(()=>{btn.textContent='Скопировано!';setTimeout(()=>btn.textContent='Копировать',2000);});}
+    </script>
+    <script src="../../../js/theme.js"></script><script src="../../../js/feedback.js"></script>
+</body>
+</html>

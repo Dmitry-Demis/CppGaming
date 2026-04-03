@@ -1,0 +1,479 @@
+/* ============================================
+   LANDING PAGE: Hero, Cards Grid, Features
+   ============================================ */
+
+.landing-page .page-wrapper {
+    display: block;
+}
+.landing-page .main-content {
+    margin-left: 0;
+    margin-right: 0;
+    max-width: none;
+    padding: 0;
+}
+
+/* === Hero === */
+.hero {
+    position: relative;
+    min-height: calc(100vh - var(--header-height));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: var(--space-16) var(--space-6);
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--body-grad);
+    pointer-events: none;
+}
+
+.hero-bg-lines {
+    position: absolute;
+    inset: 0;
+    opacity: 0.04;
+    pointer-events: none;
+}
+.hero-bg-lines .line {
+    position: absolute;
+    left: 5%;
+    right: 5%;
+    height: 1px;
+    background: var(--text-primary);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 800px;
+}
+
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-4);
+    background: var(--accent-violet-dim);
+    border: 1px solid var(--border-accent);
+    border-radius: var(--radius-full);
+    font-size: var(--fs-sm);
+    color: var(--accent-violet);
+    margin-bottom: var(--space-6);
+    font-weight: var(--fw-medium);
+}
+
+.hero h1 {
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-family: var(--font-serif);
+    line-height: 1.1;
+    margin-bottom: var(--space-6);
+    letter-spacing: -0.03em;
+}
+
+.hero-subtitle {
+    font-size: var(--fs-lg);
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto var(--space-8);
+    line-height: var(--lh-relaxed);
+}
+
+.hero-actions {
+    display: flex;
+    gap: var(--space-4);
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Ensure buttons are always visible even if GSAP fails */
+.hero-actions .btn {
+    opacity: 1;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-6);
+    border-radius: var(--radius-lg);
+    font-size: var(--fs-base);
+    font-weight: var(--fw-semibold);
+    cursor: pointer;
+    text-decoration: none;
+    transition: all var(--transition-base);
+    border: 1px solid transparent;
+}
+.btn:hover {
+    text-decoration: none;
+}
+
+.btn--primary {
+    background: var(--grad-vivid);
+    color: #fff;
+    border-color: transparent;
+}
+.btn--primary:hover {
+    background: linear-gradient(135deg, #7c3aed 0%, #2563eb 100%);
+    box-shadow: var(--shadow-glow-purple);
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+.btn--secondary {
+    background: transparent;
+    border-color: var(--border-secondary);
+    color: var(--text-primary);
+}
+.btn--secondary:hover {
+    border-color: var(--accent-violet);
+    color: var(--accent-violet);
+    background: var(--accent-violet-dim);
+    transform: translateY(-2px);
+}
+
+/* === Chapters Section === */
+.chapters-section {
+    padding: var(--space-16) var(--space-6);
+    max-width: var(--page-max-width);
+    margin: 0 auto;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: var(--space-12);
+}
+.section-header h2 {
+    border-bottom: none;
+    margin-top: 0;
+}
+.section-header p {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.chapters-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--space-6);
+}
+
+.chapter-card {
+    background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-secondary) 100%);
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6);
+    text-decoration: none;
+    transition: all var(--transition-base);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Header block: grows to fill available space so the divider aligns across cards */
+.card-header {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: var(--space-4);
+}
+
+/* Description sits at the bottom of the header, pushes divider to a consistent position */
+.card-header p {
+    margin-top: auto;
+    padding-top: var(--space-2);
+}
+.chapter-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--card-color, var(--accent-violet)), transparent);
+    opacity: 0;
+    transition: opacity var(--transition-base);
+}
+.chapter-card:hover {
+    border-color: var(--border-accent);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-glow-purple);
+    text-decoration: none;
+}
+.chapter-card:hover::before {
+    opacity: 1;
+}
+
+.chapter-card .card-number {
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    color: var(--text-tertiary);
+    margin-bottom: var(--space-3);
+}
+.chapter-card h3 {
+    font-size: var(--fs-lg);
+    font-family: var(--font-sans);
+    margin-top: 0;
+    margin-bottom: var(--space-3);
+    color: var(--text-heading);
+}
+.chapter-card p {
+    font-size: var(--fs-sm);
+    color: var(--text-secondary);
+}
+
+/* Chapter level badges */
+.card-level {
+    display: inline-block;
+    margin-left: 6px;
+    font-size: .58rem;
+    font-weight: 800;
+    letter-spacing: .04em;
+    padding: 1px 6px;
+    border-radius: 4px;
+    vertical-align: middle;
+    text-transform: uppercase;
+}
+.card-level--BEGINNER    { background: rgba(126,231,135,.15); color: #7ee787; border: 1px solid rgba(126,231,135,.3); }
+.card-level--JUNIOR      { background: rgba(88,166,255,.15);  color: #58a6ff; border: 1px solid rgba(88,166,255,.3); }
+.card-level--JUNIOR-plus { background: rgba(100,200,255,.15); color: #64c8ff; border: 1px solid rgba(100,200,255,.3); }
+.card-level--MIDDLE      { background: rgba(210,168,255,.15); color: #d2a8ff; border: 1px solid rgba(210,168,255,.3); }
+.card-level--MIDDLE-plus { background: rgba(255,166,87,.15);  color: #ffa657; border: 1px solid rgba(255,166,87,.3); }
+.card-level--ADVANCED    { background: rgba(243,139,168,.15); color: #f38ba8; border: 1px solid rgba(243,139,168,.3); }
+
+.chapter-card .card-arrow {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--fs-sm);
+    color: var(--accent-violet);
+    font-weight: var(--fw-medium);
+    margin-top: var(--space-4);
+}
+
+/* Chapter Topics List — divider line */
+.chapter-topics {
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--border-primary);
+    display: flex;
+    flex-direction: column;
+}
+
+.chapter-sections-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+}
+
+.chapter-section-link {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--fs-xs);
+    color: var(--text-tertiary);
+    text-decoration: none;
+    padding: 3px var(--space-2);
+    border-radius: var(--radius-sm);
+    transition: color var(--transition-fast), background var(--transition-fast);
+    position: relative;
+    z-index: 2;
+}
+.chapter-section-link:hover {
+    color: var(--card-color, var(--accent-violet));
+    background: rgba(255,255,255,.05);
+    text-decoration: none;
+}
+
+/* Para mastery badge — rounded rectangle, фиксированная ширина */
+.para-badge {
+    flex-shrink: 0;
+    margin-left: auto;
+    font-size: .65rem;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 5px;
+    white-space: nowrap;
+    line-height: 1.4;
+    min-width: 62px;
+    text-align: center;
+    display: inline-block;
+}
+.para-badge--none   { color: rgba(107,114,128,.5); background: transparent; border: 1px solid transparent; }
+.para-badge--gold   { background: rgba(253,230,138,.15); color: #fde68a; border: 1px solid rgba(253,230,138,.35); }
+.para-badge--silver { background: rgba(209,213,219,.12); color: #d1d5db; border: 1px solid rgba(209,213,219,.3); }
+.para-badge--bronze { background: rgba(205,127,50,.12);  color: #cd7f32; border: 1px solid rgba(205,127,50,.3); }
+.para-badge--pass   { background: rgba(110,231,183,.1);  color: #6ee7b7; border: 1px solid rgba(110,231,183,.25); }
+.para-badge--fail   { background: rgba(243,139,168,.12); color: #f38ba8; border: 1px solid rgba(243,139,168,.3); }
+
+
+
+
+/* === Features Section === */
+.features-section {
+    padding: var(--space-16) var(--space-6);
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--border-primary);
+    border-bottom: 1px solid var(--border-primary);
+}
+.features-section .section-content {
+    max-width: var(--page-max-width);
+    margin: 0 auto;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--space-6);
+    margin-top: var(--space-8);
+}
+
+.feature-card {
+    text-align: center;
+    padding: var(--space-8) var(--space-6);
+}
+.feature-card .feature-icon {
+    font-size: 2.5rem;
+    margin-bottom: var(--space-4);
+}
+.feature-card h3 {
+    font-size: var(--fs-md);
+    font-family: var(--font-sans);
+    margin-top: 0;
+    margin-bottom: var(--space-3);
+}
+.feature-card p {
+    font-size: var(--fs-sm);
+    color: var(--text-secondary);
+}
+
+.landing-page .site-footer {
+    margin-left: 0;
+}
+
+@media (max-width: 640px) {
+    .hero {
+        min-height: auto;
+        padding: var(--space-12) var(--space-4);
+    }
+    .hero-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .btn {
+        justify-content: center;
+    }
+    .chapters-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Mobile nav dropdown on landing page */
+@media (max-width: 1024px) {
+    .landing-page .header-nav {
+        display: none;
+        position: absolute;
+        top: var(--header-height);
+        left: 0;
+        right: 0;
+        background: var(--bg-secondary);
+        border-bottom: 1px solid var(--border-primary);
+        flex-direction: column;
+        padding: var(--space-4);
+        gap: var(--space-2);
+        z-index: 200;
+    }
+    .landing-page .header-nav.mobile-open {
+        display: flex;
+    }
+    .landing-page .header-inner {
+        position: relative;
+    }
+}
+
+/* === Player Card === */
+.player-card-section {
+    padding: 0 var(--space-6) var(--space-8);
+    display: flex;
+    justify-content: center;
+}
+.player-card {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-secondary) 100%);
+    border: 1px solid var(--border-secondary);
+    border-radius: 20px;
+    padding: var(--space-4) var(--space-6);
+    max-width: 700px;
+    width: 100%;
+    box-shadow: var(--shadow-lg);
+    flex-wrap: wrap;
+}
+.pc-avatar {
+    font-size: 2.5rem;
+    width: 56px; height: 56px;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--grad-main);
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+.pc-info { flex: 1; min-width: 140px; }
+.pc-name { font-size: 1rem; font-weight: 700; color: var(--text-heading); }
+.pc-level { font-size: 0.8rem; color: var(--accent-violet); margin: 2px 0 6px; }
+.pc-xp-bar-wrap { display: flex; align-items: center; gap: 8px; }
+.pc-xp-bar {
+    flex: 1; height: 6px;
+    background: rgba(255,255,255,.1);
+    border-radius: 99px; overflow: hidden;
+}
+.pc-xp-fill {
+    height: 100%;
+    background: var(--grad-main);
+    border-radius: 99px;
+    transition: width .4s;
+}
+.pc-xp-label { font-size: 0.72rem; color: var(--text-tertiary); white-space: nowrap; }
+.pc-stats {
+    display: flex;
+    gap: var(--space-4);
+    align-items: center;
+}
+.pc-stat {
+    display: flex; align-items: center; gap: 4px;
+    font-size: 0.9rem; font-weight: 700;
+    color: var(--text-secondary);
+}
+.pc-missions-btn {
+    background: var(--grad-vivid);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    padding: 0.5rem 1.2rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity .2s, transform .15s;
+    white-space: nowrap;
+}
+.pc-missions-btn:hover { opacity: .85; transform: translateY(-1px); }
+@media (max-width: 600px) {
+    .player-card { gap: var(--space-3); padding: var(--space-3) var(--space-4); }
+    .pc-stats { gap: var(--space-3); }
+}
+
+/* ── Paragraph lock on index page ─────────────────────────────────────────── */
+.chapter-section-link.para-locked {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: auto;
+}
+.chapter-section-link.para-locked::after {
+    content: '🔒';
+    font-size: 0.65rem;
+    margin-left: 4px;
+}

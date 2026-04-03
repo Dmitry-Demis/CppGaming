@@ -1,0 +1,49 @@
+{
+  "id": "switch-fallthrough",
+  "title": "Fallthrough и область видимости в switch",
+  "passingScore": 70,
+  "questions": [
+    {
+      "id": 1,
+      "type": "single",
+      "question": "Что выведет программа?\n```cpp\nint x {2};\nswitch (x)\n{\n    case 1:\n        std::cout << \"один\\n\";\n        break;\n    case 2:\n        std::cout << \"два\\n\";\n    case 3:\n        std::cout << \"три\\n\";\n        break;\n    default:\n        std::cout << \"другое\\n\";\n        break;\n}\n```",
+      "answers": [
+        "два",
+        "три",
+        "два\nтри",
+        "один\nдва\nтри"
+      ],
+      "correct": 2,
+      "explanation": "x равно 2, поэтому выполнение начинается с case 2 и выводит «два». После этого нет break, поэтому происходит fallthrough в case 3, который выводит «три» и завершает switch через break."
+    },
+    {
+      "id": 2,
+      "type": "single",
+      "question": "Что выведет программа?\n```cpp\nchar c {'B'};\nswitch (c)\n{\n    case 'A':\n    case 'B':\n    case 'C':\n        std::cout << \"Зачёт\\n\";\n        break;\n    default:\n        std::cout << \"Незачёт\\n\";\n        break;\n}\n```",
+      "answers": [
+        "Зачёт",
+        "Незачёт",
+        "Зачёт\nНезачёт",
+        "Ничего"
+      ],
+      "correct": 0,
+      "explanation": "c равно 'B'. Метки case 'A', case 'B', case 'C' «стекированы» — все три ведут к одному блоку кода. Выполнение начинается с case 'B' и выводит «Зачёт», затем break завершает switch."
+    },
+    {
+      "id": 3,
+      "type": "single",
+      "question": "Как правильно объявить переменную внутри case, чтобы избежать ошибки компиляции при наличии других меток case в той же области видимости?",
+      "answers": [
+        "Объявить переменную до блока switch",
+        "Использовать явный блок { } внутри case",
+        "Использовать static переменную",
+        "Объявить переменную после default"
+      ],
+      "correct": 1,
+      "explanation": "Явный блок { } создаёт отдельную область видимости внутри case. Без него инициализация переменной в одном case может быть «перепрыгнута» при переходе к другому case, что является ошибкой компиляции."
+    }
+  ],
+  "pick": 10,
+  "quizId": "switch-fallthrough",
+  "type": "paragraph"
+}

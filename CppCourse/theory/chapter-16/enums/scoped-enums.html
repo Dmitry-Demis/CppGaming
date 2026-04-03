@@ -1,0 +1,166 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+    <script>document.documentElement.setAttribute("data-theme",localStorage.getItem("cpp_theme")||"dark")</script>
+<head>
+    <meta charset="UTF-8"><meta name="created" content="2025-04-02">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scoped enumerations (enum class) — Курс C++</title>
+    <meta name="description" content="enum class в C++: типобезопасность, собственная область видимости, static_cast, using enum (C++20).">
+    <link rel="stylesheet" href="../../../css/variables.css?v=3">
+    <link rel="stylesheet" href="../../../css/theme-picker.css">
+    <link rel="stylesheet" href="../../../css/base.css">
+    <link rel="stylesheet" href="../../../css/layout.css">
+    <link rel="stylesheet" href="../../../css/components.css">
+    <link rel="stylesheet" href="../../../css/theory.css">
+    <link rel="stylesheet" href="../../../components/quiz/css/quiz.css">
+    <link rel="stylesheet" href="../../../components/quiz/css/widget.css">
+    <link rel="stylesheet" href="../../../css/gamification.css">
+    <link rel="stylesheet" href="../../../css/code-highlight.css">
+    <link rel="stylesheet" href="../../../css/compiler.css">
+    <link rel="stylesheet" href="../../../css/feedback.css">
+    <link rel="stylesheet" href="../../../css/callout.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔢</text></svg>">
+</head>
+<body>
+    <div class="reading-progress-bar" id="reading-progress"></div>
+    <header class="site-header">
+        <div class="header-inner">
+            <a href="../../../index.html" class="header-logo">
+                <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="4" y="4" width="20" height="20" rx="2" stroke="currentColor" stroke-width="2"/>
+                    <path d="M10 10 L10 18 M10 14 L14 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M18 10 L18 18 M18 14 L22 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                Курс C++
+            </a>
+            <nav class="header-nav"><a href="../../../index.html">Главная</a><a href="#" class="active">Глава</a></nav>
+            <button class="mobile-menu-btn" aria-label="Открыть меню" aria-expanded="false">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+                </svg>
+            </button>
+        </div>
+    </header>
+    <div class="page-wrapper">
+        <aside class="sidebar"><div class="sidebar-section"><div class="sidebar-title"></div><ul class="sidebar-nav" id="course-nav"></ul></div></aside>
+        <main class="main-content">
+            <div class="chapter-content">
+                <div class="section-badge">Перечисления</div>
+                <h1>Scoped enumerations (enum class)</h1>
+
+                <p>
+                    Unscoped-перечисления не являются типобезопасными: компилятор может сравнить перечислители из разных типов,
+                    неявно преобразовав их в <code>int</code>. <code>enum class</code> решает эту проблему.
+                </p>
+
+                <h2 id="problem">Проблема unscoped enum</h2>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">C++ — небезопасное сравнение</span><div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button></div></div>
+                    <div class="code-content">
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+int main()
+{
+    enum Color { red, blue };
+    enum Fruit { banana, apple };
+
+    Color color { red };
+    Fruit fruit { banana };
+
+    if (color == fruit) // компилятор сравнивает как int: оба == 0
+        std::cout &lt;&lt; "равны\n"; // выводится!
+    return 0;
+}</code></pre>
+                    </div>
+                </div>
+
+                <h2 id="enum-class">enum class</h2>
+                <p>
+                    <code>enum class</code> имеет две ключевые особенности:
+                    перечислители не преобразуются в <code>int</code> неявно,
+                    и они находятся в собственной области видимости.
+                </p>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">C++ — enum class</span><div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button></div></div>
+                    <div class="code-content">
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+int main()
+{
+    enum class Color { red, blue };
+    enum class Fruit { banana, apple };
+
+    Color color { Color::red };   // обязательно с префиксом
+    Fruit fruit { Fruit::banana };
+
+    // if (color == fruit) // ошибка компиляции: разные типы
+    if (color == Color::red)
+        std::cout &lt;&lt; "Красный\n";
+    return 0;
+}</code></pre>
+                    </div>
+                </div>
+
+                <h2 id="cast">Преобразование в int</h2>
+                <p>Неявного преобразования нет. Используйте <code>static_cast</code> или (C++23) <code>std::to_underlying()</code>:</p>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">C++</span><div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button></div></div>
+                    <div class="code-content">
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;utility&gt; // std::to_underlying (C++23)
+
+enum class Color { red, blue };
+
+int main()
+{
+    Color c { Color::blue };
+    // std::cout &lt;&lt; c;                          // ошибка
+    std::cout &lt;&lt; static_cast&lt;int&gt;(c) &lt;&lt; '\n';  // 1
+    std::cout &lt;&lt; std::to_underlying(c) &lt;&lt; '\n'; // 1 (C++23)
+    return 0;
+}</code></pre>
+                    </div>
+                </div>
+
+                <h2 id="using-enum">using enum (C++20)</h2>
+                <p>Внутри функции можно импортировать перечислители в текущую область видимости:</p>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">C++20</span><div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button></div></div>
+                    <div class="code-content">
+<pre><code class="language-cpp">#include &lt;string_view&gt;
+enum class Color { black, red, blue };
+
+constexpr std::string_view getColor(Color color)
+{
+    using enum Color; // импортируем перечислители
+    switch (color)
+    {
+    case black: return "black"; // без Color::
+    case red:   return "red";
+    case blue:  return "blue";
+    default:    return "???";
+    }
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="warning-block">
+                    <div class="warning-block__title">Лучшая практика</div>
+                    <p>Предпочитайте <code>enum class</code> обычному <code>enum</code>, если нет веских причин использовать unscoped-перечисление.</p>
+                </div>
+
+                <h2 id="tests">Проверьте знания</h2>
+                <div class="quiz-widget" data-final="scoped-enums" data-final-desc="Scoped enumerations (enum class)"></div>
+                <section class="feedback-section"></section>
+                <div class="paragraph-nav"></div>
+            </div>
+        </main>
+        <aside class="right-sidebar"><div class="toc-container"><div class="toc-title">Содержание</div><nav class="toc-nav"></nav></div></aside>
+    </div>
+    <footer class="site-footer"><p>Интерактивный курс по языку программирования C++</p></footer>
+    <script src="../../../js/course.js"></script><script src="../../../js/core/callout.js"></script><script src="../../../js/navigation.js"></script><script src="../../../js/toc.js"></script><script src="../../../components/quiz/quiz.js" type="module"></script><script src="../../../components/quiz/widget.js"></script><script src="../../../js/compiler.js"></script><script src="../../../js/gamification.js"></script>
+    <script>
+    (function(){const b=document.getElementById('reading-progress');if(!b)return;window.addEventListener('scroll',()=>{const h=document.documentElement.scrollHeight-document.documentElement.clientHeight;b.style.width=h>0?(window.scrollY/h*100)+'%':'0%';},{passive:true});})();
+    function copyCode(btn){const c=btn.closest('.code-block')?.querySelector('code')?.textContent||'';navigator.clipboard.writeText(c).then(()=>{btn.textContent='Скопировано!';setTimeout(()=>btn.textContent='Копировать',2000);});}
+    </script>
+    <script src="../../../js/theme.js"></script><script src="../../../js/feedback.js"></script>
+</body>
+</html>

@@ -1,0 +1,188 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+    <script>document.documentElement.setAttribute("data-theme",localStorage.getItem("cpp_theme")||"dark")</script>
+<head>
+    <meta charset="UTF-8"><meta name="created" content="2025-03-31">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Поиск и изменение строк — Курс C++</title>
+    <meta name="description" content="Методы std::string: find, rfind, replace, insert, erase, append, substr — поиск и изменение строк в C++.">
+    <link rel="stylesheet" href="../../../css/variables.css?v=3">
+    <link rel="stylesheet" href="../../../css/theme-picker.css">
+    <link rel="stylesheet" href="../../../css/base.css">
+    <link rel="stylesheet" href="../../../css/layout.css">
+    <link rel="stylesheet" href="../../../css/components.css">
+    <link rel="stylesheet" href="../../../css/theory.css">
+    <link rel="stylesheet" href="../../../components/quiz/css/quiz.css">
+    <link rel="stylesheet" href="../../../components/quiz/css/widget.css">
+    <link rel="stylesheet" href="../../../css/gamification.css">
+    <link rel="stylesheet" href="../../../css/code-highlight.css">
+    <link rel="stylesheet" href="../../../css/compiler.css">
+    <link rel="stylesheet" href="../../../css/feedback.css">
+    <link rel="stylesheet" href="../../../css/callout.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📝</text></svg>">
+</head>
+<body>
+    <div class="reading-progress-bar" id="reading-progress"></div>
+    <header class="site-header">
+        <div class="header-inner">
+            <a href="../../../index.html" class="header-logo">
+                <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="4" y="4" width="20" height="20" rx="2" stroke="currentColor" stroke-width="2"/>
+                    <path d="M10 10 L10 18 M10 14 L14 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M18 10 L18 18 M18 14 L22 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                Курс C++
+            </a>
+            <nav class="header-nav"><a href="../../../index.html">Главная</a><a href="#" class="active">Глава</a></nav>
+            <button class="mobile-menu-btn" aria-label="Открыть меню" aria-expanded="false">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+                </svg>
+            </button>
+        </div>
+    </header>
+    <div class="page-wrapper">
+        <aside class="sidebar"><div class="sidebar-section"><div class="sidebar-title"></div><ul class="sidebar-nav" id="course-nav"></ul></div></aside>
+        <main class="main-content">
+            <div class="chapter-content">
+                <div class="section-badge">Строки</div>
+                <h1>Поиск и изменение строк</h1>
+
+                <p>
+                    <code>std::string</code> предоставляет богатый набор методов для поиска подстрок,
+                    замены, вставки и удаления символов.
+                </p>
+
+                <h2 id="find">Поиск: find и rfind</h2>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">C++ — поиск подстроки</span><div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button></div></div>
+                    <div class="code-content">
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;string&gt;
+
+int main()
+{
+    std::string text { "A friend in need is a friend indeed." };
+
+    // find: первое вхождение
+    size_t pos = text.find("friend");
+    std::cout &lt;&lt; pos &lt;&lt; '\n'; // 2
+
+    // find с начальной позицией
+    pos = text.find("friend", 10); // ищем с позиции 10
+    std::cout &lt;&lt; pos &lt;&lt; '\n'; // 22
+
+    // rfind: последнее вхождение
+    pos = text.rfind("friend");
+    std::cout &lt;&lt; pos &lt;&lt; '\n'; // 22
+
+    // Если не найдено — возвращает std::string::npos
+    if (text.find("apple") == std::string::npos)
+        std::cout &lt;&lt; "Не найдено\n";
+
+    return 0;
+}</code></pre>
+                    </div>
+                </div>
+
+                <h2 id="modify">Изменение: replace, insert, erase, append</h2>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">C++ — изменение строки</span><div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button></div></div>
+                    <div class="code-content">
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;string&gt;
+
+int main()
+{
+    std::string text { "Lang: Java" };
+
+    // replace: заменяем 4 символа с позиции 6 на "C++"
+    text.replace(6, 4, "C++");
+    std::cout &lt;&lt; text &lt;&lt; '\n'; // Lang: C++
+
+    // insert: вставляем строку с позиции 5
+    text.insert(5, " (best)");
+    std::cout &lt;&lt; text &lt;&lt; '\n'; // Lang: (best) C++
+
+    // erase: удаляем 7 символов с позиции 5
+    text.erase(5, 7);
+    std::cout &lt;&lt; text &lt;&lt; '\n'; // Lang: C++
+
+    // append: добавляем в конец
+    text.append(" is great!");
+    std::cout &lt;&lt; text &lt;&lt; '\n'; // Lang: C++ is great!
+
+    // substr: извлекаем подстроку
+    std::string sub = text.substr(6, 3); // 3 символа с позиции 6
+    std::cout &lt;&lt; sub &lt;&lt; '\n'; // C++
+
+    return 0;
+}</code></pre>
+                    </div>
+                </div>
+
+                <h2 id="replace-all">Живое применение: замена всех вхождений</h2>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">C++ — замена всех вхождений подстроки</span><div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button></div></div>
+                    <div class="code-content">
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;string&gt;
+
+void replaceAll(std::string&amp; text, const std::string&amp; from, const std::string&amp; to)
+{
+    size_t pos { text.find(from) };
+    while (pos != std::string::npos)
+    {
+        text.replace(pos, from.length(), to);
+        pos = text.find(from, pos + to.length());
+    }
+}
+
+int main()
+{
+    std::string msg { "Message to Tom: Hello, Tom!" };
+    replaceAll(msg, "Tom", "Alice");
+    std::cout &lt;&lt; msg &lt;&lt; '\n'; // Message to Alice: Hello, Alice!
+    return 0;
+}</code></pre>
+                    </div>
+                </div>
+
+                <h2 id="find-chars">Поиск символов из набора</h2>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">C++ — find_first_of, find_last_of</span><div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button></div></div>
+                    <div class="code-content">
+<pre><code class="language-cpp">std::string phone { "Phone: +23415678901" };
+std::string digits { "0123456789" };
+
+size_t first = phone.find_first_of(digits); // 8 — первая цифра
+size_t last  = phone.find_last_of(digits);  // 18 — последняя цифра
+
+// Извлекаем номер:
+std::string number = phone.substr(first, last - first + 1);
+std::cout &lt;&lt; number &lt;&lt; '\n'; // 23415678901</code></pre>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-card__title">🔗 Документация</div>
+                    <p><a href="https://en.cppreference.com/w/cpp/string/basic_string/find" target="_blank" rel="noopener">std::string::find</a> · <a href="https://en.cppreference.com/w/cpp/string/basic_string/replace" target="_blank" rel="noopener">replace</a> · <a href="https://en.cppreference.com/w/cpp/string/basic_string/insert" target="_blank" rel="noopener">insert</a> · <a href="https://en.cppreference.com/w/cpp/string/basic_string/erase" target="_blank" rel="noopener">erase</a></p>
+                </div>
+
+                <h2 id="tests">Проверьте знания</h2>
+                <div class="quiz-widget" data-final="string-search-modify" data-final-desc="Поиск и изменение строк"></div>
+                <section class="feedback-section"></section>
+                <div class="paragraph-nav"></div>
+            </div>
+        </main>
+        <aside class="right-sidebar"><div class="toc-container"><div class="toc-title">Содержание</div><nav class="toc-nav"></nav></div></aside>
+    </div>
+    <footer class="site-footer"><p>Интерактивный курс по языку программирования C++</p></footer>
+    <script src="../../../js/course.js"></script><script src="../../../js/core/callout.js"></script><script src="../../../js/navigation.js"></script><script src="../../../js/toc.js"></script><script src="../../../components/quiz/quiz.js" type="module"></script><script src="../../../components/quiz/widget.js"></script><script src="../../../js/compiler.js"></script><script src="../../../js/gamification.js"></script>
+    <script>
+    (function(){const b=document.getElementById('reading-progress');if(!b)return;window.addEventListener('scroll',()=>{const h=document.documentElement.scrollHeight-document.documentElement.clientHeight;b.style.width=h>0?(window.scrollY/h*100)+'%':'0%';},{passive:true});})();
+    function copyCode(btn){const c=btn.closest('.code-block')?.querySelector('code')?.textContent||'';navigator.clipboard.writeText(c).then(()=>{btn.textContent='Скопировано!';setTimeout(()=>btn.textContent='Копировать',2000);});}
+    </script>
+    <script src="../../../js/theme.js"></script><script src="../../../js/feedback.js"></script>
+</body>
+</html>

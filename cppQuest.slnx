@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="cppQuest.AppHost/cppQuest.AppHost.csproj" />
+  <Project Path="cppQuest.Server/cppQuest.Server.csproj" />
+</Solution>

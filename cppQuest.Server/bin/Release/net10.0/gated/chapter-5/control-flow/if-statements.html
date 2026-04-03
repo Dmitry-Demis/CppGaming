@@ -1,0 +1,30 @@
+<section data-slot="1" data-std="17" coins="150">
+    <div class="callout callout--info">
+        <div class="callout__title"><code>if constexpr</code> <span class="std-badge std-badge--17">C++17</span></div>
+        <div class="callout__body">
+            <p>
+                <code>if constexpr</code> — конструкция ветвления, вычисляемая
+                <strong>на этапе компиляции</strong>.
+                Ветка, условие которой ложно, полностью исключается из скомпилированного кода —
+                компилятор даже не проверяет её синтаксис в контексте конкретного типа.
+            </p>
+            <p>
+                Это принципиально отличает <code>if constexpr</code> от обычного <code>if</code>
+                с <code>constexpr</code>-условием: обычный <code>if</code> компилирует обе ветки,
+                <code>if constexpr</code> — только ту, которая выбрана.
+            </p>
+            <div class="code-block" data-example="chapter-5/control-flow/if-constexpr.cpp">
+                <div class="code-header">
+                    <span class="code-lang">C++17 — if constexpr в шаблонной функции</span>
+                    <div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button></div>
+                </div>
+                <div class="code-content"><pre><code class="language-cpp">// загрузка...</code></pre></div>
+            </div>
+            <p>
+                Без <code>if constexpr</code> шаблонная функция с кодом, специфичным для одного типа,
+                не скомпилировалась бы для других типов.
+                <code>if constexpr</code> решает эту проблему, исключая нерелевантные ветки.
+            </p>
+        </div>
+    </div>
+</section>

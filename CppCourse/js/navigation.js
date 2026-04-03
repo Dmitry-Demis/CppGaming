@@ -1,0 +1,427 @@
+// ============================================
+// NAVIGATION SYSTEM v3 — C++ Course
+// • Мобильное меню
+// • Динамический левый сайдбар из course-structure.json
+// • Динамическая prev/next навигация секций
+// • Динамическая prev/next навигация параграфов
+// • Индикаторы прогресса и блокировки параграфов
+// ============================================
+
+// Вычисляем корень сайта по URL самого скрипта — работает и с file://, и с http://
+// document.currentScript доступен синхронно при разборе скрипта
+const _siteRoot = (() => {
+    const src = (document.currentScript || {}).src || '';
+    const m = src.match(/^(.*\/)js\/navigation\.js/);
+    return m ? m[1] : './';
+})();
+
+// ── Highlight.js — подключается один раз отсюда, не нужен в каждом HTML ──
+(function () {
+    const s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js';
+    s.onload = () => {
+        // Скрипты в конце <body>: DOM уже разобран, но DOMContentLoaded ещё не сработал
+        if (document.readyState !== 'loading') {
+            hljs.highlightAll();
+        } else {
+            document.addEventListener('DOMContentLoaded', () => hljs.highlightAll());
+        }
+    };
+    document.head.appendChild(s);
+}());
+
+// ── streak.js — подключается один раз отсюда на всех страницах ──
+(function () {
+    if (document.getElementById('streak-js')) return;
+    const s = document.createElement('script');
+    s.id  = 'streak-js';
+    s.src = _siteRoot + 'js/streak.js';
+    document.head.appendChild(s);
+}());
+
+// ── review-banner.css + review-banner.js ──────────────────────────────────
+(function () {
+    if (document.getElementById('review-banner-css')) return;
+    const link = document.createElement('link');
+    link.id   = 'review-banner-css';
+    link.rel  = 'stylesheet';
+    link.href = _siteRoot + 'css/review-banner.css';
+    document.head.appendChild(link);
+
+    const s = document.createElement('script');
+    s.src = _siteRoot + 'js/review-banner.js';
+    document.head.appendChild(s);
+
+    const pl = document.createElement('script');
+    pl.src = _siteRoot + 'js/paragraph-lock.js';
+    document.head.appendChild(pl);
+}());
+
+document.addEventListener('DOMContentLoaded', async () => {
+    initMobileMenu();
+    initReadingProgress();
+    initCopyCode();
+    initHeaderUser();
+
+    // Mark paragraph as read when page is opened
+    const pathParts = normalizePath(window.location.pathname).split('/').filter(Boolean);
+    const lastPart = pathParts[pathParts.length - 1];
+    if (lastPart && lastPart.endsWith('.html') && lastPart !== 'index.html') {
+        const paraId = lastPart.replace('.html', '');
+        localStorage.setItem(`para_read_${paraId}`, '1');
+    }
+
+    // Загружаем structure один раз — используем везде
+    const structure = await _loadStructure();
+    if (!structure) return;
+
+    // Загружаем прогресс тестов с сервера (один запрос)
+    const testProgress = await _loadAllTestProgress();
+
+    buildCourseNav(structure, testProgress);
+    buildSectionNav(structure);
+    buildParagraphNav(structure);
+
+    // Применяем замки к навигации после её построения
+    if (window.ParagraphLock) {
+        window.ParagraphLock.applyLocksToNav(structure);
+    } else {
+        // paragraph-lock.js ещё не загрузился — ждём
+        window.addEventListener('load', () => {
+            if (window.ParagraphLock) window.ParagraphLock.applyLocksToNav(structure);
+        });
+    }
+});
+
+// ------------------------------------------
+// ЗАГРУЗКА course-structure (кэш)
+// course.js подключён раньше и содержит loadCourseStructure(base)
+// ------------------------------------------
+let _structureCache = null;
+
+async function _loadStructure() {
+    if (_structureCache) return _structureCache;
+    _structureCache = await loadCourseStructure(_siteRoot);
+    return _structureCache;
+}
+
+// ------------------------------------------
+// ЗАГРУЗКА ПРОГРЕССА ТЕСТОВ С СЕРВЕРА
+// Возвращает Map: quizId → { best, attempts }
+// ------------------------------------------
+async function _loadAllTestProgress() {
+    const result = {};
+    try {
+        const user = JSON.parse(localStorage.getItem('cpp_user') || 'null');
+        if (!user?.isuNumber) return result;
+        const res = await fetch(`/api/progress/${user.isuNumber}/all`, {
+            headers: { 'X-Isu-Number': user.isuNumber }
+        });
+        if (!res.ok) return result;
+        const data = await res.json(); // { paragraphId: { tests: { testId: { bestScore, attemptsCount, seenCount, totalQuestionsInBank } } } }
+        for (const para of Object.values(data)) {
+            for (const [testId, stats] of Object.entries(para.tests || {})) {
+                if (stats.attemptsCount > 0) {
+                    result[testId] = {
+                        best:     stats.bestScore,
+                        attempts: stats.attemptsCount,
+                        seen:     stats.seenCount || 0,
+                        total:    stats.totalQuestionsInBank || 0
+                    };
+                }
+            }
+        }
+    } catch { /* silent */ }
+    return result;
+}
+
+// ------------------------------------------
+// ЛЕВЫЙ САЙДБАР (все главы и параграфы)
+// ------------------------------------------
+function buildCourseNav(structure, testProgress = {}) {
+    const nav = document.querySelector('.sidebar-nav');
+    if (!nav) return;
+
+    const currentPath = normalizePath(window.location.pathname);
+    nav.innerHTML = '';
+
+    const titleEl = document.querySelector('.sidebar-title');
+    if (titleEl) titleEl.textContent = 'Содержание курса';
+
+    structure.chapters.forEach((chapter, ci) => {
+        const chapterEl = document.createElement('li');
+        chapterEl.className = 'sidebar-chapter';
+
+        // Check if any paragraph in this chapter is active
+        const isChapterActive = chapter.paragraphs.some(p =>
+            currentPath.includes(`/${chapter.id}/${chapter.groupId}/`)
+        );
+
+        const chapterTitle = document.createElement('div');
+        chapterTitle.className = 'sidebar-chapter-title' + (isChapterActive ? ' open' : '');
+
+        // Click on label → go to chapter index.html
+        const labelEl = document.createElement('span');
+        labelEl.className = 'sidebar-chapter-label';
+        labelEl.innerHTML = `Глава ${ci + 1}. ${renderInlineCode(chapter.title)}`;
+        labelEl.style.cursor = 'pointer';
+        labelEl.addEventListener('click', (e) => {
+            e.stopPropagation();
+            location.href = _siteRoot + `theory/${chapter.id}/${chapter.groupId}/index.html`;
+        });
+
+        const arrowEl = document.createElement('span');
+        arrowEl.className = 'sidebar-chapter-arrow';
+        arrowEl.textContent = isChapterActive ? '▾' : '▸';
+        arrowEl.style.cursor = 'pointer';
+
+        chapterTitle.appendChild(labelEl);
+        chapterTitle.appendChild(arrowEl);
+        chapterEl.appendChild(chapterTitle);
+
+        const ul = document.createElement('ul');
+        ul.className = 'sidebar-paragraphs' + (isChapterActive ? ' open' : '');
+
+        // Click anywhere on chapterTitle toggles the list
+        const doToggle = () => {
+            const open = ul.classList.toggle('open');
+            chapterTitle.classList.toggle('open', open);
+            arrowEl.textContent = open ? '▾' : '▸';
+        };
+        chapterTitle.addEventListener('click', doToggle);
+        // Label click navigates AND toggles
+        labelEl.addEventListener('click', (e) => {
+            e.stopPropagation();
+            doToggle();
+            location.href = _siteRoot + `theory/${chapter.id}/${chapter.groupId}/index.html`;
+        });
+
+        chapter.paragraphs.forEach((para, idx) => {
+            const href = _siteRoot + `theory/${chapter.id}/${chapter.groupId}/${para.id}.html`;
+            const isActive = currentPath.endsWith(`/${chapter.groupId}/${para.id}.html`);
+            const tests = para.tests || [];
+
+            // mini → yellow pencil; paragraph/standard/chapter → pink-purple star
+            const miniTests  = tests.filter(t => t.type === 'mini');
+            const finalTests = tests.filter(t => t.type === 'paragraph' || t.type === 'standard' || t.type === 'chapter');
+
+            let badges = '';
+
+            // Yellow pencil badge for mini/standard tests
+            if (miniTests.length > 0) {
+                const bestMini = miniTests.reduce((best, t) => {
+                    const s = testProgress[t.quizId];
+                    return (s && (best === null || s.best > best)) ? s.best : best;
+                }, null);
+                const pct = bestMini !== null
+                    ? `<span class="sb-badge__pct ${bestMini >= 70 ? 'pass' : 'fail'}">${bestMini}%</span>`
+                    : '';
+                badges += `<span class="sb-badge sb-badge--mini" title="${miniTests.length} мини-тест${miniTests.length > 1 ? 'а' : ''}">✎ ${miniTests.length}${pct}</span>`;
+            }
+
+            // Pink-purple badge for paragraph/chapter final tests
+            if (finalTests.length > 0) {
+                const bestFinal = finalTests.reduce((best, t) => {
+                    const s = testProgress[t.quizId];
+                    return (s && (best === null || s.best > best)) ? s.best : best;
+                }, null);
+                const pct = bestFinal !== null
+                    ? `<span class="sb-badge__pct ${bestFinal >= 70 ? 'pass' : 'fail'}">${bestFinal}%</span>`
+                    : '';
+                badges += `<span class="sb-badge sb-badge--final" title="Итоговый тест">★ ${finalTests.length}${pct}</span>`;
+            }
+
+            const sli = document.createElement('li');
+            sli.className = 'sidebar-section-item';
+            sli.innerHTML = `<a class="sidebar-section-link${isActive ? ' active' : ''}" href="${href}">
+                <span class="sidebar-section-number">§${ci + 1}.${idx + 1}</span>
+                <span class="sidebar-section-title">${para.title}</span>
+                ${badges ? `<span class="sb-badges">${badges}</span>` : ''}
+            </a>`;
+            ul.appendChild(sli);
+        });
+
+        chapterEl.appendChild(ul);
+        nav.appendChild(chapterEl);
+    });
+}
+
+// ------------------------------------------
+// PREV/NEXT НАВИГАЦИЯ ДЛЯ ПАРАГРАФОВ
+// ------------------------------------------
+function buildSectionNav(structure) {
+    // handled by buildParagraphNav now
+}
+
+function buildParagraphNav(structure) {
+    const container = document.querySelector('.paragraph-nav');
+    if (!container) return;
+
+    const currentPath = normalizePath(window.location.pathname);
+
+    // Flat list of all paragraphs across all chapters
+    const allParas = structure.chapters.flatMap((ch, chIdx) =>
+        ch.paragraphs.map(p => ({
+            ...p,
+            chapterId: ch.id,
+            groupId: ch.groupId,
+            chapterNum: chIdx + 1,
+            href: `theory/${ch.id}/${ch.groupId}/${p.id}.html`
+        }))
+    );
+
+    const currentIdx = allParas.findIndex(p => currentPath.endsWith(`/${p.groupId}/${p.id}.html`));
+    if (currentIdx === -1) return;
+
+    const prev = currentIdx > 0 ? allParas[currentIdx - 1] : null;
+    const next = currentIdx < allParas.length - 1 ? allParas[currentIdx + 1] : null;
+
+    const prevHtml = prev
+        ? `<a href="${_siteRoot + prev.href}" class="nav-prev">
+               <span class="nav-dir">← Назад</span>
+               <span class="nav-name">§${prev.chapterNum}.${allParas.slice(0, currentIdx).filter(p => p.chapterId === prev.chapterId).length} ${prev.title}</span>
+           </a>`
+        : `<a href="${_siteRoot}index.html" class="nav-prev">
+               <span class="nav-dir">← Назад</span>
+               <span class="nav-name">Главная</span>
+           </a>`;
+
+    const nextHtml = next
+        ? `<a href="${_siteRoot + next.href}" class="nav-next">
+               <span class="nav-dir">Далее →</span>
+               <span class="nav-name">${next.title}</span>
+           </a>`
+        : '';
+
+    container.innerHTML = prevHtml + nextHtml;
+}
+
+// ------------------------------------------
+// МОБИЛЬНОЕ МЕНЮ
+// ------------------------------------------
+function initMobileMenu() {
+    const btn     = document.querySelector('.mobile-menu-btn');
+    const sidebar = document.querySelector('.sidebar');
+    const headerNav = document.querySelector('.header-nav');
+
+    if (!btn) return;
+
+    // Landing page: no sidebar — toggle header-nav instead
+    if (!sidebar) {
+        if (!headerNav) return;
+        btn.addEventListener('click', () => {
+            const open = headerNav.classList.toggle('mobile-open');
+            btn.setAttribute('aria-expanded', open);
+        });
+        document.addEventListener('click', (e) => {
+            if (!headerNav.contains(e.target) && !btn.contains(e.target)) {
+                headerNav.classList.remove('mobile-open');
+                btn.setAttribute('aria-expanded', 'false');
+            }
+        });
+        return;
+    }
+
+    btn.addEventListener('click', () => {
+        const open = sidebar.classList.toggle('open');
+        btn.setAttribute('aria-expanded', open);
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!sidebar.contains(e.target) && !btn.contains(e.target)) {
+            sidebar.classList.remove('open');
+            btn.setAttribute('aria-expanded', 'false');
+        }
+    });
+}
+
+// ------------------------------------------
+// ПРОГРЕСС-БАР ЧТЕНИЯ
+// ------------------------------------------
+function initReadingProgress() {
+    const bar = document.querySelector('.reading-progress-bar');
+    if (!bar) return;
+
+    const update = () => {
+        const docH = document.documentElement.scrollHeight - window.innerHeight;
+        bar.style.width = docH > 0 ? `${Math.min(window.scrollY / docH * 100, 100)}%` : '0%';
+    };
+    window.addEventListener('scroll', update, { passive: true });
+    update();
+}
+
+// ------------------------------------------
+// КНОПКИ «КОПИРОВАТЬ КОД»
+// ------------------------------------------
+function initCopyCode() {
+    document.querySelectorAll('.btn-code').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const code = btn.closest('.code-block')?.querySelector('code')?.textContent || '';
+            navigator.clipboard.writeText(code).then(() => {
+                const orig = btn.textContent;
+                btn.textContent = 'Скопировано ✓';
+                btn.classList.add('copied');
+                setTimeout(() => { btn.textContent = orig; btn.classList.remove('copied'); }, 2000);
+            });
+        });
+    });
+}
+
+// ------------------------------------------
+// ВСПОМОГАТЕЛЬНЫЕ
+// ------------------------------------------
+function isParagraphUnlocked(paragraphs, idx) {
+    // Блокировка по финальному тесту убрана — параграфы всегда доступны
+    return true;
+}
+
+function isParagraphDone(paraId) {
+    return false; // определяется только через сервер
+}
+
+function getQuizProgress(paraId) {
+    return null;
+}
+
+function showLockedNotice() {
+    let toast = document.querySelector('.nav-locked-toast');
+    if (!toast) {
+        toast = document.createElement('div');
+        toast.className = 'nav-locked-toast';
+        toast.textContent = '🔒 Пройдите итоговый тест предыдущего параграфа';
+        document.body.appendChild(toast);
+    }
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3000);
+}
+
+function normalizePath(path) {
+    return path.replace(/^\//, '').replace(/\\/g, '/');
+}
+
+function isCurrentPage(currentPath, ...files) {
+    return files.some(f => f && currentPath.endsWith(f));
+}
+
+// Строит абсолютный URL от корня сайта — работает для любой глубины и любого протокола
+function resolveHref(_currentPath, targetFile) {
+    return _siteRoot + targetFile;
+}
+
+// Глобальный copyCode для inline onclick
+window.copyCode = function(btn) {
+    const code = btn.closest('.code-block')?.querySelector('code')?.textContent || '';
+    navigator.clipboard.writeText(code).then(() => {
+        const orig = btn.textContent;
+        btn.textContent = 'Скопировано ✓';
+        setTimeout(() => btn.textContent = orig, 2000);
+    });
+};
+
+// ------------------------------------------
+// HEADER USER INFO — handled by streak.js
+// ------------------------------------------
+function initHeaderUser() {
+    // streak.js renders the full mini-profile card next to the logo.
+    // This function is kept as a no-op for compatibility.
+}

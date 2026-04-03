@@ -1,0 +1,213 @@
+{
+  "quizId": "chars-mini",
+  "title": "Символьные типы",
+  "type": "paragraph",
+  "pick": 10,
+  "passingScore": 70,
+  "questions": [
+    {
+      "type": "single",
+      "question": "Какой размер гарантирует стандарт C++ для типа char?",
+      "answers": [
+        "2 байта",
+        "1 байт",
+        "4 байта",
+        "Зависит от платформы"
+      ],
+      "correct": 1,
+      "explanation": "Стандарт гарантирует sizeof(char) == 1. Это единственный тип с такой жёсткой гарантией.",
+      "id": 0
+    },
+    {
+      "type": "single",
+      "question": "Чем отличаются char, signed char и unsigned char в C++?",
+      "answers": [
+        "Это синонимы одного типа",
+        "Это три различных типа",
+        "signed char и unsigned char — синонимы, char — отдельный",
+        "char и signed char — синонимы"
+      ],
+      "correct": 1,
+      "explanation": "В C++ char, signed char и unsigned char — три различных типа, даже если занимают одинаковое количество памяти.",
+      "id": 1
+    },
+    {
+      "type": "fill",
+      "question": "Какой ASCII-код у символа 'A'?",
+      "correct": [
+        "65"
+      ],
+      "explanation": "Символ 'A' имеет ASCII-код 65. Коды заглавных букв: A=65, B=66 ... Z=90.",
+      "id": 2
+    },
+    {
+      "type": "code",
+      "question": "Что выведет программа?",
+      "code": "#include <iostream>\nint main() {\n    char c = 'A';\n    std::cout << (int)c;\n}",
+      "answers": [
+        "A",
+        "65",
+        "1",
+        "97"
+      ],
+      "correct": 1,
+      "explanation": "Приведение char к int выводит числовой ASCII-код. 'A' = 65.",
+      "id": 3
+    },
+    {
+      "type": "single",
+      "question": "Какой escape-последовательностью обозначается перевод строки?",
+      "answers": [
+        "\\r",
+        "\\t",
+        "\\n",
+        "\\0"
+      ],
+      "correct": 2,
+      "explanation": "\\n — newline (LF, код 10). \\r — carriage return, \\t — табуляция, \\0 — нулевой символ.",
+      "id": 4
+    },
+    {
+      "type": "multiple",
+      "question": "Какие типы предназначены для Unicode в C++?",
+      "answers": [
+        "char",
+        "wchar_t",
+        "char16_t",
+        "char32_t",
+        "char8_t (C++20)"
+      ],
+      "correct": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "explanation": "wchar_t, char16_t, char32_t и char8_t — Unicode-ориентированные типы. Простой char — для ASCII/UTF-8 байт.",
+      "id": 5
+    },
+    {
+      "type": "code",
+      "question": "Чему равно выражение 'a' - 'A'?",
+      "code": "// 'a' = 97, 'A' = 65\nint diff = 'a' - 'A';",
+      "answers": [
+        "16",
+        "32",
+        "26",
+        "1"
+      ],
+      "correct": 1,
+      "explanation": "Разница между строчной и заглавной буквой в ASCII всегда равна 32.",
+      "id": 6
+    },
+    {
+      "type": "single",
+      "question": "Что хранит char ch{5}?",
+      "answers": [
+        "Символ '5' (код 53)",
+        "Управляющий символ с кодом 5 (ENQ)",
+        "Цифру пять",
+        "Ошибка компиляции"
+      ],
+      "correct": 1,
+      "explanation": "char ch{5} хранит число 5 — это управляющий символ ENQ, непечатаемый. char ch{'5'} хранило бы код 53.",
+      "id": 7
+    },
+    {
+      "type": "fill",
+      "question": "Какой размер (в байтах) имеет char16_t?",
+      "correct": [
+        "2"
+      ],
+      "explanation": "char16_t занимает ровно 2 байта и предназначен для UTF-16 кодировки.",
+      "id": 8
+    },
+    {
+      "type": "single",
+      "question": "Чем отличается std::cin >> ch от std::cin.get(ch) при чтении символа?",
+      "answers": [
+        "Нет разницы",
+        "cin >> пропускает ведущие пробелы, cin.get() — нет",
+        "cin.get() пропускает пробелы, cin >> — нет",
+        "cin >> читает строку, cin.get() — символ"
+      ],
+      "correct": 1,
+      "explanation": "Оператор >> пропускает пробельные символы перед чтением. cin.get() извлекает следующий символ из буфера, включая пробелы.",
+      "id": 9
+    },
+    {
+      "type": "code",
+      "question": "Что выведет программа?",
+      "code": "#include <iostream>\nint main() {\n    char c{'a'};\n    std::cout << (char)(c - 32);\n}",
+      "answers": [
+        "a",
+        "A",
+        "97",
+        "65"
+      ],
+      "correct": 1,
+      "explanation": "'a' = 97. 97 - 32 = 65 = 'A'. Приведение к char выводит символ.",
+      "id": 10
+    },
+    {
+      "type": "single",
+      "question": "Что такое escape-последовательность \\0?",
+      "answers": [
+        "Ноль как число",
+        "Нулевой символ (null terminator), код 0",
+        "Восьмеричный ноль",
+        "Конец строки"
+      ],
+      "correct": 1,
+      "explanation": "\\0 — нулевой символ с кодом 0. Используется как терминатор C-строк.",
+      "id": 11
+    },
+    {
+      "type": "fill",
+      "question": "Напишите escape-последовательность для символа табуляции:",
+      "correct": [
+        "\\t"
+      ],
+      "explanation": "\\t — горизонтальная табуляция (код 9).",
+      "id": 12
+    },
+    {
+      "type": "matching",
+      "question": "Соотнесите escape-последовательность с её значением:",
+      "pairs": [
+        {
+          "left": "\\n",
+          "right": "Перевод строки (код 10)"
+        },
+        {
+          "left": "\\t",
+          "right": "Табуляция (код 9)"
+        },
+        {
+          "left": "\\\\",
+          "right": "Обратный слеш"
+        },
+        {
+          "left": "\\'",
+          "right": "Одинарная кавычка"
+        }
+      ],
+      "explanation": "Escape-последовательности позволяют вставлять специальные символы в строки и символьные литералы.",
+      "id": 13
+    },
+    {
+      "type": "code",
+      "question": "Что выведет программа?",
+      "code": "#include <iostream>\nint main() {\n    char c{'Z'};\n    std::cout << (int)c;\n}",
+      "answers": [
+        "Z",
+        "90",
+        "122",
+        "26"
+      ],
+      "correct": 1,
+      "explanation": "ASCII-код 'Z' = 90. Приведение к int выводит числовой код.",
+      "id": 14
+    }
+  ]
+}

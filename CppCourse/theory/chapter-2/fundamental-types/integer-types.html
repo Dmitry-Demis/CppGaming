@@ -1,0 +1,689 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+    <script>document.documentElement.setAttribute("data-theme",localStorage.getItem("cpp_theme")||"dark")</script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="created" content="2025-03-17">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Целочисленные типы — Курс C++</title>
+    <meta name="description" content="Целочисленные типы C++: int, short, long, long long, unsigned. Диапазоны, размеры, применение.">
+
+    <!-- MathJax -->
+    <script>
+        MathJax = { tex: { inlineMath:[['$','$'],['\\(','\\)']] }, svg:{fontCache:'global'} };
+    </script>
+    <script src="../../../js/core/callout.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../../../css/variables.css?v=3">
+    <link rel="stylesheet" href="../../../css/theme-picker.css">
+    <link rel="stylesheet" href="../../../css/base.css">
+    <link rel="stylesheet" href="../../../css/layout.css">
+    <link rel="stylesheet" href="../../../css/components.css">
+    <link rel="stylesheet" href="../../../css/theory.css">
+    <link rel="stylesheet" href="../../../components/quiz/css/quiz.css">
+    <link rel="stylesheet" href="../../../components/quiz/css/widget.css">
+    <link rel="stylesheet" href="../../../css/gamification.css">
+    <link rel="stylesheet" href="../../../css/code-highlight.css">
+    <link rel="stylesheet" href="../../../css/compiler.css">
+    <link rel="stylesheet" href="../../../css/std-gate.css">
+
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>??</text></svg>">
+
+    <style>
+        /* -- Per-type cards -- */
+        .int-types-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.25rem;
+            margin: 1.5rem 0 2rem;
+        }
+        .int-type-card {
+            background: var(--surface, #1e1e2e);
+            border: 1px solid var(--border, #313244);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .int-type-card__header {
+            display: flex;
+            align-items: center;
+            gap: .6rem;
+            padding: .75rem 1rem;
+            background: var(--surface-2, #181825);
+            border-bottom: 1px solid var(--border, #313244);
+        }
+        .int-type-card__name {
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--accent-blue, #89b4fa);
+        }
+        .int-type-card__body {
+            padding: .9rem 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: .5rem;
+        }
+        .int-type-card__row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: .5rem;
+            font-size: .875rem;
+        }
+        .int-type-card__row-label { color: var(--text-muted, #6c7086); white-space: nowrap; flex-shrink: 0; }
+        .int-type-card__row-value { font-family: 'JetBrains Mono', monospace; color: var(--text, #cdd6f4); text-align: right; }
+        .int-type-card__use {
+            margin-top: .4rem;
+            padding-top: .6rem;
+            border-top: 1px solid var(--border, #313244);
+            font-size: .8rem;
+            color: var(--text-muted, #6c7086);
+            line-height: 1.5;
+        }
+        .int-type-card--short .int-type-card__header { border-left: 4px solid #a6e3a1; }
+        .int-type-card--int   .int-type-card__header { border-left: 4px solid #89b4fa; }
+        .int-type-card--long  .int-type-card__header { border-left: 4px solid #cba6f7; }
+        .int-type-card--ll    .int-type-card__header { border-left: 4px solid #f9e2af; }
+        .int-type-card--uint  .int-type-card__header { border-left: 4px solid #94e2d5; }
+
+        .std-badge--14 { background: #4a3f1a; color: #f9e2af; }
+        .std-badge--11 { background: #1a3a2a; color: #a6e3a1; }
+        .std-badge--17 { background: #1e3a4f; color: #89dceb; }
+        .std-badge--20 { background: #2a1e4f; color: #cba6f7; }
+        .std-badge--23 { background: #3d1e3d; color: #f5c2e7; }
+
+        /* -- Test cards -- */
+        .int-tests-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        .int-test-card {
+            background: var(--surface, #1e1e2e);
+            border: 1px solid var(--border, #313244);
+            border-radius: 10px;
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: .6rem;
+        }
+        .int-test-card__icon { font-size: 1.5rem; }
+        .int-test-card__title { font-family: monospace; font-size: 1.1rem; font-weight: 700; color: var(--accent-blue, #89b4fa); }
+        .int-test-card__desc { font-size: .8rem; color: var(--text-muted, #6c7086); flex: 1; }
+        .btn-quiz-open {
+            margin-top: .4rem;
+            padding: .5rem 1rem;
+            background: var(--accent-blue, #89b4fa);
+            color: #1e1e2e;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: .85rem;
+            cursor: pointer;
+            transition: opacity .15s;
+        }
+        .btn-quiz-open:hover { opacity: .85; }
+        .int-test-final {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            background: linear-gradient(135deg, #1e1e2e, #2a1e4f);
+            border: 1px solid #cba6f7;
+            border-radius: 10px;
+            padding: 1.25rem 1.5rem;
+            margin: 1.5rem 0 2rem;
+            flex-wrap: wrap;
+        }
+        .int-test-final__title { font-size: 1rem; font-weight: 700; color: #cba6f7; margin-bottom: .3rem; }
+        .int-test-final__desc  { font-size: .85rem; color: var(--text-muted, #6c7086); }
+        .btn-quiz-open--final  { background: #cba6f7; white-space: nowrap; }
+
+        /* -- Modal overlay -- */
+        .quiz-modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        .quiz-modal-overlay.active { display: flex; }
+        .quiz-modal-box {
+            background: var(--surface, #1e1e2e);
+            border: 1px solid var(--border, #313244);
+            border-radius: 14px;
+            width: 100%;
+            max-width: 680px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            padding: 2rem;
+        }
+        .quiz-modal-close {
+            position: absolute;
+            top: 1rem; right: 1rem;
+            background: none;
+            border: none;
+            color: var(--text-muted, #6c7086);
+            font-size: 1.2rem;
+            cursor: pointer;
+            line-height: 1;
+            padding: .25rem .5rem;
+            border-radius: 4px;
+        }
+        .quiz-modal-close:hover { color: var(--text, #cdd6f4); background: var(--surface-2, #181825); }
+        .quiz-modal-loading { text-align: center; padding: 3rem; color: var(--text-muted, #6c7086); }
+
+        /* -- Quiz inside modal -- */
+        .qm-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: .5rem; }
+        .qm-title  { font-weight: 700; font-size: 1rem; color: var(--text, #cdd6f4); }
+        .qm-counter{ font-size: .85rem; color: var(--text-muted, #6c7086); }
+        .qm-progress { height: 5px; background: var(--surface-2, #181825); border-radius: 99px; margin-bottom: 1.5rem; }
+        .qm-progress-fill { height: 100%; background: linear-gradient(90deg, #89b4fa, #cba6f7); border-radius: 99px; transition: width .3s; }
+        .qm-type-badge { display: inline-block; font-size: .72rem; font-weight: 600; padding: .2rem .6rem; border-radius: 99px; margin-bottom: .75rem; background: #313244; color: #89b4fa; }
+        .qm-type--fill   { background: #2a1e4f; color: #cba6f7; }
+        .qm-type--multiple { background: #1e3a2a; color: #a6e3a1; }
+        .qm-type--code   { background: #3a2a1e; color: #f9e2af; }
+        .qm-question { font-size: 1rem; color: var(--text, #cdd6f4); margin-bottom: 1rem; line-height: 1.5; }
+        .qm-code { background: #181825; border-radius: 8px; padding: 1rem; font-size: .85rem; overflow-x: auto; margin-bottom: 1rem; }
+        .qm-answers { display: flex; flex-direction: column; gap: .5rem; margin-bottom: 1rem; }
+        .qm-answer {
+            display: flex; align-items: center; gap: .75rem;
+            padding: .75rem 1rem;
+            background: #181825;
+            border: 2px solid #313244;
+            border-radius: 8px;
+            color: var(--text, #cdd6f4);
+            font-size: .9rem;
+            cursor: pointer;
+            text-align: left;
+            transition: border-color .15s, background .15s;
+            width: 100%;
+        }
+        .qm-answer:hover:not(:disabled):not(label) { border-color: #89b4fa; background: #1e1e3a; }
+        .qm-answer--check { cursor: default; }
+        .qm-answer--check:hover { border-color: #313244; background: #181825; }
+        .qm-answer--correct { border-color: #a6e3a1 !important; background: #1e2e1e !important; }
+        .qm-answer--wrong   { border-color: #f38ba8 !important; background: #2e1e1e !important; }
+        .qm-answer:disabled { cursor: not-allowed; }
+        .qm-letter { min-width: 1.5rem; height: 1.5rem; display: flex; align-items: center; justify-content: center; background: #313244; border-radius: 4px; font-size: .75rem; font-weight: 700; flex-shrink: 0; }
+        .qm-fill { width: 100%; padding: .75rem 1rem; background: #181825; border: 2px solid #313244; border-radius: 8px; color: var(--text, #cdd6f4); font-size: .9rem; outline: none; }
+        .qm-fill:focus { border-color: #89b4fa; }
+        .qm-fill--ok  { border-color: #a6e3a1 !important; }
+        .qm-fill--err { border-color: #f38ba8 !important; }
+        .qm-feedback { display: flex; gap: .75rem; padding: .75rem 1rem; border-radius: 8px; margin-top: .5rem; font-size: .875rem; }
+        .qm-feedback--ok  { background: #1e2e1e; border: 1px solid #a6e3a1; }
+        .qm-feedback--err { background: #2e1e1e; border: 1px solid #f38ba8; }
+        .qm-fb-icon { font-size: 1.2rem; flex-shrink: 0; }
+        .qm-fb-pts  { display: inline-block; margin-top: .3rem; font-weight: 700; color: #f9e2af; }
+        .qm-footer  { display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; }
+        .qm-score   { font-size: .85rem; color: #f9e2af; }
+        .qm-actions { display: flex; gap: .5rem; }
+        .btn-qm { padding: .5rem 1.25rem; border: none; border-radius: 6px; font-weight: 600; font-size: .875rem; cursor: pointer; }
+        .btn-qm--check { background: #313244; color: #cdd6f4; }
+        .btn-qm--check:hover { background: #45475a; }
+        .btn-qm--next  { background: #89b4fa; color: #1e1e2e; }
+        .btn-qm--next:hover { opacity: .85; }
+        .qm-results { text-align: center; padding: 1rem 0; }
+        .qm-results-emoji { font-size: 3rem; margin-bottom: .5rem; }
+        .qm-results h2 { margin: 0 0 1.5rem; }
+        .qm-results-circle { position: relative; width: 120px; height: 120px; margin: 0 auto 1.5rem; }
+        .qm-results-circle svg { width: 100%; height: 100%; }
+        .qm-results-pct { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 700; }
+        .qm-results-stats { display: flex; justify-content: center; gap: 2rem; margin-bottom: 1.5rem; }
+        .qm-stat-v { font-size: 1.5rem; font-weight: 700; color: #89b4fa; }
+        .qm-stat-l { font-size: .8rem; color: var(--text-muted, #6c7086); }
+        .qm-results-actions { display: flex; gap: .75rem; justify-content: center; }
+    </style>
+    <link rel="stylesheet" href="../../../css/feedback.css">
+    <link rel="stylesheet" href="../../../css/callout.css">
+</head>
+<body>
+
+    <div class="reading-progress-bar" id="reading-progress"></div>
+
+    <header class="site-header">
+        <div class="header-inner">
+            <a href="../../../index.html" class="header-logo">
+                <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="4" y="4" width="20" height="20" rx="2" stroke="currentColor" stroke-width="2"/>
+                    <path d="M10 10 L10 18 M10 14 L14 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M18 10 L18 18 M18 14 L22 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                Курс C++
+            </a>
+            <nav class="header-nav">
+                <a href="../../../index.html">Главная</a>
+                <a href="#" class="active">Глава II</a>
+            </nav>
+            <button class="mobile-menu-btn" aria-label="Открыть меню" aria-expanded="false">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-title"></div>
+                <ul class="sidebar-nav" id="course-nav"></ul>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="chapter-content">
+
+                <div class="section-badge">Глава II</div>
+                <h1>Целочисленные типы</h1>
+
+                <p>
+                    Целочисленные типы — хребет большинства программ на C++: счётчики, индексы, идентификаторы,
+                    битовые маски. Стандарт гарантирует лишь <em>минимальные</em> размеры, поэтому важно знать,
+                    какой тип выбрать и чего ожидать на конкретной платформе.
+                </p>
+
+                <!-- <div class="iso-quote">
+                    <span class="iso-ref">[basic.fundamental] §6.7.1 — ISO/IEC 14882:2020</span>
+                    There are five standard signed integer types:
+                    <strong>signed char</strong>, <strong>short int</strong>, <strong>int</strong>,
+                    <strong>long int</strong>, and <strong>long long int</strong>.
+                    For each of the standard signed integer types, there exists a corresponding
+                    (but distinct) unsigned integer type.
+                </div> -->
+
+                <!-- ============================================== -->
+                <h2 id="overview-table">Обзор семейства целочисленных типов</h2>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Тип</th>
+                                <th>Синонимы</th>
+                                <th>Мин. размер</th>
+                                <th>x86-64 (типично)</th>
+                                <th>Диапазон (signed)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>signed char</code></td>
+                                <td>—</td>
+                                <td>$8$ бит</td>
+                                <td>$1$ байт</td>
+                                <td class="cell-range">$-128$ … $127$</td>
+                            </tr>
+                            <tr>
+                                <td><code>short int</code></td>
+                                <td><code>short</code></td>
+                                <td>$\ge16$ бит</td>
+                                <td>$2$ байта</td>
+                                <td class="cell-range">$-32\,768$ … $32\,767$</td>
+                            </tr>
+                            <tr>
+                                <td><code>int</code></td>
+                                <td><code>signed</code></td>
+                                <td>$\ge16$ бит</td>
+                                <td>$4$ байта</td>
+                                <td class="cell-range">$-2\,147\,483\,648$ … $2\,147\,483\,647$</td>
+                            </tr>
+                            <tr>
+                                <td><code>long int</code></td>
+                                <td><code>long</code></td>
+                                <td>$\ge32$ бита</td>
+                                <td>$8$ б (Linux) / $4$ б (Windows)</td>
+                                <td class="cell-range">платформенно-зависим</td>
+                            </tr>
+                            <tr data-slot="2" data-std="11">
+                                <!-- <td><code>long long int</code> <span class="std-badge std-badge--11">C++11</span></td>
+                                <td><code>long long</code></td>
+                                <td>$\ge64$ бита</td>
+                                <td>$8$ байт</td>
+                                <td class="cell-range">$-9.22 \times 10^{18}$ … $9.22 \times 10^{18}$</td> -->
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <p>
+                    Для каждого знакового типа существует беззнаковый аналог (<code>unsigned short</code>,
+                    <code>unsigned int</code> и т. д.), сдвигающий диапазон в положительную область и
+                    удваивающий максимум.
+                </p>
+
+                <!-- ============================================== -->
+                <h2 id="per-type">Описание типов</h2>
+
+                <!-- -- short -- -->
+                <h3 id="type-short">short</h3>
+                <p>
+                    <span class="key-term">short</span> — наименьший «полноценный» целый тип (не считая
+                    <code>signed char</code>). Используется там, где важна экономия памяти: большие массивы,
+                    сетевые пакеты, аудио-сэмплы.
+                </p>
+
+                <div class="int-types-grid">
+                    <div class="int-type-card int-type-card--short">
+                        <div class="int-type-card__header">
+                            <span class="int-type-card__name">short</span>
+                            <span class="int-type-card__name" style="color:var(--text-muted,#6c7086)">/ signed short int</span>
+                        </div>
+                        <div class="int-type-card__body">
+                            <div class="int-type-card__row">
+                                <span class="int-type-card__row-label">Размер (гарантия)</span>
+                                <span class="int-type-card__row-value">$\ge16$ бит</span>
+                            </div>
+                            <div class="int-type-card__row">
+                                <span class="int-type-card__row-label">Размер (x86-64)</span>
+                                <span class="int-type-card__row-value">$2$ байта / $16$ бит</span>
+                            </div>
+                            <div class="int-type-card__row">
+                                <span class="int-type-card__row-label">SHRT_MIN</span>
+                                <span class="int-type-card__row-value">$-32\,768$</span>
+                            </div>
+                            <div class="int-type-card__row">
+                                <span class="int-type-card__row-label">SHRT_MAX</span>
+                                <span class="int-type-card__row-value">$+32\,767$</span>
+                            </div>
+                            <div class="int-type-card__row">
+                                <span class="int-type-card__row-label">Суффикс литерала</span>
+                                <span class="int-type-card__row-value">нет (неявное сужение)</span>
+                            </div>
+                            <div class="int-type-card__use">
+                                Аудио-сэмплы (PCM 16-bit), компактные массивы, сетевые поля фиксированного размера.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="int-type-card int-type-card--uint">
+                        <div class="int-type-card__header">
+                            <span class="int-type-card__name">unsigned short</span>
+                        </div>
+                        <div class="int-type-card__body">
+                            <div class="int-type-card__row">
+                                <span class="int-type-card__row-label">Размер (x86-64)</span>
+                                <span class="int-type-card__row-value">$2$ байта / $16$ бит</span>
+                            </div>
+                            <div class="int-type-card__row">
+                                <span class="int-type-card__row-label">MIN</span>
+                                <span class="int-type-card__row-value">$0$</span>
+                            </div>
+                            <div class="int-type-card__row">
+                                <span class="int-type-card__row-label">USHRT_MAX</span>
+                                <span class="int-type-card__row-value">$65\,535$</span>
+                            </div>
+                            <div class="int-type-card__use">
+                                Порты TCP/UDP ($0$–$65\,535$), пиксельные координаты, USB HID-отчёты.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="code-block" data-example="short">
+                    <div class="code-header">
+                        <span class="code-lang">C++ — short</span>
+                        <div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button></div>
+                    </div>
+                    <div class="code-content">
+<pre><code class="language-cpp">// загрузка...</code></pre>
+                    </div>
+                </div>
+
+                <div class="section-quiz-prompt">
+                    <span class="section-quiz-prompt__text">Проверьте знания по <code>short</code></span>
+                    <button class="btn-quiz-open" onclick="openQuizModal('integers-short','Тест: тип short')">? Пройти тест ></button>
+                </div>
+
+                <!-- -- int -- -->
+                <h3 id="type-int">int</h3>
+                <p>
+                    <span class="key-term">int</span> — «естественный» целочисленный тип платформы.
+                    Стандарт гарантирует минимум $16$ бит, но на всех современных платформах он $32$-битный.
+                    Это тип по умолчанию для целочисленных литералов, счётчиков и арифметики.
+                </p>
+
+                <div class="int-types-grid">
+                    <div class="int-type-card int-type-card--int">
+                        <div class="int-type-card__header">
+                            <span class="int-type-card__name">int</span>
+                            <span class="int-type-card__name" style="color:var(--text-muted,#6c7086)">/ signed int</span>
+                        </div>
+                        <div class="int-type-card__body">
+                            <div class="int-type-card__row">
+                                <span class="int-type-card__row-label">Размер (гарантия)</span>
+                                <span class="int-type-card__row-value">? $16$ бит</span>
+                            </div>
+                            <div class="int-type-card__row">
+                                <span class="int-type-card__row-label">Размер (x86-64)</span>
+                                <span class="int-type-card__row-value">$4$ байта / $32$ бита</span>
+                            </div>
+                            <div class="int-type-card__row">
+                                <span class="int-type-card__row-label">INT_MIN</span>
+                                <span class="int-type-card__row-value">$-2\,147\,483\,648$</span>
+                            </div>
+                            <div class="int-type-card__row">
+                                <span class="int-type-card__row-label">INT_MAX</span>
+                                <span class="int-type-card__row-value">$+2\,147\,483\,647$</span>
+                            </div>
+                            <div class="int-type-card__use">
+                                Счётчики циклов, индексы, флаги, возвращаемые значения функций.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="int-type-card int-type-card--uint">
+                        <div class="int-type-card__header">
+                            <span class="int-type-card__name">unsigned int</span>
+                        </div>
+                        <div class="int-type-card__body">
+                            <div class="int-type-card__row">
+                                <span class="int-type-card__row-label">Размер (x86-64)</span>
+                                <span class="int-type-card__row-value">$4$ байта / $32$ бита</span>
+                            </div>
+                            <div class="int-type-card__row">
+                                <span class="int-type-card__row-label">MIN</span>
+                                <span class="int-type-card__row-value">$0$</span>
+                            </div>
+                            <div class="int-type-card__row">
+                                <span class="int-type-card__row-label">UINT_MAX</span>
+                                <span class="int-type-card__row-value">$4\,294\,967\,295$</span>
+                            </div>
+                            <div class="int-type-card__row">
+                                <span class="int-type-card__row-label">Суффикс</span>
+                                <span class="int-type-card__row-value">42u или 42U</span>
+                            </div>
+                            <div class="int-type-card__use">
+                                Битовые маски, хеш-значения, счётчики без отрицательных значений.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="code-block" data-example="int">
+                    <div class="code-header">
+                        <span class="code-lang">C++ — int</span>
+                        <div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button></div>
+                    </div>
+                    <div class="code-content">
+<pre><code class="language-cpp">// загрузка...</code></pre>
+                    </div>
+                </div>
+
+                <div class="section-quiz-prompt">
+                    <span class="section-quiz-prompt__text">Проверьте знания по <code>int</code></span>
+                    <button class="btn-quiz-open" onclick="openQuizModal('integers-int','Тест: тип int')">? Пройти тест ></button>
+                </div>
+
+                <!-- -- long -- -->
+                <h3 id="type-long">long</h3>
+                <p>
+                    <span class="key-term">long</span> — источник сюрпризов: его размер
+                    <strong>платформенно-зависим</strong>. На 64-битном Linux он 8 байт, на Windows — 4 байта.
+                    В переносимом коде предпочтите <code>int</code>, <code>long long</code> или <code>int64_t</code>.
+                </p>
+
+                <div class="int-types-grid">
+                    <div class="int-type-card int-type-card--long">
+                        <div class="int-type-card__header">
+                            <span class="int-type-card__name">long</span>
+                            <span class="int-type-card__name" style="color:var(--text-muted,#6c7086)">/ long int</span>
+                        </div>
+                        <div class="int-type-card__body">
+                            <div class="int-type-card__row">
+                                <span class="int-type-card__row-label">Размер (гарантия)</span>
+                                <span class="int-type-card__row-value">$\ge32$ бита</span>
+                            </div>
+                            <div class="int-type-card__row">
+                                <span class="int-type-card__row-label">Linux x86-64</span>
+                                <span class="int-type-card__row-value">$8$ байт ($64$ бит)</span>
+                            </div>
+                            <div class="int-type-card__row">
+                                <span class="int-type-card__row-label">Windows x64</span>
+                                <span class="int-type-card__row-value">$4$ байта ($32$ бит)</span>
+                            </div>
+                            <div class="int-type-card__row">
+                                <span class="int-type-card__row-label">LONG_MIN (64-bit)</span>
+                                <span class="int-type-card__row-value">$-9\,223\,372\,036\,854\,775\,808$</span>
+                            </div>
+                            <div class="int-type-card__row">
+                                <span class="int-type-card__row-label">LONG_MAX (64-bit)</span>
+                                <span class="int-type-card__row-value">$+9\,223\,372\,036\,854\,775\,807$</span>
+                            </div>
+                            <div class="int-type-card__row">
+                                <span class="int-type-card__row-label">Суффикс</span>
+                                <span class="int-type-card__row-value">42L или 42l</span>
+                            </div>
+                            <div class="int-type-card__use">
+                                POSIX API (off_t, pid_t). Избегайте в переносимом коде — используйте int64_t.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="int-type-card int-type-card--uint">
+                        <div class="int-type-card__header">
+                            <span class="int-type-card__name">unsigned long</span>
+                        </div>
+                        <div class="int-type-card__body">
+                            <div class="int-type-card__row">
+                                <span class="int-type-card__row-label">MIN</span>
+                                <span class="int-type-card__row-value">$0$</span>
+                            </div>
+                            <div class="int-type-card__row">
+                                <span class="int-type-card__row-label">Linux x86-64 MAX</span>
+                                <span class="int-type-card__row-value">$18\,446\,744\,073\,709\,551\,615$</span>
+                            </div>
+                            <div class="int-type-card__row">
+                                <span class="int-type-card__row-label">Windows x64 MAX</span>
+                                <span class="int-type-card__row-value">$4\,294\,967\,295$</span>
+                            </div>
+                            <div class="int-type-card__row">
+                                <span class="int-type-card__row-label">Суффикс</span>
+                                <span class="int-type-card__row-value">42UL</span>
+                            </div>
+                            <div class="int-type-card__use">
+                                В старом POSIX-коде — size_t и системные типы.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="warning-block">
+                    <div class="warning-block__title">? Ловушка с long на разных платформах</div>
+                    <p>
+                        Никогда не предполагайте, что <code>long</code> — это 64 бита.
+                        На Windows x64 он 32-битный. Для гарантированного 64-битного типа
+                        используйте <code>long long</code> или <code>int64_t</code>.
+                    </p>
+                </div>
+
+                <div class="code-block" data-example="chapter-1/integer-types/long.cpp">
+                    <div class="code-header">
+                        <span class="code-lang">C++ — long</span>
+                        <div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button></div>
+                    </div>
+                    <div class="code-content">
+<pre><code class="language-cpp">// загрузка...</code></pre>
+                    </div>
+                </div>
+
+                <div class="section-quiz-prompt">
+                    <span class="section-quiz-prompt__text">Проверьте знания по <code>long</code></span>
+                    <button class="btn-quiz-open" onclick="openQuizModal('integers-long','Тест: тип long')">? Пройти тест ></button>
+                </div>
+
+                <!-- -- long long -- -->
+                <div data-slot="1" data-std="11"></div>
+
+                <div class="info-card">
+                    <div class="info-card__title">Продолжение темы</div>
+                    <p>
+                        В следующих разделах рассматриваются связанные аспекты целочисленных типов:
+                        <a href="signed-unsigned.html"><strong>§1.1.3 Знаковые и беззнаковые типы</strong></a>
+                        — модификаторы <code>signed</code>/<code>unsigned</code> и ловушки смешения;
+                        <a href="integer-overflow.html"><strong>§1.1.4 Переполнение</strong></a>
+                        — UB для знаковых vs wrap-around для беззнаковых;
+                        <a href="fixed-width-types.html"><strong>§1.1.5 Фиксированные размеры</strong></a>
+                        — <code>&lt;cstdint&gt;</code>, <code>std::numeric_limits</code>.
+                    </p>
+                </div>
+
+                               <!-- Навигация -->
+                
+                <h2 id="tests">Проверьте знания</h2>
+                <div class="quiz-widget" data-quizzes="integer-types,integers-short,integers-int,integers-long,integers-longlong" data-final="integers-paragraph" data-final-desc="short, int, long, long long, unsigned, диапазоны"></div>
+
+                <!-- Навигация -->
+
+                
+                <section class="feedback-section"></section>
+
+                <div class="paragraph-nav">
+                    <!-- navigation.js заполнит динамически из course-structure.json -->
+                </div>
+
+            </div>
+        </main>
+
+        <aside class="right-sidebar">
+            <div class="toc-container">
+                <div class="toc-title">Содержание</div>
+                <nav class="toc-nav"></nav>
+            </div>
+        </aside>
+    </div>
+
+    <footer class="site-footer">
+        <p>Интерактивный курс по языку программирования C++</p>
+    </footer>
+
+    <script src="../../../js/course.js"></script><script src="../../../js/navigation.js"></script>
+    <script src="../../../js/toc.js"></script>
+    <script src="../../../components/quiz/quiz.js" type="module"></script>
+    <script src="../../../components/quiz/widget.js"></script>
+    <script src="../../../js/compiler.js"></script>
+    <script src="../../../js/gamification.js"></script>
+    <script src="../../../js/std-gate.js"></script>
+    <script>
+    function copyCode(btn) {
+        const code = btn.closest('.code-block')?.querySelector('code')?.textContent || '';
+        navigator.clipboard.writeText(code).then(() => {
+            btn.textContent = 'Скопировано!';
+            setTimeout(() => btn.textContent = 'Копировать', 2000);
+        });
+    }
+    // openQuizModal / closeQuizModal / ModalQuiz are provided by quiz.js
+    </script>
+
+    <script src="../../../js/theme.js"></script>
+    <script src="../../../js/feedback.js"></script>
+</body>
+</html>
+
+
+
+

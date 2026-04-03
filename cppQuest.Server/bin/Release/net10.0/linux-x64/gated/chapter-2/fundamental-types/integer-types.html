@@ -1,0 +1,91 @@
+<section data-slot="1" data-std="11" coins="4000">
+    <h3 id="type-long-long">long long <span class="std-badge std-badge--11">C++11</span></h3>
+    <p>
+        <span class="key-term">long long</span> — единственный тип, гарантирующий не менее $64$ бит
+        на <em>любой</em> поддерживаемой платформе.
+        Его диапазон: $-2^{63}$ до $2^{63}-1$ &asymp; $\pm 9.2 \times 10^{18}$.
+    </p>
+
+    <div class="int-types-grid">
+        <div class="int-type-card int-type-card--ll">
+            <div class="int-type-card__header">
+                <span class="int-type-card__name">long long</span>
+                <span class="std-badge std-badge--11" style="margin-left:auto">C++11</span>
+            </div>
+            <div class="int-type-card__body">
+                <div class="int-type-card__row">
+                    <span class="int-type-card__row-label">Размер (гарантия)</span>
+                    <span class="int-type-card__row-value">&ge; 64 бита</span>
+                </div>
+                <div class="int-type-card__row">
+                    <span class="int-type-card__row-label">Размер (x86-64)</span>
+                    <span class="int-type-card__row-value">8 байт / 64 бита</span>
+                </div>
+                <div class="int-type-card__row">
+                    <span class="int-type-card__row-label">LLONG_MIN</span>
+                    <span class="int-type-card__row-value">$-9\,223\,372\,036\,854\,775\,808$</span>
+                </div>
+                <div class="int-type-card__row">
+                    <span class="int-type-card__row-label">LLONG_MAX</span>
+                    <span class="int-type-card__row-value">$+9\,223\,372\,036\,854\,775\,807$</span>
+                </div>
+                <div class="int-type-card__row">
+                    <span class="int-type-card__row-label">Суффикс</span>
+                    <span class="int-type-card__row-value">42LL или 42ll</span>
+                </div>
+                <div class="int-type-card__use">
+                    Unix timestamps, ID записей в БД, файловые смещения (&gt;4 ГБ), астрономические расчёты.
+                </div>
+            </div>
+        </div>
+        <div class="int-type-card int-type-card--uint">
+            <div class="int-type-card__header">
+                <span class="int-type-card__name">unsigned long long</span>
+            </div>
+            <div class="int-type-card__body">
+                <div class="int-type-card__row">
+                    <span class="int-type-card__row-label">Размер (x86-64)</span>
+                    <span class="int-type-card__row-value">8 байт / 64 бита</span>
+                </div>
+                <div class="int-type-card__row">
+                    <span class="int-type-card__row-label">MIN</span>
+                    <span class="int-type-card__row-value">0</span>
+                </div>
+                <div class="int-type-card__row">
+                    <span class="int-type-card__row-label">ULLONG_MAX</span>
+                    <span class="int-type-card__row-value">$18\,446\,744\,073\,709\,551\,615$</span>
+                </div>
+                <div class="int-type-card__row">
+                    <span class="int-type-card__row-label">Суффикс</span>
+                    <span class="int-type-card__row-value">42ULL</span>
+                </div>
+                <div class="int-type-card__use">
+                    Криптография, хеш-значения, 64-битные битовые маски.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="code-block" data-example="chapter-2/fundamental-types/integer-types/long-long.cpp">
+        <div class="code-header">
+            <span class="code-lang">C++ — long long</span>
+            <div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button></div>
+        </div>
+        <div class="code-content"><pre><code class="language-cpp">// загрузка...</code></pre></div>
+    </div>
+
+    <div class="section-quiz-prompt">
+        <span class="section-quiz-prompt__text">Проверьте знания по <code>long long</code></span>
+        <button class="btn-quiz-open" onclick="openQuizModal('integers-longlong','Тест: тип long long')">📝 Пройти тест &gt;</button>
+    </div>
+</section>
+
+<section data-slot="2" data-std="11" coins="0">
+    <tr>
+        <td><code>long long int</code> <span class="std-badge std-badge--11">C++11</span></td>
+        <td><code>long long</code></td>
+        <td>$\ge64$ бита</td>
+        <td>$8$ байт</td>
+        <td class="cell-range">$-9.22 \times 10^{18}$ … $9.22 \times 10^{18}$</td>
+    </tr>
+</section>

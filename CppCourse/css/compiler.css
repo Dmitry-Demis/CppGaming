@@ -1,0 +1,226 @@
+/* ============================================
+   INLINE COMPILER WIDGET (.cw-*)
+   ============================================ */
+
+.cw {
+    background: var(--bg-card);
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    margin: var(--space-4) 0 var(--space-6);
+}
+
+/* Header */
+.cw-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    padding: var(--space-2) var(--space-4);
+    background: var(--bg-tertiary);
+    border-bottom: 1px solid var(--border-primary);
+    flex-wrap: wrap;
+}
+
+.cw-label {
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-semibold);
+    color: var(--text-heading);
+}
+
+.cw-controls {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.cw-select {
+    padding: 3px 7px;
+    background: var(--bg-card);
+    color: var(--text-primary);
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-sm);
+    font-size: var(--fs-xs);
+    font-family: var(--font-mono);
+    cursor: pointer;
+}
+.cw-select:focus { outline: none; border-color: var(--accent-blue); }
+
+.cw-std-badge {
+    padding: 3px 8px;
+    background: var(--bg-card);
+    color: var(--text-tertiary);
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-sm);
+    font-size: var(--fs-xs);
+    font-family: var(--font-mono);
+}
+
+/* Buttons */
+.cw-copy {
+    padding: 3px 10px;
+    background: transparent;
+    color: var(--text-secondary);
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-sm);
+    font-size: var(--fs-xs);
+    cursor: pointer;
+    transition: color .15s, border-color .15s;
+    white-space: nowrap;
+}
+.cw-copy:hover { color: var(--text-primary); border-color: var(--text-secondary); }
+
+.cw-run {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 14px;
+    background: var(--accent-green, #a6e3a1);
+    color: #1e1e2e;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-semibold);
+    cursor: pointer;
+    transition: opacity .15s, box-shadow .15s;
+    white-space: nowrap;
+}
+.cw-run:hover:not(:disabled) { opacity: .85; box-shadow: 0 0 10px rgba(166,227,161,.35); }
+.cw-run:disabled { opacity: .5; cursor: not-allowed; }
+
+/* Fallback textarea (если CodeMirror не загрузился) */
+.cw-editor--active {
+    display: block;
+    width: 100%;
+    min-height: 160px;
+    padding: var(--space-4);
+    background: var(--code-bg, #1e1e2e);
+    color: var(--text-primary);
+    border: none;
+    border-top: 2px solid var(--accent-purple);
+    font-family: var(--font-mono);
+    font-size: var(--fs-sm);
+    line-height: 1.65;
+    tab-size: 4;
+    box-sizing: border-box;
+    outline: none;
+    resize: vertical;
+}
+
+/* CodeMirror 5 container */
+.cw-cm {
+    background: var(--code-bg, #1e1e2e);
+}
+.cw-cm .CodeMirror {
+    height: auto;
+    min-height: 140px;
+    font-family: var(--font-mono) !important;
+    font-size: var(--fs-sm) !important;
+    line-height: 1.65 !important;
+    border: none;
+    background: var(--code-bg, #1e1e2e);
+}
+.cw-cm .CodeMirror-scroll { min-height: 140px; }
+.cw-cm .CodeMirror-focused { outline: 2px solid var(--accent-purple); outline-offset: -2px; }
+
+/* Fallback plain textarea */
+.cw-ta--plain {
+    display: block;
+    width: 100%;
+    min-height: 160px;
+    padding: var(--space-4);
+    background: var(--code-bg, #1e1e2e);
+    color: var(--text-primary);
+    border: none;
+    font-family: var(--font-mono);
+    font-size: var(--fs-sm);
+    line-height: 1.65;
+    tab-size: 4;
+    box-sizing: border-box;
+    outline: none;
+    resize: vertical;
+}
+/* скрываем исходную textarea которую CM5 заменяет */
+.cw-cm .cw-ta:not(.cw-ta--plain) { display: none; }
+
+/* Output */
+.cw-output {
+    padding: var(--space-3) var(--space-4);
+    font-family: var(--font-mono);
+    font-size: var(--fs-sm);
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-break: break-word;
+    max-height: 320px;
+    overflow-y: auto;
+    border-top: 1px solid var(--border-primary);
+}
+.cw-output--empty   { color: var(--text-tertiary); font-style: italic; }
+.cw-output--running { color: var(--accent-orange, #fab387); background: var(--bg-tertiary); }
+.cw-output--ok      { color: var(--accent-green,  #a6e3a1); background: var(--bg-tertiary); }
+.cw-output--error   { color: var(--accent-red,    #f38ba8); background: var(--bg-tertiary); }
+
+@media (max-width: 600px) {
+    .cw-header { flex-direction: column; align-items: stretch; }
+    .cw-controls { flex-wrap: wrap; }
+}
+
+/* Options toggle button */
+.cw-opts-toggle {
+    padding: 3px 8px;
+    background: transparent;
+    color: var(--text-secondary);
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-sm);
+    font-size: var(--fs-xs);
+    cursor: pointer;
+    transition: color .15s, border-color .15s, background .15s;
+    line-height: 1;
+}
+.cw-opts-toggle:hover,
+.cw-opts-toggle--active {
+    color: var(--accent-blue);
+    border-color: var(--accent-blue);
+    background: color-mix(in srgb, var(--accent-blue) 10%, transparent);
+}
+
+/* Options panel */
+.cw-opts-panel {
+    display: flex;
+    gap: var(--space-3);
+    padding: var(--space-2) var(--space-4);
+    background: var(--bg-secondary, #181825);
+    border-bottom: 1px solid var(--border-primary);
+    flex-wrap: wrap;
+}
+.cw-opts-panel[hidden] { display: none; }
+
+.cw-opts-label {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: var(--fs-xs);
+    color: var(--text-secondary);
+    flex: 1;
+    min-width: 180px;
+}
+
+.cw-opts-input {
+    padding: 4px 8px;
+    background: var(--bg-card);
+    color: var(--text-primary);
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    line-height: 1.5;
+    resize: vertical;
+    outline: none;
+    transition: border-color .15s;
+}
+.cw-opts-input:focus { border-color: var(--accent-blue); }
+
+@media (max-width: 600px) {
+    .cw-opts-panel { flex-direction: column; }
+    .cw-opts-label { min-width: 0; }
+}

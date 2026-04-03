@@ -1,0 +1,34 @@
+{
+  "id": "halts",
+  "title": "Завершение программы (halts)",
+  "passingScore": 70,
+  "questions": [
+    {
+      "id": 1,
+      "type": "single",
+      "question": "Что выведет программа?\n```cpp\nvoid cleanup() { std::cout << \"cleanup\\n\"; }\n\nint main()\n{\n    std::atexit(cleanup);\n    std::cout << \"main\\n\";\n    std::exit(0);\n    std::cout << \"после exit\\n\";\n}\n```",
+      "answers": [
+        "main\ncleanup",
+        "main\ncleanup\nпосле exit",
+        "cleanup\nmain",
+        "main"
+      ],
+      "correct": 0,
+      "explanation": "std::exit вызывает зарегистрированные atexit-функции перед завершением. Выводится «main», затем std::exit вызывает cleanup(), выводится «cleanup». Строка «после exit» недостижима — std::exit не возвращает управление."
+    },
+    {
+      "id": 2,
+      "type": "single",
+      "question": "Чем std::abort() отличается от std::exit()?",
+      "answers": [
+        "std::abort вызывает atexit-функции, std::exit — нет",
+        "std::abort завершает программу аварийно без вызова atexit-функций и деструкторов, std::exit завершает нормально",
+        "std::abort доступен только на Linux",
+        "Они эквивалентны"
+      ],
+      "correct": 1,
+      "explanation": "std::exit — нормальное завершение: вызывает atexit-функции, сбрасывает буферы. std::abort — аварийное завершение: не вызывает atexit-функции и деструкторы, генерирует сигнал SIGABRT. Используется при обнаружении неисправимой ошибки."
+    }
+  ],
+  "pick": 10
+}

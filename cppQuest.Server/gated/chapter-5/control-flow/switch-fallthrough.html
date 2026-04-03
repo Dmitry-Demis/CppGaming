@@ -1,0 +1,44 @@
+<section data-slot="1" data-std="17" coins="120">
+    <div class="callout callout--info">
+        <div class="callout__title">Атрибут <span class="std-badge std-badge--17">C++17</span> <code>[[fallthrough]]</code></div>
+        <div class="callout__body">
+            <p>
+                Атрибут <code>[[fallthrough]]</code> явно документирует намеренный переход
+                из одного <code>case</code> в следующий без <code>break</code>.
+                Компилятор не выдаёт предупреждение там, где стоит этот атрибут.
+            </p>
+            <p>
+                Атрибут размещается в конце тела <code>case</code> перед следующей меткой:
+            </p>
+            <div class="code-block" data-example="chapter-5/control-flow/switch-fallthrough-cpp17.cpp">
+                <div class="code-header">
+                    <span class="code-lang">C++17 — [[fallthrough]]</span>
+                    <div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button></div>
+                </div>
+                <div class="code-content"><pre><code class="language-cpp">// загрузка...</code></pre></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section data-slot="2" data-std="17" coins="120">
+    <div class="callout callout--info">
+        <div class="callout__title">Инициализатор в switch <span class="std-badge std-badge--17">C++17</span></div>
+        <div class="callout__body">
+            <p>
+                Начиная с C++17, в заголовке <code>switch</code> можно объявить переменную
+                по аналогии с <code>if (init; condition)</code>:
+            </p>
+            <pre style="margin:0"><code class="language-cpp">switch (int x {getValue()}; x % 2)
+{
+    case 0: std::cout << "чётное\n"; break;
+    case 1: std::cout << "нечётное\n"; break;
+}</code></pre>
+            <p>
+                Переменная <code>x</code> видна только внутри блока <code>switch</code>.
+                Это сужает область видимости и предотвращает случайное использование
+                переменной за пределами конструкции.
+            </p>
+        </div>
+    </div>
+</section>

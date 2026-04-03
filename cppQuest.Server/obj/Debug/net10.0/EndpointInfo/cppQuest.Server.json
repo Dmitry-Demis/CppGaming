@@ -1,0 +1,200 @@
+{
+  "openapi": "3.1.1",
+  "info": {
+    "title": "cppQuest.Server | v1",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://localhost:64425"
+    },
+    {
+      "url": "http://localhost:64426"
+    }
+  ],
+  "paths": {
+    "/api/register": {
+      "post": {
+        "tags": [
+          "cppQuest.Server"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/login": {
+      "post": {
+        "tags": [
+          "cppQuest.Server"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/profile/{isuNumber}": {
+      "get": {
+        "tags": [
+          "cppQuest.Server"
+        ],
+        "parameters": [
+          {
+            "name": "isuNumber",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/progress": {
+      "post": {
+        "tags": [
+          "cppQuest.Server"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProgressRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/course-structure": {
+      "get": {
+        "tags": [
+          "cppQuest.Server"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "LoginRequest": {
+        "required": [
+          "isuNumber",
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "isuNumber": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "ProgressRequest": {
+        "required": [
+          "isuNumber",
+          "chapterId",
+          "chapterTitle",
+          "testId",
+          "testTitle",
+          "points"
+        ],
+        "type": "object",
+        "properties": {
+          "isuNumber": {
+            "type": "string"
+          },
+          "chapterId": {
+            "type": "string"
+          },
+          "chapterTitle": {
+            "type": "string"
+          },
+          "testId": {
+            "type": "string"
+          },
+          "testTitle": {
+            "type": "string"
+          },
+          "points": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          }
+        }
+      },
+      "RegisterRequest": {
+        "required": [
+          "firstName",
+          "lastName",
+          "isuNumber",
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "isuNumber": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "cppQuest.Server"
+    }
+  ]
+}

@@ -1,0 +1,824 @@
+[
+  {
+    "ContainingType": "cppQuest.Server.Endpoints.AchievementEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapAchievementEndpoints\u003Eb__0_0",
+    "RelativePath": "api/achievements/{isuNumber}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "isuNumber",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "cppQuest.Server.Endpoints.AchievementEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapAchievementEndpoints\u003Eb__0_1",
+    "RelativePath": "api/achievements/{isuNumber}/unlock",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "isuNumber",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "req",
+        "Type": "cppQuest.Server.Endpoints.UnlockAchievementRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "cppQuest.Server.Endpoints.AchievementEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapAchievementEndpoints\u003Eb__0_2",
+    "RelativePath": "api/achievements/{isuNumber}/unlock-batch",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "isuNumber",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "req",
+        "Type": "cppQuest.Server.Endpoints.UnlockBatchRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "cppQuest.Server.Endpoints.AnalyticsEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapAnalyticsEndpoints\u003Eb__0_0",
+    "RelativePath": "api/analytics/{isuNumber}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "isuNumber",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "cppQuest.Server.Endpoints.CourseEndpoints\u002B\u003C\u003Ec__DisplayClass0_0",
+    "Method": "\u003CMapCourseEndpoints\u003Eb__2",
+    "RelativePath": "api/course-structure",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "cppQuest.Server.Endpoints.CourseEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapCourseEndpoints\u003Eb__0_0",
+    "RelativePath": "api/examples/{**path}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "path",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "cppQuest.Server.Endpoints.FeedbackEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapFeedbackEndpoints\u003Eb__0_0",
+    "RelativePath": "api/feedback/",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "req",
+        "Type": "cppQuest.Server.Endpoints.FeedbackEndpoints\u002BFeedbackRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "cppQuest.Server.Endpoints.FeedbackEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapFeedbackEndpoints\u003Eb__0_1",
+    "RelativePath": "api/feedback/{pageId}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pageId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "cppQuest.Server.Endpoints.ProgressEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapProgressEndpoints\u003Eb__0_12",
+    "RelativePath": "api/gated/all-slots",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "cppQuest.Server.Endpoints.ProgressEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapProgressEndpoints\u003Eb__0_15",
+    "RelativePath": "api/gated/content",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "page",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "slot",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "std",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "cppQuest.Server.Endpoints.ProgressEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapProgressEndpoints\u003Eb__0_16",
+    "RelativePath": "api/gated/purchase",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "req",
+        "Type": "cppQuest.Server.DTOs.GatedPurchaseRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "cppQuest.Server.Endpoints.ProgressEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapProgressEndpoints\u003Eb__0_14",
+    "RelativePath": "api/gated/slots",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "page",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "cppQuest.Server.Endpoints.LeaderboardEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapLeaderboardEndpoints\u003Eb__1_1",
+    "RelativePath": "api/leaderboard/coins",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "cppQuest.Server.Endpoints.LeaderboardEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapLeaderboardEndpoints\u003Eb__1_5",
+    "RelativePath": "api/leaderboard/mastery",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "cppQuest.Server.Endpoints.LeaderboardEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapLeaderboardEndpoints\u003Eb__1_2",
+    "RelativePath": "api/leaderboard/reading",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "cppQuest.Server.Endpoints.LeaderboardEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapLeaderboardEndpoints\u003Eb__1_6",
+    "RelativePath": "api/leaderboard/scroll",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "cppQuest.Server.Endpoints.LeaderboardEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapLeaderboardEndpoints\u003Eb__1_3",
+    "RelativePath": "api/leaderboard/streak",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "cppQuest.Server.Endpoints.LeaderboardEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapLeaderboardEndpoints\u003Eb__1_4",
+    "RelativePath": "api/leaderboard/tests",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "cppQuest.Server.Endpoints.LeaderboardEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapLeaderboardEndpoints\u003Eb__1_0",
+    "RelativePath": "api/leaderboard/xp",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "cppQuest.Server.Endpoints.AuthEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapAuthEndpoints\u003Eb__0_1",
+    "RelativePath": "api/login",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "req",
+        "Type": "cppQuest.Server.DTOs.LoginRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "cppQuest.Server.Endpoints.ProgressEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapProgressEndpoints\u003Eb__0_2",
+    "RelativePath": "api/profile/{isuNumber}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "isuNumber",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "cppQuest.Server.Endpoints.ProgressEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapProgressEndpoints\u003Eb__0_3",
+    "RelativePath": "api/progress/{isuNumber}/{paragraphId}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "isuNumber",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "paragraphId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "cppQuest.Server.Endpoints.ProgressEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapProgressEndpoints\u003Eb__0_5",
+    "RelativePath": "api/progress/{isuNumber}/all",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "isuNumber",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "cppQuest.Server.Endpoints.ProgressEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapProgressEndpoints\u003Eb__0_4",
+    "RelativePath": "api/progress/{isuNumber}/unlocked-paragraphs",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "isuNumber",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "cppQuest.Server.Endpoints.QuizEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapQuizEndpoints\u003Eb__0_0",
+    "RelativePath": "api/quiz/{quizId}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "quizId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "cppQuest.Server.Endpoints.QuizEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapQuizEndpoints\u003Eb__0_3",
+    "RelativePath": "api/quiz/{quizId}/pick-questions",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "quizId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "cppQuest.Server.Endpoints.QuizEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapQuizEndpoints\u003Eb__0_1",
+    "RelativePath": "api/quiz/{quizId}/submit",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "quizId",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "req",
+        "Type": "cppQuest.Server.DTOs.QuizSubmitRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "cppQuest.Server.Endpoints.QuizEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapQuizEndpoints\u003Eb__0_2",
+    "RelativePath": "api/quiz/{quizId}/wrong-ids",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "quizId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "cppQuest.Server.Endpoints.ProgressEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapProgressEndpoints\u003Eb__0_6",
+    "RelativePath": "api/reading/complete",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "req",
+        "Type": "cppQuest.Server.DTOs.ReadingSessionRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "cppQuest.Server.Endpoints.AuthEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapAuthEndpoints\u003Eb__0_0",
+    "RelativePath": "api/register",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "req",
+        "Type": "cppQuest.Server.DTOs.RegisterRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "cppQuest.Server.Endpoints.ProgressEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapProgressEndpoints\u003Eb__0_7",
+    "RelativePath": "api/review/due",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "cppQuest.Server.Endpoints.ProgressEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapProgressEndpoints\u003Eb__0_9",
+    "RelativePath": "api/scroll",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "req",
+        "Type": "cppQuest.Server.DTOs.ScrollRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "cppQuest.Server.Endpoints.ProgressEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapProgressEndpoints\u003Eb__0_11",
+    "RelativePath": "api/shop/items",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "cppQuest.Server.Endpoints.ProgressEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapProgressEndpoints\u003Eb__0_13",
+    "RelativePath": "api/shop/purchase",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "req",
+        "Type": "cppQuest.Server.DTOs.ShopPurchaseRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "cppQuest.Server.Endpoints.ProgressEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapProgressEndpoints\u003Eb__0_0",
+    "RelativePath": "api/stats/avg-reading/{paragraphId}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "paragraphId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "cppQuest.Server.Endpoints.ProgressEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapProgressEndpoints\u003Eb__0_1",
+    "RelativePath": "api/stats/avg-reading/bulk",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "paragraphIds",
+        "Type": "System.Collections.Generic.List\u00601[[System.String, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "cppQuest.Server.Endpoints.ProgressEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapProgressEndpoints\u003Eb__0_8",
+    "RelativePath": "api/streak/{isuNumber}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "isuNumber",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "cppQuest.Server.Endpoints.ProgressEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapProgressEndpoints\u003Eb__0_10",
+    "RelativePath": "api/test/complete",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "req",
+        "Type": "cppQuest.Server.DTOs.TestCompleteRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "cppQuest.Server.Endpoints.CourseEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapCourseEndpoints\u003Eb__0_1",
+    "RelativePath": "api/tests/{**path}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "path",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  }
+]

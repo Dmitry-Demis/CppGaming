@@ -1,0 +1,225 @@
+{
+  "quizId": "arithmetic-conversions",
+  "title": "Арифметические преобразования",
+  "type": "paragraph",
+  "pick": 10,
+  "passingScore": 70,
+  "questions": [
+    {
+      "type": "single",
+      "question": "Что такое 'обычные арифметические преобразования'?",
+      "answers": [
+        "Преобразования через static_cast",
+        "Правила приведения операндов к общему типу при бинарных операциях",
+        "Преобразования только для сложения",
+        "Преобразования только для вещественных типов"
+      ],
+      "correct": 1,
+      "explanation": "Usual arithmetic conversions — правила C++, по которым компилятор приводит операнды бинарных операций к общему типу.",
+      "id": 0
+    },
+    {
+      "type": "code",
+      "question": "Что выведет программа?",
+      "code": "#include <iostream>\nint main() {\n    std::cout << 2 + 3.5;\n}",
+      "answers": [
+        "5",
+        "5.5",
+        "5.0",
+        "Ошибка"
+      ],
+      "correct": 1,
+      "explanation": "int 2 повышается до double (более высокий ранг). 2.0 + 3.5 = 5.5.",
+      "id": 1
+    },
+    {
+      "type": "code",
+      "question": "Что выведет программа?",
+      "code": "#include <iostream>\nint main() {\n    double d = 10 / 4;\n    std::cout << d;\n}",
+      "answers": [
+        "2.5",
+        "2",
+        "2.0",
+        "Ошибка"
+      ],
+      "correct": 2,
+      "explanation": "10 и 4 — оба int. Целочисленное деление: 10/4 = 2. Затем 2 преобразуется в double: 2.0.",
+      "id": 2
+    },
+    {
+      "type": "code",
+      "question": "Что выведет программа?",
+      "code": "#include <iostream>\nint main() {\n    double d = 10.0 / 4;\n    std::cout << d;\n}",
+      "answers": [
+        "2",
+        "2.5",
+        "2.0",
+        "Ошибка"
+      ],
+      "correct": 1,
+      "explanation": "10.0 — double. 4 (int) повышается до double. 10.0 / 4.0 = 2.5.",
+      "id": 3
+    },
+    {
+      "type": "single",
+      "question": "Какой тип имеет результат выражения short + short?",
+      "answers": [
+        "short",
+        "int",
+        "long",
+        "unsigned short"
+      ],
+      "correct": 1,
+      "explanation": "short + short: оба повышаются до int (integral promotion). Результат — int.",
+      "id": 4
+    },
+    {
+      "type": "multiple",
+      "question": "Какие операторы используют usual arithmetic conversions?",
+      "answers": [
+        "Бинарная арифметика (+, -, *, /)",
+        "Сравнение (<, >, ==, !=)",
+        "Побитовые (&, ^, |)",
+        "Унарный минус (-x)",
+        "Тернарный оператор ?:"
+      ],
+      "correct": [
+        0,
+        1,
+        2,
+        4
+      ],
+      "explanation": "Usual arithmetic conversions: бинарная арифметика, сравнение, побитовые, тернарный оператор. Унарный минус — нет.",
+      "id": 5
+    },
+    {
+      "type": "code",
+      "question": "Что выведет программа?",
+      "code": "#include <iostream>\nint main() {\n    std::cout << std::boolalpha << (5u - 10);\n}",
+      "answers": [
+        "true",
+        "false",
+        "-5",
+        "4294967291"
+      ],
+      "correct": 3,
+      "explanation": "5u — unsigned. 10 (int) приводится к unsigned. 5u - 10u = UINT_MAX - 4 = 4294967291.",
+      "id": 6
+    },
+    {
+      "type": "matching",
+      "question": "Соотнесите выражение с типом результата:",
+      "pairs": [
+        {
+          "left": "int + double",
+          "right": "double"
+        },
+        {
+          "left": "float + double",
+          "right": "double"
+        },
+        {
+          "left": "short + short",
+          "right": "int"
+        },
+        {
+          "left": "int + long long",
+          "right": "long long"
+        }
+      ],
+      "explanation": "Операнд с более высоким рангом определяет тип результата.",
+      "id": 7
+    },
+    {
+      "type": "fill",
+      "question": "Как называются правила приведения операндов к общему типу?",
+      "correct": [
+        "usual arithmetic conversions",
+        "обычные арифметические преобразования"
+      ],
+      "explanation": "Usual arithmetic conversions — правила C++ для приведения операндов бинарных операций к общему типу.",
+      "id": 8
+    },
+    {
+      "type": "single",
+      "question": "Как исправить целочисленное деление 10 / 4 для получения 2.5?",
+      "answers": [
+        "Написать 10.0 / 4 или static_cast<double>(10) / 4",
+        "Написать 10 / 4.0 только",
+        "Использовать double d = 10 / 4",
+        "Это невозможно"
+      ],
+      "correct": 0,
+      "explanation": "Чтобы получить вещественное деление, хотя бы один операнд должен быть double: 10.0/4, 10/4.0, или static_cast<double>(10)/4.",
+      "id": 9
+    },
+    {
+      "type": "code",
+      "question": "Что выведет программа?",
+      "code": "#include <iostream>\nint main() {\n    std::cout << std::boolalpha << (-3 < 5u);\n}",
+      "answers": [
+        "true",
+        "false",
+        "Ошибка",
+        "Неопределённое поведение"
+      ],
+      "correct": 1,
+      "explanation": "-3 (int) приводится к unsigned: огромное число > 5u. Результат: false. Классическая ловушка!",
+      "id": 10
+    },
+    {
+      "type": "single",
+      "question": "Что такое 'ранг типа' в контексте арифметических преобразований?",
+      "answers": [
+        "Размер типа в байтах",
+        "Иерархия типов: long double > double > float > long long > long > int",
+        "Скорость операций с типом",
+        "Диапазон значений типа"
+      ],
+      "correct": 1,
+      "explanation": "Ранг определяет приоритет при арифметических преобразованиях. Операнд с меньшим рангом приводится к типу с большим рангом.",
+      "id": 11
+    },
+    {
+      "type": "fill-code",
+      "question": "Заполните пропуск для вещественного деления из целых переменных:",
+      "code": "int x{10}, y{4};\ndouble d = _____(x) / y;",
+      "correct": [
+        "static_cast<double>"
+      ],
+      "explanation": "static_cast<double>(x) / y — явное преобразование для вещественного деления.",
+      "id": 12
+    },
+    {
+      "type": "multiple",
+      "question": "Отметьте ВСЕ верные утверждения об арифметических преобразованиях:",
+      "answers": [
+        "Операнд с меньшим рангом приводится к типу с большим рангом",
+        "short + short = short",
+        "int + double = double",
+        "Смешивание signed и unsigned может дать неожиданные результаты",
+        "Компилятор всегда предупреждает о смешивании signed/unsigned"
+      ],
+      "correct": [
+        0,
+        2,
+        3
+      ],
+      "explanation": "Верно: меньший ранг → больший, int+double=double, signed/unsigned опасно. Неверно: short+short=int, компилятор не всегда предупреждает.",
+      "id": 13
+    },
+    {
+      "type": "single",
+      "question": "Почему не рекомендуется смешивать signed и unsigned в выражениях?",
+      "answers": [
+        "Это медленнее",
+        "signed приводится к unsigned, что может дать неожиданные результаты без предупреждения",
+        "Это запрещено стандартом",
+        "Это вызывает UB"
+      ],
+      "correct": 1,
+      "explanation": "При смешивании signed приводится к unsigned. -3 < 5u = false. Компилятор обычно не предупреждает по умолчанию.",
+      "id": 14
+    }
+  ]
+}

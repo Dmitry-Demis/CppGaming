@@ -1,0 +1,143 @@
+{
+  "quizId": "type-conversion",
+  "title": "Преобразование типов и static_cast",
+  "type": "paragraph",
+  "pick": 10,
+  "passingScore": 70,
+  "questions": [
+    {
+      "id": 0,
+      "type": "single",
+      "question": "Что такое неявное преобразование типов (implicit conversion)?",
+      "answers": [
+        "Преобразование с помощью static_cast",
+        "Автоматическое преобразование компилятором без явного указания",
+        "Преобразование только между int и double",
+        "Ошибка компиляции"
+      ],
+      "correct": 1,
+      "explanation": "Неявное преобразование происходит автоматически, когда компилятор приводит значение к нужному типу без явного указания программиста."
+    },
+    {
+      "id": 1,
+      "type": "single",
+      "question": "Что такое сужающее преобразование (narrowing conversion)?",
+      "answers": [
+        "Преобразование к типу большего размера",
+        "Преобразование к типу меньшего размера, которое может потерять данные",
+        "Преобразование между знаковыми типами",
+        "Преобразование float в double"
+      ],
+      "correct": 1,
+      "explanation": "Сужающее преобразование — к типу меньшего размера. Например, double → int теряет дробную часть, int → short может переполниться."
+    },
+    {
+      "id": 2,
+      "type": "code",
+      "question": "Что выведет программа?",
+      "code": "#include <iostream>\nint main() {\n    int a{7}, b{2};\n    double result{a / b};\n    std::cout << result;\n}",
+      "answers": [
+        "3.5",
+        "3",
+        "3.0",
+        "Ошибка"
+      ],
+      "correct": 2,
+      "explanation": "a / b — целочисленное деление, результат 3. Затем 3 преобразуется в double: 3.0. Чтобы получить 3.5, нужен static_cast<double>(a) / b."
+    },
+    {
+      "id": 3,
+      "type": "single",
+      "question": "Как правильно выполнить явное преобразование типов в C++?",
+      "answers": [
+        "(int)value — C-style cast",
+        "static_cast<int>(value)",
+        "convert<int>(value)",
+        "int(value) — функциональный стиль"
+      ],
+      "correct": 1,
+      "explanation": "static_cast<T>(value) — рекомендуемый способ явного преобразования в C++. C-style cast (int)value не рекомендуется."
+    },
+    {
+      "id": 4,
+      "type": "code",
+      "question": "Что выведет программа?",
+      "code": "#include <iostream>\nint main() {\n    double d{3.99};\n    int i{static_cast<int>(d)};\n    std::cout << i;\n}",
+      "answers": [
+        "4",
+        "3",
+        "3.99",
+        "Ошибка"
+      ],
+      "correct": 1,
+      "explanation": "static_cast<int>(3.99) усекает дробную часть (не округляет). Результат: 3."
+    },
+    {
+      "id": 5,
+      "type": "single",
+      "question": "Что происходит при brace-initialization с сужающим преобразованием?",
+      "answers": [
+        "Компилятор молча выполняет преобразование",
+        "Компилятор выдаёт ошибку или предупреждение",
+        "Значение округляется",
+        "Ничего особенного"
+      ],
+      "correct": 1,
+      "explanation": "Brace-initialization {} запрещает сужающие преобразования. int x{3.14}; — ошибка компиляции. Это одно из преимуществ {}."
+    },
+    {
+      "id": 6,
+      "type": "multiple",
+      "question": "Отметьте ВСЕ расширяющие (безопасные) преобразования:",
+      "answers": [
+        "short → int",
+        "int → double",
+        "double → int",
+        "float → double",
+        "long long → int"
+      ],
+      "correct": [
+        0,
+        1,
+        3
+      ],
+      "explanation": "Расширяющие: short→int, int→double, float→double. Сужающие (потеря данных): double→int, long long→int."
+    },
+    {
+      "id": 7,
+      "type": "code",
+      "question": "Что выведет программа?",
+      "code": "#include <iostream>\nint main() {\n    char ch{'A'};\n    int code{static_cast<int>(ch)};\n    std::cout << code;\n}",
+      "answers": [
+        "A",
+        "65",
+        "97",
+        "Ошибка"
+      ],
+      "correct": 1,
+      "explanation": "ASCII-код символа 'A' равен 65. static_cast<int>('A') = 65."
+    },
+    {
+      "id": 8,
+      "type": "fill",
+      "question": "Напишите выражение для явного преобразования переменной x типа double в int:",
+      "correct": [
+        "static_cast<int>(x)"
+      ],
+      "explanation": "static_cast<int>(x) — правильный способ явного преобразования double в int в C++."
+    },
+    {
+      "id": 9,
+      "type": "single",
+      "question": "Что такое integral promotion?",
+      "answers": [
+        "Преобразование int в long long",
+        "Автоматическое повышение типов меньше int до int при арифметических операциях",
+        "Преобразование float в double",
+        "Явное преобразование с помощью static_cast"
+      ],
+      "correct": 1,
+      "explanation": "Integral promotion: типы меньше int (char, short) автоматически повышаются до int при арифметических операциях."
+    }
+  ]
+}

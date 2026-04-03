@@ -1,0 +1,143 @@
+{
+  "quizId": "bool-mini",
+  "title": "Тип bool",
+  "type": "mini",
+  "pick": 10,
+  "passingScore": 70,
+  "questions": [
+    {
+      "id": 0,
+      "type": "single",
+      "question": "Какое числовое значение соответствует true при преобразовании bool → int?",
+      "answers": [
+        "0",
+        "1",
+        "-1",
+        "Зависит от компилятора"
+      ],
+      "correct": 1,
+      "explanation": "В C++ true всегда преобразуется в 1, false — в 0. Это гарантировано стандартом."
+    },
+    {
+      "id": 1,
+      "type": "code",
+      "question": "Что выведет программа?",
+      "code": "#include <iostream>\nint main() {\n    bool b = 42;\n    std::cout << b;\n}",
+      "answers": [
+        "42",
+        "1",
+        "0",
+        "Ошибка компиляции"
+      ],
+      "correct": 1,
+      "explanation": "Любое ненулевое число при преобразовании в bool даёт true, которое при выводе через cout отображается как 1."
+    },
+    {
+      "id": 2,
+      "type": "fill",
+      "question": "Напишите манипулятор потока для вывода \"true\"/\"false\" вместо 1/0:",
+      "correct": [
+        "boolalpha",
+        "std::boolalpha"
+      ],
+      "explanation": "std::boolalpha заставляет cout выводить bool как \"true\" или \"false\"."
+    },
+    {
+      "id": 3,
+      "type": "single",
+      "question": "Что означает тип возврата void у функции?",
+      "answers": [
+        "Функция возвращает нулевое значение",
+        "Функция не возвращает никакого значения",
+        "Функция возвращает указатель",
+        "Функция может вернуть любой тип"
+      ],
+      "correct": 1,
+      "explanation": "void означает отсутствие значения. Функция с void в качестве типа возврата не должна содержать return с выражением."
+    },
+    {
+      "id": 4,
+      "type": "multiple",
+      "question": "Какие выражения имеют тип bool в C++?",
+      "answers": [
+        "x > 0 (сравнение)",
+        "x && y (логическое И)",
+        "x + y (сложение двух int)",
+        "!flag (логическое НЕ)",
+        "\"hello\" (строковый литерал)"
+      ],
+      "correct": [
+        0,
+        1,
+        3
+      ],
+      "explanation": "Операторы сравнения и логические операторы возвращают bool. Арифметические операции и строковые литералы — нет."
+    },
+    {
+      "id": 5,
+      "type": "single",
+      "question": "Что такое void* (указатель на void)?",
+      "answers": [
+        "Нулевой указатель",
+        "Указатель, который не может ни на что указывать",
+        "Указатель на объект произвольного типа (обобщённый указатель)",
+        "Указатель на void-функцию"
+      ],
+      "correct": 2,
+      "explanation": "void* — обобщённый указатель, который может хранить адрес объекта любого типа."
+    },
+    {
+      "id": 6,
+      "type": "code",
+      "question": "Что выведет код?",
+      "code": "#include <iostream>\nint main() {\n    bool x = true, y = false;\n    std::cout << (x + y) << \" \" << (x * 5);\n}",
+      "answers": [
+        "true false",
+        "1 5",
+        "1 true",
+        "Ошибка компиляции"
+      ],
+      "correct": 1,
+      "explanation": "true преобразуется в 1, false в 0. true + false = 1. true * 5 = 5. Вывод: \"1 5\"."
+    },
+    {
+      "id": 7,
+      "type": "single",
+      "question": "Что такое nullptr в C++11?",
+      "answers": [
+        "Макрос, равный (void*)0",
+        "Целочисленная константа 0",
+        "Литерал типа std::nullptr_t, не приводимый к int",
+        "Псевдоним для NULL"
+      ],
+      "correct": 2,
+      "explanation": "nullptr — типизированный нулевой указатель типа std::nullptr_t. В отличие от NULL, не приводится неявно к int."
+    },
+    {
+      "id": 8,
+      "type": "fill",
+      "question": "Напишите ключевое слово C++11 для нулевого указателя (вместо NULL):",
+      "correct": [
+        "nullptr"
+      ],
+      "explanation": "nullptr — предпочтительная замена NULL в современном C++."
+    },
+    {
+      "id": 9,
+      "type": "multiple",
+      "question": "Что из перечисленного является некорректным (вызовет ошибку компиляции)?",
+      "answers": [
+        "void* p = nullptr;",
+        "int x = nullptr;",
+        "bool b = nullptr;",
+        "void* p = (void*)0;",
+        "if (nullptr) {}"
+      ],
+      "correct": [
+        1,
+        2
+      ],
+      "explanation": "nullptr нельзя присвоить типу int или bool. void* p = nullptr и (void*)0 корректны."
+    }
+  ]
+}

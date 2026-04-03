@@ -1,0 +1,184 @@
+/* ============================================
+   GAMIFICATION — HUD, Quests, Toasts
+   ============================================ */
+
+/* ── HUD bar (встроен в header-inner) ── */
+#gs-hud {
+    margin-left: auto;
+}
+.gs-hud-inner {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--bg-card, #1e1c3a);
+    border: 1px solid var(--border-primary, #2e2b55);
+    border-radius: 99px;
+    padding: 5px 12px;
+    font-size: .82rem;
+}
+.gs-coins { color: var(--accent-yellow, #fde68a); font-weight: 700; white-space: nowrap; }
+.gs-keys  { color: var(--text-secondary, #b8bfe8); }
+.gs-timer  { color: var(--text-secondary, #b8bfe8); font-size: .82rem; white-space: nowrap; opacity: .85; }
+.gs-xp-wrap {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: .78rem;
+    color: var(--text-secondary, #b8bfe8);
+}
+.gs-xp-label { font-weight: 700; color: var(--accent-violet, #a78bfa); white-space: nowrap; }
+.gs-xp-bar {
+    width: 80px;
+    height: 6px;
+    background: rgba(255,255,255,.1);
+    border-radius: 99px;
+    overflow: hidden;
+}
+.gs-xp-fill {
+    height: 100%;
+    background: var(--grad-main, linear-gradient(90deg, #7c5cbf, #7eb8f7));
+    border-radius: 99px;
+    transition: width .4s;
+}
+.gs-xp-val { white-space: nowrap; }
+.gs-quests-btn { display: none; }
+
+/* ── Quests panel ── */
+#gs-panel {
+    position: fixed;
+    top: 110px;
+    right: 16px;
+    width: 300px;
+    max-height: 70vh;
+    overflow-y: auto;
+    background: var(--bg-card, #1e1c3a);
+    border: 1px solid var(--border-primary, #2e2b55);
+    border-radius: 14px;
+    box-shadow: 0 8px 32px rgba(10,8,40,.6);
+    z-index: 199;
+    display: none;
+    flex-direction: column;
+}
+#gs-panel.open { display: flex; }
+
+.gs-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border-primary, #2e2b55);
+    font-weight: 700;
+    font-size: .95rem;
+    color: var(--text-heading, #eef0ff);
+    position: sticky;
+    top: 0;
+    background: var(--bg-card, #1e1c3a);
+    z-index: 1;
+}
+.gs-panel-close {
+    background: none; border: none;
+    color: var(--text-secondary, #b8bfe8);
+    cursor: pointer; font-size: 1rem; padding: 2px 6px;
+    border-radius: 4px;
+}
+.gs-panel-close:hover { background: rgba(255,255,255,.08); }
+
+/* Daily reward */
+.gs-daily {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 10px 16px;
+    background: var(--accent-violet-dim);
+    border-bottom: 1px solid var(--border-primary, #2e2b55);
+    font-size: .85rem;
+    color: var(--accent-violet, #a78bfa);
+}
+.gs-daily.claimed { color: var(--text-secondary, #b8bfe8); }
+.gs-claim-btn {
+    background: var(--grad-main, linear-gradient(135deg,#7c5cbf,#7eb8f7));
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: .78rem;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: opacity .15s;
+}
+.gs-claim-btn:hover { opacity: .85; }
+
+/* Quest groups */
+.gs-quest-group-title {
+    padding: 8px 16px 4px;
+    font-size: .72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: var(--text-secondary, #b8bfe8);
+}
+.gs-quest-item {
+    padding: 10px 16px;
+    border-bottom: 1px solid rgba(255,255,255,.04);
+    transition: background .15s;
+}
+.gs-quest-item:hover { background: rgba(167,139,250,.05); }
+.gs-quest-item.done { opacity: .55; }
+.gs-qi-top {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 2px;
+}
+.gs-qi-icon { font-size: 1rem; flex-shrink: 0; }
+.gs-qi-name { flex: 1; font-size: .85rem; font-weight: 600; color: var(--text-heading, #eef0ff); }
+.gs-qi-reward { font-size: .75rem; color: var(--accent-yellow, #fde68a); white-space: nowrap; }
+.gs-qi-desc { font-size: .75rem; color: var(--text-secondary, #b8bfe8); margin-bottom: 6px; }
+.gs-qi-bar-wrap { display: flex; align-items: center; gap: 6px; }
+.gs-qi-bar {
+    flex: 1;
+    height: 5px;
+    background: rgba(255,255,255,.08);
+    border-radius: 99px;
+    overflow: hidden;
+}
+.gs-qi-fill {
+    height: 100%;
+    background: var(--grad-main, linear-gradient(90deg,#7c5cbf,#7eb8f7));
+    border-radius: 99px;
+    transition: width .3s;
+}
+.gs-qi-count { font-size: .72rem; color: var(--text-secondary, #b8bfe8); white-space: nowrap; }
+
+/* ── Toast notifications ── */
+.gs-toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--bg-card, #1e1c3a);
+    border: 1px solid var(--border-primary, #2e2b55);
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: .875rem;
+    color: var(--text-heading, #eef0ff);
+    box-shadow: 0 8px 24px rgba(10,8,40,.6);
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity .3s, transform .3s;
+    text-align: center;
+    pointer-events: none;
+    max-width: 280px;
+}
+.gs-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.gs-toast strong { color: var(--accent-violet, #a78bfa); }
+.gs-toast span { color: var(--text-secondary, #b8bfe8); font-size: .8rem; }
+
+/* ── Mobile ── */
+@media (max-width: 640px) {
+    #gs-hud { display: none; } /* на мобиле хедер и так тесный */
+    #gs-panel { top: auto; bottom: 70px; right: 16px; max-height: 60vh; }
+    .gs-xp-bar { width: 50px; }
+}

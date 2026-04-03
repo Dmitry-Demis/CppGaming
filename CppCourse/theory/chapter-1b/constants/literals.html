@@ -1,0 +1,178 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+    <script>document.documentElement.setAttribute("data-theme",localStorage.getItem("cpp_theme")||"dark")</script>
+<head>
+    <meta charset="UTF-8"><meta name="created" content="2025-03-31">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Литералы и суффиксы — Курс C++</title>
+    <meta name="description" content="Литералы в C++: типы по умолчанию, суффиксы u L f, научная нотация, строковые литералы, magic numbers.">
+    <link rel="stylesheet" href="../../../css/variables.css?v=3">
+    <link rel="stylesheet" href="../../../css/theme-picker.css">
+    <link rel="stylesheet" href="../../../css/base.css">
+    <link rel="stylesheet" href="../../../css/layout.css">
+    <link rel="stylesheet" href="../../../css/components.css">
+    <link rel="stylesheet" href="../../../css/theory.css">
+    <link rel="stylesheet" href="../../../components/quiz/css/quiz.css">
+    <link rel="stylesheet" href="../../../components/quiz/css/widget.css">
+    <link rel="stylesheet" href="../../../css/gamification.css">
+    <link rel="stylesheet" href="../../../css/code-highlight.css">
+    <link rel="stylesheet" href="../../../css/compiler.css">
+    <link rel="stylesheet" href="../../../css/feedback.css">
+    <link rel="stylesheet" href="../../../css/callout.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔒</text></svg>">
+</head>
+<body>
+    <div class="reading-progress-bar" id="reading-progress"></div>
+    <header class="site-header">
+        <div class="header-inner">
+            <a href="../../../index.html" class="header-logo">
+                <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="4" y="4" width="20" height="20" rx="2" stroke="currentColor" stroke-width="2"/>
+                    <path d="M10 10 L10 18 M10 14 L14 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M18 10 L18 18 M18 14 L22 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                Курс C++
+            </a>
+            <nav class="header-nav"><a href="../../../index.html">Главная</a><a href="#" class="active">Глава</a></nav>
+            <button class="mobile-menu-btn" aria-label="Открыть меню" aria-expanded="false">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+                </svg>
+            </button>
+        </div>
+    </header>
+    <div class="page-wrapper">
+        <aside class="sidebar"><div class="sidebar-section"><div class="sidebar-title"></div><ul class="sidebar-nav" id="course-nav"></ul></div></aside>
+        <main class="main-content">
+            <div class="chapter-content">
+                <div class="section-badge">Константы и constexpr</div>
+                <h1>Литералы и суффиксы</h1>
+
+                <p>
+                    <span class="key-term">Литерал</span> — это значение, вписанное прямо в код: <code>5</code>, <code>3.14</code>, <code>'a'</code>, <code>"hello"</code>.
+                    Каждый литерал имеет тип, который компилятор определяет автоматически.
+                </p>
+
+                <h2 id="default-types">Типы литералов по умолчанию</h2>
+
+                <div style="overflow-x:auto">
+                <table style="width:100%; border-collapse:collapse; font-size:0.85em">
+                    <thead>
+                        <tr style="background:var(--surface-2); border-bottom:2px solid var(--border)">
+                            <th style="padding:8px; text-align:left">Литерал</th>
+                            <th style="padding:8px; text-align:left">Примеры</th>
+                            <th style="padding:8px; text-align:left">Тип по умолчанию</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom:1px solid var(--border)">
+                            <td style="padding:8px">Целое число</td>
+                            <td style="padding:8px"><code>5</code>, <code>0</code>, <code>-3</code></td>
+                            <td style="padding:8px"><code>int</code></td>
+                        </tr>
+                        <tr style="border-bottom:1px solid var(--border)">
+                            <td style="padding:8px">Булево</td>
+                            <td style="padding:8px"><code>true</code>, <code>false</code></td>
+                            <td style="padding:8px"><code>bool</code></td>
+                        </tr>
+                        <tr style="border-bottom:1px solid var(--border)">
+                            <td style="padding:8px">Вещественное</td>
+                            <td style="padding:8px"><code>1.2</code>, <code>3.14</code></td>
+                            <td style="padding:8px"><code>double</code> (не float!)</td>
+                        </tr>
+                        <tr style="border-bottom:1px solid var(--border)">
+                            <td style="padding:8px">Символ</td>
+                            <td style="padding:8px"><code>'a'</code>, <code>'\n'</code></td>
+                            <td style="padding:8px"><code>char</code></td>
+                        </tr>
+                        <tr>
+                            <td style="padding:8px">Строка</td>
+                            <td style="padding:8px"><code>"hello"</code></td>
+                            <td style="padding:8px"><code>const char[N]</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
+
+                <h2 id="suffixes">Суффиксы для изменения типа</h2>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">C++ — суффиксы литералов</span><div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button></div></div>
+                    <div class="code-content">
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+
+int main()
+{
+    // Целочисленные суффиксы
+    auto a { 5 };    // int
+    auto b { 5u };   // unsigned int
+    auto c { 5L };   // long
+    auto d { 5LL };  // long long
+    auto e { 5uLL }; // unsigned long long
+
+    // Вещественные суффиксы
+    auto f { 3.14 };  // double (по умолчанию)
+    auto g { 3.14f }; // float (нужен суффикс f!)
+    auto h { 3.14L }; // long double
+
+    // Типичная ошибка: предупреждение компилятора
+    float bad { 4.1 };  // 4.1 — double, конвертируется в float с потерей точности
+    float good { 4.1f }; // правильно: float-литерал
+
+    return 0;
+}</code></pre>
+                    </div>
+                </div>
+
+                <h2 id="scientific">Научная нотация</h2>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">C++ — научная нотация</span><div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button></div></div>
+                    <div class="code-content">
+<pre><code class="language-cpp">double avogadro { 6.02e23 };   // 6.02 × 10²³
+double proton   { 1.6e-19 };   // 1.6 × 10⁻¹⁹
+double pi       { 3.14159 };   // обычная нотация</code></pre>
+                    </div>
+                </div>
+
+                <h2 id="magic-numbers">Магические числа — антипаттерн</h2>
+                <p>
+                    <span class="key-term">Магическое число</span> — литерал без объяснения смысла.
+                    Такой код трудно читать и поддерживать.
+                </p>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">C++ — магические числа vs именованные константы</span><div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button></div></div>
+                    <div class="code-content">
+<pre><code class="language-cpp">// Плохо: что такое 30? Почему 30?
+int total { numClassrooms * 30 };
+setMax(30);
+
+// Хорошо: смысл очевиден
+constexpr int studentsPerClass { 30 };
+int total { numClassrooms * studentsPerClass };
+setMax(studentsPerClass);
+
+// Если нужно изменить — меняем в одном месте!</code></pre>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-card__title">🔗 Подробнее на cppreference</div>
+                    <p>Полный список суффиксов и правил для литералов: <a href="https://en.cppreference.com/w/cpp/language/integer_literal" target="_blank" rel="noopener">integer_literal</a>, <a href="https://en.cppreference.com/w/cpp/language/floating_literal" target="_blank" rel="noopener">floating_literal</a></p>
+                </div>
+
+                <h2 id="tests">Проверьте знания</h2>
+                <div class="quiz-widget" data-final="literals" data-final-desc="Литералы и суффиксы"></div>
+                <section class="feedback-section"></section>
+                <div class="paragraph-nav"></div>
+            </div>
+        </main>
+        <aside class="right-sidebar"><div class="toc-container"><div class="toc-title">Содержание</div><nav class="toc-nav"></nav></div></aside>
+    </div>
+    <footer class="site-footer"><p>Интерактивный курс по языку программирования C++</p></footer>
+    <script src="../../../js/course.js"></script><script src="../../../js/core/callout.js"></script><script src="../../../js/navigation.js"></script><script src="../../../js/toc.js"></script><script src="../../../components/quiz/quiz.js" type="module"></script><script src="../../../components/quiz/widget.js"></script><script src="../../../js/compiler.js"></script><script src="../../../js/gamification.js"></script>
+    <script>
+    (function(){const b=document.getElementById('reading-progress');if(!b)return;window.addEventListener('scroll',()=>{const h=document.documentElement.scrollHeight-document.documentElement.clientHeight;b.style.width=h>0?(window.scrollY/h*100)+'%':'0%';},{passive:true});})();
+    function copyCode(btn){const c=btn.closest('.code-block')?.querySelector('code')?.textContent||'';navigator.clipboard.writeText(c).then(()=>{btn.textContent='Скопировано!';setTimeout(()=>btn.textContent='Копировать',2000);});}
+    </script>
+    <script src="../../../js/theme.js"></script><script src="../../../js/feedback.js"></script>
+</body>
+</html>

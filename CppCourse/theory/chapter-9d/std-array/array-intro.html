@@ -1,0 +1,223 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+    <script>document.documentElement.setAttribute("data-theme",localStorage.getItem("cpp_theme")||"dark")</script>
+<head>
+    <meta charset="UTF-8"><meta name="created" content="2025-03-31">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Введение в std::array — Курс C++</title>
+    <meta name="description" content="std::array в C++: фиксированный массив, constexpr, CTAD, инициализация, доступ к элементам.">
+    <link rel="stylesheet" href="../../../css/variables.css?v=3">
+    <link rel="stylesheet" href="../../../css/theme-picker.css">
+    <link rel="stylesheet" href="../../../css/base.css">
+    <link rel="stylesheet" href="../../../css/layout.css">
+    <link rel="stylesheet" href="../../../css/components.css">
+    <link rel="stylesheet" href="../../../css/theory.css">
+    <link rel="stylesheet" href="../../../components/quiz/css/quiz.css">
+    <link rel="stylesheet" href="../../../components/quiz/css/widget.css">
+    <link rel="stylesheet" href="../../../css/gamification.css">
+    <link rel="stylesheet" href="../../../css/code-highlight.css">
+    <link rel="stylesheet" href="../../../css/compiler.css">
+    <link rel="stylesheet" href="../../../css/feedback.css">
+    <link rel="stylesheet" href="../../../css/callout.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📦</text></svg>">
+</head>
+<body>
+    <div class="reading-progress-bar" id="reading-progress"></div>
+    <header class="site-header">
+        <div class="header-inner">
+            <a href="../../../index.html" class="header-logo">
+                <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="4" y="4" width="20" height="20" rx="2" stroke="currentColor" stroke-width="2"/>
+                    <path d="M10 10 L10 18 M10 14 L14 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M18 10 L18 18 M18 14 L22 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                Курс C++
+            </a>
+            <nav class="header-nav">
+                <a href="../../../index.html">Главная</a>
+                <a href="#" class="active">Глава</a>
+            </nav>
+            <button class="mobile-menu-btn" aria-label="Открыть меню" aria-expanded="false">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-title"></div>
+                <ul class="sidebar-nav" id="course-nav"></ul>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="chapter-content">
+                <div class="section-badge">std::array</div>
+                <h1>Введение в <code>std::array</code></h1>
+
+                <p>
+                    В предыдущей главе мы изучили <code>std::vector</code> — динамический массив, который умеет менять размер.
+                    Но иногда размер массива известен заранее и никогда не меняется.
+                    Для таких случаев в C++ есть <span class="key-term"><code>std::array</code></span> — массив фиксированного размера.
+                </p>
+
+                <h2 id="why-array">Зачем нужен std::array</h2>
+
+                <p>
+                    <code>std::vector</code> удобен, но за гибкость приходится платить:
+                    он чуть медленнее фиксированных массивов и не поддерживает <code>constexpr</code> в полной мере.
+                    <code>std::array</code> лишён этих недостатков:
+                </p>
+
+                <div style="display:flex; justify-content:center; margin: var(--space-6) 0">
+                <svg viewBox="0 0 520 130" width="520" height="130" xmlns="http://www.w3.org/2000/svg" style="max-width:100%">
+                    <!-- vector -->
+                    <rect x="10" y="10" width="230" height="110" rx="8" fill="var(--surface-2)" stroke="var(--border)" stroke-width="1.5"/>
+                    <text x="125" y="35" text-anchor="middle" fill="var(--accent-blue)" font-size="13" font-weight="bold" font-family="monospace">std::vector</text>
+                    <text x="20" y="58" fill="var(--text-secondary)" font-size="11" font-family="sans-serif">✓ Динамический размер</text>
+                    <text x="20" y="76" fill="var(--text-secondary)" font-size="11" font-family="sans-serif">✓ push_back / resize</text>
+                    <text x="20" y="94" fill="var(--text-muted)" font-size="11" font-family="sans-serif">✗ Нет constexpr</text>
+                    <text x="20" y="112" fill="var(--text-muted)" font-size="11" font-family="sans-serif">✗ Чуть медленнее</text>
+                    <!-- array -->
+                    <rect x="280" y="10" width="230" height="110" rx="8" fill="var(--surface-2)" stroke="var(--accent-green)" stroke-width="1.5"/>
+                    <text x="395" y="35" text-anchor="middle" fill="var(--accent-green)" font-size="13" font-weight="bold" font-family="monospace">std::array</text>
+                    <text x="290" y="58" fill="var(--text-secondary)" font-size="11" font-family="sans-serif">✓ Полный constexpr</text>
+                    <text x="290" y="76" fill="var(--text-secondary)" font-size="11" font-family="sans-serif">✓ Максимальная скорость</text>
+                    <text x="290" y="94" fill="var(--text-muted)" font-size="11" font-family="sans-serif">✗ Фиксированный размер</text>
+                    <text x="290" y="112" fill="var(--text-muted)" font-size="11" font-family="sans-serif">✗ Размер — часть типа</text>
+                </svg>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-card__title">Правило выбора</div>
+                    <p>Используй <code>std::array</code> для <strong>constexpr-массивов</strong> и когда размер известен на этапе компиляции. Используй <code>std::vector</code> для всего остального.</p>
+                </div>
+
+                <h2 id="define">Объявление std::array</h2>
+
+                <p>
+                    <code>std::array</code> находится в заголовке <code>&lt;array&gt;</code>.
+                    При объявлении нужно указать два шаблонных аргумента: тип элемента и длину.
+                </p>
+
+                <div class="code-block" data-example="declaring">
+                    <div class="code-header">
+                        <span class="code-lang">C++ — объявление</span>
+                        <div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button></div>
+                    </div>
+                    <div class="code-content">
+<pre><code class="language-cpp">// загрузка...</code></pre>
+                    </div>
+                </div>
+
+                <div class="warning-block">
+                    <div class="warning-block__title">Размер — часть типа</div>
+                    <p><code>std::array&lt;int, 5&gt;</code> и <code>std::array&lt;int, 6&gt;</code> — это разные типы. Нельзя присвоить один другому.</p>
+                </div>
+
+                <h2 id="init">Инициализация</h2>
+
+                <p>
+                    <code>std::array</code> — это агрегат, поэтому инициализируется списком значений в фигурных скобках.
+                    Без инициализатора элементы остаются неинициализированными — всегда используй <code>{}</code>.
+                </p>
+
+                <div class="code-block" data-example="init">
+                    <div class="code-header">
+                        <span class="code-lang">C++ — инициализация</span>
+                        <div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button></div>
+                    </div>
+                    <div class="code-content">
+<pre><code class="language-cpp">// загрузка...</code></pre>
+                    </div>
+                </div>
+
+                <h2 id="ctad">CTAD: вывод типа (C++17)</h2>
+
+                <p>
+                    Начиная с C++17, компилятор может сам вывести тип элемента и длину массива из списка инициализаторов.
+                    Это называется <span class="key-term">CTAD</span> (Class Template Argument Deduction).
+                </p>
+
+                <div class="code-block" data-example="ctad">
+                    <div class="code-header">
+                        <span class="code-lang">C++ — CTAD</span>
+                        <div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button></div>
+                    </div>
+                    <div class="code-content">
+<pre><code class="language-cpp">// загрузка...</code></pre>
+                    </div>
+                </div>
+
+                <h2 id="access">Доступ к элементам</h2>
+
+                <div class="code-block" data-example="access">
+                    <div class="code-header">
+                        <span class="code-lang">C++ — индексация</span>
+                        <div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button></div>
+                    </div>
+                    <div class="code-content">
+<pre><code class="language-cpp">// загрузка...</code></pre>
+                    </div>
+                </div>
+
+                <h2 id="size">Размер массива</h2>
+
+                <div class="code-block" data-example="size">
+                    <div class="code-header">
+                        <span class="code-lang">C++ — размер</span>
+                        <div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button></div>
+                    </div>
+                    <div class="code-content">
+<pre><code class="language-cpp">// загрузка...</code></pre>
+                    </div>
+                </div>
+
+                <h2 id="loop">Перебор элементов</h2>
+
+                <div class="code-block" data-example="loop">
+                    <div class="code-header">
+                        <span class="code-lang">C++ — циклы</span>
+                        <div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button></div>
+                    </div>
+                    <div class="code-content">
+<pre><code class="language-cpp">// загрузка...</code></pre>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-card__title">Ссылка на cppreference</div>
+                    <p>Полная документация: <a href="https://en.cppreference.com/w/cpp/container/array" target="_blank" rel="noopener">cppreference — std::array</a></p>
+                </div>
+
+                <h2 id="tests">Проверьте знания</h2>
+                <div class="quiz-widget" data-final="array-intro" data-final-desc="Введение в std::array"></div>
+
+                <section class="feedback-section"></section>
+                <div class="paragraph-nav"></div>
+            </div>
+        </main>
+        <aside class="right-sidebar">
+            <div class="toc-container"><div class="toc-title">Содержание</div><nav class="toc-nav"></nav></div>
+        </aside>
+    </div>
+    <footer class="site-footer"><p>Интерактивный курс по языку программирования C++</p></footer>
+    <script src="../../../js/course.js"></script>
+    <script src="../../../js/core/callout.js"></script>
+    <script src="../../../js/navigation.js"></script>
+    <script src="../../../js/toc.js"></script>
+    <script src="../../../components/quiz/quiz.js" type="module"></script>
+    <script src="../../../components/quiz/widget.js"></script>
+    <script src="../../../js/compiler.js"></script>
+    <script src="../../../js/gamification.js"></script>
+    <script>
+    (function(){const b=document.getElementById('reading-progress');if(!b)return;window.addEventListener('scroll',()=>{const h=document.documentElement.scrollHeight-document.documentElement.clientHeight;b.style.width=h>0?(window.scrollY/h*100)+'%':'0%';},{passive:true});})();
+    function copyCode(btn){const c=btn.closest('.code-block')?.querySelector('code')?.textContent||'';navigator.clipboard.writeText(c).then(()=>{btn.textContent='Скопировано!';setTimeout(()=>btn.textContent='Копировать',2000);});}
+    </script>
+    <script src="../../../js/theme.js"></script>
+    <script src="../../../js/feedback.js"></script>
+</body>
+</html>

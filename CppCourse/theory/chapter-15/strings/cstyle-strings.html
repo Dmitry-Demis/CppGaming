@@ -1,0 +1,206 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+    <script>document.documentElement.setAttribute("data-theme",localStorage.getItem("cpp_theme")||"dark")</script>
+<head>
+    <meta charset="UTF-8"><meta name="created" content="2025-03-31">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C-строки — Курс C++</title>
+    <meta name="description" content="C-style строки в C++: char[], null-терминатор, strlen, вывод, ввод, опасности. Почему лучше std::string.">
+    <link rel="stylesheet" href="../../../css/variables.css?v=3">
+    <link rel="stylesheet" href="../../../css/theme-picker.css">
+    <link rel="stylesheet" href="../../../css/base.css">
+    <link rel="stylesheet" href="../../../css/layout.css">
+    <link rel="stylesheet" href="../../../css/components.css">
+    <link rel="stylesheet" href="../../../css/theory.css">
+    <link rel="stylesheet" href="../../../components/quiz/css/quiz.css">
+    <link rel="stylesheet" href="../../../components/quiz/css/widget.css">
+    <link rel="stylesheet" href="../../../css/gamification.css">
+    <link rel="stylesheet" href="../../../css/code-highlight.css">
+    <link rel="stylesheet" href="../../../css/compiler.css">
+    <link rel="stylesheet" href="../../../css/feedback.css">
+    <link rel="stylesheet" href="../../../css/callout.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📝</text></svg>">
+</head>
+<body>
+    <div class="reading-progress-bar" id="reading-progress"></div>
+    <header class="site-header">
+        <div class="header-inner">
+            <a href="../../../index.html" class="header-logo">
+                <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="4" y="4" width="20" height="20" rx="2" stroke="currentColor" stroke-width="2"/>
+                    <path d="M10 10 L10 18 M10 14 L14 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M18 10 L18 18 M18 14 L22 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                Курс C++
+            </a>
+            <nav class="header-nav">
+                <a href="../../../index.html">Главная</a>
+                <a href="#" class="active">Глава</a>
+            </nav>
+            <button class="mobile-menu-btn" aria-label="Открыть меню" aria-expanded="false">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-title"></div>
+                <ul class="sidebar-nav" id="course-nav"></ul>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="chapter-content">
+                <div class="section-badge">C-style массивы</div>
+                <h1>C-строки</h1>
+
+                <p>
+                    C-строка — это просто массив символов (<code>char[]</code>), заканчивающийся специальным
+                    символом <span class="key-term">null-терминатором</span> (<code>'\0'</code>).
+                    Это наследие языка C, которое до сих пор встречается в старом коде.
+                </p>
+
+                <h2 id="null-terminator">Null-терминатор: зачем он нужен</h2>
+
+                <p>
+                    Когда C-строка деградирует в указатель, информация о длине теряется.
+                    Null-терминатор позволяет функциям (например, <code>std::cout</code>) знать,
+                    где строка заканчивается.
+                </p>
+
+                <div style="display:flex; justify-content:center; margin: var(--space-6) 0">
+                <svg viewBox="0 0 420 80" width="420" height="80" xmlns="http://www.w3.org/2000/svg" style="max-width:100%">
+                    <text x="10" y="15" fill="var(--text-secondary)" font-size="11" font-family="sans-serif">"hello" — 6 элементов (5 символов + '\0')</text>
+                    <rect x="10" y="20" width="45" height="35" rx="3" fill="var(--accent-blue-dim)" stroke="var(--accent-blue)" stroke-width="1.5"/>
+                    <text x="32" y="42" text-anchor="middle" fill="var(--accent-blue)" font-size="16" font-family="monospace">h</text>
+                    <text x="32" y="58" text-anchor="middle" fill="var(--text-muted)" font-size="9" font-family="monospace">[0]</text>
+                    <rect x="60" y="20" width="45" height="35" rx="3" fill="var(--accent-blue-dim)" stroke="var(--accent-blue)" stroke-width="1.5"/>
+                    <text x="82" y="42" text-anchor="middle" fill="var(--accent-blue)" font-size="16" font-family="monospace">e</text>
+                    <rect x="110" y="20" width="45" height="35" rx="3" fill="var(--accent-blue-dim)" stroke="var(--accent-blue)" stroke-width="1.5"/>
+                    <text x="132" y="42" text-anchor="middle" fill="var(--accent-blue)" font-size="16" font-family="monospace">l</text>
+                    <rect x="160" y="20" width="45" height="35" rx="3" fill="var(--accent-blue-dim)" stroke="var(--accent-blue)" stroke-width="1.5"/>
+                    <text x="182" y="42" text-anchor="middle" fill="var(--accent-blue)" font-size="16" font-family="monospace">l</text>
+                    <rect x="210" y="20" width="45" height="35" rx="3" fill="var(--accent-blue-dim)" stroke="var(--accent-blue)" stroke-width="1.5"/>
+                    <text x="232" y="42" text-anchor="middle" fill="var(--accent-blue)" font-size="16" font-family="monospace">o</text>
+                    <text x="232" y="58" text-anchor="middle" fill="var(--text-muted)" font-size="9" font-family="monospace">[4]</text>
+                    <rect x="260" y="20" width="45" height="35" rx="3" fill="var(--accent-orange-dim)" stroke="var(--accent-orange)" stroke-width="2"/>
+                    <text x="282" y="42" text-anchor="middle" fill="var(--accent-orange)" font-size="14" font-weight="bold" font-family="monospace">\0</text>
+                    <text x="282" y="58" text-anchor="middle" fill="var(--accent-orange)" font-size="9" font-weight="bold" font-family="monospace">[5]</text>
+                    <text x="320" y="35" fill="var(--accent-orange)" font-size="10" font-family="sans-serif">← null-терминатор</text>
+                    <text x="320" y="50" fill="var(--text-muted)" font-size="10" font-family="sans-serif">конец строки</text>
+                </svg>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">C++ — C-строки</span>
+                        <div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button></div>
+                    </div>
+                    <div class="code-content">
+<pre><code class="language-cpp">#include &lt;cstring&gt; // strlen
+#include &lt;iostream&gt;
+
+int main()
+{
+    // Инициализация строковым литералом — компилятор добавляет '\0'
+    const char str[] { "hello" }; // char[6]: 'h','e','l','l','o','\0'
+
+    // Вывод: std::cout читает до '\0'
+    std::cout &lt;&lt; str &lt;&lt; '\n'; // hello
+
+    // Длина строки (без '\0'):
+    std::cout &lt;&lt; std::strlen(str) &lt;&lt; '\n'; // 5
+
+    // Изменение отдельных символов:
+    char mutable_str[] { "hello" };
+    mutable_str[0] = 'H';
+    std::cout &lt;&lt; mutable_str &lt;&lt; '\n'; // Hello
+
+    // Нельзя присвоить новую строку целиком:
+    // mutable_str = "world"; // ОШИБКА компиляции
+
+    return 0;
+}</code></pre>
+                    </div>
+                </div>
+
+                <h2 id="const-ptr">Символьные константы: const char*</h2>
+
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">C++ — const char* vs constexpr string_view</span>
+                        <div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button></div>
+                    </div>
+                    <div class="code-content">
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;string_view&gt;
+
+int main()
+{
+    // Старый способ: const char*
+    const char* name1 { "Alex" }; // указатель на строковый литерал
+
+    // Современный способ: constexpr string_view (предпочтительно)
+    constexpr std::string_view name2 { "Alex" };
+
+    std::cout &lt;&lt; name1 &lt;&lt; '\n'; // Alex
+    std::cout &lt;&lt; name2 &lt;&lt; '\n'; // Alex
+
+    // Опасность с const char*:
+    // std::cout &lt;&lt; &amp;name1[0]; // выведет адрес как строку — OK
+    // char c { 'Q' };
+    // std::cout &lt;&lt; &amp;c; // ОПАСНО: нет null-терминатора!
+
+    return 0;
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="warning-block">
+                    <div class="warning-block__title">Используй std::string и std::string_view</div>
+                    <p>В современном C++ C-строки (<code>char[]</code>, <code>const char*</code>) следует избегать. Используй <code>std::string</code> для изменяемых строк и <code>constexpr std::string_view</code> для строковых констант.</p>
+                </div>
+
+                <h2 id="when-used">Когда C-строки всё ещё встречаются</h2>
+
+                <ul>
+                    <li>В старом коде (legacy codebase)</li>
+                    <li>При работе с C API (например, <code>printf</code>, системные вызовы)</li>
+                    <li>Строковые литералы в коде — это всегда <code>const char[]</code></li>
+                    <li>Глобальные constexpr массивы символов</li>
+                </ul>
+
+                <div class="info-card">
+                    <div class="info-card__title">Ссылка на cppreference</div>
+                    <p><a href="https://en.cppreference.com/w/cpp/string/byte" target="_blank" rel="noopener">cppreference — Null-terminated byte strings</a></p>
+                </div>
+
+                <section class="feedback-section"></section>
+                <div class="paragraph-nav"></div>
+            </div>
+        </main>
+        <aside class="right-sidebar">
+            <div class="toc-container"><div class="toc-title">Содержание</div><nav class="toc-nav"></nav></div>
+        </aside>
+    </div>
+    <footer class="site-footer"><p>Интерактивный курс по языку программирования C++</p></footer>
+    <script src="../../../js/course.js"></script>
+    <script src="../../../js/core/callout.js"></script>
+    <script src="../../../js/navigation.js"></script>
+    <script src="../../../js/toc.js"></script>
+    <script src="../../../components/quiz/quiz.js" type="module"></script>
+    <script src="../../../components/quiz/widget.js"></script>
+    <script src="../../../js/compiler.js"></script>
+    <script src="../../../js/gamification.js"></script>
+    <script>
+    (function(){const b=document.getElementById('reading-progress');if(!b)return;window.addEventListener('scroll',()=>{const h=document.documentElement.scrollHeight-document.documentElement.clientHeight;b.style.width=h>0?(window.scrollY/h*100)+'%':'0%';},{passive:true});})();
+    function copyCode(btn){const c=btn.closest('.code-block')?.querySelector('code')?.textContent||'';navigator.clipboard.writeText(c).then(()=>{btn.textContent='Скопировано!';setTimeout(()=>btn.textContent='Копировать',2000);});}
+    </script>
+    <script src="../../../js/theme.js"></script>
+    <script src="../../../js/feedback.js"></script>
+</body>
+</html>

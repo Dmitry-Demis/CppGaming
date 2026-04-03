@@ -1,0 +1,220 @@
+{
+  "quizId": "if-statements",
+  "title": "Оператор if",
+  "type": "paragraph",
+  "pick": 10,
+  "passingScore": 70,
+  "questions": [
+    {
+      "type": "single",
+      "question": "Что делает оператор if?",
+      "answers": [
+        "Повторяет блок кода несколько раз",
+        "Выполняет блок кода только если условие истинно",
+        "Объявляет переменную",
+        "Вызывает функцию"
+      ],
+      "correct": 1,
+      "explanation": "if выполняет блок кода, если условие истинно (true). Если условие ложно — блок пропускается.",
+      "id": 0
+    },
+    {
+      "type": "code",
+      "question": "Что выведет программа?",
+      "code": "#include <iostream>\nint main() {\n    int x { 5 };\n    if (x > 3)\n        std::cout << \"big\";\n    else\n        std::cout << \"small\";\n}",
+      "answers": [
+        "big",
+        "small",
+        "Ошибка компиляции",
+        "Ничего"
+      ],
+      "correct": 0,
+      "explanation": "5 > 3 — истинно, выполняется ветка if. Выводится: big.",
+      "id": 1
+    },
+    {
+      "type": "code",
+      "question": "Что выведет программа?",
+      "code": "#include <iostream>\nint main() {\n    int x { 2 };\n    if (x > 5)\n        std::cout << \"A\";\n    else if (x > 1)\n        std::cout << \"B\";\n    else\n        std::cout << \"C\";\n}",
+      "answers": [
+        "A",
+        "B",
+        "C",
+        "AB"
+      ],
+      "correct": 1,
+      "explanation": "2 > 5 — ложно. 2 > 1 — истинно. Выполняется else if. Выводится: B.",
+      "id": 2
+    },
+    {
+      "type": "single",
+      "question": "Что такое 'dangling else'?",
+      "answers": [
+        "Оператор else без условия",
+        "Неоднозначность: к какому if относится else при вложенных if без скобок",
+        "Ошибка компиляции",
+        "Оператор else в конце функции"
+      ],
+      "correct": 1,
+      "explanation": "Dangling else — неоднозначность при вложенных if без фигурных скобок. else всегда относится к ближайшему if.",
+      "id": 3
+    },
+    {
+      "type": "code",
+      "question": "Что выведет программа?",
+      "code": "#include <iostream>\nint main() {\n    bool flag { false };\n    if (flag)\n        std::cout << \"yes\";\n    std::cout << \"done\";\n}",
+      "answers": [
+        "yesdone",
+        "done",
+        "yes",
+        "Ошибка"
+      ],
+      "correct": 1,
+      "explanation": "flag = false, блок if пропускается. Второй cout выполняется всегда. Выводится: done.",
+      "id": 4
+    },
+    {
+      "type": "single",
+      "question": "Почему рекомендуется всегда использовать фигурные скобки в if?",
+      "answers": [
+        "Это обязательно по стандарту",
+        "Предотвращает ошибки при добавлении строк и dangling else",
+        "Ускоряет выполнение",
+        "Это требование компилятора"
+      ],
+      "correct": 1,
+      "explanation": "Фигурные скобки предотвращают ошибки: если добавить строку без скобок, она не войдёт в блок if. Также устраняет dangling else.",
+      "id": 5
+    },
+    {
+      "type": "code",
+      "question": "Что выведет программа?",
+      "code": "#include <iostream>\nint main() {\n    int x { 0 };\n    if (x)\n        std::cout << \"nonzero\";\n    else\n        std::cout << \"zero\";\n}",
+      "answers": [
+        "nonzero",
+        "zero",
+        "0",
+        "Ошибка"
+      ],
+      "correct": 1,
+      "explanation": "В C++ 0 преобразуется в false. Выполняется ветка else. Выводится: zero.",
+      "id": 6
+    },
+    {
+      "type": "multiple",
+      "question": "Отметьте ВСЕ верные утверждения об операторе if:",
+      "answers": [
+        "Условие должно быть типа bool или приводимым к bool",
+        "else if позволяет проверить несколько условий",
+        "else обязателен",
+        "Без фигурных скобок if выполняет только одну следующую инструкцию",
+        "Условие вычисляется при каждом выполнении"
+      ],
+      "correct": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "explanation": "if: условие приводится к bool, else if для цепочки, else необязателен, без скобок — одна инструкция, условие вычисляется каждый раз.",
+      "id": 7
+    },
+    {
+      "type": "fill-code",
+      "question": "Заполните пропуск, чтобы проверить что x больше 0:",
+      "code": "if (x _____ 0)\n    std::cout << \"positive\";",
+      "correct": [
+        ">"
+      ],
+      "explanation": "Оператор > проверяет что x больше 0.",
+      "id": 8
+    },
+    {
+      "type": "fill-code-drag",
+      "question": "Соберите условный оператор:",
+      "code": "_____ (x > 0) {\n    std::cout << \"pos\";\n} _____ {\n    std::cout << \"neg\";\n}",
+      "answers": [
+        "if",
+        "else",
+        "while",
+        "for"
+      ],
+      "correct": [
+        "if",
+        "else"
+      ],
+      "explanation": "if/else — основная конструкция условного выполнения.",
+      "id": 9
+    },
+    {
+      "type": "code",
+      "question": "Что выведет программа?",
+      "code": "#include <iostream>\nint main() {\n    int a{1}, b{2};\n    if (a > b)\n        std::cout << \"a\";\n    else if (a == b)\n        std::cout << \"eq\";\n    else\n        std::cout << \"b\";\n}",
+      "answers": [
+        "a",
+        "eq",
+        "b",
+        "Ошибка"
+      ],
+      "correct": 2,
+      "explanation": "1 > 2 — ложно. 1 == 2 — ложно. Выполняется else. Выводится: b.",
+      "id": 10
+    },
+    {
+      "type": "matching",
+      "question": "Соотнесите значение с результатом условия if(x):",
+      "pairs": [
+        {
+          "left": "x = 0",
+          "right": "false (блок пропускается)"
+        },
+        {
+          "left": "x = 1",
+          "right": "true (блок выполняется)"
+        },
+        {
+          "left": "x = -5",
+          "right": "true (блок выполняется)"
+        }
+      ],
+      "explanation": "В C++ 0 — false, любое ненулевое значение — true.",
+      "id": 11
+    },
+    {
+      "type": "single",
+      "question": "Что произойдёт если добавить строку в if без скобок?",
+      "code": "if (x > 0)\n    std::cout << \"pos\";\n    std::cout << \"always\";",
+      "answers": [
+        "Обе строки выполнятся только если x > 0",
+        "Только первая строка в блоке if, вторая выполнится всегда",
+        "Ошибка компиляции",
+        "Обе строки всегда выполнятся"
+      ],
+      "correct": 1,
+      "explanation": "Без скобок if выполняет только одну следующую инструкцию. Вторая строка выполнится всегда, независимо от условия.",
+      "id": 12
+    },
+    {
+      "type": "fill",
+      "question": "Напишите ключевое слово для альтернативной ветки условного оператора:",
+      "correct": [
+        "else"
+      ],
+      "explanation": "else выполняется когда условие if ложно.",
+      "id": 13
+    },
+    {
+      "type": "single",
+      "question": "Можно ли вкладывать if внутрь другого if?",
+      "answers": [
+        "Нет, это запрещено",
+        "Да, вложенные if разрешены",
+        "Только в C++17",
+        "Только если использовать фигурные скобки"
+      ],
+      "correct": 1,
+      "explanation": "Вложенные if разрешены. Рекомендуется использовать фигурные скобки для ясности и предотвращения dangling else.",
+      "id": 14
+    }
+  ]
+}

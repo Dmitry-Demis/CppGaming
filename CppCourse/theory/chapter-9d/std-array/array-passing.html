@@ -1,0 +1,188 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+    <script>document.documentElement.setAttribute("data-theme",localStorage.getItem("cpp_theme")||"dark")</script>
+<head>
+    <meta charset="UTF-8"><meta name="created" content="2025-03-31">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Передача и возврат std::array — Курс C++</title>
+    <meta name="description" content="Передача std::array в функции по значению, по ссылке, шаблонные функции. Возврат std::array.">
+    <link rel="stylesheet" href="../../../css/variables.css?v=3">
+    <link rel="stylesheet" href="../../../css/theme-picker.css">
+    <link rel="stylesheet" href="../../../css/base.css">
+    <link rel="stylesheet" href="../../../css/layout.css">
+    <link rel="stylesheet" href="../../../css/components.css">
+    <link rel="stylesheet" href="../../../css/theory.css">
+    <link rel="stylesheet" href="../../../components/quiz/css/quiz.css">
+    <link rel="stylesheet" href="../../../components/quiz/css/widget.css">
+    <link rel="stylesheet" href="../../../css/gamification.css">
+    <link rel="stylesheet" href="../../../css/code-highlight.css">
+    <link rel="stylesheet" href="../../../css/compiler.css">
+    <link rel="stylesheet" href="../../../css/feedback.css">
+    <link rel="stylesheet" href="../../../css/callout.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📦</text></svg>">
+</head>
+<body>
+    <div class="reading-progress-bar" id="reading-progress"></div>
+    <header class="site-header">
+        <div class="header-inner">
+            <a href="../../../index.html" class="header-logo">
+                <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="4" y="4" width="20" height="20" rx="2" stroke="currentColor" stroke-width="2"/>
+                    <path d="M10 10 L10 18 M10 14 L14 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M18 10 L18 18 M18 14 L22 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                Курс C++
+            </a>
+            <nav class="header-nav">
+                <a href="../../../index.html">Главная</a>
+                <a href="#" class="active">Глава</a>
+            </nav>
+            <button class="mobile-menu-btn" aria-label="Открыть меню" aria-expanded="false">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-title"></div>
+                <ul class="sidebar-nav" id="course-nav"></ul>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="chapter-content">
+                <div class="section-badge">std::array</div>
+                <h1>Передача и возврат <code>std::array</code></h1>
+
+                <p>
+                    Поскольку размер <code>std::array</code> является частью его типа, передача массива в функцию
+                    требует особого подхода. Рассмотрим все варианты.
+                </p>
+
+                <h2 id="by-value">Передача по значению</h2>
+
+                <p>
+                    Передача по значению создаёт полную копию массива. Для больших массивов это дорого.
+                    Кроме того, функция привязана к конкретному типу и размеру.
+                </p>
+
+                <div class="code-block" data-example="by-value">
+                    <div class="code-header">
+                        <span class="code-lang">C++ — по значению (не рекомендуется для больших массивов)</span>
+                        <div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button></div>
+                    </div>
+                    <div class="code-content">
+<pre><code class="language-cpp">// загрузка...</code></pre>
+                    </div>
+                </div>
+
+                <h2 id="by-ref">Передача по const-ссылке</h2>
+
+                <p>
+                    Предпочтительный способ для чтения — передача по <code>const</code>-ссылке.
+                    Копирования нет, массив защищён от изменений.
+                </p>
+
+                <div class="code-block" data-example="by-ref">
+                    <div class="code-header">
+                        <span class="code-lang">C++ — по const-ссылке</span>
+                        <div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button></div>
+                    </div>
+                    <div class="code-content">
+<pre><code class="language-cpp">// загрузка...</code></pre>
+                    </div>
+                </div>
+
+                <h2 id="template">Шаблонная функция для любого размера</h2>
+
+                <p>
+                    Чтобы функция работала с массивами любого типа и размера, используй шаблон.
+                    Это самый гибкий и идиоматичный подход.
+                </p>
+
+                <div class="code-block" data-example="template">
+                    <div class="code-header">
+                        <span class="code-lang">C++ — шаблонная функция</span>
+                        <div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button></div>
+                    </div>
+                    <div class="code-content">
+<pre><code class="language-cpp">// загрузка...</code></pre>
+                    </div>
+                </div>
+
+                <div style="display:flex; justify-content:center; margin: var(--space-6) 0">
+                <svg viewBox="0 0 480 100" width="480" height="100" xmlns="http://www.w3.org/2000/svg" style="max-width:100%">
+                    <rect x="10" y="10" width="140" height="80" rx="6" fill="var(--surface-2)" stroke="var(--accent-blue)" stroke-width="1.5"/>
+                    <text x="80" y="35" text-anchor="middle" fill="var(--accent-blue)" font-size="11" font-family="monospace">array&lt;int,5&gt;</text>
+                    <text x="80" y="55" text-anchor="middle" fill="var(--text-secondary)" font-size="10" font-family="sans-serif">1 2 3 4 5</text>
+                    <text x="80" y="75" text-anchor="middle" fill="var(--text-muted)" font-size="9" font-family="sans-serif">T=int, N=5</text>
+
+                    <path d="M155 50 L200 50" stroke="var(--accent-green)" stroke-width="1.5" marker-end="url(#arr)"/>
+                    <defs><marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="var(--accent-green)"/></marker></defs>
+
+                    <rect x="205" y="10" width="160" height="80" rx="6" fill="var(--surface-2)" stroke="var(--accent-green)" stroke-width="1.5"/>
+                    <text x="285" y="35" text-anchor="middle" fill="var(--accent-green)" font-size="11" font-family="monospace">printArray&lt;T,N&gt;</text>
+                    <text x="285" y="55" text-anchor="middle" fill="var(--text-secondary)" font-size="10" font-family="sans-serif">работает с любым</text>
+                    <text x="285" y="70" text-anchor="middle" fill="var(--text-secondary)" font-size="10" font-family="sans-serif">типом и размером</text>
+
+                    <rect x="10" y="10" width="140" height="80" rx="6" fill="none" stroke="var(--accent-violet)" stroke-width="1" stroke-dasharray="4,3"/>
+                    <text x="80" y="90" text-anchor="middle" fill="var(--accent-violet)" font-size="9" font-family="sans-serif">array&lt;double,3&gt; тоже OK</text>
+                </svg>
+                </div>
+
+                <h2 id="return">Возврат std::array из функции</h2>
+
+                <p>
+                    <code>std::array</code> можно возвращать по значению — компилятор применит оптимизацию (NRVO/RVO)
+                    и избежит лишнего копирования.
+                </p>
+
+                <div class="code-block" data-example="returning">
+                    <div class="code-header">
+                        <span class="code-lang">C++ — возврат массива</span>
+                        <div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button></div>
+                    </div>
+                    <div class="code-content">
+<pre><code class="language-cpp">// загрузка...</code></pre>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-card__title">Итог: как передавать std::array</div>
+                    <p>Для чтения — <code>const std::array&lt;T,N&gt;&amp;</code> или шаблонная функция.<br>
+                    Для изменения — <code>std::array&lt;T,N&gt;&amp;</code>.<br>
+                    Возврат по значению — нормально, компилятор оптимизирует.</p>
+                </div>
+
+                <h2 id="tests">Проверьте знания</h2>
+                <div class="quiz-widget" data-final="array-passing" data-final-desc="Передача и возврат std::array"></div>
+
+                <section class="feedback-section"></section>
+                <div class="paragraph-nav"></div>
+            </div>
+        </main>
+        <aside class="right-sidebar">
+            <div class="toc-container"><div class="toc-title">Содержание</div><nav class="toc-nav"></nav></div>
+        </aside>
+    </div>
+    <footer class="site-footer"><p>Интерактивный курс по языку программирования C++</p></footer>
+    <script src="../../../js/course.js"></script>
+    <script src="../../../js/core/callout.js"></script>
+    <script src="../../../js/navigation.js"></script>
+    <script src="../../../js/toc.js"></script>
+    <script src="../../../components/quiz/quiz.js" type="module"></script>
+    <script src="../../../components/quiz/widget.js"></script>
+    <script src="../../../js/compiler.js"></script>
+    <script src="../../../js/gamification.js"></script>
+    <script>
+    (function(){const b=document.getElementById('reading-progress');if(!b)return;window.addEventListener('scroll',()=>{const h=document.documentElement.scrollHeight-document.documentElement.clientHeight;b.style.width=h>0?(window.scrollY/h*100)+'%':'0%';},{passive:true});})();
+    function copyCode(btn){const c=btn.closest('.code-block')?.querySelector('code')?.textContent||'';navigator.clipboard.writeText(c).then(()=>{btn.textContent='Скопировано!';setTimeout(()=>btn.textContent='Копировать',2000);});}
+    </script>
+    <script src="../../../js/theme.js"></script>
+    <script src="../../../js/feedback.js"></script>
+</body>
+</html>

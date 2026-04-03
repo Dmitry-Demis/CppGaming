@@ -1,0 +1,97 @@
+{
+  "quizId": "namespaces",
+  "title": "Пространства имён",
+  "type": "paragraph",
+  "pick": 10,
+  "passingScore": 70,
+  "questions": [
+    {
+      "id": 0,
+      "type": "single",
+      "question": "Зачем нужны пространства имён (namespaces)?",
+      "answers": [
+        "Для ускорения компиляции",
+        "Для предотвращения конфликтов имён между разными частями программы",
+        "Для замены классов",
+        "Только для стандартной библиотеки"
+      ],
+      "correct": 1,
+      "explanation": "Namespaces группируют имена и предотвращают конфликты. Например, std::cout и mylib::cout — разные функции."
+    },
+    {
+      "id": 1,
+      "type": "fill",
+      "question": "В каком пространстве имён находится std::cout?",
+      "correct": [
+        "std"
+      ],
+      "explanation": "std — пространство имён стандартной библиотеки C++. cout, cin, vector, string и другие находятся в std."
+    },
+    {
+      "id": 2,
+      "type": "single",
+      "question": "Что делает 'using namespace std;'?",
+      "answers": [
+        "Создаёт новое пространство имён",
+        "Позволяет использовать имена из std без префикса std::",
+        "Импортирует только cout",
+        "Это ошибка компиляции"
+      ],
+      "correct": 1,
+      "explanation": "using namespace std; вводит все имена из std в текущую область видимости. Удобно, но может вызвать конфликты имён."
+    },
+    {
+      "id": 3,
+      "type": "single",
+      "question": "Почему не рекомендуется писать 'using namespace std;' в заголовочных файлах?",
+      "answers": [
+        "Это замедляет компиляцию",
+        "Это загрязняет пространство имён всех файлов, включающих этот заголовок",
+        "Это синтаксическая ошибка",
+        "Заголовочные файлы не поддерживают using"
+      ],
+      "correct": 1,
+      "explanation": "using namespace в .h файле применяется ко всем файлам, включающим этот заголовок. Это может вызвать неожиданные конфликты имён."
+    },
+    {
+      "id": 4,
+      "type": "code",
+      "question": "Что выведет программа?",
+      "code": "#include <iostream>\nnamespace math {\n    int add(int a, int b) { return a + b; }\n}\nint main() {\n    std::cout << math::add(3, 4);\n}",
+      "answers": [
+        "3",
+        "4",
+        "7",
+        "Ошибка компиляции"
+      ],
+      "correct": 2,
+      "explanation": "math::add(3, 4) вызывает функцию add из пространства имён math. Результат: 3 + 4 = 7."
+    },
+    {
+      "id": 5,
+      "type": "single",
+      "question": "Что такое using-declaration (в отличие от using-directive)?",
+      "answers": [
+        "using namespace std; — вводит все имена",
+        "using std::cout; — вводит только одно конкретное имя",
+        "Они одинаковы",
+        "using-declaration запрещена в C++"
+      ],
+      "correct": 1,
+      "explanation": "using std::cout; — using-declaration, вводит только cout. using namespace std; — using-directive, вводит все имена. Declaration предпочтительнее."
+    },
+    {
+      "id": 6,
+      "type": "single",
+      "question": "Как в C++17 объявить вложенное пространство имён?",
+      "answers": [
+        "namespace a { namespace b { } }",
+        "namespace a::b { }",
+        "namespace a.b { }",
+        "nested namespace a::b { }"
+      ],
+      "correct": 1,
+      "explanation": "C++17 позволяет: namespace a::b { } вместо namespace a { namespace b { } }. Более компактная запись."
+    }
+  ]
+}
