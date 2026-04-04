@@ -1,0 +1,197 @@
+<svg viewBox="0 0 1200 720" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto;">
+                        <defs>
+                            <marker id="arr" markerWidth="7" markerHeight="7" refX="3" refY="3" orient="auto">
+                                <path d="M0,0 L0,6 L6,3 z" fill="#4f5d8f"/>
+                            </marker>
+                        </defs>
+
+                        <!-- ROOT -->
+                        <rect x="374" y="8" width="452" height="46" rx="10" fill="rgba(131,56,236,0.2)" stroke="#8338EC" stroke-width="2"/>
+                        <text x="600" y="36" text-anchor="middle" fill="#C77DFF" font-size="15" font-weight="700" font-family="Segoe UI,sans-serif">Фундаментальные типы C++</text>
+
+                        <!-- Root > L1 connectors -->
+                        <line x1="600" y1="54" x2="140"  y2="100" stroke="#4f5d8f" stroke-width="1.5"/>
+                        <line x1="600" y1="54" x2="382"  y2="100" stroke="#4f5d8f" stroke-width="1.5"/>
+                        <line x1="600" y1="54" x2="660"  y2="100" stroke="#4f5d8f" stroke-width="1.5"/>
+                        <line x1="600" y1="54" x2="900"  y2="100" stroke="#4f5d8f" stroke-width="1.5"/>
+                        <line x1="600" y1="54" x2="1105" y2="100" stroke="#4f5d8f" stroke-width="1.5"/>
+
+                        <!-- L1: Категории -->
+                        <rect x="44"   y="100" width="192" height="44" rx="8" fill="rgba(167,139,250,0.2)" stroke="#a78bfa" stroke-width="2"/>
+                        <text x="140"  y="127" text-anchor="middle" fill="#a78bfa" font-size="13" font-weight="600" font-family="Segoe UI,sans-serif">Целочисленные</text>
+
+                        <rect x="278"  y="100" width="208" height="44" rx="8" fill="rgba(34,211,238,0.18)" stroke="#22d3ee" stroke-width="2"/>
+                        <text x="382"  y="127" text-anchor="middle" fill="#22d3ee" font-size="13" font-weight="600" font-family="Segoe UI,sans-serif">С плавающей точкой</text>
+
+                        <rect x="558"  y="100" width="204" height="44" rx="8" fill="rgba(52,211,153,0.18)" stroke="#34d399" stroke-width="2"/>
+                        <text x="660"  y="127" text-anchor="middle" fill="#34d399" font-size="13" font-weight="600" font-family="Segoe UI,sans-serif">Символьные</text>
+
+                        <rect x="812"  y="100" width="176" height="44" rx="8" fill="rgba(251,146,60,0.18)" stroke="#fb923c" stroke-width="2"/>
+                        <text x="900"  y="121" text-anchor="middle" fill="#fb923c" font-size="12" font-weight="600" font-family="Segoe UI,sans-serif">Логический</text>
+                        <text x="900"  y="138" text-anchor="middle" fill="#fb923c" font-size="12" font-weight="600" font-family="Segoe UI,sans-serif">и nullptr_t</text>
+
+                        <rect x="1046" y="100" width="118" height="44" rx="8" fill="rgba(148,163,184,0.15)" stroke="#94a3b8" stroke-width="2"/>
+                        <text x="1105" y="127" text-anchor="middle" fill="#94a3b8" font-size="13" font-weight="600" font-family="Segoe UI,sans-serif">void</text>
+
+                        <!-- -- ЦЕЛОЧИСЛЕННЫЕ (x?140) -- -->
+                        <line x1="140" y1="144" x2="140" y2="178" stroke="#a78bfa" stroke-width="1.5"/>
+                        <line x1="140" y1="178" x2="80"  y2="178" stroke="#a78bfa" stroke-width="1.5"/>
+                        <line x1="140" y1="178" x2="80"  y2="230" stroke="#a78bfa" stroke-width="1.3" opacity="0.7"/>
+                        <line x1="140" y1="178" x2="80"  y2="282" stroke="#a78bfa" stroke-width="1.3" opacity="0.7"/>
+                        <line x1="140" y1="178" x2="72"  y2="334" stroke="#a78bfa" stroke-width="1.3" opacity="0.7"/>
+                        <line x1="140" y1="178" x2="72"  y2="386" stroke="#a78bfa" stroke-width="1.3" opacity="0.7"/>
+
+                        <rect x="24"  y="162" width="112" height="32" rx="6" fill="rgba(167,139,250,0.12)" stroke="#a78bfa" stroke-width="1.5"/>
+                        <text x="80"  y="183" text-anchor="middle" fill="#e2e8f0" font-size="10" font-family="Consolas,monospace">signed char</text>
+                        <text x="145" y="177" text-anchor="start" fill="#64748b" font-size="8">?8 бит / int8_t</text>
+
+                        <rect x="24"  y="214" width="112" height="32" rx="6" fill="rgba(167,139,250,0.12)" stroke="#a78bfa" stroke-width="1.5"/>
+                        <text x="80"  y="235" text-anchor="middle" fill="#e2e8f0" font-size="10" font-family="Consolas,monospace">short int</text>
+                        <text x="145" y="229" text-anchor="start" fill="#64748b" font-size="8">?16 бит / int16_t</text>
+
+                        <rect x="24"  y="266" width="112" height="32" rx="6" fill="rgba(167,139,250,0.12)" stroke="#a78bfa" stroke-width="1.5"/>
+                        <text x="80"  y="287" text-anchor="middle" fill="#e2e8f0" font-size="10" font-family="Consolas,monospace">int</text>
+                        <text x="145" y="281" text-anchor="start" fill="#64748b" font-size="8">?16 бит / int32_t</text>
+
+                        <rect x="16"  y="318" width="112" height="32" rx="6" fill="rgba(167,139,250,0.12)" stroke="#a78bfa" stroke-width="1.5"/>
+                        <text x="72"  y="339" text-anchor="middle" fill="#e2e8f0" font-size="10" font-family="Consolas,monospace">long int</text>
+                        <text x="137" y="333" text-anchor="start" fill="#64748b" font-size="8">?32 бита</text>
+
+                        <rect x="16"  y="370" width="112" height="32" rx="6" fill="rgba(167,139,250,0.12)" stroke="#a78bfa" stroke-width="1.5"/>
+                        <text x="72"  y="388" text-anchor="middle" fill="#e2e8f0" font-size="10" font-family="Consolas,monospace">long long int</text>
+                        <text x="137" y="383" text-anchor="start" fill="#64748b" font-size="8">?64 бита / int64_t</text>
+
+                        <!-- signed/unsigned ответвления для каждого целочисленного -->
+                        <line x1="136" y1="178" x2="197" y2="162" stroke="#a78bfa" stroke-width="0.9" stroke-dasharray="3 2" opacity="0.7"/>
+                        <line x1="136" y1="178" x2="197" y2="196" stroke="#a78bfa" stroke-width="0.9" stroke-dasharray="3 2" opacity="0.7"/>
+                        <rect x="197" y="154" width="56" height="20" rx="4" fill="rgba(167,139,250,0.07)" stroke="#a78bfa" stroke-width="0.9"/>
+                        <text x="225" y="168" text-anchor="middle" fill="#c4b5fd" font-size="8" font-family="Consolas,monospace">signed</text>
+                        <rect x="197" y="188" width="56" height="20" rx="4" fill="rgba(167,139,250,0.07)" stroke="#a78bfa" stroke-width="0.9"/>
+                        <text x="225" y="202" text-anchor="middle" fill="#c4b5fd" font-size="8" font-family="Consolas,monospace">unsigned</text>
+
+                        <line x1="136" y1="230" x2="197" y2="214" stroke="#a78bfa" stroke-width="0.9" stroke-dasharray="3 2" opacity="0.7"/>
+                        <line x1="136" y1="230" x2="197" y2="248" stroke="#a78bfa" stroke-width="0.9" stroke-dasharray="3 2" opacity="0.7"/>
+                        <rect x="197" y="206" width="56" height="20" rx="4" fill="rgba(167,139,250,0.07)" stroke="#a78bfa" stroke-width="0.9"/>
+                        <text x="225" y="220" text-anchor="middle" fill="#c4b5fd" font-size="8" font-family="Consolas,monospace">signed</text>
+                        <rect x="197" y="240" width="56" height="20" rx="4" fill="rgba(167,139,250,0.07)" stroke="#a78bfa" stroke-width="0.9"/>
+                        <text x="225" y="254" text-anchor="middle" fill="#c4b5fd" font-size="8" font-family="Consolas,monospace">unsigned</text>
+
+                        <line x1="136" y1="282" x2="197" y2="266" stroke="#a78bfa" stroke-width="0.9" stroke-dasharray="3 2" opacity="0.7"/>
+                        <line x1="136" y1="282" x2="197" y2="300" stroke="#a78bfa" stroke-width="0.9" stroke-dasharray="3 2" opacity="0.7"/>
+                        <rect x="197" y="258" width="56" height="20" rx="4" fill="rgba(167,139,250,0.07)" stroke="#a78bfa" stroke-width="0.9"/>
+                        <text x="225" y="272" text-anchor="middle" fill="#c4b5fd" font-size="8" font-family="Consolas,monospace">signed</text>
+                        <rect x="197" y="292" width="56" height="20" rx="4" fill="rgba(167,139,250,0.07)" stroke="#a78bfa" stroke-width="0.9"/>
+                        <text x="225" y="306" text-anchor="middle" fill="#c4b5fd" font-size="8" font-family="Consolas,monospace">unsigned</text>
+
+                        <line x1="128" y1="334" x2="197" y2="318" stroke="#a78bfa" stroke-width="0.9" stroke-dasharray="3 2" opacity="0.7"/>
+                        <line x1="128" y1="334" x2="197" y2="352" stroke="#a78bfa" stroke-width="0.9" stroke-dasharray="3 2" opacity="0.7"/>
+                        <rect x="197" y="310" width="56" height="20" rx="4" fill="rgba(167,139,250,0.07)" stroke="#a78bfa" stroke-width="0.9"/>
+                        <text x="225" y="324" text-anchor="middle" fill="#c4b5fd" font-size="8" font-family="Consolas,monospace">signed</text>
+                        <rect x="197" y="344" width="56" height="20" rx="4" fill="rgba(167,139,250,0.07)" stroke="#a78bfa" stroke-width="0.9"/>
+                        <text x="225" y="358" text-anchor="middle" fill="#c4b5fd" font-size="8" font-family="Consolas,monospace">unsigned</text>
+
+                        <line x1="128" y1="386" x2="197" y2="370" stroke="#a78bfa" stroke-width="0.9" stroke-dasharray="3 2" opacity="0.7"/>
+                        <line x1="128" y1="386" x2="197" y2="404" stroke="#a78bfa" stroke-width="0.9" stroke-dasharray="3 2" opacity="0.7"/>
+                        <rect x="197" y="362" width="56" height="20" rx="4" fill="rgba(167,139,250,0.07)" stroke="#a78bfa" stroke-width="0.9"/>
+                        <text x="225" y="376" text-anchor="middle" fill="#c4b5fd" font-size="8" font-family="Consolas,monospace">signed</text>
+                        <rect x="197" y="396" width="56" height="20" rx="4" fill="rgba(167,139,250,0.07)" stroke="#a78bfa" stroke-width="0.9"/>
+                        <text x="225" y="410" text-anchor="middle" fill="#c4b5fd" font-size="8" font-family="Consolas,monospace">unsigned</text>
+
+                        <rect x="16"  y="424" width="237" height="26" rx="5" fill="rgba(167,139,250,0.06)" stroke="#a78bfa" stroke-width="1" stroke-dasharray="4 3"/>
+                        <text x="135" y="441" text-anchor="middle" fill="#c4b5fd" font-size="8" font-family="Consolas,monospace">&lt;cstdint&gt;: int8_t…int64_t, uint8_t…uint64_t</text>
+
+                        <!-- -- ПЛАВАЮЩАЯ ТОЧКА (x?382) -- -->
+                        <line x1="382" y1="144" x2="382" y2="178" stroke="#22d3ee" stroke-width="1.5"/>
+                        <line x1="382" y1="178" x2="340" y2="178" stroke="#22d3ee" stroke-width="1.5"/>
+                        <line x1="382" y1="178" x2="340" y2="240" stroke="#22d3ee" stroke-width="1.3" opacity="0.7"/>
+                        <line x1="382" y1="178" x2="340" y2="302" stroke="#22d3ee" stroke-width="1.3" opacity="0.7"/>
+
+                        <rect x="290" y="162" width="100" height="32" rx="6" fill="rgba(34,211,238,0.12)" stroke="#22d3ee" stroke-width="1.5"/>
+                        <text x="340" y="183" text-anchor="middle" fill="#e2e8f0" font-size="11" font-family="Consolas,monospace">float</text>
+                        <text x="400" y="175" text-anchor="start" fill="#64748b" font-size="8">32 бит, 7 цифр</text>
+
+                        <rect x="290" y="224" width="100" height="32" rx="6" fill="rgba(34,211,238,0.12)" stroke="#22d3ee" stroke-width="1.5"/>
+                        <text x="340" y="245" text-anchor="middle" fill="#e2e8f0" font-size="11" font-family="Consolas,monospace">double</text>
+                        <text x="400" y="237" text-anchor="start" fill="#64748b" font-size="8">64 бит, 15–16 цифр</text>
+
+                        <rect x="282" y="286" width="116" height="32" rx="6" fill="rgba(34,211,238,0.12)" stroke="#22d3ee" stroke-width="1.5"/>
+                        <text x="340" y="299" text-anchor="middle" fill="#e2e8f0" font-size="9.5" font-family="Consolas,monospace">long double</text>
+                        <text x="340" y="313" text-anchor="middle" fill="#64748b" font-size="8">?64 бит (80/128)</text>
+
+                        <rect x="282" y="336" width="152" height="30" rx="5" fill="rgba(34,211,238,0.06)" stroke="#22d3ee" stroke-width="1" stroke-dasharray="4 3"/>
+                        <text x="358" y="348" text-anchor="middle" fill="#67e8f9" font-size="8">IEEE 754</text>
+                        <text x="358" y="360" text-anchor="middle" fill="#67e8f9" font-size="8">расширенная точность</text>
+
+                        <!-- -- СИМВОЛЬНЫЕ (x?660) -- -->
+                        <line x1="660" y1="144" x2="660" y2="178" stroke="#34d399" stroke-width="1.5"/>
+                        <line x1="660" y1="178" x2="620" y2="178" stroke="#34d399" stroke-width="1.5"/>
+                        <line x1="660" y1="178" x2="620" y2="226" stroke="#34d399" stroke-width="1.3" opacity="0.7"/>
+                        <line x1="660" y1="178" x2="620" y2="274" stroke="#34d399" stroke-width="1.3" opacity="0.7"/>
+                        <line x1="660" y1="178" x2="620" y2="322" stroke="#34d399" stroke-width="1.3" opacity="0.7"/>
+                        <line x1="660" y1="178" x2="620" y2="370" stroke="#34d399" stroke-width="1.3" opacity="0.7"/>
+                        <line x1="660" y1="178" x2="620" y2="418" stroke="#34d399" stroke-width="1.3" opacity="0.7"/>
+                        <line x1="660" y1="178" x2="620" y2="466" stroke="#34d399" stroke-width="1.3" opacity="0.7"/>
+
+                        <rect x="570" y="162" width="100" height="32" rx="6" fill="rgba(52,211,153,0.12)" stroke="#34d399" stroke-width="1.5"/>
+                        <text x="620" y="183" text-anchor="middle" fill="#e2e8f0" font-size="11" font-family="Consolas,monospace">char</text>
+                        <text x="682" y="180" text-anchor="start" fill="#64748b" font-size="8">1 байт, ASCII/UTF-8</text>
+
+                        <rect x="562" y="210" width="116" height="32" rx="6" fill="rgba(52,211,153,0.12)" stroke="#34d399" stroke-width="1.5"/>
+                        <text x="620" y="231" text-anchor="middle" fill="#e2e8f0" font-size="10" font-family="Consolas,monospace">signed char</text>
+                        <text x="688" y="228" text-anchor="start" fill="#64748b" font-size="8">-128…127</text>
+
+                        <rect x="556" y="258" width="128" height="32" rx="6" fill="rgba(52,211,153,0.12)" stroke="#34d399" stroke-width="1.5"/>
+                        <text x="620" y="279" text-anchor="middle" fill="#e2e8f0" font-size="10" font-family="Consolas,monospace">unsigned char</text>
+                        <text x="694" y="276" text-anchor="start" fill="#64748b" font-size="8">0…255</text>
+
+                        <rect x="566" y="306" width="108" height="32" rx="6" fill="rgba(52,211,153,0.12)" stroke="#34d399" stroke-width="1.5"/>
+                        <text x="620" y="327" text-anchor="middle" fill="#e2e8f0" font-size="10" font-family="Consolas,monospace">wchar_t</text>
+                        <text x="684" y="324" text-anchor="start" fill="#64748b" font-size="8">2–4 байта</text>
+
+                        <rect x="566" y="354" width="108" height="32" rx="6" fill="rgba(52,211,153,0.12)" stroke="#fb923c" stroke-width="1.5" stroke-dasharray="5 2"/>
+                        <text x="620" y="375" text-anchor="middle" fill="#e2e8f0" font-size="10" font-family="Consolas,monospace">char8_t</text>
+                        <text x="684" y="369" text-anchor="start" fill="#fdba74" font-size="8">C++20, 1 байт</text>
+
+                        <rect x="566" y="402" width="108" height="32" rx="6" fill="rgba(52,211,153,0.12)" stroke="#22d3ee" stroke-width="1.5" stroke-dasharray="5 2"/>
+                        <text x="620" y="423" text-anchor="middle" fill="#e2e8f0" font-size="10" font-family="Consolas,monospace">char16_t</text>
+                        <text x="684" y="419" text-anchor="start" fill="#67e8f9" font-size="8">C++11, UTF-16</text>
+
+                        <rect x="566" y="450" width="108" height="32" rx="6" fill="rgba(52,211,153,0.12)" stroke="#22d3ee" stroke-width="1.5" stroke-dasharray="5 2"/>
+                        <text x="620" y="471" text-anchor="middle" fill="#e2e8f0" font-size="10" font-family="Consolas,monospace">char32_t</text>
+                        <text x="684" y="467" text-anchor="start" fill="#67e8f9" font-size="8">C++11, UTF-32</text>
+
+                        <!-- -- BOOL / nullptr_t (x?900) -- -->
+                        <line x1="900" y1="144" x2="900" y2="178" stroke="#fb923c" stroke-width="1.5"/>
+                        <line x1="900" y1="178" x2="870" y2="178" stroke="#fb923c" stroke-width="1.5"/>
+                        <line x1="900" y1="178" x2="870" y2="240" stroke="#fb923c" stroke-width="1.3" opacity="0.7"/>
+
+                        <rect x="830" y="162" width="80" height="32" rx="6" fill="rgba(251,146,60,0.12)" stroke="#fb923c" stroke-width="1.5"/>
+                        <text x="870" y="183" text-anchor="middle" fill="#e2e8f0" font-size="11" font-family="Consolas,monospace">bool</text>
+                        <text x="920" y="178" text-anchor="start" fill="#64748b" font-size="8">true / false</text>
+
+                        <rect x="818" y="224" width="104" height="32" rx="6" fill="rgba(251,146,60,0.12)" stroke="#22d3ee" stroke-width="1.5" stroke-dasharray="5 2"/>
+                        <text x="870" y="245" text-anchor="middle" fill="#e2e8f0" font-size="10" font-family="Consolas,monospace">nullptr_t</text>
+                        <text x="932" y="241" text-anchor="start" fill="#67e8f9" font-size="8">C++11</text>
+
+                        <!-- -- VOID -- -->
+                        <line x1="1105" y1="144" x2="1105" y2="162" stroke="#94a3b8" stroke-width="1.5"/>
+                        <rect x="1056" y="162" width="98" height="32" rx="6" fill="rgba(148,163,184,0.12)" stroke="#94a3b8" stroke-width="1.5"/>
+                        <text x="1105" y="183" text-anchor="middle" fill="#94a3b8" font-size="11" font-family="Consolas,monospace">void</text>
+                        <text x="1105" y="206" text-anchor="middle" fill="#64748b" font-size="8">неполный тип</text>
+
+                        <!-- Легенда -->
+                        <rect x="44"  y="560" width="110" height="22" rx="4" fill="rgba(167,139,250,0.15)" stroke="#a78bfa" stroke-width="1"/>
+                        <text x="99"  y="575" text-anchor="middle" fill="#c4b5fd" font-size="9" font-family="Segoe UI,sans-serif">C++98 (сплошная рамка)</text>
+                        <rect x="44"  y="588" width="110" height="22" rx="4" fill="rgba(34,211,238,0.1)" stroke="#22d3ee" stroke-width="1" stroke-dasharray="5 2"/>
+                        <text x="99"  y="603" text-anchor="middle" fill="#67e8f9" font-size="9" font-family="Segoe UI,sans-serif">C++11 (штрих / циан)</text>
+                        <rect x="44"  y="616" width="110" height="22" rx="4" fill="rgba(251,146,60,0.1)" stroke="#fb923c" stroke-width="1" stroke-dasharray="5 2"/>
+                        <text x="99"  y="631" text-anchor="middle" fill="#fdba74" font-size="9" font-family="Segoe UI,sans-serif">C++20 (штрих / оранж)</text>
+
+                        <text x="600" y="690" text-anchor="middle" fill="#475569" font-size="9.5" font-style="italic" font-family="Segoe UI,sans-serif">
+                            Размеры — минимальные гарантии стандарта; фактические зависят от платформы и компилятора
+                        </text>
+                        <rect x="260" y="560" width="268" height="22" rx="4" fill="rgba(148,163,184,0.08)" stroke="#475569" stroke-width="1" stroke-dasharray="3 3"/>
+                        <text x="394" y="575" text-anchor="middle" fill="#64748b" font-size="8.5" font-family="Segoe UI,sans-serif">signed/unsigned применяются только к целочисленным типам</text>
+                        <rect x="560" y="560" width="300" height="22" rx="4" fill="rgba(52,211,153,0.06)" stroke="#34d399" stroke-width="1" stroke-dasharray="3 3"/>
+                        <text x="710" y="575" text-anchor="middle" fill="#6ee7b7" font-size="8.5" font-family="Consolas,monospace">&lt;cstdint&gt;: псевдонимы с точным размером</text>
+                    </svg>

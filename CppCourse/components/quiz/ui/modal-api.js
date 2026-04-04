@@ -10,9 +10,12 @@ function fallbackPick(data) {
 }
 
 window.openQuizModal = async function(quizId) {
+    const user = JSON.parse(localStorage.getItem('cpp_user') || 'null');
+
     let data;
     try {
-        const res = await fetch(`/api/quiz/${quizId}`);
+        const headers = user?.isuNumber ? { 'X-Isu-Number': user.isuNumber } : {};
+        const res = await fetch(`/api/quiz/${quizId}`, { headers });
         if (!res.ok) throw new Error('not found');
         data = await res.json();
     } catch {
@@ -26,13 +29,20 @@ window.openQuizModal = async function(quizId) {
         return;
     }
 
+    // isAdmin — из localStorage (устанавливается только при входе через мастер-пароль)
+    const isAdmin = !!(user?.isAdmin);
+
     let pickedIds;
-    try {
-        const user    = JSON.parse(localStorage.getItem('cpp_user') || 'null');
-        const headers = user?.isuNumber ? { 'X-Isu-Number': user.isuNumber } : {};
-        const res     = await fetch(`/api/quiz/${quizId}/pick-questions`, { headers });
-        pickedIds = res.ok ? await res.json() : fallbackPick(data);
-    } catch { pickedIds = fallbackPick(data); }
+    if (isAdmin) {
+        // Админ видит все вопросы без pick
+        pickedIds = data.questions.map(q => q.id);
+    } else {
+        try {
+            const headers = user?.isuNumber ? { 'X-Isu-Number': user.isuNumber } : {};
+            const res     = await fetch(`/api/quiz/${quizId}/pick-questions`, { headers });
+            pickedIds = res.ok ? await res.json() : fallbackPick(data);
+        } catch { pickedIds = fallbackPick(data); }
+    }
 
     await load();
 
@@ -66,7 +76,12 @@ window.openQuizModal = async function(quizId) {
     overlay.classList.add('active');
     document.body.style.overflow = 'hidden';
     document.body.classList.add('modal-open');
-    window._activeModalQuiz = new ModalQuiz(document.getElementById('quiz-modal-content'), data, pickedIds);
+    window._activeModalQuiz = new ModalQuiz(
+        document.getElementById('quiz-modal-content'),
+        data,
+        pickedIds,
+        { isAdmin }
+    );
 };
 
 window.closeQuizModal = function(e) {

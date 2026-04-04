@@ -327,15 +327,31 @@ class CppCompiler {
         });
         this._btnRun.addEventListener('click',   () => this._compile());
         this._btnCopy.addEventListener('click',  () => {
-            navigator.clipboard.writeText(this._getCode()).then(() => {
+            const text = this._getCode();
+            const done = () => {
                 this._btnCopy.textContent = '✓ Скопировано';
                 setTimeout(() => { this._btnCopy.textContent = '⎘ Копировать'; }, 2000);
-            });
+            };
+            if (navigator.clipboard?.writeText) {
+                navigator.clipboard.writeText(text).then(done).catch(() => this._copyFallback(text, done));
+            } else {
+                this._copyFallback(text, done);
+            }
         });
     }
 
     _getCode() {
         return this._cm ? this._cm.getValue() : (this.widget?.querySelector('.cw-ta')?.value ?? this.code);
+    }
+
+    _copyFallback(text, done) {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.cssText = 'position:fixed;opacity:0;pointer-events:none';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); done(); } catch {}
+        document.body.removeChild(ta);
     }
 
     async _compile() {

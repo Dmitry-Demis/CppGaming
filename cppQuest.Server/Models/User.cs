@@ -9,6 +9,7 @@ public class User
     public string IsuNumber { get; set; } = "";
     public string PasswordHash { get; set; } = "";
     public bool IsActive { get; set; } = true;
+    public bool IsAdmin { get; set; } = false;
     public DateTime RegisteredAt { get; set; } = DateTime.UtcNow;
     public DateTime? LastLoginDate { get; set; }
 

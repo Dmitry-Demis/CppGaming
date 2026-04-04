@@ -53,9 +53,9 @@
     margin-left: auto;
 }
 
-/* Profile mini badge — sits right after logo */
+/* Profile mini badge — sits inside header-nav */
 .header-profile-mini {
-    margin-right: 0;
+    margin-right: var(--space-2);
 }
 .header-nav a {
     padding: var(--space-2) var(--space-4);

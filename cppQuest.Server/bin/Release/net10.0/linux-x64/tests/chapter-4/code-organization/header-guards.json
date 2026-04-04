@@ -6,7 +6,6 @@
   "passingScore": 70,
   "questions": [
     {
-      "id": 0,
       "type": "single",
       "question": "Зачем нужны header guards?",
       "answers": [
@@ -16,10 +15,10 @@
         "Для документирования кода"
       ],
       "correct": 1,
-      "explanation": "Header guards предотвращают многократное включение одного .h файла в одну единицу трансляции, что вызвало бы ошибки переопределения."
+      "explanation": "Header guards предотвращают многократное включение одного .h файла в одну единицу трансляции, что вызвало бы ошибки переопределения.",
+      "id": 0
     },
     {
-      "id": 1,
       "type": "single",
       "question": "Какой современный способ защиты от повторного включения рекомендуется?",
       "answers": [
@@ -29,10 +28,10 @@
         "#define GUARD"
       ],
       "correct": 1,
-      "explanation": "#pragma once — простой и надёжный способ. Поддерживается GCC, Clang, MSVC. Рекомендуется в большинстве проектов."
+      "explanation": "#pragma once — простой и надёжный способ. Поддерживается GCC, Clang, MSVC. Рекомендуется в большинстве проектов.",
+      "id": 1
     },
     {
-      "id": 2,
       "type": "fill",
       "question": "Напишите первую строку классического header guard для файла math.h:",
       "correct": [
@@ -40,10 +39,10 @@
         "#ifndef MATH_H_",
         "#ifndef MATH_H_INCLUDED"
       ],
-      "explanation": "#ifndef MATH_H проверяет, не был ли уже определён макрос MATH_H. Если нет — включает содержимое файла."
+      "explanation": "#ifndef MATH_H проверяет, не был ли уже определён макрос MATH_H. Если нет — включает содержимое файла.",
+      "id": 2
     },
     {
-      "id": 3,
       "type": "single",
       "question": "Что происходит при повторном включении файла с #pragma once?",
       "answers": [
@@ -53,10 +52,10 @@
         "Предупреждение компилятора"
       ],
       "correct": 1,
-      "explanation": "#pragma once указывает препроцессору включить файл только один раз. При повторном #include файл полностью пропускается."
+      "explanation": "#pragma once указывает препроцессору включить файл только один раз. При повторном #include файл полностью пропускается.",
+      "id": 3
     },
     {
-      "id": 4,
       "type": "multiple",
       "question": "Отметьте ВСЕ верные утверждения о #pragma once vs #ifndef:",
       "answers": [
@@ -72,10 +71,10 @@
         2,
         3
       ],
-      "explanation": "#pragma once проще, но не стандартен. #ifndef стандартен, требует уникального имени. Оба работают корректно на современных компиляторах."
+      "explanation": "#pragma once проще, но не стандартен. #ifndef стандартен, требует уникального имени. Оба работают корректно на современных компиляторах.",
+      "id": 4
     },
     {
-      "id": 5,
       "type": "single",
       "question": "Какое соглашение об именовании используется для макроса в #ifndef guard?",
       "answers": [
@@ -85,7 +84,141 @@
         "GUARD_filename"
       ],
       "correct": 1,
-      "explanation": "Рекомендуется PROJECTNAME_FILENAME_H, например MYAPP_MATH_H. Это снижает риск конфликта имён между разными проектами."
+      "explanation": "Рекомендуется PROJECTNAME_FILENAME_H, например MYAPP_MATH_H. Это снижает риск конфликта имён между разными проектами.",
+      "id": 5
+    },
+    {
+      "type": "fill-code",
+      "question": "Заполните пропуск для современного header guard:",
+      "code": "#_____ once",
+      "correct": [
+        "pragma"
+      ],
+      "explanation": "#pragma once — современный способ защиты от повторного включения.",
+      "id": 6
+    },
+    {
+      "type": "code",
+      "question": "Что произойдёт при компиляции?",
+      "code": "// math.h\n#pragma once\nint add(int a, int b);\n// main.cpp\n#include \"math.h\"\n#include \"math.h\"",
+      "answers": [
+        "Ошибка: multiple definition",
+        "Скомпилируется нормально: #pragma once предотвращает повторное включение",
+        "Предупреждение",
+        "Ошибка компоновки"
+      ],
+      "correct": 1,
+      "explanation": "#pragma once гарантирует, что math.h включится только один раз, даже при нескольких #include.",
+      "id": 7
+    },
+    {
+      "type": "single",
+      "question": "Что произойдёт без header guard при включении заголовка дважды?",
+      "answers": [
+        "Ничего особенного",
+        "Ошибка: повторное объявление типов и функций",
+        "Предупреждение компилятора",
+        "Ускорение компиляции"
+      ],
+      "correct": 1,
+      "explanation": "Без header guard повторное включение приводит к повторным объявлениям типов и функций — ошибка компиляции.",
+      "id": 8
+    },
+    {
+      "type": "fill-code-drag",
+      "question": "Соберите классический header guard для файла utils.h:",
+      "code": "_____ UTILS_H\n#define UTILS_H\n// содержимое\n_____",
+      "answers": [
+        "#ifndef",
+        "#endif",
+        "#ifdef",
+        "#define",
+        "#pragma"
+      ],
+      "correct": [
+        "#ifndef",
+        "#endif"
+      ],
+      "explanation": "#ifndef UTILS_H / #define UTILS_H / ... / #endif — классический header guard.",
+      "id": 9
+    },
+    {
+      "type": "multiple",
+      "question": "Отметьте ВСЕ верные утверждения о #pragma once vs #ifndef:",
+      "answers": [
+        "#pragma once проще в написании",
+        "#ifndef/#define/#endif — стандартный способ, работает везде",
+        "#pragma once не является частью стандарта C++, но поддерживается всеми основными компиляторами",
+        "#ifndef требует уникального имени макроса",
+        "#pragma once медленнее"
+      ],
+      "correct": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "explanation": "#pragma once проще, но не стандартен. #ifndef стандартен, требует уникального имени. Оба работают на современных компиляторах.",
+      "id": 10
+    },
+    {
+      "type": "fill",
+      "question": "Напишите директиву для завершения классического header guard:",
+      "correct": [
+        "#endif"
+      ],
+      "explanation": "#endif завершает блок #ifndef. Каждый #ifndef должен иметь соответствующий #endif.",
+      "id": 11
+    },
+    {
+      "type": "matching",
+      "question": "Соотнесите строку header guard с её ролью:",
+      "pairs": [
+        {
+          "left": "#ifndef MATH_H",
+          "right": "Проверка: не определён ли макрос"
+        },
+        {
+          "left": "#define MATH_H",
+          "right": "Определение макроса-стража"
+        },
+        {
+          "left": "#endif",
+          "right": "Завершение условного блока"
+        },
+        {
+          "left": "#pragma once",
+          "right": "Современная альтернатива"
+        }
+      ],
+      "explanation": "Классический header guard: #ifndef → #define → содержимое → #endif.",
+      "id": 12
+    },
+    {
+      "type": "single",
+      "question": "Какое соглашение об именовании используется для макроса в #ifndef guard?",
+      "answers": [
+        "Любое имя",
+        "PROJECTNAME_FILENAME_H (в верхнем регистре)",
+        "filename_guard",
+        "GUARD_filename"
+      ],
+      "correct": 1,
+      "explanation": "Рекомендуется PROJECTNAME_FILENAME_H, например MYAPP_MATH_H. Снижает риск конфликта имён между проектами.",
+      "id": 13
+    },
+    {
+      "type": "single",
+      "question": "Почему имя макроса в header guard должно быть уникальным?",
+      "answers": [
+        "Это требование компилятора",
+        "Если два разных файла используют одинаковый макрос, один из них не включится",
+        "Это ускоряет компиляцию",
+        "Это требование стандарта"
+      ],
+      "correct": 1,
+      "explanation": "Если math.h и utils.h оба используют #ifndef HEADER_H, то второй файл не включится после первого. Имена должны быть уникальными.",
+      "id": 14
     }
   ]
 }

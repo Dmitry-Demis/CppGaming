@@ -26,13 +26,11 @@
 
         try {
             const headers = { 'X-Isu-Number': user.isuNumber };
-            if (user.isAdmin) headers['X-Is-Admin'] = '1';
-
             const res = await fetch(`/api/progress/${user.isuNumber}/unlocked-paragraphs`, { headers });
             if (!res.ok) return { unlocked: [], isAdmin: false };
             const data = await res.json();
             _unlockedCache = data.unlocked || [];
-            _isAdmin = user.isAdmin || data.isAdmin || false;
+            _isAdmin = !!data.isAdmin;
             return { unlocked: _unlockedCache, isAdmin: _isAdmin };
         } catch {
             return { unlocked: [], isAdmin: false };

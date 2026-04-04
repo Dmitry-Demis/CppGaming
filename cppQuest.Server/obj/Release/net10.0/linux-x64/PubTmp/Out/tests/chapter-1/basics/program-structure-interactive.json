@@ -67,7 +67,7 @@
       "type": "fill-code",
       "question": "Заполните пропуски: программа принимает аргументы командной строки:",
       "code": "_____ _____\n\nint main(int _____, char* argv[])\n{\n    std::cout << \"Аргументов: \" << _____ << '\\n';\n    return 0;\n}",
-      "correct": ["include", "<iostream>", "argc", "argc"],
+      "correct": ["#include", "<iostream>", "argc", "argc"],
       "explanation": "argc (argument count) — количество аргументов командной строки. argv — массив строк-аргументов."
     },
     {

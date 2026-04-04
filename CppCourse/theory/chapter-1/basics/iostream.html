@@ -62,22 +62,26 @@
                 <h1>Ввод и вывод: iostream</h1>
 
                 <p>
-                    Библиотека <code>&lt;iostream&gt;</code> предоставляет инструменты для
+                    Библиотека <a href="https://en.cppreference.com/w/cpp/header/iostream" target="_blank" rel="noopener" class="ref-link"><code>&lt;iostream&gt;</code></a> предоставляет инструменты для
                     взаимодействия с пользователем через консоль.
                     <code>iostream</code> = <em>input/output stream</em>.
+                    Чтобы использовать её возможности, нужно подключить заголовок в начале файла:
                 </p>
+
+                <pre style="padding-left: 1.5rem;"><code class="language-cpp">#include &lt;iostream&gt;</code></pre>
 
                 <h2 id="cout">std::cout — вывод</h2>
 
                 <p>
-                    <code>std::cout</code> (character output) выводит данные в стандартный поток вывода (консоль).
-                    Оператор <code>&lt;&lt;</code> передаёт данные в поток.
+                    <a href="https://en.cppreference.com/w/cpp/io/cout" target="_blank" rel="noopener" class="ref-link"><code>std::cout</code></a> (<em>character output</em>) выводит данные в стандартный поток вывода (консоль).
+                    Оператор <code>&lt;&lt;</code> передаёт данные в поток — можно представить его как конвейер,
+                    который несёт данные в сторону <code>std::cout</code>.
                     Можно цеплять несколько значений подряд.
                 </p>
 
-                <div class="code-block" data-example="chapter-1/basics/iostream-basic.cpp">
+                <div class="code-block" data-example="cout-chaining">
                     <div class="code-header">
-                        <span class="code-lang">C++ — cout и cin</span>
+                        <span class="code-lang">C++ — цепочка вывода</span>
                         <div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button></div>
                     </div>
                     <div class="code-content">
@@ -87,38 +91,205 @@
 
                 <h2 id="newline">Перевод строки: \n vs endl</h2>
 
+                <p>
+                    Отдельные вызовы <code>std::cout</code> не добавляют перенос строки автоматически.
+                    Чтобы перейти на новую строку, нужно явно вывести символ переноса.
+                    Есть два способа: <code>std::endl</code> и <code>\n</code>.
+                </p>
+
+                <p>
+                    <a href="https://en.cppreference.com/w/cpp/io/manip/endl" target="_blank" rel="noopener" class="ref-link"><code>std::endl</code></a> делает две вещи: переводит курсор на новую строку
+                    и принудительно сбрасывает буфер вывода. Сброс буфера — медленная операция,
+                    поэтому при частом использовании <code>std::endl</code> производительность заметно падает.
+                </p>
+
+                <p>
+                    <code>\n</code> — просто символ новой строки, без сброса буфера.
+                    Его можно встроить прямо в строку или вывести отдельно.
+                    В большинстве случаев именно он предпочтителен.
+                </p>
+
                 <div class="info-card">
-                    <div class="info-card__title">\n предпочтительнее endl</div>
+                    <div class="info-card__title">Формы записи \n</div>
                     <ul>
-                        <li><code>"\n"</code> — просто символ новой строки, быстро</li>
-                        <li><code>std::endl</code> — новая строка + принудительный сброс буфера (flush), медленнее</li>
-                        <li>Используйте <code>"\n"</code> в большинстве случаев</li>
-                        <li><code>std::endl</code> нужен только когда важно немедленно вывести данные</li>
+                        <li><code>"текст\n"</code> — встроен в строку (наиболее распространённо)</li>
+                        <li><code>"\n"</code> — отдельный строковый литерал (тоже допустимо)</li>
+                        <li><code>'\n'</code> — символьный литерал (предпочтительно, когда \n стоит отдельно)</li>
                     </ul>
+                </div>
+
+                <div class="callout callout--tip">
+                    <div class="callout__title">'\n' vs "\n" — в чём разница</div>
+                    <div class="callout__body">
+                        <p>
+                            В C++ одинарные кавычки обозначают один символ (<code>char</code>),
+                            двойные — строку (<code>const char[]</code>).
+                            <code>'\n'</code> — это ровно один байт.
+                            <code>"\n"</code> — это массив из двух байт: символ переноса и нулевой терминатор.
+                        </p>
+                        <p>
+                            Для вывода через <code>std::cout</code> разницы нет — оба работают одинаково.
+                            Но семантически точнее использовать <code>'\n'</code>, когда выводите одиночный символ,
+                            а не строку. Это же правило распространяется на любые одиночные символы: <code>' '</code>, <code>'a'</code> и т.д.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="callout callout--warning">
+                    <div class="callout__title">Обратный слэш, не прямой</div>
+                    <div class="callout__body">
+                        <p><code>\n</code> пишется через обратный слэш (<code>\</code>).
+                        Прямой слэш <code>/n</code> — это просто два символа, никакого переноса строки не будет.
+                        Пробел внутри кавычек (<code>' \n'</code>) тоже даст неожиданный результат.</p>
+                    </div>
+                </div>
+
+                <h2 id="buffer-cout">Буферизация вывода</h2>
+
+                <p>
+                    Вывод через <code>std::cout</code> не попадает на экран мгновенно.
+                    Данные сначала накапливаются в <span class="key-term">буфере</span> — области памяти,
+                    которая периодически сбрасывается (<em>flush</em>) на устройство вывода.
+                    Это значительно ускоряет работу: одна операция записи на экран дешевле,
+                    чем десятки отдельных.
+                </p>
+
+                <div class="callout callout--warning">
+                    <div class="callout__title">Буфер и аварийное завершение</div>
+                    <div class="callout__body">
+                        <p>Если программа упала или была остановлена до сброса буфера,
+                        данные из него не будут выведены на экран.
+                        Именно поэтому при отладке иногда кажется, что вывод "пропал".</p>
+                    </div>
                 </div>
 
                 <h2 id="cin">std::cin — ввод</h2>
 
                 <p>
-                    <code>std::cin</code> (character input) читает данные из стандартного потока ввода (клавиатура).
-                    Оператор <code>&gt;&gt;</code> извлекает данные из потока и записывает в переменную.
+                    <a href="https://en.cppreference.com/w/cpp/io/cin" target="_blank" rel="noopener" class="ref-link"><code>std::cin</code></a> (<em>character input</em>) читает данные из стандартного потока ввода (клавиатура).
+                    Оператор <code>&gt;&gt;</code> извлекает данные из потока и записывает в переменную —
+                    конвейер идёт в обратную сторону: от <code>std::cin</code> к переменной.
+                    Можно читать несколько значений подряд.
                 </p>
+
+                <div class="callout callout--tip">
+                    <div class="callout__title">Инициализируйте переменную перед вводом</div>
+                    <div class="callout__body">
+                        <p>Переменную перед вводом стоит инициализировать, даже если значение сразу перезапишется.
+                        Это защищает от неопределённого поведения, если извлечение вдруг не удастся —
+                        например, пользователь введёт букву вместо числа.</p>
+                    </div>
+                </div>
+
+                <div class="callout callout--tip">
+                    <div class="callout__title">Как передать данные в std::cin в редакторе</div>
+                    <div class="callout__body">
+                        <p>Нажмите на шестерёнку ⚙ в правом верхнем углу редактора и введите нужные данные в поле <strong>Stdin</strong> — они попадут в <code>std::cin</code> при запуске программы.</p>
+                    </div>
+                </div>
+
+                <div class="code-block" data-example="iostream-basic">
+                    <div class="code-header">
+                        <span class="code-lang">C++ — cout и cin</span>
+                        <div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button>
+                        </div>
+                    </div>
+                    <div class="code-content">
+                        <pre><code class="language-cpp">// загрузка...</code></pre>
+                    </div>
+                </div>
+
+                <div class="callout callout--tip">
+                    <div class="callout__title">Не нужен \n после ввода</div>
+                    <div class="callout__body">
+                        <p>При чтении через <code>std::cin</code> не нужно выводить <code>'\n'</code> после приглашения —
+                        пользователь сам нажмёт Enter, и курсор перейдёт на новую строку.</p>
+                    </div>
+                </div>
 
                 <div class="warning-block">
                     <div class="warning-block__title">cin и пробелы</div>
                     <p>
-                        <code>std::cin &gt;&gt; x</code> пропускает пробелы и читает до следующего пробела/переноса.
-                        Для чтения строки с пробелами используйте <code>std::getline(std::cin, str)</code>.
+                        <code>std::cin &gt;&gt; x</code> пропускает ведущие пробелы и читает до следующего пробела/переноса.
+                        Для чтения строки с пробелами используйте <a href="https://en.cppreference.com/w/cpp/string/basic_string/getline" target="_blank" rel="noopener" class="ref-link"><code>std::getline(std::cin, str)</code></a>.
                     </p>
+                </div>
+
+                <h2 id="buffer-cin">Буферизация ввода</h2>
+
+                <p>
+                    Ввод тоже буферизован. Символы, которые вы набираете, накапливаются во входном буфере.
+                    Нажатие Enter фиксирует строку — она целиком попадает в буфер вместе с символом <code>'\n'</code>.
+                    Оператор <code>&gt;&gt;</code> затем извлекает данные из начала буфера по одному значению за раз.
+                    Буфер работает по принципу FIFO: первым пришёл — первым ушёл.
+                </p>
+
+                <p>
+                    Это значит, что если ввести <code>4 5</code> и нажать Enter,
+                    первый <code>&gt;&gt;</code> извлечёт <code>4</code>, второй — <code>5</code>,
+                    не ожидая нового ввода. Остаток буфера доступен для следующих извлечений.
+                </p>
+
+                <div class="code-block" data-example="cin-buffer">
+                    <div class="code-header">
+                        <span class="code-lang">C++ — два числа из одного ввода</span>
+                        <div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button></div>
+                    </div>
+                    <div class="code-content">
+<pre><code class="language-cpp">// загрузка...</code></pre>
+                    </div>
+                </div>
+
+                <div class="callout callout--info">
+                    <div class="callout__title">Как работает оператор &gt;&gt;</div>
+                    <div class="callout__body">
+                        <ol>
+                            <li>Если <code>std::cin</code> в состоянии ошибки — извлечение немедленно прерывается.</li>
+                            <li>Ведущие пробелы, табы и переносы строк отбрасываются.</li>
+                            <li>Если буфер пуст — оператор ждёт ввода от пользователя.</li>
+                            <li>Символы читаются подряд, пока не встретится пробел, перенос или неподходящий символ.</li>
+                            <li>Прочитанные символы конвертируются в нужный тип и присваиваются переменной.</li>
+                            <li>Непрочитанные символы остаются в буфере для следующего извлечения.</li>
+                        </ol>
+                        <p>Если ни одного подходящего символа не нашлось (например, ввели букву вместо числа),
+                        переменная получает значение <code>0</code>, а <code>std::cin</code> переходит в состояние ошибки —
+                        все последующие извлечения будут немедленно завершаться неудачей, пока поток не будет сброшен.</p>
+                    </div>
                 </div>
 
                 <h2 id="namespace">Зачем std::</h2>
 
                 <p>
                     <code>std::</code> — это <span class="key-term">пространство имён</span> (namespace) стандартной библиотеки.
-                    Оно предотвращает конфликты имён. Можно написать <code>using namespace std;</code>,
-                    но в больших проектах это считается плохой практикой.
+                    Оно предотвращает конфликты имён: <code>std::cout</code> и <code>std::cin</code> живут
+                    в пространстве <code>std</code>, а не в глобальном. Можно написать <code>using namespace std;</code>,
+                    но это считается плохой практикой.
                 </p>
+
+                <div class="callout callout--danger">
+                    <div class="callout__title">Почему using namespace std; — плохая практика</div>
+                    <div class="callout__body">
+                        <p>Директива <code>using namespace std;</code> импортирует все имена из стандартной библиотеки в глобальное пространство имён. Это создаёт несколько проблем:</p>
+                        <ul>
+                            <li><strong>Конфликты имён.</strong> Если в вашем коде есть функция или переменная с тем же именем, что и в <code>std</code> (например, <code>count</code>, <code>find</code>, <code>sort</code>), компилятор не сможет однозначно определить, что именно вы имеете в виду.</li>
+                            <li><strong>Скрытые зависимости.</strong> Читая код, невозможно сразу понять, откуда пришло то или иное имя — из стандартной библиотеки или из вашего проекта.</li>
+                            <li><strong>Проблемы при масштабировании.</strong> В небольшом файле конфликт маловероятен, но в крупном проекте с десятками заголовков риск резко возрастает.</li>
+                        </ul>
+                        <p>Пишите <code>std::cout</code>, <code>std::cin</code> и т.д. явно — это делает код понятнее и надёжнее.</p>
+                    </div>
+                </div>
+
+                <h2 id="operators">Мнемоника: &lt;&lt; и &gt;&gt;</h2>
+
+                <p>
+                    Новички часто путают операторы и объекты. Простое правило:
+                </p>
+
+                <ul>
+                    <li><code>std::cout</code> и <code>std::cin</code> всегда стоят слева от оператора.</li>
+                    <li><code>&lt;&lt;</code> используется с <code>std::cout</code> — стрелка показывает направление данных <em>к</em> консоли: <code>std::cout &lt;&lt; 4</code></li>
+                    <li><code>&gt;&gt;</code> используется с <code>std::cin</code> — стрелка показывает направление данных <em>от</em> клавиатуры к переменной: <code>std::cin &gt;&gt; x</code></li>
+                </ul>
 
                 <h2 id="tests">Проверьте знания</h2>
                 <div class="quiz-widget" data-final="iostream" data-final-desc="cout, cin, операторы << и >>, endl, пространство имён std"></div>

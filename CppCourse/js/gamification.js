@@ -158,7 +158,12 @@ class GameSystem {
             const hpmXpVal  = mini.querySelector('.hpm-xp-val');
             const hpmXpFill = mini.querySelector('.hpm-xp-fill');
             const hpmLvl    = mini.querySelector('.hpm-level-badge');
-            const LEVEL_TITLES = ['','Новичок','Ученик','Практикант','Программист','Эксперт','Мастер C++'];
+            const LEVEL_TITLES = ['','Новичок','Ученик','Практикант','Программист','Эксперт',
+                              'Мастер C++','Архитектор','Хакер','Ниндзя кода','Снайпер',
+                              'Чемпион','Алмазный','Оракул','Звезда','Киборг',
+                              'Генетик','Пирокод','Гений','Ветеран','Космонавт',
+                              'Галактик','Рыцарь','Провидец','Легенда','Профессор',
+                              'Орёл','Призрак','Терминатор'];
             const title = LEVEL_TITLES[Math.min(this.level, LEVEL_TITLES.length - 1)] || '';
             if (hpmCoins)   hpmCoins.textContent  = `🪙 ${this.coins}`;
             if (hpmXpVal)   hpmXpVal.textContent  = `${this.xp}/${this.level * 500} XP`;
@@ -526,6 +531,110 @@ document.addEventListener('DOMContentLoaded', () => {
 window.addEventListener('quizCompleted', () => {
     if (gameSystem) gameSystem._loadFromServer();
 });
+
+// Анимация заработка монет/XP — от места результата к хедеру
+window.addEventListener('coinsEarnAnim', (e) => {
+    const { emoji, count, fromX, fromY } = e.detail || {};
+    _animateCoinsEarn(emoji || '🪙', count || 3, fromX, fromY);
+});
+
+// Покупка gated-контента — обновляем монеты с анимацией
+document.addEventListener('coinsUpdated', (e) => {
+    const { coins, keys } = e.detail || {};
+    if (!gameSystem) return;
+
+    const prevCoins = gameSystem.coins;
+    if (coins !== undefined) gameSystem.coins = coins;
+    if (keys  !== undefined) gameSystem.keys  = keys;
+    gameSystem._updateHUD();
+
+    // Анимация: монетки летят от хедера к месту покупки
+    if (coins !== undefined && coins < prevCoins) {
+        _animateCoinsSpend(prevCoins, coins, e.detail.targetX, e.detail.targetY);
+    }
+});
+
+// Покупка: монетки летят от хедера к месту покупки
+function _animateCoinsSpend(from, to, targetX, targetY) {
+    const hpmCoins = document.querySelector('.hpm-coins');
+
+    // Мигание счётчика красным + анимация числа
+    if (hpmCoins) {
+        hpmCoins.style.transition = 'color 0.2s';
+        hpmCoins.style.color = '#f38ba8';
+        const duration = 600, steps = 20, diff = to - from;
+        let step = 0;
+        const interval = setInterval(() => {
+            step++;
+            hpmCoins.textContent = '🪙 ' + Math.round(from + diff * (step / steps));
+            if (step >= steps) {
+                clearInterval(interval);
+                hpmCoins.textContent = '🪙 ' + to;
+                setTimeout(() => { hpmCoins.style.color = ''; }, 400);
+            }
+        }, duration / steps);
+    }
+
+    // Старт — позиция хедера (монетки)
+    const src = hpmCoins ? hpmCoins.getBoundingClientRect() : null;
+    const sx = src ? src.left + src.width / 2 : window.innerWidth / 2;
+    const sy = src ? src.top  + src.height / 2 : 60;
+
+    // Финиш — кнопка покупки
+    const tx = targetX ?? window.innerWidth / 2;
+    const ty = targetY ?? window.innerHeight / 2;
+
+    const spent = from - to;
+    const count = Math.min(Math.max(1, Math.floor(spent / 100)), 6);
+
+    _flyParticles('🪙', count, sx, sy, tx, ty, { scatter: 30 });
+}
+
+// Тест/код: монетки и XP летят от места результата к хедеру
+function _animateCoinsEarn(emoji, count, fromX, fromY) {
+    const hpmCoins = document.querySelector('.hpm-coins');
+    const src = hpmCoins ? hpmCoins.getBoundingClientRect() : null;
+    const tx = src ? src.left + src.width / 2 : window.innerWidth / 2;
+    const ty = src ? src.top  + src.height / 2 : 60;
+
+    if (hpmCoins) {
+        hpmCoins.style.transition = 'color 0.25s';
+        hpmCoins.style.color = '#fde68a';
+        setTimeout(() => { hpmCoins.style.color = ''; }, 600);
+    }
+
+    _flyParticles(emoji, count, fromX, fromY, tx, ty, { scatter: 50 });
+}
+
+function _flyParticles(emoji, count, sx, sy, tx, ty, opts) {
+    const scatter = opts?.scatter || 40;
+    for (let i = 0; i < count; i++) {
+        setTimeout(() => {
+            const el = document.createElement('div');
+            el.textContent = emoji;
+            const ox = (Math.random() - 0.5) * scatter;
+            const oy = (Math.random() - 0.5) * scatter;
+            el.style.cssText = [
+                'position:fixed;z-index:99999;pointer-events:none;',
+                'font-size:1.1rem;line-height:1;',
+                'left:' + (sx + ox) + 'px;',
+                'top:'  + (sy + oy) + 'px;',
+                'transition:left 0.65s cubic-bezier(.4,0,.2,1),',
+                'top 0.65s cubic-bezier(.4,0,.2,1),',
+                'opacity 0.65s,transform 0.65s;',
+                'opacity:1;transform:scale(1.1);'
+            ].join('');
+            document.body.appendChild(el);
+            requestAnimationFrame(() => requestAnimationFrame(() => {
+                el.style.left      = tx + 'px';
+                el.style.top       = ty + 'px';
+                el.style.opacity   = '0';
+                el.style.transform = 'scale(0.3)';
+            }));
+            setTimeout(() => el.remove(), 750);
+        }, i * 70);
+    }
+}
 
 // Global helper for external callers (e.g. index.html player card)
 window.openQuestsPanel = () => {

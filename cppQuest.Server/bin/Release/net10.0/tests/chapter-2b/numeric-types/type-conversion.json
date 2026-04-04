@@ -6,7 +6,6 @@
   "passingScore": 70,
   "questions": [
     {
-      "id": 0,
       "type": "single",
       "question": "Что такое неявное преобразование типов (implicit conversion)?",
       "answers": [
@@ -16,10 +15,10 @@
         "Ошибка компиляции"
       ],
       "correct": 1,
-      "explanation": "Неявное преобразование происходит автоматически, когда компилятор приводит значение к нужному типу без явного указания программиста."
+      "explanation": "Неявное преобразование происходит автоматически, когда компилятор приводит значение к нужному типу без явного указания программиста.",
+      "id": 0
     },
     {
-      "id": 1,
       "type": "single",
       "question": "Что такое сужающее преобразование (narrowing conversion)?",
       "answers": [
@@ -29,10 +28,10 @@
         "Преобразование float в double"
       ],
       "correct": 1,
-      "explanation": "Сужающее преобразование — к типу меньшего размера. Например, double → int теряет дробную часть, int → short может переполниться."
+      "explanation": "Сужающее преобразование — к типу меньшего размера. Например, double → int теряет дробную часть, int → short может переполниться.",
+      "id": 1
     },
     {
-      "id": 2,
       "type": "code",
       "question": "Что выведет программа?",
       "code": "#include <iostream>\nint main() {\n    int a{7}, b{2};\n    double result{a / b};\n    std::cout << result;\n}",
@@ -43,10 +42,10 @@
         "Ошибка"
       ],
       "correct": 2,
-      "explanation": "a / b — целочисленное деление, результат 3. Затем 3 преобразуется в double: 3.0. Чтобы получить 3.5, нужен static_cast<double>(a) / b."
+      "explanation": "a / b — целочисленное деление, результат 3. Затем 3 преобразуется в double: 3.0. Чтобы получить 3.5, нужен static_cast<double>(a) / b.",
+      "id": 2
     },
     {
-      "id": 3,
       "type": "single",
       "question": "Как правильно выполнить явное преобразование типов в C++?",
       "answers": [
@@ -56,10 +55,10 @@
         "int(value) — функциональный стиль"
       ],
       "correct": 1,
-      "explanation": "static_cast<T>(value) — рекомендуемый способ явного преобразования в C++. C-style cast (int)value не рекомендуется."
+      "explanation": "static_cast<T>(value) — рекомендуемый способ явного преобразования в C++. C-style cast (int)value не рекомендуется.",
+      "id": 3
     },
     {
-      "id": 4,
       "type": "code",
       "question": "Что выведет программа?",
       "code": "#include <iostream>\nint main() {\n    double d{3.99};\n    int i{static_cast<int>(d)};\n    std::cout << i;\n}",
@@ -70,10 +69,10 @@
         "Ошибка"
       ],
       "correct": 1,
-      "explanation": "static_cast<int>(3.99) усекает дробную часть (не округляет). Результат: 3."
+      "explanation": "static_cast<int>(3.99) усекает дробную часть (не округляет). Результат: 3.",
+      "id": 4
     },
     {
-      "id": 5,
       "type": "single",
       "question": "Что происходит при brace-initialization с сужающим преобразованием?",
       "answers": [
@@ -83,10 +82,10 @@
         "Ничего особенного"
       ],
       "correct": 1,
-      "explanation": "Brace-initialization {} запрещает сужающие преобразования. int x{3.14}; — ошибка компиляции. Это одно из преимуществ {}."
+      "explanation": "Brace-initialization {} запрещает сужающие преобразования. int x{3.14}; — ошибка компиляции. Это одно из преимуществ {}.",
+      "id": 5
     },
     {
-      "id": 6,
       "type": "multiple",
       "question": "Отметьте ВСЕ расширяющие (безопасные) преобразования:",
       "answers": [
@@ -101,10 +100,10 @@
         1,
         3
       ],
-      "explanation": "Расширяющие: short→int, int→double, float→double. Сужающие (потеря данных): double→int, long long→int."
+      "explanation": "Расширяющие: short→int, int→double, float→double. Сужающие (потеря данных): double→int, long long→int.",
+      "id": 6
     },
     {
-      "id": 7,
       "type": "code",
       "question": "Что выведет программа?",
       "code": "#include <iostream>\nint main() {\n    char ch{'A'};\n    int code{static_cast<int>(ch)};\n    std::cout << code;\n}",
@@ -115,19 +114,19 @@
         "Ошибка"
       ],
       "correct": 1,
-      "explanation": "ASCII-код символа 'A' равен 65. static_cast<int>('A') = 65."
+      "explanation": "ASCII-код символа 'A' равен 65. static_cast<int>('A') = 65.",
+      "id": 7
     },
     {
-      "id": 8,
       "type": "fill",
       "question": "Напишите выражение для явного преобразования переменной x типа double в int:",
       "correct": [
         "static_cast<int>(x)"
       ],
-      "explanation": "static_cast<int>(x) — правильный способ явного преобразования double в int в C++."
+      "explanation": "static_cast<int>(x) — правильный способ явного преобразования double в int в C++.",
+      "id": 8
     },
     {
-      "id": 9,
       "type": "single",
       "question": "Что такое integral promotion?",
       "answers": [
@@ -137,7 +136,83 @@
         "Явное преобразование с помощью static_cast"
       ],
       "correct": 1,
-      "explanation": "Integral promotion: типы меньше int (char, short) автоматически повышаются до int при арифметических операциях."
+      "explanation": "Integral promotion: типы меньше int (char, short) автоматически повышаются до int при арифметических операциях.",
+      "id": 9
+    },
+    {
+      "type": "fill-code",
+      "question": "Заполните пропуск для явного преобразования double в int:",
+      "code": "int x { _____(double)(d) };",
+      "correct": [
+        "static_cast<int>"
+      ],
+      "explanation": "static_cast<int>(d) — явное преобразование double в int с усечением дробной части.",
+      "id": 10
+    },
+    {
+      "type": "code",
+      "question": "Что выведет программа?",
+      "code": "#include <iostream>\nint main() {\n    int a{5}, b{2};\n    double r{static_cast<double>(a) / b};\n    std::cout << r;\n}",
+      "answers": [
+        "2",
+        "2.5",
+        "2.0",
+        "Ошибка"
+      ],
+      "correct": 1,
+      "explanation": "static_cast<double>(a) = 5.0. 5.0 / 2 = 2.5. Без приведения было бы целочисленное деление: 2.",
+      "id": 11
+    },
+    {
+      "type": "single",
+      "question": "Что такое integral promotion?",
+      "answers": [
+        "Преобразование int в long long",
+        "Автоматическое повышение типов меньше int до int при арифметических операциях",
+        "Преобразование float в double",
+        "Явное преобразование с помощью static_cast"
+      ],
+      "correct": 1,
+      "explanation": "Integral promotion: char, short и другие типы меньше int автоматически повышаются до int при арифметических операциях.",
+      "id": 12
+    },
+    {
+      "type": "matching",
+      "question": "Соотнесите вид преобразования с примером:",
+      "pairs": [
+        {
+          "left": "Расширяющее",
+          "right": "int → double"
+        },
+        {
+          "left": "Сужающее",
+          "right": "double → int"
+        },
+        {
+          "left": "Integral promotion",
+          "right": "char → int"
+        }
+      ],
+      "explanation": "Расширяющие безопасны, сужающие могут терять данные, promotion — автоматическое повышение.",
+      "id": 13
+    },
+    {
+      "type": "multiple",
+      "question": "Отметьте ВСЕ сужающие преобразования:",
+      "answers": [
+        "double → int",
+        "int → double",
+        "long long → int",
+        "float → double",
+        "int → char"
+      ],
+      "correct": [
+        0,
+        2,
+        4
+      ],
+      "explanation": "Сужающие: double→int (потеря дробной части), long long→int (возможное переполнение), int→char (возможное переполнение).",
+      "id": 14
     }
   ]
 }

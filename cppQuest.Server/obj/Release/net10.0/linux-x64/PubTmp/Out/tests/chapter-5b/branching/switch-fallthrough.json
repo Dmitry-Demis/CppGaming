@@ -1,10 +1,8 @@
 {
-  "id": "switch-fallthrough",
   "title": "Fallthrough и область видимости в switch",
   "passingScore": 70,
   "questions": [
     {
-      "id": 1,
       "type": "single",
       "question": "Что выведет программа?\n```cpp\nint x {2};\nswitch (x)\n{\n    case 1:\n        std::cout << \"один\\n\";\n        break;\n    case 2:\n        std::cout << \"два\\n\";\n    case 3:\n        std::cout << \"три\\n\";\n        break;\n    default:\n        std::cout << \"другое\\n\";\n        break;\n}\n```",
       "answers": [
@@ -14,10 +12,10 @@
         "один\nдва\nтри"
       ],
       "correct": 2,
-      "explanation": "x равно 2, поэтому выполнение начинается с case 2 и выводит «два». После этого нет break, поэтому происходит fallthrough в case 3, который выводит «три» и завершает switch через break."
+      "explanation": "x равно 2, поэтому выполнение начинается с case 2 и выводит «два». После этого нет break, поэтому происходит fallthrough в case 3, который выводит «три» и завершает switch через break.",
+      "id": 0
     },
     {
-      "id": 2,
       "type": "single",
       "question": "Что выведет программа?\n```cpp\nchar c {'B'};\nswitch (c)\n{\n    case 'A':\n    case 'B':\n    case 'C':\n        std::cout << \"Зачёт\\n\";\n        break;\n    default:\n        std::cout << \"Незачёт\\n\";\n        break;\n}\n```",
       "answers": [
@@ -27,10 +25,10 @@
         "Ничего"
       ],
       "correct": 0,
-      "explanation": "c равно 'B'. Метки case 'A', case 'B', case 'C' «стекированы» — все три ведут к одному блоку кода. Выполнение начинается с case 'B' и выводит «Зачёт», затем break завершает switch."
+      "explanation": "c равно 'B'. Метки case 'A', case 'B', case 'C' «стекированы» — все три ведут к одному блоку кода. Выполнение начинается с case 'B' и выводит «Зачёт», затем break завершает switch.",
+      "id": 1
     },
     {
-      "id": 3,
       "type": "single",
       "question": "Как правильно объявить переменную внутри case, чтобы избежать ошибки компиляции при наличии других меток case в той же области видимости?",
       "answers": [
@@ -40,7 +38,178 @@
         "Объявить переменную после default"
       ],
       "correct": 1,
-      "explanation": "Явный блок { } создаёт отдельную область видимости внутри case. Без него инициализация переменной в одном case может быть «перепрыгнута» при переходе к другому case, что является ошибкой компиляции."
+      "explanation": "Явный блок { } создаёт отдельную область видимости внутри case. Без него инициализация переменной в одном case может быть «перепрыгнута» при переходе к другому case, что является ошибкой компиляции.",
+      "id": 2
+    },
+    {
+      "type": "single",
+      "question": "Что такое fallthrough в switch?",
+      "answers": [
+        "Ошибка компиляции",
+        "Выполнение продолжается в следующий case без break",
+        "Выход из switch",
+        "Переход к default"
+      ],
+      "correct": 1,
+      "explanation": "Fallthrough: без break выполнение 'проваливается' в следующий case, выполняя его код.",
+      "id": 3
+    },
+    {
+      "type": "code",
+      "question": "Что выведет программа?",
+      "code": "#include <iostream>\nint main() {\n    int x{1};\n    switch (x) {\n        case 1: std::cout << \"A\";\n        case 2: std::cout << \"B\";\n        case 3: std::cout << \"C\"; break;\n    }\n}",
+      "answers": [
+        "A",
+        "ABC",
+        "AB",
+        "Ошибка"
+      ],
+      "correct": 1,
+      "explanation": "x=1: case 1 выводит A, нет break — fallthrough в case 2 (B), нет break — fallthrough в case 3 (C), break. Вывод: ABC.",
+      "id": 4
+    },
+    {
+      "type": "single",
+      "question": "Как намеренно использовать fallthrough для группировки значений?",
+      "answers": [
+        "Написать несколько case подряд без кода между ними",
+        "Использовать goto",
+        "Написать несколько switch",
+        "Использовать if-else"
+      ],
+      "correct": 0,
+      "explanation": "Стекирование меток: case 'A': case 'B': case 'C': { код } — все три значения выполняют один блок.",
+      "id": 5
+    },
+    {
+      "type": "single",
+      "question": "Как решить проблему с объявлением переменной внутри case?",
+      "answers": [
+        "Объявить переменную до switch",
+        "Использовать явный блок {} внутри case",
+        "Использовать static переменную",
+        "Объявить переменную после default"
+      ],
+      "correct": 1,
+      "explanation": "Явный блок {} создаёт отдельную область видимости. Переменная не 'утекает' в другие case.",
+      "id": 6
+    },
+    {
+      "type": "code",
+      "question": "Скомпилируется ли этот код?",
+      "code": "switch (x) {\n    case 1:\n        int y{5};\n        break;\n    case 2:\n        std::cout << y;\n        break;\n}",
+      "answers": [
+        "Да",
+        "Нет, ошибка: инициализация y перепрыгивается case 2",
+        "Да, с предупреждением",
+        "Зависит от компилятора"
+      ],
+      "correct": 1,
+      "explanation": "y объявлена в case 1, но case 2 может перепрыгнуть через инициализацию. Компилятор запрещает это.",
+      "id": 7
+    },
+    {
+      "type": "fill-code",
+      "question": "Заполните пропуск для создания отдельной области видимости в case:",
+      "code": "case 1: _____ int y{5}; std::cout << y; _____ break;",
+      "correct": [
+        "{"
+      ],
+      "explanation": "case 1: { int y{5}; std::cout << y; } break; — блок {} создаёт отдельную область видимости.",
+      "id": 8
+    },
+    {
+      "type": "multiple",
+      "question": "Отметьте ВСЕ верные утверждения о fallthrough:",
+      "answers": [
+        "Непреднамеренный fallthrough — частая ошибка",
+        "Компиляторы предупреждают о fallthrough",
+        "Стекирование меток — намеренное использование fallthrough",
+        "Fallthrough запрещён стандартом C++",
+        "[[fallthrough]] в C++17 документирует намеренный fallthrough"
+      ],
+      "correct": [
+        0,
+        1,
+        2,
+        4
+      ],
+      "explanation": "Fallthrough: частая ошибка, компиляторы предупреждают, стекирование — намеренное использование, [[fallthrough]] в C++17.",
+      "id": 9
+    },
+    {
+      "type": "code",
+      "question": "Что выведет программа?",
+      "code": "#include <iostream>\nint main() {\n    int grade{2};\n    switch (grade) {\n        case 5: case 4: case 3:\n            std::cout << \"Зачёт\"; break;\n        case 2: case 1:\n            std::cout << \"Незачёт\"; break;\n    }\n}",
+      "answers": [
+        "Зачёт",
+        "Незачёт",
+        "ЗачётНезачёт",
+        "Ошибка"
+      ],
+      "correct": 1,
+      "explanation": "grade=2: совпадает с case 2. Выводится 'Незачёт', break завершает switch.",
+      "id": 10
+    },
+    {
+      "type": "matching",
+      "question": "Соотнесите ситуацию с рекомендацией:",
+      "pairs": [
+        {
+          "left": "Несколько значений → одно действие",
+          "right": "Стекирование меток"
+        },
+        {
+          "left": "Намеренный fallthrough",
+          "right": "[[fallthrough]] атрибут"
+        },
+        {
+          "left": "Переменная в case",
+          "right": "Явный блок {}"
+        },
+        {
+          "left": "Завершение case",
+          "right": "break или return"
+        }
+      ],
+      "explanation": "Рекомендации для работы с fallthrough и областью видимости в switch.",
+      "id": 11
+    },
+    {
+      "type": "single",
+      "question": "Что делает атрибут [[fallthrough]] в C++17?",
+      "answers": [
+        "Запрещает fallthrough",
+        "Документирует намеренный fallthrough, подавляя предупреждение компилятора",
+        "Автоматически добавляет break",
+        "Это ошибка компиляции"
+      ],
+      "correct": 1,
+      "explanation": "[[fallthrough]]; в C++17 явно указывает, что fallthrough намеренный. Компилятор не выдаёт предупреждение.",
+      "id": 12
+    },
+    {
+      "type": "single",
+      "question": "Весь блок switch образует одну область видимости. Что это означает?",
+      "answers": [
+        "Переменные из одного case видны в других case",
+        "Каждый case имеет свою область видимости",
+        "Переменные switch видны вне блока",
+        "Нельзя объявлять переменные в switch"
+      ],
+      "correct": 0,
+      "explanation": "Весь switch — одна область видимости. Переменная из case 1 видна в case 2. Решение: явный блок {} в каждом case.",
+      "id": 13
+    },
+    {
+      "type": "fill-code",
+      "question": "Заполните пропуск для документирования намеренного fallthrough (C++17):",
+      "code": "case 1:\n    std::cout << \"A\";\n    _____;\ncase 2:\n    std::cout << \"B\";\n    break;",
+      "correct": [
+        "[[fallthrough]]"
+      ],
+      "explanation": "[[fallthrough]]; в C++17 документирует намеренный fallthrough, подавляя предупреждение компилятора.",
+      "id": 14
     }
   ],
   "pick": 10,

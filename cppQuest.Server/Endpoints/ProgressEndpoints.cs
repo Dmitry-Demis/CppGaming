@@ -50,14 +50,10 @@ public static class ProgressEndpoints
             var profile = await profileService.GetProfileAsync(isuNumber);
             if (profile is null) return Results.Ok(new { unlocked = Array.Empty<string>(), isAdmin = false });
 
-            // isAdmin — передаётся клиентом через заголовок X-Is-Admin (проверяем только для удобства UI)
-            // Реальная проверка: сервер сам знает, т.к. isAdmin хранится в cpp_user на клиенте
-            // Но для безопасности — isAdmin определяется только сервером через флаг в профиле
-            // Пока используем заголовок X-Is-Admin (клиент честный, т.к. контент не секретный)
-            bool isAdmin = ctx.Request.Headers["X-Is-Admin"].FirstOrDefault() == "1";
+            // isAdmin определяется только из БД — клиентский заголовок игнорируется
+            bool isAdmin = profile.IsAdmin;
 
             var allTests = await statsRepo.GetAllTestStatsAsync(profile.Id);
-            // bestScore по paragraphId
             var bestByParagraph = allTests
                 .GroupBy(t => t.ParagraphId)
                 .ToDictionary(

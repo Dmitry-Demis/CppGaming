@@ -63,8 +63,9 @@ public class AuthService(
                 return (false, "Неверный пароль", null);
         }
 
-        // Обновляем дату входа
+        // Обновляем дату входа и IsAdmin в БД
         user.LastLoginDate = DateTime.UtcNow;
+        user.IsAdmin = isAdmin;
         await userRepo.UpdateAsync(user);
 
         var gamification = await gamificationRepo.GetAsync(user.Id);

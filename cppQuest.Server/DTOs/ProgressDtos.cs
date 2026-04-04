@@ -54,7 +54,8 @@ public record ProfileResponse(
     int CurrentStreak,
     int MaxStreak,
     string UnlockedContentStds = "",
-    string UnlockedSlots = ""
+    string UnlockedSlots = "",
+    bool IsAdmin = false
 );
 
 // GET /api/progress/{isuNumber}/{paragraphId}

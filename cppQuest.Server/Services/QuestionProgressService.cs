@@ -13,8 +13,8 @@ public class QuestionProgressService(IQuestionProgressRepository repo)
 
     /// <summary>
     /// Возвращает pick ID вопросов по алгоритму приоритетов:
-    /// 1. Неправильные из последней попытки (но не более 50% от pick)
-    /// 2. Новые (никогда не видели)
+    /// 1. Новые (никогда не видели) — абсолютный приоритет
+    /// 2. Неправильные из последней попытки (но не более 50% от оставшихся слотов)
     /// 3. Правильные, самые давние (по LastSeenAt)
     /// </summary>
     public async Task<List<int>> PickQuestionIdsAsync(
@@ -25,15 +25,15 @@ public class QuestionProgressService(IQuestionProgressRepository repo)
 
         var rng = new Random();
 
-        // Неправильные из последней попытки (IsCorrect=false)
-        var wrong = allQuestionIds
-            .Where(id => progressMap.TryGetValue(id, out var p) && !p.IsCorrect)
+        // Новые — никогда не видели (абсолютный приоритет)
+        var unseen = allQuestionIds
+            .Where(id => !progressMap.ContainsKey(id))
             .OrderBy(_ => rng.Next())
             .ToList();
 
-        // Новые — никогда не видели
-        var unseen = allQuestionIds
-            .Where(id => !progressMap.ContainsKey(id))
+        // Неправильные из последней попытки (IsCorrect=false)
+        var wrong = allQuestionIds
+            .Where(id => progressMap.TryGetValue(id, out var p) && !p.IsCorrect)
             .OrderBy(_ => rng.Next())
             .ToList();
 
@@ -45,20 +45,33 @@ public class QuestionProgressService(IQuestionProgressRepository repo)
 
         var result = new List<int>();
 
-        // Ограничиваем неправильные 50% от pick, чтобы всегда были новые/старые вопросы
-        int wrongCap = (int)Math.Ceiling(pick * 0.5);
-        var wrongToAdd = wrong.Take(wrongCap).ToList();
-        result.AddRange(wrongToAdd);
-
-        // Добираем сначала новыми, потом самыми давними правильными
-        foreach (var id in unseen.Concat(seenCorrect))
+        // 1. Сначала все unseen — они должны попасть в первую очередь
+        foreach (var id in unseen)
         {
             if (result.Count >= pick) break;
-            if (!result.Contains(id)) result.Add(id);
+            result.Add(id);
         }
 
-        // Если всё ещё не хватает (банк маленький) — добираем оставшимися неправильными
-        foreach (var id in wrong.Skip(wrongCap))
+        // 2. Добираем неправильными, но не более 50% от оставшихся слотов
+        int remaining = pick - result.Count;
+        int wrongCap = remaining > 0 ? (int)Math.Ceiling(remaining * 0.5) : 0;
+        var wrongAdded = new List<int>();
+        foreach (var id in wrong.Take(wrongCap))
+        {
+            if (result.Count >= pick) break;
+            result.Add(id);
+            wrongAdded.Add(id);
+        }
+
+        // 3. Добираем самыми давними правильными
+        foreach (var id in seenCorrect)
+        {
+            if (result.Count >= pick) break;
+            result.Add(id);
+        }
+
+        // 4. Если всё ещё не хватает — добираем оставшимися неправильными
+        foreach (var id in wrong.Except(wrongAdded))
         {
             if (result.Count >= pick) break;
             result.Add(id);

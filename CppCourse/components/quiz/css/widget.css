@@ -32,6 +32,53 @@
     gap: .75rem;
     flex-wrap: wrap;
 }
+
+/* Диаграмма распределения — на всю ширину */
+.qw-dist-chart {
+    width: 100%;
+    flex-basis: 100%;
+    margin-top: .25rem;
+}
+.qw-dist-bar-stack {
+    display: flex;
+    height: 18px;
+    border-radius: 99px;
+    overflow: hidden;
+}
+.qw-dist-seg {
+    height: 100%;
+    border-radius: 99px;
+    transition: width .4s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+.qw-dist-sym {
+    font-size: .65rem;
+    font-weight: 800;
+    color: rgba(0,0,0,.55);
+    line-height: 1;
+    pointer-events: none;
+}
+.qw-dist-seg--below { background: var(--accent-green,  #a6e3a1); }
+.qw-dist-seg--same  { background: var(--accent-orange, #fab387); }
+.qw-dist-seg--above { background: var(--accent-red,    #f38ba8); }
+.qw-dist-labels {
+    position: relative;
+    height: 1rem;
+    margin-top: 3px;
+}
+.qw-dist-lbl {
+    position: absolute;
+    transform: translateX(-50%);
+    font-size: .6rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+.qw-dist-lbl--below { color: var(--accent-green,  #a6e3a1); }
+.qw-dist-lbl--same  { color: var(--accent-orange, #fab387); }
+.qw-dist-lbl--above { color: var(--accent-red,    #f38ba8); }
 .qw-stat {
     display: inline-flex;
     flex-direction: column;
@@ -40,6 +87,21 @@
 }
 .qw-stat__label { font-size: .65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: .03em; }
 .qw-stat__val   { font-size: .85rem; font-weight: 700; color: var(--text); }
+.qw-stat__val--full { color: var(--accent-green, #a6e3a1); }
+.qw-mono { font-family: monospace; font-style: normal; font-size: inherit; background: none; padding: 0; color: inherit; }
+
+/* Математический шрифт для чисел */
+.qw-math {
+    font-family: "STIX Two Math", "Cambria Math", "Latin Modern Math", serif;
+    font-style: italic;
+}
+.qw-mjax {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 1;
+}
+
+
 
 .qw-card__badge {
     display: inline-block;

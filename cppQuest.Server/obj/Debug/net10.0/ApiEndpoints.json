@@ -500,7 +500,7 @@
   },
   {
     "ContainingType": "cppQuest.Server.Endpoints.QuizEndpoints\u002B\u003C\u003Ec",
-    "Method": "\u003CMapQuizEndpoints\u003Eb__0_0",
+    "Method": "\u003CMapQuizEndpoints\u003Eb__0_1",
     "RelativePath": "api/quiz/{quizId}",
     "HttpMethod": "GET",
     "IsController": false,
@@ -522,7 +522,7 @@
   },
   {
     "ContainingType": "cppQuest.Server.Endpoints.QuizEndpoints\u002B\u003C\u003Ec",
-    "Method": "\u003CMapQuizEndpoints\u003Eb__0_3",
+    "Method": "\u003CMapQuizEndpoints\u003Eb__0_6",
     "RelativePath": "api/quiz/{quizId}/pick-questions",
     "HttpMethod": "GET",
     "IsController": false,
@@ -544,7 +544,56 @@
   },
   {
     "ContainingType": "cppQuest.Server.Endpoints.QuizEndpoints\u002B\u003C\u003Ec",
-    "Method": "\u003CMapQuizEndpoints\u003Eb__0_1",
+    "Method": "\u003CMapQuizEndpoints\u003Eb__0_4",
+    "RelativePath": "api/quiz/{quizId}/question-stats/{questionId:int}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "quizId",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "questionId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "cppQuest.Server.Endpoints.QuizEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapQuizEndpoints\u003Eb__0_5",
+    "RelativePath": "api/quiz/{quizId}/score-distribution",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "quizId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "cppQuest.Server.Endpoints.QuizEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapQuizEndpoints\u003Eb__0_2",
     "RelativePath": "api/quiz/{quizId}/submit",
     "HttpMethod": "POST",
     "IsController": false,
@@ -571,7 +620,7 @@
   },
   {
     "ContainingType": "cppQuest.Server.Endpoints.QuizEndpoints\u002B\u003C\u003Ec",
-    "Method": "\u003CMapQuizEndpoints\u003Eb__0_2",
+    "Method": "\u003CMapQuizEndpoints\u003Eb__0_3",
     "RelativePath": "api/quiz/{quizId}/wrong-ids",
     "HttpMethod": "GET",
     "IsController": false,
@@ -583,6 +632,22 @@
         "IsRequired": true
       }
     ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "cppQuest.Server.Endpoints.QuizEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapQuizEndpoints\u003Eb__0_0",
+    "RelativePath": "api/quiz/list",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": [
       {
         "Type": "System.Void",

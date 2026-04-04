@@ -148,6 +148,11 @@ function buildCourseNav(structure, testProgress = {}) {
     const titleEl = document.querySelector('.sidebar-title');
     if (titleEl) titleEl.textContent = 'Содержание курса';
 
+    function chapterNumFromId(id) {
+        const m = id.match(/^chapter-(.+)$/);
+        return m ? m[1] : id;
+    }
+
     structure.chapters.forEach((chapter, ci) => {
         const chapterEl = document.createElement('li');
         chapterEl.className = 'sidebar-chapter';
@@ -163,7 +168,7 @@ function buildCourseNav(structure, testProgress = {}) {
         // Click on label → go to chapter index.html
         const labelEl = document.createElement('span');
         labelEl.className = 'sidebar-chapter-label';
-        labelEl.innerHTML = `Глава ${ci + 1}. ${renderInlineCode(chapter.title)}`;
+        labelEl.innerHTML = `Глава ${chapterNumFromId(chapter.id)}. ${renderInlineCode(chapter.title)}`;
         labelEl.style.cursor = 'pointer';
         labelEl.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -234,7 +239,7 @@ function buildCourseNav(structure, testProgress = {}) {
             const sli = document.createElement('li');
             sli.className = 'sidebar-section-item';
             sli.innerHTML = `<a class="sidebar-section-link${isActive ? ' active' : ''}" href="${href}">
-                <span class="sidebar-section-number">§${ci + 1}.${idx + 1}</span>
+                <span class="sidebar-section-number">§${chapterNumFromId(chapter.id)}.${idx + 1}</span>
                 <span class="sidebar-section-title">${para.title}</span>
                 ${badges ? `<span class="sb-badges">${badges}</span>` : ''}
             </a>`;

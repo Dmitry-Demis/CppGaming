@@ -31,16 +31,15 @@
 
 	<!-- БЛОК ДЛЯ ВНЕШНЕЙ ПАПКИ CppCourse -->
 	<ItemGroup>
-		<!-- 1. Объявляем файлы как контент со ссылками -->
+		<!-- Объявляем файлы как контент со ссылками (только для публикации/Release) -->
 		<Content Include="..\CppCourse\**\*">
-			<!-- LinkBase создает виртуальную корневую папку "CppCourse" в обозревателе -->
 			<LinkBase>CppCourse</LinkBase>
-			<!-- Сохраняем структуру подпапок внутри виртуальной папки -->
 			<Link>CppCourse\%(RecursiveDir)%(Filename)%(Extension)</Link>
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+			<!-- В Development сервер читает напрямую из ../CppCourse, копировать не нужно -->
+			<CopyToOutputDirectory Condition="'$(Configuration)' == 'Release'">Always</CopyToOutputDirectory>
+			<CopyToOutputDirectory Condition="'$(Configuration)' != 'Release'">Never</CopyToOutputDirectory>
 		</Content>
 
-		<!-- 2. Явно объявляем папку, чтобы VS отрисовал её структуру (деревом) -->
 		<Folder Include="..\CppCourse\">
 			<Link>CppCourse</Link>
 		</Folder>

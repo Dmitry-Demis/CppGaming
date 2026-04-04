@@ -462,6 +462,9 @@ namespace cppQuest.Server.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("INTEGER");
 
+                    b.Property<bool>("IsAdmin")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("IsuNumber")
                         .IsRequired()
                         .HasColumnType("TEXT");

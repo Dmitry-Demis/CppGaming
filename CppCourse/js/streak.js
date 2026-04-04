@@ -216,7 +216,68 @@
     .streak-modal { padding: 1.5rem 1.25rem 1.25rem; }
     .streak-modal__count { font-size: 2.4rem; }
     .header-profile-mini { display: none; }
-}`;
+}
+
+/* ── Header Auth Links ── */
+.header-auth-link {
+    font-size: .82rem;
+    font-weight: 600;
+    color: var(--text-secondary, rgba(205,214,244,.7));
+    text-decoration: none;
+    padding: 4px 10px;
+    border-radius: 6px;
+    border: 1px solid rgba(255,255,255,.1);
+    transition: background .15s, color .15s, border-color .15s;
+    white-space: nowrap;
+}
+.header-auth-link:hover {
+    background: rgba(255,255,255,.07);
+    color: var(--text-primary, #cdd6f4);
+    border-color: rgba(203,166,247,.35);
+    text-decoration: none;
+}
+@media (max-width: 480px) { .header-auth-link { display: none; } }
+
+/* ── Bottom Nav Bar ── */
+#bottom-nav-bar {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    z-index: 900;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    padding: 8px 16px 10px;
+    background: rgba(15,14,30,.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-top: 1px solid rgba(255,255,255,.08);
+    pointer-events: auto;
+}
+.bnb-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 7px 18px;
+    border-radius: 99px;
+    font-size: .82rem; font-weight: 700;
+    color: rgba(205,214,244,.7);
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.1);
+    text-decoration: none;
+    transition: background .15s, color .15s, border-color .15s;
+    white-space: nowrap;
+}
+.bnb-btn:hover {
+    background: rgba(203,166,247,.12);
+    color: #cba6f7;
+    border-color: rgba(203,166,247,.35);
+    text-decoration: none;
+}
+.bnb-btn--active {
+    background: rgba(203,166,247,.15);
+    color: #cba6f7;
+    border-color: rgba(203,166,247,.4);
+}
+/* Add bottom padding to body so content isn't hidden behind bar */
+body { padding-bottom: 52px; }`;
 
     function injectStyle() {
         if (document.getElementById('streak-css')) return;
@@ -227,13 +288,58 @@
     }
 
     // ── Header mini profile ───────────────────────────────────────────────
+    function updateHeaderAuthLinks(loggedIn) {
+        const nav = document.querySelector('.header-nav');
+        if (!nav) return;
+
+        // Убираем старые auth-ссылки
+        nav.querySelectorAll('.header-auth-link').forEach(el => el.remove());
+
+        const root = (typeof _siteRoot !== 'undefined' ? _siteRoot : '');
+
+        if (loggedIn) {
+            // Выйти (профиль доступен через плашку)
+            const logoutLink = document.createElement('a');
+            logoutLink.href = '#';
+            logoutLink.className = 'header-auth-link';
+            logoutLink.textContent = 'Выйти';
+            logoutLink.addEventListener('click', e => {
+                e.preventDefault();
+                localStorage.removeItem('cpp_user');
+                location.href = root + 'login.html';
+            });
+
+            nav.appendChild(logoutLink);
+        } else {
+            const regLink = document.createElement('a');
+            regLink.href = root + 'register.html';
+            regLink.className = 'header-auth-link';
+            regLink.textContent = 'Регистрация';
+
+            const loginLink = document.createElement('a');
+            loginLink.href = root + 'login.html';
+            loginLink.className = 'header-auth-link';
+            loginLink.textContent = 'Вход';
+
+            nav.appendChild(regLink);
+            nav.appendChild(loginLink);
+        }
+    }
+
     function renderHeaderProfile(profile) {
         // Remove old
         document.querySelectorAll('.header-profile-mini').forEach(el => el.remove());
         document.querySelectorAll('.header-profile-link').forEach(el => el.remove());
 
-        const LEVEL_ICONS  = ['','🌱','📘','⚙️','💻','🔬','👑'];
-        const LEVEL_TITLES = ['','Новичок','Ученик','Практикант','Программист','Эксперт','Мастер C++'];
+        const LEVEL_ICONS  = ['','🌱','📘','⚙️','💻','🔬','👑','🧠','🚀','⚡','🎯',
+                              '🏆','💎','🔮','🌟','🦾','🧬','🔥','💡','🎖️','🛸',
+                              '🌌','⚔️','🧿','🏅','🎓','🦅','👾','🤖'];
+        const LEVEL_TITLES = ['','Новичок','Ученик','Практикант','Программист','Эксперт',
+                              'Мастер C++','Архитектор','Хакер','Ниндзя кода','Снайпер',
+                              'Чемпион','Алмазный','Оракул','Звезда','Киборг',
+                              'Генетик','Пирокод','Гений','Ветеран','Космонавт',
+                              'Галактик','Рыцарь','Провидец','Легенда','Профессор',
+                              'Орёл','Призрак','Терминатор'];
         const level   = profile.level  ?? 1;
         const xp      = profile.xp     ?? 0;
         const coins   = profile.coins  ?? 0;
@@ -241,7 +347,7 @@
         const streak  = profile.currentStreak ?? 0;
         const needed  = 500;
         const inLevel = xp - (level - 1) * needed;
-        const xpNext  = level * needed;          // суммарный XP для следующего уровня
+        const xpNext  = level * needed;
         const pct     = Math.min(xp / xpNext * 100, 100).toFixed(1);
         const icon    = LEVEL_ICONS[Math.min(level, LEVEL_ICONS.length - 1)] || '⭐';
         const title   = LEVEL_TITLES[Math.min(level, LEVEL_TITLES.length - 1)] || '';
@@ -259,21 +365,18 @@
                     <div class="hpm-xp-bar"><div class="hpm-xp-fill" style="width:${pct}%"></div></div>
                     <span class="hpm-xp-val">${xp} / ${xpNext} XP</span>
                 </div>
-                <span class="hpm-coins">🪙 ${coins}</span>
-                ${streak > 0 ? `<span class="hpm-streak">🔥 ${streak}</span>` : ''}
+                <span class="hpm-coins"><span class="coin-spin">🪙</span> ${coins}</span>
+                ${streak > 0 ? `<span class="hpm-streak"><span class="fire-flicker">🔥</span> ${streak}</span>` : ''}
             </div>`;
 
-        // Insert after logo (second child = after header-logo)
-        const headerInner = document.querySelector('.header-inner');
-        if (!headerInner) return;
-        const logo = headerInner.querySelector('.header-logo');
-        if (logo && logo.nextSibling) {
-            headerInner.insertBefore(mini, logo.nextSibling);
-        } else if (logo) {
-            headerInner.appendChild(mini);
-        } else {
-            headerInner.prepend(mini);
-        }
+        // Insert into header-inner, centered between logo and nav
+        const inner = document.querySelector('.header-inner');
+        if (!inner) return;
+        // Remove existing
+        inner.querySelectorAll('.header-profile-mini').forEach(el => el.remove());
+        mini.style.cssText = 'position:absolute;left:50%;transform:translateX(-50%);';
+        inner.style.position = 'relative';
+        inner.appendChild(mini);
     }
     // Экспортируем глобально чтобы gamification.js мог вызвать после загрузки данных
     window.renderHeaderProfile = renderHeaderProfile;
@@ -365,12 +468,102 @@
         });
     }
 
-    // ── Init ──────────────────────────────────────────────────────────────
-    async function init() {
-        const user = JSON.parse(localStorage.getItem('cpp_user') || 'null');
-        if (!user?.isuNumber) return;
+    // ── Admin Quiz List Modal ─────────────────────────────────────────────
+    async function renderAdminQuizList() {
+        let quizzes = [];
+        try {
+            const res = await fetch('/api/quiz/list');
+            if (res.ok) quizzes = await res.json();
+        } catch { /* offline */ }
+
+        if (!quizzes.length) return;
 
         injectStyle();
+
+        const overlay = document.createElement('div');
+        overlay.className = 'streak-overlay';
+        overlay.id = 'admin-quiz-overlay';
+        overlay.style.cssText = 'z-index:10000;';
+
+        const typeLabel = { mini: '🔹 Мини', paragraph: '⭐ Итог', standard: '📋 Стандарт', chapter: '🏆 Глава', final: '🏆 Финал' };
+
+        const rows = quizzes.map(q => {
+            const lbl = typeLabel[q.type] || q.type;
+            const cnt = q.pick > 0 && q.pick < q.total ? `${q.pick}/${q.total}` : `${q.total}`;
+            return `<tr style="border-bottom:1px solid rgba(255,255,255,.06);cursor:pointer" onclick="window.openQuizModal('${q.id}');document.getElementById('admin-quiz-overlay')?.remove();document.body.style.overflow=''">
+                <td style="padding:6px 10px;font-size:.8rem;color:#94a3b8;font-family:monospace">${q.id}</td>
+                <td style="padding:6px 10px;font-size:.85rem">${q.title}</td>
+                <td style="padding:6px 10px;font-size:.75rem;white-space:nowrap">${lbl}</td>
+                <td style="padding:6px 10px;font-size:.75rem;color:#94a3b8;text-align:right">${cnt} вопр.</td>
+            </tr>`;
+        }).join('');
+
+        overlay.innerHTML = `
+            <div class="streak-modal" role="dialog" aria-modal="true" style="max-width:720px;width:95vw;max-height:80vh;overflow:hidden;display:flex;flex-direction:column;padding:1.5rem">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem">
+                    <div style="font-size:1.1rem;font-weight:700">📋 Все тесты курса <span style="font-size:.8rem;color:#94a3b8;font-weight:400">(${quizzes.length})</span></div>
+                    <button id="admin-quiz-close" style="background:none;border:none;color:#94a3b8;font-size:1.2rem;cursor:pointer;padding:4px 8px">✕</button>
+                </div>
+                <div style="overflow-y:auto;flex:1">
+                    <table style="width:100%;border-collapse:collapse">
+                        <thead><tr style="border-bottom:1px solid rgba(255,255,255,.12)">
+                            <th style="padding:4px 10px;text-align:left;font-size:.7rem;color:#64748b;font-weight:600">ID</th>
+                            <th style="padding:4px 10px;text-align:left;font-size:.7rem;color:#64748b;font-weight:600">Название</th>
+                            <th style="padding:4px 10px;text-align:left;font-size:.7rem;color:#64748b;font-weight:600">Тип</th>
+                            <th style="padding:4px 10px;text-align:right;font-size:.7rem;color:#64748b;font-weight:600">Вопросы</th>
+                        </tr></thead>
+                        <tbody>${rows}</tbody>
+                    </table>
+                </div>
+            </div>`;
+
+        document.body.appendChild(overlay);
+        document.body.style.overflow = 'hidden';
+
+        const close = () => {
+            overlay.remove();
+            document.body.style.overflow = '';
+        };
+        document.getElementById('admin-quiz-close').addEventListener('click', close);
+        overlay.addEventListener('click', e => { if (e.target === overlay) close(); });
+        document.addEventListener('keydown', function esc(e) {
+            if (e.key === 'Escape') { close(); document.removeEventListener('keydown', esc); }
+        });
+    }
+
+    // ── Init ──────────────────────────────────────────────────────────────
+    // ── Bottom nav bar (Achievements + Leaderboard) ──────────────────────
+    function injectBottomNav() {
+        if (document.getElementById('bottom-nav-bar')) return;
+        if (location.pathname.includes('leaderboard')) return;
+        const root = (typeof _siteRoot !== 'undefined' ? _siteRoot : '');
+        const bar = document.createElement('div');
+        bar.id = 'bottom-nav-bar';
+        bar.innerHTML = `
+            <a href="${root}achievements.html" class="bnb-btn" id="bnb-achievements">🏆 Достижения</a>
+            <a href="${root}shop.html"         class="bnb-btn" id="bnb-shop">🛒 Магазин</a>
+            <a href="${root}leaderboard.html"  class="bnb-btn" id="bnb-leaderboard">🥇 Лидеры</a>`;
+        document.body.appendChild(bar);
+
+        // Highlight active
+        const path = location.pathname;
+        if (path.includes('achievements')) document.getElementById('bnb-achievements')?.classList.add('bnb-btn--active');
+        if (path.includes('shop'))         document.getElementById('bnb-shop')?.classList.add('bnb-btn--active');
+        if (path.includes('leaderboard'))  document.getElementById('bnb-leaderboard')?.classList.add('bnb-btn--active');
+    }
+
+    async function init() {
+        injectStyle();
+        injectBottomNav();
+        // Убираем ссылку «Главная» из header-nav — логотип уже ведёт на главную
+        document.querySelectorAll('.header-nav a').forEach(a => {
+            if (a.textContent.trim() === 'Главная') a.remove();
+        });
+        const user = JSON.parse(localStorage.getItem('cpp_user') || 'null');
+        if (!user?.isuNumber) {
+            updateHeaderAuthLinks(false);
+            return;
+        }
 
         // Validate session against server — no localStorage fallback
         let profile;
@@ -380,6 +573,7 @@
             });
             if (!profileRes.ok) {
                 localStorage.removeItem('cpp_user');
+                updateHeaderAuthLinks(false);
                 return;
             }
             profile = await profileRes.json();
@@ -388,6 +582,9 @@
         }
 
         renderHeaderProfile(profile);
+        updateHeaderAuthLinks(true);
+
+        if (user?.isAdmin) return;
 
         // Check streak once per calendar day
         const sessionKey = `streak_checked_${new Date().toDateString()}`;
@@ -407,6 +604,10 @@
             }
         } catch { /* offline */ }
     }
+
+    // Guard: prevent double init if script loaded twice
+    if (window._streakInitDone) return;
+    window._streakInitDone = true;
 
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', init);

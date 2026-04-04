@@ -4,29 +4,147 @@ import { get } from './templates.js';
 import { buildNodes, attachListeners, submit } from './dispatcher.js';
 import { quizMd, safeQuizMd, shuffle, shuffleAnswers, typeLabel, resultMood, rewardParts, saveResult, highlightCode } from './helpers.js';
 
-function buildModalQuestions(data, pickedIds = []) {
+function buildModalQuestions(data, pickedIds = [], isAdmin = false) {
     const all  = data.questions || [];
     const byId = Object.fromEntries(all.map(q => [String(q.id), q]));
     const ordered = pickedIds.length
         ? pickedIds.map(id => byId[String(id)]).filter(Boolean)
         : shuffle(all).slice(0, Math.min(data.pick || all.length, all.length));
-    // fallback если pickedIds не совпали ни с одним вопросом
     const questions = (ordered.length ? ordered : shuffle(all).slice(0, Math.min(data.pick || all.length, all.length)));
-    // Перемешиваем порядок вопросов на клиенте
+    // Для admin — не перемешиваем ни порядок вопросов, ни варианты ответов
+    if (isAdmin) return questions;
     return shuffle(questions).map(q => shuffleAnswers(q, shuffle));
 }
 
 export class ModalQuiz {
-    constructor(container, data, pickedIds = []) {
+    constructor(container, data, pickedIds = [], opts = {}) {
         this.container    = container;
         this.quizId       = data.quizId || data.id;
         this.title        = data.title;
         this.passingScore = data.passingScore ?? 70;
-        this.questions    = buildModalQuestions(data, pickedIds);
+        this.isAdmin      = !!opts.isAdmin;
+        this.questions    = buildModalQuestions(data, pickedIds, this.isAdmin);
         this.current      = 0;
         this.answers      = {};
         this.answered     = false;
-        this._render();
+        if (this.isAdmin) {
+            this._renderAdmin();
+        } else {
+            this._render();
+        }
+    }
+
+    _renderAdmin() {
+        const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+        const correctLabel = q => {
+            if (q.type === 'single' || q.type === 'code') {
+                return `<code>${esc(q.answers[q.correct])}</code>`;
+            }
+            if (q.type === 'multiple') {
+                return q.correct.map(i => `<code>${esc(q.answers[i])}</code>`).join(', ');
+            }
+            if (q.type === 'fill') {
+                const arr = Array.isArray(q.correct) ? q.correct : [q.correct];
+                return arr.map(v => `<code>${esc(v)}</code>`).join(' / ');
+            }
+            if (q.type === 'matching') {
+                return q.pairs.map(p => `<code>${esc(p.left)}</code> → <code>${esc(p.right)}</code>`).join(', ');
+            }
+            if (q.type === 'fill-code' || q.type === 'fill-code-drag') {
+                const arr = Array.isArray(q.correct) ? q.correct : [q.correct];
+                return arr.map(v => `<code>${esc(v)}</code>`).join(', ');
+            }
+            return '—';
+        };
+
+        // Шапка
+        const header = document.createElement('div');
+        header.style.cssText = 'padding:12px 48px 8px 16px;border-bottom:1px solid var(--border-primary);display:flex;align-items:center;gap:8px;position:sticky;top:0;z-index:2;background:var(--bg-card,#1e1c3a)';
+        header.innerHTML = `
+            <span style="font-size:.7rem;background:var(--accent-orange);color:#000;padding:2px 8px;border-radius:4px;font-weight:700">ADMIN</span>
+            <span style="font-weight:700">${esc(this.title)}</span>
+            <span style="color:var(--text-muted);font-size:.8rem;margin-left:auto">${this.questions.length} вопросов</span>`;
+
+        // Скроллируемый список вопросов
+        const scroll = document.createElement('div');
+        scroll.style.cssText = 'padding:12px 16px;display:flex;flex-direction:column;gap:20px';
+
+        this.questions.forEach((q, i) => {
+            const card = document.createElement('div');
+            card.style.cssText = 'border:1px solid var(--border-primary);border-radius:8px;overflow:hidden';
+
+            // Заголовок карточки
+            const cardHead = document.createElement('div');
+            cardHead.style.cssText = 'display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--bg-secondary);border-bottom:1px solid var(--border-primary)';
+            cardHead.innerHTML = `
+                <span style="color:var(--text-muted);font-size:.72rem">#${q.id}</span>
+                <span class="qm-type-badge qm-type--${q.type}" style="font-size:.7rem">${esc(typeLabel(q.type))}</span>
+                <span style="color:var(--text-muted);font-size:.72rem;margin-left:auto">${i + 1} / ${this.questions.length}</span>`;
+
+            // Тело карточки
+            const cardBody = document.createElement('div');
+            cardBody.style.cssText = 'padding:12px';
+
+            const questionEl = document.createElement('div');
+            questionEl.className = 'qm-question';
+            questionEl.innerHTML = safeQuizMd(q.question);
+
+            cardBody.appendChild(questionEl);
+
+            if (q.code && !['fill-code', 'fill-code-drag'].includes(q.type)) {
+                const pre = document.createElement('pre');
+                pre.className = 'qm-code';
+                pre.style.marginTop = '8px';
+                const code = document.createElement('code');
+                code.className = 'language-cpp';
+                code.textContent = q.code;
+                pre.appendChild(code);
+                cardBody.appendChild(pre);
+            }
+
+            // Ответы через buildNodes (интерактивные, но disabled)
+            const answersEl = document.createElement('div');
+            answersEl.className = 'qm-answers';
+            answersEl.id = `qm-answers-admin-${q.id}`;
+            answersEl.style.marginTop = '10px';
+            answersEl.replaceChildren(...buildNodes(q, this.quizId));
+            // Отключаем интерактивность
+            answersEl.querySelectorAll('input, button, [draggable]').forEach(el => {
+                el.disabled = true;
+                el.setAttribute('tabindex', '-1');
+                if (el.draggable) el.draggable = false;
+            });
+            cardBody.appendChild(answersEl);
+
+            // Правильный ответ
+            const answerBadge = document.createElement('div');
+            answerBadge.style.cssText = 'margin-top:10px;padding:6px 10px;background:color-mix(in srgb,var(--accent-green) 12%,transparent);border-left:3px solid var(--accent-green);border-radius:0 4px 4px 0;font-size:.82rem;color:var(--accent-green)';
+            answerBadge.innerHTML = `✅ Правильный ответ: ${correctLabel(q)}`;
+            cardBody.appendChild(answerBadge);
+
+            // Пояснение
+            if (q.explanation) {
+                const expEl = document.createElement('div');
+                expEl.style.cssText = 'margin-top:6px;padding:6px 10px;background:color-mix(in srgb,var(--accent-blue) 10%,transparent);border-left:3px solid var(--accent-blue);border-radius:0 4px 4px 0;font-size:.82rem;color:var(--text-secondary)';
+                expEl.innerHTML = `💡 ${safeQuizMd(q.explanation)}`;
+                cardBody.appendChild(expEl);
+            }
+
+            card.append(cardHead, cardBody);
+            scroll.appendChild(card);
+        });
+
+        // В admin-режиме убираем padding у box — шапка прилипает к краю
+        const box = this.container.closest('.quiz-modal-box');
+        if (box) {
+            box.style.padding = '0';
+            box.dataset.adminMode = '1';
+        }
+
+        this.container.replaceChildren(header, scroll);
+
+        highlightCode(this.container);
     }
 
     _render() {
@@ -128,9 +246,16 @@ export class ModalQuiz {
         const tpl = get('tpl-qm-feedback');
         if (tpl) {
             const node = tpl.content.cloneNode(true);
-            node.querySelector('.qm-fb-icon').textContent      = isRight ? '✅' : '❌';
+            const iconEl = node.querySelector('.qm-fb-icon');
+            iconEl.textContent = isRight ? '✅' : '❌';
+            iconEl.classList.add(isRight ? 'qm-fb-icon--ok' : 'qm-fb-icon--err');
             node.querySelector('.qm-fb-verdict').textContent   = isRight ? 'Правильно!' : 'Неверно';
-            node.querySelector('.qm-fb-explanation').innerHTML = explanation;
+            const expEl = node.querySelector('.qm-fb-explanation');
+            if (explanation) {
+                expEl.innerHTML = explanation;
+            } else {
+                expEl.hidden = true;
+            }
             const extraEl = node.querySelector('.qm-fb-extra');
             if (extra) { extraEl.innerHTML = extra; extraEl.removeAttribute('hidden'); }
             const ptsEl = node.querySelector('.qm-fb-pts');
@@ -140,8 +265,29 @@ export class ModalQuiz {
 
         fb.removeAttribute('hidden');
         fb.style.display = 'flex';
-        fb.className = `qm-feedback qm-feedback--${isRight ? 'correct' : 'wrong'}`;
+        fb.className = `qm-feedback qm-feedback--${isRight ? 'ok' : 'err'}`;
         if (earned && window.gameSystem) window.gameSystem.earnXP(earned, 'за правильный ответ');
+
+        // Загружаем статистику сообщества для этого вопроса
+        this._loadQuestionCommunityStats(fb);
+    }
+
+    _loadQuestionCommunityStats(fb) {
+        const q = this.questions[this.current];
+        if (!q?.id) return;
+        const user = JSON.parse(localStorage.getItem('cpp_user') || 'null');
+        const headers = user?.isuNumber ? { 'X-Isu-Number': user.isuNumber } : {};
+        fetch(`/api/quiz/${this.quizId}/question-stats/${q.id}`, { headers })
+            .then(r => r.ok ? r.json() : null)
+            .then(data => {
+                if (!data || data.totalAttempts < 1) return;
+                const statEl = (this.container.closest('.quiz-modal-box') || this.container.parentElement)
+                    ?.querySelector('.qm-community-stat');
+                if (!statEl) return;
+                statEl.textContent = `· ${data.correctPct}% решили верно`;
+                statEl.removeAttribute('hidden');
+            })
+            .catch(() => {});
     }
 
     _clearEnterHandler() {
@@ -173,6 +319,11 @@ export class ModalQuiz {
 
     _showResults() {
         this._clearEnterHandler();
+
+        // Убираем вынесенный footer (кнопка «Завершить →»)
+        const box = this.container.closest('.quiz-modal-box') || this.container.parentElement;
+        box?.querySelector('.qm-footer--fixed')?.remove();
+
         const total   = this.questions.length;
         const earned  = Object.values(this.answers).reduce((s, a) => s + (a.pts ?? 0), 0);
         const pct     = Math.round((earned / (total * 10)) * 100);
@@ -217,6 +368,42 @@ export class ModalQuiz {
         node.querySelector('.js-qm-close').addEventListener('click', () => window.closeQuizModal(null));
 
         this.container.replaceChildren(node);
+
+        // Загружаем распределение результатов сообщества
+        this._loadResultsDistribution(pct);
+    }
+
+    _loadResultsDistribution(myPct) {
+        const user = JSON.parse(localStorage.getItem('cpp_user') || 'null');
+        const headers = user?.isuNumber ? { 'X-Isu-Number': user.isuNumber } : {};
+        fetch(`/api/quiz/${this.quizId}/score-distribution?score=${myPct}`, { headers })
+            .then(r => r.ok ? r.json() : null)
+            .then(data => {
+                if (!data || data.totalAttempts < 1) return;
+                const statsEl = this.container.querySelector('.qm-results-stats');
+                if (!statsEl) return;
+                const distEl = document.createElement('div');
+                distEl.className = 'qm-score-dist';
+                distEl.innerHTML = `
+                    <div class="qm-dist-row">
+                        <span class="qm-dist-label">Лучше тебя</span>
+                        <span class="qm-dist-bar-wrap"><span class="qm-dist-bar qm-dist-bar--above" style="width:${data.pctAbove}%"></span></span>
+                        <span class="qm-dist-val">${data.pctAbove}%</span>
+                    </div>
+                    <div class="qm-dist-row">
+                        <span class="qm-dist-label">Столько же</span>
+                        <span class="qm-dist-bar-wrap"><span class="qm-dist-bar qm-dist-bar--same" style="width:${Math.max(data.pctSame, 2)}%"></span></span>
+                        <span class="qm-dist-val">${data.pctSame}%</span>
+                    </div>
+                    <div class="qm-dist-row">
+                        <span class="qm-dist-label">Хуже тебя</span>
+                        <span class="qm-dist-bar-wrap"><span class="qm-dist-bar qm-dist-bar--below" style="width:${data.pctBelow}%"></span></span>
+                        <span class="qm-dist-val">${data.pctBelow}%</span>
+                    </div>
+                    <div class="qm-dist-my">Твой результат: <strong>${myPct}%</strong> · ${data.totalAttempts} попыток всего</div>`;
+                statsEl.after(distEl);
+            })
+            .catch(() => {});
     }
 
     _showReward(reward) {
@@ -227,5 +414,18 @@ export class ModalQuiz {
         el.removeAttribute('hidden');
         el.style.display = 'flex';
         el.replaceChildren(...parts.map(p => Object.assign(document.createElement('span'), { className: 'reward-badge', textContent: p })));
+
+        // Анимация: монетки/XP летят от reward-блока к хедеру
+        requestAnimationFrame(() => {
+            const rect = el.getBoundingClientRect();
+            const cx = rect.left + rect.width / 2;
+            const cy = rect.top  + rect.height / 2;
+            if (reward.coinsEarned > 0) {
+                window.dispatchEvent(new CustomEvent('coinsEarnAnim', { detail: { emoji: '🪙', count: Math.min(Math.max(1, Math.floor(reward.coinsEarned / 10)), 6), fromX: cx, fromY: cy } }));
+            }
+            if (reward.xpEarned > 0) {
+                window.dispatchEvent(new CustomEvent('coinsEarnAnim', { detail: { emoji: '⭐', count: Math.min(Math.max(1, Math.floor(reward.xpEarned / 10)), 5), fromX: cx, fromY: cy } }));
+            }
+        });
     }
 }

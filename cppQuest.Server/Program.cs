@@ -48,35 +48,39 @@ await using (var scope = app.Services.CreateAsyncScope())
 app.UseExceptionHandler("/error");
 
 // ---------------------------------------------------------
-// ИСПРАВЛЕННАЯ ЛОГИКА ПОИСКА ПАПКИ CppCourse
+// ПОИСК ПАПКИ CppCourse
 // ---------------------------------------------------------
-string baseDir = AppContext.BaseDirectory;       // Путь к папке публикации (где лежит .dll)
-string currentDir = Directory.GetCurrentDirectory(); // Рабочая директория процесса
+string baseDir = AppContext.BaseDirectory;
+string currentDir = Directory.GetCurrentDirectory();
 
-// Формируем кандидатов в порядке приоритета:
-// 1. Рядом с DLL (Стандарт для опубликованного приложения: /var/www/myapp/CppCourse)
-string candidate1 = Path.Combine(baseDir, "CppCourse");
+// В Development: берём путь из конфига (относительно ContentRootPath)
+var configuredPath = builder.Configuration["CppCoursePath"];
+string? cppCoursePath = null;
 
-// 2. Рядом с текущей директорией (Для запуска dotnet run из корня проекта)
-string candidate2 = Path.Combine(currentDir, "CppCourse");
+if (!string.IsNullOrEmpty(configuredPath))
+{
+    var resolved = Path.GetFullPath(Path.Combine(builder.Environment.ContentRootPath, configuredPath));
+    if (Directory.Exists(resolved))
+        cppCoursePath = resolved;
+}
 
-// 3. Для отладки в IDE: поднимаемся из bin/Debug/netX.X вверх к корню решения
-//    bin/Debug/net8.0 -> ../../.. -> Корень решения
-string candidate3 = Path.GetFullPath(Path.Combine(baseDir, "..", "..", "..", "CppCourse"));
+if (cppCoursePath == null)
+{
+    string[] candidates = [
+        Path.Combine(baseDir, "CppCourse"),
+        Path.Combine(currentDir, "CppCourse"),
+        Path.GetFullPath(Path.Combine(baseDir, "..", "..", "..", "CppCourse")),
+        Path.GetFullPath(Path.Combine(builder.Environment.ContentRootPath, "CppCourse")),
+    ];
 
-// 4. Относительно ContentRootPath (на случай специфических настроек хостинга)
-string candidate4 = Path.GetFullPath(Path.Combine(builder.Environment.ContentRootPath, "CppCourse"));
-
-string[] candidates = [candidate1, candidate2, candidate3, candidate4];
-
-var cppCoursePath = candidates
-    .Select(Path.GetFullPath) // Нормализация путей (убирает лишние .. и \)
-    .FirstOrDefault(Directory.Exists)
-    ?? throw new DirectoryNotFoundException(
-        $"Папка CppCourse не найдена! Проверьте, что она скопирована при публикации.\n" +
-        $"Проверенные пути:\n" +
-        string.Join("\n", candidates.Select(c => $" - {c}"))
-    );
+    cppCoursePath = candidates
+        .Select(Path.GetFullPath)
+        .FirstOrDefault(Directory.Exists)
+        ?? throw new DirectoryNotFoundException(
+            $"Папка CppCourse не найдена!\nПроверенные пути:\n" +
+            string.Join("\n", candidates.Select(c => $" - {c}"))
+        );
+}
 
 app.Logger.LogInformation("Serving static files from: {Path}", cppCoursePath);
 // ---------------------------------------------------------
@@ -92,11 +96,28 @@ app.MapAchievementEndpoints();
 app.MapLeaderboardEndpoints();
 
 // Serve static files
+var fileProvider = new PhysicalFileProvider(cppCoursePath);
 app.UseFileServer(new FileServerOptions
 {
-    FileProvider = new PhysicalFileProvider(cppCoursePath),
+    FileProvider = fileProvider,
     RequestPath = "",
-    EnableDefaultFiles = true
+    EnableDefaultFiles = true,
+    StaticFileOptions =
+    {
+        OnPrepareResponse = ctx =>
+        {
+            var path = ctx.File.Name;
+            // JS и CSS — короткий кэш, чтобы браузер перепроверял
+            if (path.EndsWith(".js") || path.EndsWith(".css"))
+            {
+                ctx.Context.Response.Headers["Cache-Control"] = "no-cache";
+            }
+            else
+            {
+                ctx.Context.Response.Headers["Cache-Control"] = "public, max-age=86400";
+            }
+        }
+    }
 });
 
 await app.RunAsync();

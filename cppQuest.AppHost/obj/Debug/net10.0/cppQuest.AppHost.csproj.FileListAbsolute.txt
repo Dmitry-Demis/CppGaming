@@ -176,6 +176,7 @@ D:\Studies\cppQuest\cppQuest.AppHost\obj\Debug\net10.0\cppQuest.AppHost.Assembly
 D:\Studies\cppQuest\cppQuest.AppHost\obj\Debug\net10.0\cppQuest.AppHost.csproj.CoreCompileInputs.cache
 D:\Studies\cppQuest\cppQuest.AppHost\obj\Debug\net10.0\Aspire\references\cppQuest_Server.ProjectMetadata.g.cs
 D:\Studies\cppQuest\cppQuest.AppHost\obj\Debug\net10.0\Aspire\references\_AppHost.ProjectMetadata.g.cs
+D:\Studies\cppQuest\cppQuest.AppHost\obj\Debug\net10.0\cppQuest.AppHost.sourcelink.json
 D:\Studies\cppQuest\cppQuest.AppHost\obj\Debug\net10.0\cppQuest.1EAF377A.Up2Date
 D:\Studies\cppQuest\cppQuest.AppHost\obj\Debug\net10.0\cppQuest.AppHost.dll
 D:\Studies\cppQuest\cppQuest.AppHost\obj\Debug\net10.0\refint\cppQuest.AppHost.dll

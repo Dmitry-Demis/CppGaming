@@ -22,7 +22,7 @@ public class ProfileService(IUserRepository userRepo, IGamificationRepository ga
         // Собираем купленные слоты из UserPurchases
         var unlockedSlots = purchases
             .Where(p => p.ItemId.StartsWith("content:"))
-            .Select(p => p.ItemId.Substring("content:".Length))
+            .Select(p => p.ItemId["content:".Length..])
             .ToList();
 
         return new ProfileResponse(
@@ -39,7 +39,8 @@ public class ProfileService(IUserRepository userRepo, IGamificationRepository ga
             g?.CurrentStreak ?? 0,
             g?.MaxStreak ?? 0,
             string.Join(',', unlockedStds),
-            string.Join(',', unlockedSlots)
+            string.Join(',', unlockedSlots),
+            user.IsAdmin
         );
     }
 }

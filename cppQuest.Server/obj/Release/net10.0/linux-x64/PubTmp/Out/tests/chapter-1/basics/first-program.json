@@ -35,7 +35,7 @@
       "id": 2,
       "type": "code",
       "question": "Что выведет программа?",
-      "code": "#include <iostream>\nint main() {\n    int a = 3, b = 4;\n    std::cout << a + b;\n    return 0;\n}",
+      "code": "#include <iostream>\nint main() {\n    int a { 3 };\n    int b {4};\n    std::cout << a + b;\n    return 0;\n}",
       "answers": [
         "a + b",
         "34",
@@ -93,17 +93,17 @@
     },
     {
       "id": 6,
-      "type": "code",
-      "question": "Найдите ошибку в программе:",
+      "type": "multiple",
+      "question": "Найдите ошибки в программе:",
       "code": "#include <iostream>\nint main() {\n    int x;\n    int y;\n    std::cin >> x >> y\n    std::cout << x + y;\n}",
       "answers": [
         "Нет ошибки",
-        "Отсутствует точка с запятой после cin",
-        "Нужно объявить sum",
-        "Неверный оператор >>"
+        "Отсутствует точка с запятой после `cin`",
+        "Неинициализированые переменные",
+        "Неверный оператор >> у `std::cin`"
       ],
-      "correct": 1,
-      "explanation": "После std::cin >> x >> y пропущена точка с запятой."
+      "correct": [1, 2],
+      "explanation": "После std::cin >> x >> y пропущена точка с запятой. Переменные надо инициализировать."
     },
     {
       "id": 7,
@@ -144,7 +144,7 @@
       "id": 10,
       "type": "code",
       "question": "Что выведет программа?",
-      "code": "#include <iostream>\nint main() {\n    int x = 10;\n    x = x * 2;\n    std::cout << x;\n}",
+      "code": "#include <iostream>\nint main() {\n    int x { 10 };\n    x = x * 2;\n    std::cout << x;\n}",
       "answers": [
         "10",
         "20",
@@ -190,7 +190,7 @@
       "id": 13,
       "type": "code",
       "question": "Что выведет программа?",
-      "code": "#include <iostream>\nint main() {\n    std::cout << \"Sum: \" << 5 + 3 << \"\\n\";\n    std::cout << \"Product: \" << 5 * 3;\n}",
+      "code": "#include <iostream>\nint main() {\n    std::cout << \"Sum: \" << 5 + 3 << '\\n';\n    std::cout << \"Product: \" << 5 * 3;\n}",
       "answers": [
         "Sum: 5 + 3\\nProduct: 5 * 3",
         "Sum: 8\\nProduct: 15",

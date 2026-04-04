@@ -8,7 +8,8 @@ namespace cppQuest.Server.Services;
 public class StatsService(
     IStatsRepository statsRepo,
     GamificationService gamification,
-    IQuizService quizService)
+    IQuizService quizService,
+    IQuestionProgressRepository questionProgressRepo)
 {
     // XP/монеты за чтение
     private const int ReadXp = 15;
@@ -283,21 +284,23 @@ public class StatsService(
                     ? JsonSerializer.Deserialize<List<int>>(lastAttempt.WrongQuestionIds) ?? []
                     : [];
 
-                var seenIds = await statsRepo.GetEverCorrectQuestionIdsAsync(userId, ts.TestId);
+                var qProgress = await questionProgressRepo.GetByTestAsync(userId, ts.TestId);
+                var currentlyCorrect = qProgress.Count(q => q.IsCorrect);
+
                 var quizMeta = await quizService.GetQuizAsync(ts.TestId);
-                var totalInBank = quizMeta?.Questions.Count ?? 0;
+                var bankSize = quizMeta?.Questions.Count ?? 0;
 
                 tests[ts.TestId] = new TestStatsDto(
-                    ts.TestTitle,
-                    ts.AttemptsCount,
-                    ts.BestScore,
-                    ts.AttemptsCount > 0 ? ts.TotalScoreSum / ts.AttemptsCount : 0,
-                    ts.LastScore,
-                    wrongIds,
-                    ts.LastAttemptAt,
-                    seenIds.Count,
-                    totalInBank
-                );
+                ts.TestTitle,
+                ts.AttemptsCount,
+                ts.BestScore,
+                ts.AttemptsCount > 0 ? ts.TotalScoreSum / ts.AttemptsCount : 0,
+                ts.LastScore,
+                wrongIds,
+                ts.LastAttemptAt,
+                currentlyCorrect,
+                bankSize
+            );
             }
 
             var totalSec = reading?.TotalReadingSeconds ?? 0;
@@ -332,10 +335,11 @@ public class StatsService(
                 ? JsonSerializer.Deserialize<List<int>>(lastAttempt.WrongQuestionIds) ?? []
                 : [];
 
-            var seenIds = await statsRepo.GetEverCorrectQuestionIdsAsync(userId, ts.TestId);
+            var qProgress = await questionProgressRepo.GetByTestAsync(userId, ts.TestId);
+            var currentlyCorrect = qProgress.Count(q => q.IsCorrect);
 
             var quizMeta = await quizService.GetQuizAsync(ts.TestId);
-            var totalInBank = quizMeta?.Questions.Count ?? 0;
+            var bankSize = quizMeta?.Questions.Count ?? 0;
 
             tests[ts.TestId] = new TestStatsDto(
                 ts.TestTitle,
@@ -345,8 +349,8 @@ public class StatsService(
                 ts.LastScore,
                 wrongIds,
                 ts.LastAttemptAt,
-                seenIds.Count,
-                totalInBank
+                currentlyCorrect,
+                bankSize
             );
         }
 

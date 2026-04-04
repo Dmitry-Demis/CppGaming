@@ -6,7 +6,6 @@
   "passingScore": 70,
   "questions": [
     {
-      "id": 0,
       "type": "single",
       "question": "Чем отличается signed int от unsigned int?",
       "answers": [
@@ -16,10 +15,10 @@
         "Signed не поддерживает арифметику"
       ],
       "correct": 1,
-      "explanation": "signed int: от -2147483648 до 2147483647. unsigned int: от 0 до 4294967295. Оба занимают 4 байта."
+      "explanation": "signed int: от -2147483648 до 2147483647. unsigned int: от 0 до 4294967295. Оба занимают 4 байта.",
+      "id": 0
     },
     {
-      "id": 1,
       "type": "code",
       "question": "Что выведет программа?",
       "code": "#include <iostream>\nint main() {\n    unsigned int u{0u};\n    if (-1 > u)\n        std::cout << \"yes\";\n    else\n        std::cout << \"no\";\n}",
@@ -30,10 +29,10 @@
         "Неопределённое поведение"
       ],
       "correct": 1,
-      "explanation": "-1 при сравнении с unsigned преобразуется в UINT_MAX (4294967295), который больше 0. Результат: yes."
+      "explanation": "-1 при сравнении с unsigned преобразуется в UINT_MAX (4294967295), который больше 0. Результат: yes.",
+      "id": 1
     },
     {
-      "id": 2,
       "type": "single",
       "question": "Что происходит при преобразовании -1 в unsigned int?",
       "answers": [
@@ -43,10 +42,10 @@
         "Ошибка компиляции"
       ],
       "correct": 1,
-      "explanation": "-1 ≡ 2^32 - 1 (mod 2^32) = 4294967295 = UINT_MAX. Это строго определённое поведение."
+      "explanation": "-1 ≡ 2^32 - 1 (mod 2^32) = 4294967295 = UINT_MAX. Это строго определённое поведение.",
+      "id": 2
     },
     {
-      "id": 3,
       "type": "multiple",
       "question": "Когда стоит использовать unsigned типы?",
       "answers": [
@@ -61,10 +60,10 @@
         1,
         3
       ],
-      "explanation": "unsigned подходит для битовых операций, размеров и протокольных полей. Обратный цикл с unsigned — бесконечный цикл!"
+      "explanation": "unsigned подходит для битовых операций, размеров и протокольных полей. Обратный цикл с unsigned — бесконечный цикл!",
+      "id": 3
     },
     {
-      "id": 4,
       "type": "single",
       "question": "Что делает std::cmp_less(a, b) из C++20?",
       "answers": [
@@ -74,10 +73,10 @@
         "Это функция из C++11"
       ],
       "correct": 1,
-      "explanation": "std::cmp_less из <utility> (C++20) корректно сравнивает signed и unsigned числа без UB и неожиданных результатов."
+      "explanation": "std::cmp_less из <utility> (C++20) корректно сравнивает signed и unsigned числа без UB и неожиданных результатов.",
+      "id": 4
     },
     {
-      "id": 5,
       "type": "code",
       "question": "Что выведет программа?",
       "code": "#include <iostream>\n#include <vector>\nint main() {\n    std::vector<int> v{1, 2, 3};\n    int x{-1};\n    if (x < (int)v.size())\n        std::cout << \"less\";\n    else\n        std::cout << \"not less\";\n}",
@@ -88,20 +87,20 @@
         "Неопределённое поведение"
       ],
       "correct": 0,
-      "explanation": "Приведение v.size() к int даёт 3. -1 < 3 — true. Без приведения -1 стало бы UINT_MAX и сравнение дало бы false."
+      "explanation": "Приведение v.size() к int даёт 3. -1 < 3 — true. Без приведения -1 стало бы UINT_MAX и сравнение дало бы false.",
+      "id": 5
     },
     {
-      "id": 6,
       "type": "fill",
       "question": "Как называется правило C++, по которому при смешанных операциях signed/unsigned оба операнда приводятся к unsigned?",
       "correct": [
         "usual arithmetic conversions",
         "usual arithmetic conversion"
       ],
-      "explanation": "Usual arithmetic conversions — правило, по которому при операциях с разными типами оба приводятся к общему типу."
+      "explanation": "Usual arithmetic conversions — правило, по которому при операциях с разными типами оба приводятся к общему типу.",
+      "id": 6
     },
     {
-      "id": 7,
       "type": "single",
       "question": "Почему следует избегать unsigned типов в обычных вычислениях со знаковыми переменными?",
       "answers": [
@@ -111,10 +110,10 @@
         "Это запрещено стандартом"
       ],
       "correct": 1,
-      "explanation": "Usual arithmetic conversions приводят signed к unsigned в смешанных выражениях. Это источник классических багов: -1 > 0u = true."
+      "explanation": "Usual arithmetic conversions приводят signed к unsigned в смешанных выражениях. Это источник классических багов: -1 > 0u = true.",
+      "id": 7
     },
     {
-      "id": 8,
       "type": "single",
       "question": "Почему for (unsigned i = 10; i >= 0; --i) — бесконечный цикл?",
       "answers": [
@@ -124,10 +123,10 @@
         "Это не бесконечный цикл"
       ],
       "correct": 1,
-      "explanation": "unsigned >= 0 всегда true, так как unsigned не может быть отрицательным. При i=0 выполняется --i, давая UINT_MAX."
+      "explanation": "unsigned >= 0 всегда true, так как unsigned не может быть отрицательным. При i=0 выполняется --i, давая UINT_MAX.",
+      "id": 8
     },
     {
-      "id": 9,
       "type": "code",
       "question": "Что выведет программа?",
       "code": "#include <iostream>\n#include <utility>\nint main() {\n    int a{-5};\n    unsigned int b{3u};\n    std::cout << std::boolalpha << std::cmp_less(a, b);\n}",
@@ -138,7 +137,83 @@
         "Неопределённое поведение"
       ],
       "correct": 1,
-      "explanation": "std::cmp_less(-5, 3u) корректно сравнивает: -5 < 3 = true. Без cmp_less результат был бы false (UB)."
+      "explanation": "std::cmp_less(-5, 3u) корректно сравнивает: -5 < 3 = true. Без cmp_less результат был бы false (UB).",
+      "id": 9
+    },
+    {
+      "type": "fill-code",
+      "question": "Заполните пропуск для безопасного сравнения signed и unsigned в C++20:",
+      "code": "std::_____(a, b)  // вместо a < b",
+      "correct": [
+        "cmp_less"
+      ],
+      "explanation": "std::cmp_less из <utility> (C++20) корректно сравнивает signed и unsigned числа.",
+      "id": 10
+    },
+    {
+      "type": "single",
+      "question": "Каков диапазон значений unsigned int на 32-битной платформе?",
+      "answers": [
+        "0 до 2147483647",
+        "0 до 4294967295",
+        "-2147483648 до 2147483647",
+        "0 до 65535"
+      ],
+      "correct": 1,
+      "explanation": "unsigned int (32 бит): 0 до 2^32-1 = 4294967295. Вдвое больше положительного диапазона signed int.",
+      "id": 11
+    },
+    {
+      "type": "code",
+      "question": "Что выведет программа?",
+      "code": "#include <iostream>\nint main() {\n    unsigned int a{5u};\n    int b{-3};\n    std::cout << (a + b);\n}",
+      "answers": [
+        "2",
+        "8",
+        "4294967298",
+        "Ошибка"
+      ],
+      "correct": 0,
+      "explanation": "b=-3 преобразуется в unsigned: UINT_MAX-2. 5 + (UINT_MAX-2) = UINT_MAX+3 = 2 (mod 2^32). Результат: 2.",
+      "id": 12
+    },
+    {
+      "type": "matching",
+      "question": "Соотнесите тип с диапазоном (32-битная платформа):",
+      "pairs": [
+        {
+          "left": "int",
+          "right": "-2147483648 до 2147483647"
+        },
+        {
+          "left": "unsigned int",
+          "right": "0 до 4294967295"
+        },
+        {
+          "left": "short",
+          "right": "-32768 до 32767"
+        }
+      ],
+      "explanation": "Диапазоны зависят от размера типа. int и unsigned int — 4 байта, short — 2 байта.",
+      "id": 13
+    },
+    {
+      "type": "multiple",
+      "question": "Отметьте ВСЕ ситуации, где unsigned типы могут вызвать проблемы:",
+      "answers": [
+        "Обратный цикл: for (unsigned i = n; i >= 0; --i)",
+        "Вычитание: unsigned a - unsigned b, где b > a",
+        "Сравнение с отрицательным числом",
+        "Сложение двух unsigned чисел",
+        "Использование в качестве индекса массива"
+      ],
+      "correct": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Проблемы: обратный цикл (бесконечный), вычитание с отрицательным результатом (wrap-around), сравнение со знаковым (неожиданный результат).",
+      "id": 14
     }
   ]
 }

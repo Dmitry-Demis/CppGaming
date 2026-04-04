@@ -484,6 +484,31 @@
     background: var(--bg-secondary);
 }
 
+/* Chapter index — mastery & test badges on section-card */
+.sci-mastery-badge {
+    flex-shrink: 0;
+    font-size: .65rem;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 5px;
+    white-space: nowrap;
+    min-width: 52px;
+    text-align: center;
+}
+.sci-mastery-badge:empty { display: none; }
+
+.sci-test-badge {
+    flex-shrink: 0;
+    background: rgba(167,139,250,.15);
+    border: 1px solid rgba(167,139,250,.3);
+    color: #a78bfa;
+    font-size: .72rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 99px;
+    white-space: nowrap;
+}
+
 @media (max-width: 640px) {
     .info-grid {
         grid-template-columns: 1fr;

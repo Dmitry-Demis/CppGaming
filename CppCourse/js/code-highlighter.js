@@ -49,7 +49,7 @@ class CppHighlighter {
         const save = (html) => { store.push(html); return '\uE000' + (store.length - 1) + '\uE001'; };
         const restore = (s) => s.replace(/\uE000(\d+)\uE001/g, (_, i) => store[+i]);
 
-        let h = code;
+        let h = code.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
 
         // 1. Line comments (before HTML escaping so < > inside are raw)
         h = h.replace(/\/\/[^\n]*/g, m => save('<span class="token comment">' + this._esc(m) + '</span>'));
@@ -69,8 +69,10 @@ class CppHighlighter {
         // 5. Escape remaining HTML special chars
         h = h.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
-        // 6. Numbers
-        h = h.replace(/\b\d+\.?\d*[fFLuUlL]?\b/g, function(m) { return save('<span class="token number">' + m + '</span>'); });
+        // 6. Numbers — replace digits not inside store markers
+        h = h.replace(/\uE000\d+\uE001|(\b\d+\.?\d*[fFLuUlL]?\b)/g, function(m, num) {
+            return num ? save('<span class="token number">' + num + '</span>') : m;
+        });
 
         // 7. Types (longest first)
         var self = this;
@@ -116,38 +118,55 @@ class CppHighlighter {
 
     addLineNumbers(codeEl) {
         const lines = codeEl.innerHTML.split('\n');
-        const nums = document.createElement('div');
-        nums.className = 'line-numbers-rows';
-        lines.forEach(function() { nums.appendChild(document.createElement('span')); });
+        const nums = lines.map(() => '<span></span>').join('');
         const wrapper = document.createElement('div');
         wrapper.className = 'line-numbers';
-        wrapper.appendChild(nums);
+        wrapper.innerHTML = '<div class="line-numbers-rows">' + nums + '</div>';
         wrapper.appendChild(codeEl.cloneNode(true));
         codeEl.parentNode.replaceChild(wrapper, codeEl);
     }
 
     /**
-     * Renders <script type="text/x-code" data-label="..."> blocks.
-     * Write code as:
-     *   <script type="text/x-code" data-label="C++ — пример">```cpp
-     *   your code here
-     *   ```<\/script>
+     * highlighter.renderCode(label, code)
+     * Call inline in a <script> tag — inserts code block at that exact position.
+     * Use String.raw`...` to pass verbatim C++ code (so \n stays as \n).
+     */
+    renderCode(label, code) {
+        var script = document.currentScript;
+        if (!script) return;
+        var highlighted = this.highlight(this.dedent(code.replace(/^\n+/, '').replace(/\n+$/, '')));
+        var div = document.createElement('div');
+        div.className = 'code-block';
+        div.innerHTML =
+            '<div class="code-header">' +
+                '<span class="code-lang">' + label + '</span>' +
+                '<div class="code-actions">' +
+                    '<button class="btn-code" onclick="copyCode(this)">Копировать</button>' +
+                '</div>' +
+            '</div>' +
+            '<div class="code-content">' +
+                '<pre><code class="language-cpp highlighted">' + highlighted + '</code></pre>' +
+            '</div>';
+        script.replaceWith(div);
+        var codeEl = div.querySelector('code');
+        if (codeEl) this.addLineNumbers(codeEl);
+    }
+
+    /**
+     * Renders <template data-label="..."> blocks.
+     * Write code completely verbatim — no escaping needed.
      */
     renderScriptBlocks() {
         var self = this;
-        document.querySelectorAll('script[type="text/x-code"]').forEach(function(script) {
-            var raw = script.textContent;
-            var match = raw.match(/^\s*```(\w*)\n?([\s\S]*?)```\s*$/);
-            if (!match) return;
-
-            var lang = match[1] || 'cpp';
-            var code = match[2].replace(/^\n/, '').replace(/\n$/, '');
-            var label = script.dataset.label || 'C++ — пример';
+        document.querySelectorAll('template[data-label]').forEach(function(tmpl) {
+            var raw = tmpl.content.textContent.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+            var code = self.dedent(raw.replace(/^\n+/, '').replace(/\n+$/, ''));
+            var label = tmpl.dataset.label || 'C++ — пример';
             var highlighted = self.highlight(code);
 
             var div = document.createElement('div');
             div.className = 'code-block';
-            if (script.dataset.example) div.dataset.example = script.dataset.example;
+            if (tmpl.dataset.example) div.dataset.example = tmpl.dataset.example;
             div.innerHTML =
                 '<div class="code-header">' +
                     '<span class="code-lang">' + label + '</span>' +
@@ -156,13 +175,13 @@ class CppHighlighter {
                     '</div>' +
                 '</div>' +
                 '<div class="code-content">' +
-                    '<pre><code class="language-' + lang + ' highlighted">' + highlighted + '</code></pre>' +
+                    '<pre><code class="language-cpp highlighted">' + highlighted + '</code></pre>' +
                 '</div>';
 
             var codeEl = div.querySelector('code');
             if (codeEl) self.addLineNumbers(codeEl);
 
-            script.replaceWith(div);
+            tmpl.replaceWith(div);
         });
     }
 

@@ -22,6 +22,7 @@
 
     <link rel="stylesheet" href="../../../css/feedback.css">
     <link rel="stylesheet" href="../../../css/callout.css">
+    
 </head>
 <body>
     <div class="reading-progress-bar" id="reading-progress"></div>
@@ -92,7 +93,7 @@
                 </p>
 
                 <div class="info-card">
-                    <div class="info-card__title">? Что может произойти при UB</div>
+                    <div class="info-card__title">Что может произойти при UB</div>
                     <ul>
                         <li>Программа выведет случайное число</li>
                         <li>Программа упадёт с ошибкой сегментации</li>
@@ -117,13 +118,15 @@
                     Если значение ещё неизвестно — используйте <code>0</code> или <code>{}</code>.
                 </p>
 
-                <div class="info-card">
-                    <div class="info-card__title">? Хорошая практика</div>
+                                <div class="callout callout--tip">
+                    <div class="callout__title">Хорошая практика</div>
+                    <div class="callout__body">
                     <ul>
                         <li><code>int x{};</code> — инициализация нулём</li>
                         <li><code>int x = 0;</code> — явный ноль</li>
                         <li>Объявляйте переменную как можно ближе к месту первого использования</li>
                     </ul>
+                    </div>
                 </div>
 
                 <h2 id="tests">Проверьте знания</h2>

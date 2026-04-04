@@ -71,6 +71,60 @@
             '</div>';
     }
 
+    // ── Заглушка для inline <span data-slot> ─────────────────────────────────
+    function renderInlineGate(el, slotInfo) {
+        var std = slotInfo.std, slot = slotInfo.slot;
+        var soon = slotInfo.soon;
+        var costCoins = slotInfo.costCoins || 0;
+        var costKeys  = slotInfo.costKeys  || 0;
+        var isu = getIsu();
+        var locked = isu && !slotInfo.stdUnlocked;
+
+        // Проверяем хватает ли монет/ключей
+        var canAfford = (!costCoins || _userCoins >= costCoins) && (!costKeys || _userKeys >= costKeys);
+        var canBuy = !locked && canAfford;
+
+        // Цена: монеты и/или ключи, красим красным если не хватает
+        var priceParts = [];
+        if (costCoins > 0) {
+            var coinsShort = _userCoins < costCoins;
+            priceParts.push('<span' + (coinsShort ? ' class="std-gate-inline__price--short"' : '') + '>🪙\u202f' + costCoins.toLocaleString('ru') + '</span>');
+        }
+        if (costKeys > 0) {
+            var keysShort = _userKeys < costKeys;
+            priceParts.push('<span' + (keysShort ? ' class="std-gate-inline__price--short"' : '') + '>🗝️\u202f' + costKeys + '</span>');
+        }
+        var priceHtml = priceParts.length
+            ? '<span class="std-gate-inline__price">' + priceParts.join(' + ') + '</span>'
+            : '';
+
+        var actionHtml = soon
+            ? '<span class="std-gate-inline__soon">⏳ Скоро</span>'
+            : canBuy
+                ? '<button class="std-gate-inline__btn" onclick="stdGatePurchase(this)" data-slot="' + slot + '" data-std="' + std + '">Разблокировать</button>'
+                : '';
+
+        var isDisabled = locked || (!soon && !canBuy);
+        el.className = 'std-gate-inline' + (isDisabled ? ' std-gate-inline--locked' : '');
+        el.setAttribute('data-std', std);
+        el.setAttribute('data-slot', slot);
+        el.innerHTML =
+            '<span class="std-gate-inline__badge">' + (locked ? '🔒 ' : '') + 'C++' + std + '</span>' +
+            priceHtml +
+            actionHtml;
+        el.dataset.gated = '1';
+    }
+
+    function revealInline(el, html) {
+        // html содержит <section ...>...</section> — берём только внутренность
+        var tmp = document.createElement('div');
+        tmp.innerHTML = html;
+        var section = tmp.querySelector('section');
+        var reveal = document.createElement('span');
+        reveal.innerHTML = section ? section.innerHTML.trim() : html;
+        el.replaceWith(reveal);
+    }
+
     // ── Заглушка для <tr data-slot> ──────────────────────────────────────────
     function renderTableRowGate(tr, slotInfo) {
         var std = slotInfo.std, slot = slotInfo.slot;
@@ -320,6 +374,16 @@
         } catch(e) { console.error('std-gate: ошибка загрузки строки',e); }
     }
 
+    async function loadInlineContent(el, page, slot, std) {
+        var isu = getIsu(); if (!isu) return;
+        try {
+            var res = await fetch(API+'/gated/content?page='+encodeURIComponent(page)+'&slot='+encodeURIComponent(slot)+'&std='+encodeURIComponent(std), {headers:{'X-Isu-Number':isu}});
+            if (!res.ok) return;
+            var html = await res.text();
+            revealInline(el, html);
+        } catch(e) { console.error('std-gate: ошибка загрузки inline',e); }
+    }
+
     async function loadContent(el, page, slot, std) {
         var isu = getIsu(); if (!isu) return;
         try {
@@ -339,14 +403,20 @@
 
     // ── Покупка ───────────────────────────────────────────────────────────────
     window.stdGatePurchase = async function (btn) {
-        var gate = btn.closest('.std-gate');
-        var tr   = !gate ? btn.closest('tr[data-slot]') : null;
-        var slot = gate ? gate.dataset.slot : (tr ? tr.dataset.slot : btn.dataset.slot);
-        var std  = gate ? gate.dataset.std  : (tr ? tr.dataset.std  : btn.dataset.std);
+        var gate     = btn.closest('.std-gate');
+        var tr       = !gate ? btn.closest('tr[data-slot]') : null;
+        var inlineEl = (!gate && !tr) ? btn.closest('.std-gate-inline') : null;
+        var slot = gate ? gate.dataset.slot : (tr ? tr.dataset.slot : (inlineEl ? inlineEl.dataset.slot : btn.dataset.slot));
+        var std  = gate ? gate.dataset.std  : (tr ? tr.dataset.std  : (inlineEl ? inlineEl.dataset.std  : btn.dataset.std));
         var page = getPageId(), isu = getIsu();
 
         if (!isu) { alert('Войдите в аккаунт, чтобы покупать контент'); return; }
         btn.disabled = true; btn.textContent = 'Покупка...';
+
+        // Запомним позицию кнопки до покупки
+        var btnRect = btn.getBoundingClientRect();
+        var btnCx = btnRect.left + btnRect.width / 2;
+        var btnCy = btnRect.top  + btnRect.height / 2;
 
         try {
             var res = await fetch(API+'/gated/purchase', {
@@ -356,19 +426,24 @@
             var data = await res.json();
             if (!res.ok) { btn.disabled=false; btn.textContent='Разблокировать'; alert(data.message||'Ошибка покупки'); return; }
 
-            document.dispatchEvent(new CustomEvent('coinsUpdated', {detail:{coins:data.coins,keys:data.keys}}));
+            document.dispatchEvent(new CustomEvent('coinsUpdated', {detail:{coins:data.coins, keys:data.keys, targetX:btnCx, targetY:btnCy}}));
 
             var contentRes = await fetch(API+'/gated/content?page='+encodeURIComponent(page)+'&slot='+encodeURIComponent(slot)+'&std='+encodeURIComponent(std), {headers:{'X-Isu-Number':isu}});
             if (contentRes.ok) {
                 var html = await contentRes.text();
                 console.log('std-gate: контент получен, длина:', html.length);
-                if (tr) revealTableRow(tr, html);
-                else    revealContent(gate, html);
+                if (tr)       revealTableRow(tr, html);
+                else if (inlineEl) revealInline(inlineEl, html);
+                else          revealContent(gate, html);
             } else {
                 console.error('std-gate: /gated/content вернул', contentRes.status);
             }
         } catch(e) { console.error('std-gate: ошибка покупки',e); btn.disabled=false; btn.textContent='Разблокировать'; }
     };
+
+    // ── Баланс пользователя (загружается с сервера в init) ───────────────────
+    var _userCoins = 0;
+    var _userKeys  = 0;
 
     // ── Инициализация ─────────────────────────────────────────────────────────
     async function init() {
@@ -382,13 +457,22 @@
         var isu = getIsu(), slotMap = {};
         try {
             var headers = isu ? {'X-Isu-Number':isu} : {};
-            var res = await fetch(API+'/gated/slots?page='+encodeURIComponent(page), {headers:headers});
-            if (res.ok) {
-                var items = await res.json();
+            // Загружаем слоты и профиль параллельно
+            var [slotsRes, profileRes] = await Promise.all([
+                fetch(API+'/gated/slots?page='+encodeURIComponent(page), {headers:headers}),
+                isu ? fetch(API+'/profile/'+isu, {headers:headers}) : Promise.resolve(null)
+            ]);
+            if (slotsRes.ok) {
+                var items = await slotsRes.json();
                 console.log('std-gate: слоты для "'+page+'"', items);
                 for (var i=0;i<items.length;i++) slotMap[items[i].slot+':'+items[i].std] = items[i];
             } else {
-                console.warn('std-gate: /api/gated/slots вернул', res.status);
+                console.warn('std-gate: /api/gated/slots вернул', slotsRes.status);
+            }
+            if (profileRes && profileRes.ok) {
+                var profile = await profileRes.json();
+                _userCoins = profile.coins || 0;
+                _userKeys  = profile.keys  || 0;
             }
         } catch(e) { console.error('std-gate: ошибка загрузки слотов',e); }
 
@@ -397,24 +481,26 @@
             var slot = el.getAttribute('data-slot');
             var std  = el.getAttribute('data-std');
             var info = slotMap[slot+':'+std];
-            var isTr = el.tagName === 'TR';
+            var isTr     = el.tagName === 'TR';
+            var isInline = el.tagName === 'SPAN';
 
             if (!info) {
                 // Слот не найден в API — gated-файл отсутствует → SOON
                 var fallback = {slot:slot, std:std, costCoins:0, costKeys:0, soon:true, stdUnlocked:false, itemId:'content:'+page+':'+slot+':'+std};
-                if (isTr) renderTableRowGate(el, fallback); else renderGate(el, fallback);
+                if (isTr)     renderTableRowGate(el, fallback);
+                else if (isInline) renderInlineGate(el, fallback);
+                else          renderGate(el, fallback);
                 continue;
             }
-            // soon = API вернул слот, но costCoins и costKeys оба null/undefined (не указаны в gated-файле)
-            // Если costCoins === 0 и costKeys === 0 — может быть бесплатно или soon.
-            // Различаем: сервер теперь передаёт costCoins как число всегда.
-            // Считаем soon только если слот не найден (handled above).
             info.soon = false;
             if (info.purchased) {
-                if (isTr) await loadContentIntoRow(el, page, slot, std);
-                else      await loadContent(el, page, slot, std);
+                if (isTr)          await loadContentIntoRow(el, page, slot, std);
+                else if (isInline) await loadInlineContent(el, page, slot, std);
+                else               await loadContent(el, page, slot, std);
             } else {
-                if (isTr) renderTableRowGate(el, info); else renderGate(el, info);
+                if (isTr)     renderTableRowGate(el, info);
+                else if (isInline) renderInlineGate(el, info);
+                else          renderGate(el, info);
             }
         }
     }

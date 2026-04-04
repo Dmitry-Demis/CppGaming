@@ -27,6 +27,50 @@
         chapter:   { label: 'Итог главы',     q: 40 },
     };
 
+    // ── MathJax: ленивая загрузка и рендер ───────────────────────────────
+    let _mjReady = null;
+    function ensureMathJax() {
+        if (_mjReady) return _mjReady;
+        if (window.MathJax?.typesetPromise) {
+            _mjReady = Promise.resolve();
+            return _mjReady;
+        }
+        window.MathJax = {
+            tex: { inlineMath: [['$', '$']] },
+            svg: { fontCache: 'global' },
+            startup: { typeset: false },
+        };
+        _mjReady = new Promise(resolve => {
+            const s = document.createElement('script');
+            s.src = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js';
+            s.async = true;
+            s.onload = resolve;
+            document.head.appendChild(s);
+        });
+        return _mjReady;
+    }
+
+    // Оборачивает число в inline-math span, после рендера вызывает typeset
+    function mathPct(n) {
+        return `<span class="qw-mjax">${n}\\%</span>`;
+    }
+
+    function mathNum(n) {
+        return `<span class="qw-mjax">${n}</span>`;
+    }
+
+    function typesetWidgets() {
+        ensureMathJax().then(() => {
+            const nodes = document.querySelectorAll('.qw-mjax:not([data-mj])');
+            if (!nodes.length) return;
+            nodes.forEach(el => {
+                el.dataset.mj = '1';
+                el.textContent = '$' + el.textContent + '$';
+            });
+            window.MathJax.typesetPromise([...nodes]).catch(() => {});
+        });
+    }
+
     // ── Инициализация всех виджетов на странице ──────────────────────────
     async function initAll() {
         const widgets = document.querySelectorAll('.quiz-widget');
@@ -73,6 +117,9 @@
                 el.appendChild(buildUnavailable(finalId));
             }
         }
+
+        // Рендерим MathJax для всех новых .qw-mjax элементов
+        typesetWidgets();
     }
 
     // ── Плашка «Тест в разработке» ────────────────────────────────────────
@@ -112,13 +159,31 @@
             for (const [testId, stats] of Object.entries(tests)) {
                 if (stats.attemptsCount > 0) {
                     result[testId] = {
-                        best:      stats.bestScore,
-                        attempts:  stats.attemptsCount,
-                        median:    null,
-                        seenCount: stats.seenCount || 0
+                        best:                stats.bestScore,
+                        last:                stats.lastScore ?? null,
+                        attempts:            stats.attemptsCount,
+                        median:              null,
+                        seenCount:           stats.seenCount || 0,
+                        totalQuestionsInBank: stats.totalQuestionsInBank || 0,
+                        dist:                null,
                     };
                 }
             }
+
+            // Подгружаем распределение для каждого теста
+            await Promise.all(Object.keys(result).map(async testId => {
+                try {
+                    const last = result[testId].last;
+                    const scoreParam = last !== null ? `?score=${last}` : '';
+                    const r = await fetch(`/api/quiz/${testId}/score-distribution${scoreParam}`, {
+                        headers: { 'X-Isu-Number': user.isuNumber }
+                    });
+                    if (r.ok) {
+                        const d = await r.json();
+                        if (d.totalAttempts >= 1) result[testId].dist = d;
+                    }
+                } catch { /* silent */ }
+            }));
         } catch { /* silent */ }
         return result;
     }
@@ -155,10 +220,10 @@
         const info  = TYPE_LABELS[type] || TYPE_LABELS.mini;
         const pick  = calcPick(meta);
 
-        const totalQ = meta.questions?.length ?? 0;
-        const coveragePct = (stats && totalQ > 0) ? Math.round(stats.seenCount / totalQ * 100) : null;
+        const totalQ = (stats?.totalQuestionsInBank > 0) ? stats.totalQuestionsInBank : (meta.questions?.length ?? 0);
+        const coveragePct = (stats && totalQ > 0) ? (stats.seenCount / totalQ * 100) : null;
         const coverageHtml = coveragePct !== null
-            ? `<span class="qw-stat qw-stat--coverage" title="Вопросов, на которые хоть раз ответили правильно"><span class="qw-stat__label">Изучено</span><span class="qw-stat__val ${coveragePct >= 100 ? 'qw-stat__val--full' : ''}">${coveragePct}%</span></span>`
+            ? `<span class="qw-stat qw-stat--coverage" title="Вопросов, на которые хоть раз ответили правильно"><span class="qw-stat__label">Изучено</span><span class="qw-stat__val ${coveragePct >= 100 ? 'qw-stat__val--full' : ''}">${mathPct(coveragePct.toFixed(1))}</span></span>`
             : '';
 
         const card = document.createElement('div');
@@ -169,10 +234,11 @@
             <div class="qw-card__badge qw-card__badge--${type}">${info.label}</div>
             <div class="qw-card__desc">${pick} вопросов</div>
             ${stats ? `<div class="qw-card__stats">
-                <span class="qw-stat"><span class="qw-stat__label">Лучший</span><span class="qw-stat__val">${stats.best}%</span></span>
-                ${stats.median !== null ? `<span class="qw-stat"><span class="qw-stat__label">Медиана</span><span class="qw-stat__val">${stats.median}%</span></span>` : ''}
-                <span class="qw-stat"><span class="qw-stat__label">Попыток</span><span class="qw-stat__val">${stats.attempts}</span></span>
+                <span class="qw-stat"><span class="qw-stat__label">Твой <code class="qw-mono">MAX</code></span><span class="qw-stat__val">${mathPct(stats.best)}</span></span>
+                <span class="qw-stat"><span class="qw-stat__label">Попыток</span><span class="qw-stat__val">${mathNum(stats.attempts)}</span></span>
                 ${coverageHtml}
+                ${stats.last !== null ? `<span class="qw-stat"><span class="qw-stat__label">Текущий</span><span class="qw-stat__val">${mathPct(stats.last)}</span></span>` : ''}
+                ${buildDistHtml(stats.dist)}
             </div>` : ''}
             ${isLoggedIn
                 ? `<button class="qw-btn qw-btn--${type}">Пройти тест &gt;</button>`
@@ -192,18 +258,19 @@
         const pick  = calcPick(meta);
         const descText = desc || `${pick} вопросов по всем темам`;
 
-        const totalQFinal = meta.questions?.length ?? 0;
-        const coverageFinalPct = (stats && totalQFinal > 0) ? Math.round(stats.seenCount / totalQFinal * 100) : null;
+        const totalQFinal = (stats?.totalQuestionsInBank > 0) ? stats.totalQuestionsInBank : (meta.questions?.length ?? 0);
+        const coverageFinalPct = (stats && totalQFinal > 0) ? (stats.seenCount / totalQFinal * 100) : null;
         const coverageFinalHtml = coverageFinalPct !== null
-            ? `<span class="qw-stat qw-stat--coverage" title="Вопросов, на которые хоть раз ответили правильно"><span class="qw-stat__label">Изучено</span><span class="qw-stat__val ${coverageFinalPct >= 100 ? 'qw-stat__val--full' : ''}">${coverageFinalPct}%</span></span>`
+            ? `<span class="qw-stat qw-stat--coverage" title="Вопросов, на которые хоть раз ответили правильно"><span class="qw-stat__label">Изучено</span><span class="qw-stat__val ${coverageFinalPct >= 100 ? 'qw-stat__val--full' : ''}">${mathPct(coverageFinalPct.toFixed(1))}</span></span>`
             : '';
 
         const statsHtml = stats ? `
             <div class="qw-card__stats">
-                <span class="qw-stat"><span class="qw-stat__label">Лучший</span><span class="qw-stat__val">${stats.best}%</span></span>
-                ${stats.median !== null ? `<span class="qw-stat"><span class="qw-stat__label">Медиана</span><span class="qw-stat__val">${stats.median}%</span></span>` : ''}
-                <span class="qw-stat"><span class="qw-stat__label">Попыток</span><span class="qw-stat__val">${stats.attempts}</span></span>
+                <span class="qw-stat"><span class="qw-stat__label">Твой <code class="qw-mono">MAX</code></span><span class="qw-stat__val">${mathPct(stats.best)}</span></span>
+                <span class="qw-stat"><span class="qw-stat__label">Попыток</span><span class="qw-stat__val">${mathNum(stats.attempts)}</span></span>
                 ${coverageFinalHtml}
+                ${stats.last !== null ? `<span class="qw-stat"><span class="qw-stat__label">Текущий</span><span class="qw-stat__val">${mathPct(stats.last)}</span></span>` : ''}
+                ${buildDistHtml(stats.dist, true)}
             </div>` : '';
 
         const btnHtml = isLoggedIn
@@ -228,6 +295,36 @@
             card.querySelector('button').addEventListener('click', () => openModal(meta.quizId));
         }
         return card;
+    }
+
+    // ── Горизонтальная диаграмма распределения ────────────────────────────
+    function buildDistHtml(dist, inline = false) {
+        if (!dist) return '';
+        const b = dist.pctBelow ?? 0;
+        const s = dist.pctSame  ?? 0;
+        const a = dist.pctAbove ?? 0;
+        const total = b + s + a;
+        if (total === 0) return '';
+        // Нормализованные ширины сегментов (сумма = 100%)
+        const bw = b / total * 100;
+        const sw = s / total * 100;
+        const aw = a / total * 100;
+        // Центры сегментов строго по нормализованным ширинам
+        const bc = (bw / 2).toFixed(2);
+        const sc = (bw + sw / 2).toFixed(2);
+        const ac = (bw + sw + aw / 2).toFixed(2);
+        return `<div class="qw-dist-chart">
+            <div class="qw-dist-bar-stack">
+                ${b > 0 ? `<div class="qw-dist-seg qw-dist-seg--below" style="width:${bw.toFixed(1)}%"><span class="qw-dist-sym">&lt;</span></div>` : ''}
+                ${s > 0 ? `<div class="qw-dist-seg qw-dist-seg--same"  style="width:${sw.toFixed(1)}%"><span class="qw-dist-sym">=</span></div>` : ''}
+                ${a > 0 ? `<div class="qw-dist-seg qw-dist-seg--above" style="width:${aw.toFixed(1)}%"><span class="qw-dist-sym">&gt;</span></div>` : ''}
+            </div>
+            <div class="qw-dist-labels">
+                ${b > 0 ? `<span class="qw-dist-lbl qw-dist-lbl--below" style="left:${bc}%">${b}%</span>` : ''}
+                ${s > 0 ? `<span class="qw-dist-lbl qw-dist-lbl--same"  style="left:${sc}%">${s}%</span>` : ''}
+                ${a > 0 ? `<span class="qw-dist-lbl qw-dist-lbl--above" style="left:${ac}%">${a}%</span>` : ''}
+            </div>
+        </div>`;
     }
 
     // ── Модальное окно ────────────────────────────────────────────────────
@@ -264,9 +361,7 @@
     }
 
     // ── Обновление после завершения теста ─────────────────────────────────
-    // Перерисовываем все виджеты на странице чтобы показать новую статистику
     window.addEventListener('quizCompleted', async () => {
-        // Сбрасываем кэш метаданных чтобы подтянуть свежую статистику
         Object.keys(_cache).forEach(k => delete _cache[k]);
 
         for (const el of document.querySelectorAll('.quiz-widget')) {
