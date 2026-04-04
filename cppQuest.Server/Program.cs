@@ -88,6 +88,8 @@ app.Logger.LogInformation("Serving static files from: {Path}", cppCoursePath);
 // Map endpoints
 app.MapAuthEndpoints();
 app.MapProgressEndpoints();
+app.MapShopEndpoints();
+app.MapGatedEndpoints();
 app.MapQuizEndpoints();
 app.MapCourseEndpoints(cppCoursePath);
 app.MapFeedbackEndpoints();
@@ -108,14 +110,7 @@ app.UseFileServer(new FileServerOptions
         {
             var path = ctx.File.Name;
             // JS и CSS — короткий кэш, чтобы браузер перепроверял
-            if (path.EndsWith(".js") || path.EndsWith(".css"))
-            {
-                ctx.Context.Response.Headers["Cache-Control"] = "no-cache";
-            }
-            else
-            {
-                ctx.Context.Response.Headers["Cache-Control"] = "public, max-age=86400";
-            }
+            ctx.Context.Response.Headers.CacheControl = path.EndsWith(".js") || path.EndsWith(".css") ? (Microsoft.Extensions.Primitives.StringValues)"no-cache" : (Microsoft.Extensions.Primitives.StringValues)"public, max-age=86400";
         }
     }
 });

@@ -1,0 +1,6 @@
+var searchData=
+[
+  ['bestscore_0',['BestScore',['../classcpp_quest_1_1_server_1_1_models_1_1_paragraph_test_stats.html#aac1defef174bf77d8a89d27974140417',1,'cppQuest::Server::Models::ParagraphTestStats']]],
+  ['beststatus_1',['BestStatus',['../classcpp_quest_1_1_server_1_1_models_1_1_paragraph_test_stats.html#a87d132683e5bf721398827749efb2c6a',1,'cppQuest::Server::Models::ParagraphTestStats']]],
+  ['buildtargetmodel_2',['BuildTargetModel',['../classcpp_quest_1_1_server_1_1_migrations_1_1_initial_create.html#a29b14c68ad991657e659c528dd09a0d5',1,'cppQuest.Server.Migrations.InitialCreate.BuildTargetModel()'],['../classcpp_quest_1_1_server_1_1_migrations_1_1_add_user_achievements.html#a087421eae66e12bd2ed17afe12872742',1,'cppQuest.Server.Migrations.AddUserAchievements.BuildTargetModel()'],['../classcpp_quest_1_1_server_1_1_migrations_1_1_add_public_id_and_scroll_pixels.html#a1f6f601b3480ddd7d9e5b7496d52d50c',1,'cppQuest.Server.Migrations.AddPublicIdAndScrollPixels.BuildTargetModel()'],['../classcpp_quest_1_1_server_1_1_migrations_1_1_add_total_scroll_pixels.html#afe4c36639749df0adc4b27587f4cd011',1,'cppQuest.Server.Migrations.AddTotalScrollPixels.BuildTargetModel()'],['../classcpp_quest_1_1_server_1_1_migrations_1_1_add_is_admin_to_user.html#a8604ecd4676efe04c2285ad2fb16f83d',1,'cppQuest.Server.Migrations.AddIsAdminToUser.BuildTargetModel()']]]
+];

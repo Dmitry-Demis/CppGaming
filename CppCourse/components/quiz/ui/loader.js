@@ -43,23 +43,19 @@ export const QuizLoader = {
     },
 
     _pickQuestions(data, wrongIds = new Set()) {
-        const all    = data.questions || [];
-        const pick   = Math.min(data.pick || all.length, all.length);
+        const all  = data.questions || [];
+        const pick = Math.min(data.pick || all.length, all.length);
 
-        // 1. Unseen — абсолютный приоритет
         const unseen = shuffle(all.filter(q => !wrongIds.has(q.id)));
-        // 2. Wrong — не более 50% от оставшихся слотов после unseen
         const wrong  = shuffle(all.filter(q => wrongIds.has(q.id)));
 
         const result = [];
 
-        // Сначала unseen
         for (const q of unseen) {
             if (result.length >= pick) break;
             result.push(q);
         }
 
-        // Потом wrong (до 50% оставшихся слотов)
         const remaining = pick - result.length;
         const wrongCap  = Math.ceil(remaining * 0.5);
         const wrongAdded = [];
@@ -69,7 +65,6 @@ export const QuizLoader = {
             wrongAdded.push(q);
         }
 
-        // Если не хватает — добираем оставшимися wrong
         for (const q of wrong.filter(q => !wrongAdded.includes(q))) {
             if (result.length >= pick) break;
             result.push(q);

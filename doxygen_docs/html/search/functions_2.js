@@ -1,0 +1,4 @@
+var searchData=
+[
+  ['down_0',['Down',['../classcpp_quest_1_1_server_1_1_migrations_1_1_initial_create.html#ad91be8e8bd0fbfeda95c7daee9256b0a',1,'cppQuest.Server.Migrations.InitialCreate.Down()'],['../classcpp_quest_1_1_server_1_1_migrations_1_1_add_user_achievements.html#ab2ae07a53c0998d81353b6e8e89483a8',1,'cppQuest.Server.Migrations.AddUserAchievements.Down()'],['../classcpp_quest_1_1_server_1_1_migrations_1_1_add_public_id_and_scroll_pixels.html#a13654f46439fe585e03deb981436b7b3',1,'cppQuest.Server.Migrations.AddPublicIdAndScrollPixels.Down()'],['../classcpp_quest_1_1_server_1_1_migrations_1_1_add_total_scroll_pixels.html#a40fa6eb45185e7889471e8ebff963537',1,'cppQuest.Server.Migrations.AddTotalScrollPixels.Down()'],['../classcpp_quest_1_1_server_1_1_migrations_1_1_add_is_admin_to_user.html#a131b39f6f4359f372743d49d047bf688',1,'cppQuest.Server.Migrations.AddIsAdminToUser.Down()']]]
+];

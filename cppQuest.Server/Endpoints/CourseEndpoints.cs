@@ -4,37 +4,45 @@ namespace cppQuest.Server.Endpoints;
 
 public static class CourseEndpoints
 {
+    /// <param name="cppCoursePath">Абсолютный путь к директории фронтенда курса (содержит course-meta.json, theory/).</param>
     public static void MapCourseEndpoints(this IEndpointRouteBuilder app, string cppCoursePath)
     {
         var api = app.MapGroup("/api");
-        api.MapGet("examples/{**path}",  (string path, IWebHostEnvironment env) => GetExample(path, env));
-        api.MapGet("tests/{**path}",     (string path, IWebHostEnvironment env) => GetTest(path, env));
+        api.MapGet("examples/{**path}",  (string path, IWebHostEnvironment env) => ServeStaticFile(path, env, "examples", null));
+        api.MapGet("tests/{**path}",     (string path, IWebHostEnvironment env) => ServeStaticFile(path, env, "tests", "application/json"));
         api.MapGet("course-structure",   (IWebHostEnvironment env)               => GetCourseStructure(cppCoursePath, env));
     }
 
-    // GET /api/examples/{**path}
-    private static IResult GetExample(string path, IWebHostEnvironment env)
+    /// <summary>
+    /// Отдаёт файл из защищённой поддиректории <paramref name="subDir"/> внутри ContentRoot.
+    /// Защита от path traversal: проверяет, что итоговый путь остаётся внутри корневой директории.
+    /// </summary>
+    /// <param name="path">Относительный путь к файлу, пришедший из URL.</param>
+    /// <param name="subDir">Поддиректория внутри ContentRoot (например, "examples" или "tests").</param>
+    /// <param name="contentType">
+    ///     Content-Type ответа. Если <c>null</c> — возвращает объект <c>{ path, code }</c> вместо сырого текста.
+    /// </param>
+    private static IResult ServeStaticFile(string path, IWebHostEnvironment env, string subDir, string? contentType)
     {
         if (path.Contains("..")) return Results.BadRequest();
-        var root     = Path.GetFullPath(Path.Combine(env.ContentRootPath, "examples"));
+
+        var root     = Path.GetFullPath(Path.Combine(env.ContentRootPath, subDir));
         var filePath = Path.GetFullPath(Path.Combine(root, path));
-        if (!filePath.StartsWith(root)) return Results.BadRequest();
-        if (!File.Exists(filePath))     return Results.NotFound();
-        return Results.Ok(new { path, code = File.ReadAllText(filePath) });
+
+        if (!EndpointHelpers.IsPathSafe(filePath, root)) return Results.BadRequest();
+        if (!File.Exists(filePath))                       return Results.NotFound();
+
+        var text = File.ReadAllText(filePath);
+        return contentType is not null
+            ? Results.Content(text, contentType)
+            : Results.Ok(new { path, code = text });
     }
 
-    // GET /api/tests/{**path}
-    private static IResult GetTest(string path, IWebHostEnvironment env)
-    {
-        if (path.Contains("..")) return Results.BadRequest();
-        var root     = Path.GetFullPath(Path.Combine(env.ContentRootPath, "tests"));
-        var filePath = Path.GetFullPath(Path.Combine(root, path));
-        if (!filePath.StartsWith(root)) return Results.BadRequest();
-        if (!File.Exists(filePath))     return Results.NotFound();
-        return Results.Content(File.ReadAllText(filePath), "application/json");
-    }
-
-    // GET /api/course-structure
+    /// <summary>
+    /// Строит полную структуру курса из <c>course-meta.json</c>:
+    /// главы → параграфы → тесты + примеры кода.
+    /// </summary>
+    /// <param name="cppCoursePath">Путь к директории фронтенда курса.</param>
     private static IResult GetCourseStructure(string cppCoursePath, IWebHostEnvironment env)
     {
         var metaPath = Path.Combine(cppCoursePath, "course-meta.json");
@@ -52,25 +60,33 @@ public static class CourseEndpoints
         return Results.Ok(new { chapters });
     }
 
+    /// <summary>
+    /// Строит объект главы: читает метаданные из JSON и собирает список параграфов.
+    /// </summary>
     private static object BuildChapter(JsonElement ch, string theoryRoot, string testsRoot, string contentRoot)
     {
         var chapterId = ch.GetProperty("id").GetString()!;
         var groupId   = ch.GetProperty("groupId").GetString()!;
         var title     = ch.GetProperty("title").GetString();
-        var desc      = ch.TryGetProperty("description", out var d)  ? d.GetString()   : null;
-        var chNum     = ch.TryGetProperty("number",      out var num) ? num.GetInt32()  : 0;
+        var desc      = ch.TryGetProperty("description", out var d)   ? d.GetString()  : null;
+        var chNum     = ch.TryGetProperty("number",      out var num) ? num.GetInt32() : 0;
 
-        var theoryDir     = Path.Combine(theoryRoot, chapterId, groupId);
-        var chTestsDir    = Path.Combine(testsRoot,  chapterId, groupId);
+        var theoryDir     = Path.Combine(theoryRoot,   chapterId, groupId);
+        var chTestsDir    = Path.Combine(testsRoot,    chapterId, groupId);
         var chExamplesDir = Path.Combine(contentRoot, "examples", chapterId, groupId);
 
-        var paraIds    = GetParaIds(ch, theoryDir);
-        var paragraphs = paraIds.Select(id => BuildParagraph(id, theoryDir, chTestsDir, chExamplesDir))
-                                .ToList<object>();
+        var paragraphs = GetParaIds(ch, theoryDir)
+            .Select(id => BuildParagraph(id, theoryDir, chTestsDir, chExamplesDir))
+            .Cast<object>()
+            .ToList();
 
         return new { id = chapterId, number = chNum, groupId, title, description = desc, paragraphs };
     }
 
+    /// <summary>
+    /// Возвращает список ID параграфов главы.
+    /// Приоритет: явный список в JSON → файлы *.html в директории теории.
+    /// </summary>
     private static IEnumerable<string> GetParaIds(JsonElement ch, string theoryDir)
     {
         if (ch.TryGetProperty("paragraphs", out var metaParas) && metaParas.ValueKind == JsonValueKind.Array)
@@ -78,7 +94,8 @@ public static class CourseEndpoints
                 .Select(p => p.GetString()!)
                 .Where(id => !string.IsNullOrEmpty(id));
 
-        if (!Directory.Exists(theoryDir)) return Enumerable.Empty<string>();
+        if (!Directory.Exists(theoryDir)) return [];
+
         return Directory.GetFiles(theoryDir, "*.html")
             .Where(f => !Path.GetFileName(f).Equals("index.html", StringComparison.OrdinalIgnoreCase))
             .OrderBy(f => f)
@@ -93,17 +110,21 @@ public static class CourseEndpoints
         return new { id = paraId, title, tests, examples };
     }
 
-    // Loads files for a paragraph: {dir}/{paraId}.ext  OR  {dir}/{paraId}/*.ext
+    /// <summary>
+    /// Загружает файлы параграфа по двум стратегиям:
+    /// 1. Одиночный файл <c>{dir}/{paraId}.ext</c>
+    /// 2. Директория <c>{dir}/{paraId}/*.ext</c>
+    /// </summary>
     private static List<object> LoadParaFiles(string dir, string paraId, string pattern)
     {
-        var result = new List<object>();
+        List<object> result = [];
         var ext    = Path.GetExtension(pattern).TrimStart('*');
 
         var singleFile = Path.Combine(dir, paraId + ext);
         if (File.Exists(singleFile))
         {
-            var item = ext == ".json" ? ReadTestMeta(singleFile) : (object)new { id = Path.GetFileNameWithoutExtension(singleFile) };
-            if (item != null) result.Add(item);
+            var item = BuildFileItem(singleFile, ext);
+            if (item is not null) result.Add(item);
             return result;
         }
 
@@ -111,12 +132,18 @@ public static class CourseEndpoints
         if (Directory.Exists(folder))
             foreach (var f in Directory.GetFiles(folder, pattern).OrderBy(x => x))
             {
-                var item = ext == ".json" ? ReadTestMeta(f) : (object)new { id = Path.GetFileNameWithoutExtension(f) };
-                if (item != null) result.Add(item);
+                var item = BuildFileItem(f, ext);
+                if (item is not null) result.Add(item);
             }
 
         return result;
     }
+
+    /// <summary>
+    /// Строит метаданные файла: для JSON читает quizId/title/type, для остальных — только имя.
+    /// </summary>
+    private static object? BuildFileItem(string filePath, string ext) =>
+        ext == ".json" ? ReadTestMeta(filePath) : new { id = Path.GetFileNameWithoutExtension(filePath) };
 
     private static object? ReadTestMeta(string filePath)
     {
@@ -131,11 +158,17 @@ public static class CourseEndpoints
         catch { return null; }
     }
 
+    /// <summary>
+    /// Извлекает текст первого <c>&lt;h1&gt;</c> из HTML-файла параграфа.
+    /// Возвращает <c>null</c>, если файл не найден или тег отсутствует.
+    /// </summary>
     private static string? GetHtmlTitle(string filePath)
     {
         if (!File.Exists(filePath)) return null;
         var html = File.ReadAllText(filePath);
-        var m = System.Text.RegularExpressions.Regex.Match(html, @"<h1[^>]*>(.*?)</h1>", System.Text.RegularExpressions.RegexOptions.Singleline);
+        var m = System.Text.RegularExpressions.Regex.Match(
+            html, @"<h1[^>]*>(.*?)</h1>",
+            System.Text.RegularExpressions.RegexOptions.Singleline);
         if (!m.Success) return null;
         return System.Text.RegularExpressions.Regex.Replace(m.Groups[1].Value, "<[^>]+>", "").Trim();
     }

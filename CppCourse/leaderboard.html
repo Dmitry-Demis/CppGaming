@@ -178,6 +178,7 @@
 
     let currentTab = 'xp';
     const cache = {};
+    const CACHE_TTL = 2 * 60 * 1000; // 2 минуты
 
     async function loadTab(tab) {
         document.getElementById('lb-loading').style.display = 'block';
@@ -185,14 +186,15 @@
         document.getElementById('lb-empty').style.display = 'none';
 
         let rows;
-        if (cache[tab]) {
-            rows = cache[tab];
+        const cached = cache[tab];
+        if (cached && Date.now() - cached.ts < CACHE_TTL) {
+            rows = cached.rows;
         } else {
             try {
                 const res = await fetch(`/api/leaderboard/${tab}`);
                 rows = res.ok ? await res.json() : [];
-                cache[tab] = rows;
-            } catch { rows = []; }
+                cache[tab] = { rows, ts: Date.now() };
+            } catch { rows = cached?.rows || []; }
         }
 
         document.getElementById('lb-loading').style.display = 'none';

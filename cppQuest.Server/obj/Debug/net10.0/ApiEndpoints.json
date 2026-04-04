@@ -136,8 +136,8 @@
     ]
   },
   {
-    "ContainingType": "cppQuest.Server.Endpoints.FeedbackEndpoints\u002B\u003C\u003Ec",
-    "Method": "\u003CMapFeedbackEndpoints\u003Eb__0_0",
+    "ContainingType": "cppQuest.Server.Endpoints.FeedbackEndpoints",
+    "Method": "SaveFeedbackAsync",
     "RelativePath": "api/feedback/",
     "HttpMethod": "POST",
     "IsController": false,
@@ -158,8 +158,8 @@
     ]
   },
   {
-    "ContainingType": "cppQuest.Server.Endpoints.FeedbackEndpoints\u002B\u003C\u003Ec",
-    "Method": "\u003CMapFeedbackEndpoints\u003Eb__0_1",
+    "ContainingType": "cppQuest.Server.Endpoints.FeedbackEndpoints",
+    "Method": "GetFeedbackAsync",
     "RelativePath": "api/feedback/{pageId}",
     "HttpMethod": "GET",
     "IsController": false,
@@ -180,8 +180,8 @@
     ]
   },
   {
-    "ContainingType": "cppQuest.Server.Endpoints.ProgressEndpoints\u002B\u003C\u003Ec",
-    "Method": "\u003CMapProgressEndpoints\u003Eb__0_12",
+    "ContainingType": "cppQuest.Server.Endpoints.GatedEndpoints",
+    "Method": "GetAllSlotsAsync",
     "RelativePath": "api/gated/all-slots",
     "HttpMethod": "GET",
     "IsController": false,
@@ -196,8 +196,8 @@
     ]
   },
   {
-    "ContainingType": "cppQuest.Server.Endpoints.ProgressEndpoints\u002B\u003C\u003Ec",
-    "Method": "\u003CMapProgressEndpoints\u003Eb__0_15",
+    "ContainingType": "cppQuest.Server.Endpoints.GatedEndpoints",
+    "Method": "GetSlotContentAsync",
     "RelativePath": "api/gated/content",
     "HttpMethod": "GET",
     "IsController": false,
@@ -228,8 +228,8 @@
     ]
   },
   {
-    "ContainingType": "cppQuest.Server.Endpoints.ProgressEndpoints\u002B\u003C\u003Ec",
-    "Method": "\u003CMapProgressEndpoints\u003Eb__0_16",
+    "ContainingType": "cppQuest.Server.Endpoints.GatedEndpoints",
+    "Method": "PurchaseSlotAsync",
     "RelativePath": "api/gated/purchase",
     "HttpMethod": "POST",
     "IsController": false,
@@ -250,8 +250,8 @@
     ]
   },
   {
-    "ContainingType": "cppQuest.Server.Endpoints.ProgressEndpoints\u002B\u003C\u003Ec",
-    "Method": "\u003CMapProgressEndpoints\u003Eb__0_14",
+    "ContainingType": "cppQuest.Server.Endpoints.GatedEndpoints",
+    "Method": "GetPageSlotsAsync",
     "RelativePath": "api/gated/slots",
     "HttpMethod": "GET",
     "IsController": false,
@@ -272,8 +272,8 @@
     ]
   },
   {
-    "ContainingType": "cppQuest.Server.Endpoints.LeaderboardEndpoints\u002B\u003C\u003Ec",
-    "Method": "\u003CMapLeaderboardEndpoints\u003Eb__1_1",
+    "ContainingType": "cppQuest.Server.Endpoints.LeaderboardEndpoints",
+    "Method": "GetCoinsLeaderboardAsync",
     "RelativePath": "api/leaderboard/coins",
     "HttpMethod": "GET",
     "IsController": false,
@@ -288,8 +288,8 @@
     ]
   },
   {
-    "ContainingType": "cppQuest.Server.Endpoints.LeaderboardEndpoints\u002B\u003C\u003Ec",
-    "Method": "\u003CMapLeaderboardEndpoints\u003Eb__1_5",
+    "ContainingType": "cppQuest.Server.Endpoints.LeaderboardEndpoints",
+    "Method": "GetMasteryLeaderboardAsync",
     "RelativePath": "api/leaderboard/mastery",
     "HttpMethod": "GET",
     "IsController": false,
@@ -304,8 +304,8 @@
     ]
   },
   {
-    "ContainingType": "cppQuest.Server.Endpoints.LeaderboardEndpoints\u002B\u003C\u003Ec",
-    "Method": "\u003CMapLeaderboardEndpoints\u003Eb__1_2",
+    "ContainingType": "cppQuest.Server.Endpoints.LeaderboardEndpoints",
+    "Method": "GetReadingLeaderboardAsync",
     "RelativePath": "api/leaderboard/reading",
     "HttpMethod": "GET",
     "IsController": false,
@@ -320,8 +320,8 @@
     ]
   },
   {
-    "ContainingType": "cppQuest.Server.Endpoints.LeaderboardEndpoints\u002B\u003C\u003Ec",
-    "Method": "\u003CMapLeaderboardEndpoints\u003Eb__1_6",
+    "ContainingType": "cppQuest.Server.Endpoints.LeaderboardEndpoints",
+    "Method": "GetScrollLeaderboardAsync",
     "RelativePath": "api/leaderboard/scroll",
     "HttpMethod": "GET",
     "IsController": false,
@@ -336,8 +336,8 @@
     ]
   },
   {
-    "ContainingType": "cppQuest.Server.Endpoints.LeaderboardEndpoints\u002B\u003C\u003Ec",
-    "Method": "\u003CMapLeaderboardEndpoints\u003Eb__1_3",
+    "ContainingType": "cppQuest.Server.Endpoints.LeaderboardEndpoints",
+    "Method": "GetStreakLeaderboardAsync",
     "RelativePath": "api/leaderboard/streak",
     "HttpMethod": "GET",
     "IsController": false,
@@ -352,8 +352,8 @@
     ]
   },
   {
-    "ContainingType": "cppQuest.Server.Endpoints.LeaderboardEndpoints\u002B\u003C\u003Ec",
-    "Method": "\u003CMapLeaderboardEndpoints\u003Eb__1_4",
+    "ContainingType": "cppQuest.Server.Endpoints.LeaderboardEndpoints",
+    "Method": "GetTestsLeaderboardAsync",
     "RelativePath": "api/leaderboard/tests",
     "HttpMethod": "GET",
     "IsController": false,
@@ -368,8 +368,8 @@
     ]
   },
   {
-    "ContainingType": "cppQuest.Server.Endpoints.LeaderboardEndpoints\u002B\u003C\u003Ec",
-    "Method": "\u003CMapLeaderboardEndpoints\u003Eb__1_0",
+    "ContainingType": "cppQuest.Server.Endpoints.LeaderboardEndpoints",
+    "Method": "GetXpLeaderboardAsync",
     "RelativePath": "api/leaderboard/xp",
     "HttpMethod": "GET",
     "IsController": false,
@@ -384,8 +384,8 @@
     ]
   },
   {
-    "ContainingType": "cppQuest.Server.Endpoints.AuthEndpoints\u002B\u003C\u003Ec",
-    "Method": "\u003CMapAuthEndpoints\u003Eb__0_1",
+    "ContainingType": "cppQuest.Server.Endpoints.AuthEndpoints",
+    "Method": "HandleLoginAsync",
     "RelativePath": "api/login",
     "HttpMethod": "POST",
     "IsController": false,
@@ -403,11 +403,15 @@
         "MediaTypes": [],
         "StatusCode": 200
       }
-    ]
+    ],
+    "Tags": [
+      "Authentication"
+    ],
+    "EndpointName": "LoginUser"
   },
   {
-    "ContainingType": "cppQuest.Server.Endpoints.ProgressEndpoints\u002B\u003C\u003Ec",
-    "Method": "\u003CMapProgressEndpoints\u003Eb__0_2",
+    "ContainingType": "cppQuest.Server.Endpoints.ProgressEndpoints",
+    "Method": "GetProfileAsync",
     "RelativePath": "api/profile/{isuNumber}",
     "HttpMethod": "GET",
     "IsController": false,
@@ -428,8 +432,8 @@
     ]
   },
   {
-    "ContainingType": "cppQuest.Server.Endpoints.ProgressEndpoints\u002B\u003C\u003Ec",
-    "Method": "\u003CMapProgressEndpoints\u003Eb__0_3",
+    "ContainingType": "cppQuest.Server.Endpoints.ProgressEndpoints",
+    "Method": "GetParagraphProgressAsync",
     "RelativePath": "api/progress/{isuNumber}/{paragraphId}",
     "HttpMethod": "GET",
     "IsController": false,
@@ -455,8 +459,8 @@
     ]
   },
   {
-    "ContainingType": "cppQuest.Server.Endpoints.ProgressEndpoints\u002B\u003C\u003Ec",
-    "Method": "\u003CMapProgressEndpoints\u003Eb__0_5",
+    "ContainingType": "cppQuest.Server.Endpoints.ProgressEndpoints",
+    "Method": "GetAllProgressAsync",
     "RelativePath": "api/progress/{isuNumber}/all",
     "HttpMethod": "GET",
     "IsController": false,
@@ -477,8 +481,8 @@
     ]
   },
   {
-    "ContainingType": "cppQuest.Server.Endpoints.ProgressEndpoints\u002B\u003C\u003Ec",
-    "Method": "\u003CMapProgressEndpoints\u003Eb__0_4",
+    "ContainingType": "cppQuest.Server.Endpoints.ProgressEndpoints",
+    "Method": "GetUnlockedParagraphsAsync",
     "RelativePath": "api/progress/{isuNumber}/unlocked-paragraphs",
     "HttpMethod": "GET",
     "IsController": false,
@@ -499,8 +503,8 @@
     ]
   },
   {
-    "ContainingType": "cppQuest.Server.Endpoints.QuizEndpoints\u002B\u003C\u003Ec",
-    "Method": "\u003CMapQuizEndpoints\u003Eb__0_1",
+    "ContainingType": "cppQuest.Server.Endpoints.QuizEndpoints",
+    "Method": "GetQuizAsync",
     "RelativePath": "api/quiz/{quizId}",
     "HttpMethod": "GET",
     "IsController": false,
@@ -521,8 +525,8 @@
     ]
   },
   {
-    "ContainingType": "cppQuest.Server.Endpoints.QuizEndpoints\u002B\u003C\u003Ec",
-    "Method": "\u003CMapQuizEndpoints\u003Eb__0_6",
+    "ContainingType": "cppQuest.Server.Endpoints.QuizEndpoints",
+    "Method": "PickQuestionsAsync",
     "RelativePath": "api/quiz/{quizId}/pick-questions",
     "HttpMethod": "GET",
     "IsController": false,
@@ -543,8 +547,8 @@
     ]
   },
   {
-    "ContainingType": "cppQuest.Server.Endpoints.QuizEndpoints\u002B\u003C\u003Ec",
-    "Method": "\u003CMapQuizEndpoints\u003Eb__0_4",
+    "ContainingType": "cppQuest.Server.Endpoints.QuizEndpoints",
+    "Method": "GetQuestionStatsAsync",
     "RelativePath": "api/quiz/{quizId}/question-stats/{questionId:int}",
     "HttpMethod": "GET",
     "IsController": false,
@@ -570,8 +574,8 @@
     ]
   },
   {
-    "ContainingType": "cppQuest.Server.Endpoints.QuizEndpoints\u002B\u003C\u003Ec",
-    "Method": "\u003CMapQuizEndpoints\u003Eb__0_5",
+    "ContainingType": "cppQuest.Server.Endpoints.QuizEndpoints",
+    "Method": "GetScoreDistributionAsync",
     "RelativePath": "api/quiz/{quizId}/score-distribution",
     "HttpMethod": "GET",
     "IsController": false,
@@ -592,8 +596,8 @@
     ]
   },
   {
-    "ContainingType": "cppQuest.Server.Endpoints.QuizEndpoints\u002B\u003C\u003Ec",
-    "Method": "\u003CMapQuizEndpoints\u003Eb__0_2",
+    "ContainingType": "cppQuest.Server.Endpoints.QuizEndpoints",
+    "Method": "SubmitQuizAsync",
     "RelativePath": "api/quiz/{quizId}/submit",
     "HttpMethod": "POST",
     "IsController": false,
@@ -619,8 +623,8 @@
     ]
   },
   {
-    "ContainingType": "cppQuest.Server.Endpoints.QuizEndpoints\u002B\u003C\u003Ec",
-    "Method": "\u003CMapQuizEndpoints\u003Eb__0_3",
+    "ContainingType": "cppQuest.Server.Endpoints.QuizEndpoints",
+    "Method": "GetWrongIdsAsync",
     "RelativePath": "api/quiz/{quizId}/wrong-ids",
     "HttpMethod": "GET",
     "IsController": false,
@@ -641,8 +645,8 @@
     ]
   },
   {
-    "ContainingType": "cppQuest.Server.Endpoints.QuizEndpoints\u002B\u003C\u003Ec",
-    "Method": "\u003CMapQuizEndpoints\u003Eb__0_0",
+    "ContainingType": "cppQuest.Server.Endpoints.QuizEndpoints",
+    "Method": "ListQuizzesAsync",
     "RelativePath": "api/quiz/list",
     "HttpMethod": "GET",
     "IsController": false,
@@ -657,8 +661,8 @@
     ]
   },
   {
-    "ContainingType": "cppQuest.Server.Endpoints.ProgressEndpoints\u002B\u003C\u003Ec",
-    "Method": "\u003CMapProgressEndpoints\u003Eb__0_6",
+    "ContainingType": "cppQuest.Server.Endpoints.ProgressEndpoints",
+    "Method": "CompleteReadingAsync",
     "RelativePath": "api/reading/complete",
     "HttpMethod": "POST",
     "IsController": false,
@@ -679,8 +683,8 @@
     ]
   },
   {
-    "ContainingType": "cppQuest.Server.Endpoints.AuthEndpoints\u002B\u003C\u003Ec",
-    "Method": "\u003CMapAuthEndpoints\u003Eb__0_0",
+    "ContainingType": "cppQuest.Server.Endpoints.AuthEndpoints",
+    "Method": "HandleRegisterAsync",
     "RelativePath": "api/register",
     "HttpMethod": "POST",
     "IsController": false,
@@ -698,11 +702,15 @@
         "MediaTypes": [],
         "StatusCode": 200
       }
-    ]
+    ],
+    "Tags": [
+      "Authentication"
+    ],
+    "EndpointName": "RegisterUser"
   },
   {
-    "ContainingType": "cppQuest.Server.Endpoints.ProgressEndpoints\u002B\u003C\u003Ec",
-    "Method": "\u003CMapProgressEndpoints\u003Eb__0_7",
+    "ContainingType": "cppQuest.Server.Endpoints.ProgressEndpoints",
+    "Method": "GetReviewDueAsync",
     "RelativePath": "api/review/due",
     "HttpMethod": "GET",
     "IsController": false,
@@ -717,8 +725,8 @@
     ]
   },
   {
-    "ContainingType": "cppQuest.Server.Endpoints.ProgressEndpoints\u002B\u003C\u003Ec",
-    "Method": "\u003CMapProgressEndpoints\u003Eb__0_9",
+    "ContainingType": "cppQuest.Server.Endpoints.ProgressEndpoints",
+    "Method": "AddScrollPixelsAsync",
     "RelativePath": "api/scroll",
     "HttpMethod": "POST",
     "IsController": false,
@@ -739,8 +747,8 @@
     ]
   },
   {
-    "ContainingType": "cppQuest.Server.Endpoints.ProgressEndpoints\u002B\u003C\u003Ec",
-    "Method": "\u003CMapProgressEndpoints\u003Eb__0_11",
+    "ContainingType": "cppQuest.Server.Endpoints.ShopEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapShopEndpoints\u003Eb__0_0",
     "RelativePath": "api/shop/items",
     "HttpMethod": "GET",
     "IsController": false,
@@ -755,8 +763,8 @@
     ]
   },
   {
-    "ContainingType": "cppQuest.Server.Endpoints.ProgressEndpoints\u002B\u003C\u003Ec",
-    "Method": "\u003CMapProgressEndpoints\u003Eb__0_13",
+    "ContainingType": "cppQuest.Server.Endpoints.ShopEndpoints",
+    "Method": "PurchaseItemAsync",
     "RelativePath": "api/shop/purchase",
     "HttpMethod": "POST",
     "IsController": false,
@@ -777,8 +785,8 @@
     ]
   },
   {
-    "ContainingType": "cppQuest.Server.Endpoints.ProgressEndpoints\u002B\u003C\u003Ec",
-    "Method": "\u003CMapProgressEndpoints\u003Eb__0_0",
+    "ContainingType": "cppQuest.Server.Endpoints.ProgressEndpoints",
+    "Method": "GetAvgReadingAsync",
     "RelativePath": "api/stats/avg-reading/{paragraphId}",
     "HttpMethod": "GET",
     "IsController": false,
@@ -799,8 +807,8 @@
     ]
   },
   {
-    "ContainingType": "cppQuest.Server.Endpoints.ProgressEndpoints\u002B\u003C\u003Ec",
-    "Method": "\u003CMapProgressEndpoints\u003Eb__0_1",
+    "ContainingType": "cppQuest.Server.Endpoints.ProgressEndpoints",
+    "Method": "GetAvgReadingBulkAsync",
     "RelativePath": "api/stats/avg-reading/bulk",
     "HttpMethod": "POST",
     "IsController": false,
@@ -821,8 +829,8 @@
     ]
   },
   {
-    "ContainingType": "cppQuest.Server.Endpoints.ProgressEndpoints\u002B\u003C\u003Ec",
-    "Method": "\u003CMapProgressEndpoints\u003Eb__0_8",
+    "ContainingType": "cppQuest.Server.Endpoints.ProgressEndpoints",
+    "Method": "GetStreakAsync",
     "RelativePath": "api/streak/{isuNumber}",
     "HttpMethod": "GET",
     "IsController": false,
@@ -843,8 +851,8 @@
     ]
   },
   {
-    "ContainingType": "cppQuest.Server.Endpoints.ProgressEndpoints\u002B\u003C\u003Ec",
-    "Method": "\u003CMapProgressEndpoints\u003Eb__0_10",
+    "ContainingType": "cppQuest.Server.Endpoints.ProgressEndpoints",
+    "Method": "CompleteTestAsync",
     "RelativePath": "api/test/complete",
     "HttpMethod": "POST",
     "IsController": false,

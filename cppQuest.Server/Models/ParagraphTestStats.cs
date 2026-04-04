@@ -1,27 +1,39 @@
 namespace cppQuest.Server.Models;
 
+/// <summary>
+/// Статистика по попыткам теста для пользователя и параграфа.
+/// Хранит агрегированную информацию (количество попыток, лучший балл и т.п.).
+/// PK: (UserId, TestId)
+/// </summary>
 public class ParagraphTestStats
 {
     public int UserId { get; set; }
-    // TestId — уникальный идентификатор теста (например "cpp-basics-final")
+
+    /// <summary>Уникальный идентификатор теста (например "cpp-basics-final").</summary>
     public string TestId { get; set; } = "";
-    // ParagraphId — к какому параграфу относится тест
+
+    /// <summary>Параграф, к которому относится тест.</summary>
     public string ParagraphId { get; set; } = "";
-    // Название теста (из JSON, сохраняется при первой попытке)
+
+    /// <summary>Название теста (копируется из JSON при первой попытке).</summary>
     public string TestTitle { get; set; } = "";
 
-    // п.4 — сколько раз решали тест
+    /// <summary>Сколько раз пытались пройти тест.</summary>
     public int AttemptsCount { get; set; }
-    // п.5 — лучший процент
+
+    /// <summary>Лучший процент (0–100).</summary>
     public int BestScore { get; set; }
-    // для п.6 — сумма всех процентов; среднее = TotalScoreSum / AttemptsCount
+
+    /// <summary>Сумма процентов по всем попыткам; среднее = TotalScoreSum / AttemptsCount.</summary>
     public int TotalScoreSum { get; set; }
-    // п.7 — текущий (последний) процент
+
+    /// <summary>Процент в последней попытке.</summary>
     public int LastScore { get; set; }
 
-    // Лучший достигнутый статус: 0=none, 1=passed, 2=bronze, 3=silver, 4=gold
+    /// <summary>Лучший статус: 0=none, 1=passed, 2=bronze, 3=silver, 4=gold.</summary>
     public int BestStatus { get; set; }
 
+    /// <summary>Время последней попытки.</summary>
     public DateTime LastAttemptAt { get; set; } = DateTime.UtcNow;
 
     // Navigation

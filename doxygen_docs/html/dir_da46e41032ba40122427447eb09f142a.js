@@ -1,0 +1,26 @@
+var dir_da46e41032ba40122427447eb09f142a =
+[
+    [ "design-refactor.cpp", "bin_2_release_2net10_80_2_cpp_course_2examples_2chapter-3_2functions_2design-refactor_8cpp_source.html", null ],
+    [ "forward-decl-odr.cpp", "bin_2_release_2net10_80_2_cpp_course_2examples_2chapter-3_2functions_2forward-decl-odr_8cpp_source.html", null ],
+    [ "forward-decl-problem.cpp", "bin_2_release_2net10_80_2_cpp_course_2examples_2chapter-3_2functions_2forward-decl-problem_8cpp_source.html", null ],
+    [ "intro-basic.cpp", "bin_2_release_2net10_80_2_cpp_course_2examples_2chapter-3_2functions_2intro-basic_8cpp_source.html", null ],
+    [ "intro-forward-decl.cpp", "bin_2_release_2net10_80_2_cpp_course_2examples_2chapter-3_2functions_2intro-forward-decl_8cpp_source.html", null ],
+    [ "intro-nested.cpp", "bin_2_release_2net10_80_2_cpp_course_2examples_2chapter-3_2functions_2intro-nested_8cpp_source.html", null ],
+    [ "local-scope-basic.cpp", "bin_2_release_2net10_80_2_cpp_course_2examples_2chapter-3_2functions_2local-scope-basic_8cpp_source.html", null ],
+    [ "local-scope-lifetime.cpp", "bin_2_release_2net10_80_2_cpp_course_2examples_2chapter-3_2functions_2local-scope-lifetime_8cpp_source.html", null ],
+    [ "local-scope-shadowing.cpp", "bin_2_release_2net10_80_2_cpp_course_2examples_2chapter-3_2functions_2local-scope-shadowing_8cpp_source.html", null ],
+    [ "params-by-ref.cpp", "bin_2_release_2net10_80_2_cpp_course_2examples_2chapter-3_2functions_2params-by-ref_8cpp_source.html", null ],
+    [ "params-by-value.cpp", "bin_2_release_2net10_80_2_cpp_course_2examples_2chapter-3_2functions_2params-by-value_8cpp_source.html", null ],
+    [ "params-const-ref.cpp", "bin_2_release_2net10_80_2_cpp_course_2examples_2chapter-3_2functions_2params-const-ref_8cpp_source.html", null ],
+    [ "params-default.cpp", "bin_2_release_2net10_80_2_cpp_course_2examples_2chapter-3_2functions_2params-default_8cpp_source.html", null ],
+    [ "params-overload.cpp", "bin_2_release_2net10_80_2_cpp_course_2examples_2chapter-3_2functions_2params-overload_8cpp_source.html", null ],
+    [ "params-structured-bindings.cpp", "bin_2_release_2net10_80_2_cpp_course_2examples_2chapter-3_2functions_2params-structured-bindings_8cpp_source.html", null ],
+    [ "return-basic.cpp", "bin_2_release_2net10_80_2_cpp_course_2examples_2chapter-3_2functions_2return-basic_8cpp_source.html", null ],
+    [ "return-early.cpp", "bin_2_release_2net10_80_2_cpp_course_2examples_2chapter-3_2functions_2return-early_8cpp_source.html", null ],
+    [ "return-nodiscard.cpp", "bin_2_release_2net10_80_2_cpp_course_2examples_2chapter-3_2functions_2return-nodiscard_8cpp_source.html", null ],
+    [ "return-trailing.cpp", "bin_2_release_2net10_80_2_cpp_course_2examples_2chapter-3_2functions_2return-trailing_8cpp_source.html", null ],
+    [ "return-types.cpp", "bin_2_release_2net10_80_2_cpp_course_2examples_2chapter-3_2functions_2return-types_8cpp_source.html", null ],
+    [ "void-basic.cpp", "bin_2_release_2net10_80_2_cpp_course_2examples_2chapter-3_2functions_2void-basic_8cpp_source.html", null ],
+    [ "void-early-return.cpp", "bin_2_release_2net10_80_2_cpp_course_2examples_2chapter-3_2functions_2void-early-return_8cpp_source.html", null ],
+    [ "void-vs-return.cpp", "bin_2_release_2net10_80_2_cpp_course_2examples_2chapter-3_2functions_2void-vs-return_8cpp_source.html", null ]
+];

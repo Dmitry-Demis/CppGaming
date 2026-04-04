@@ -354,11 +354,13 @@ D:\Studies\cppQuest\cppQuest.Server\obj\Release\net10.0\linux-x64\PubTmp\Out\Cpp
 D:\Studies\cppQuest\cppQuest.Server\obj\Release\net10.0\linux-x64\PubTmp\Out\CppCourse\theory\chapter-2b\numeric-types\sizeof-operator.html
 D:\Studies\cppQuest\cppQuest.Server\obj\Release\net10.0\linux-x64\PubTmp\Out\CppCourse\theory\chapter-2b\numeric-types\type-conversion.html
 D:\Studies\cppQuest\cppQuest.Server\obj\Release\net10.0\linux-x64\PubTmp\Out\CppCourse\theory\chapter-2b\numeric-types\void.html
+D:\Studies\cppQuest\cppQuest.Server\obj\Release\net10.0\linux-x64\PubTmp\Out\CppCourse\theory\chapter-2\fundamental-types\d.svg
 D:\Studies\cppQuest\cppQuest.Server\obj\Release\net10.0\linux-x64\PubTmp\Out\CppCourse\theory\chapter-2\fundamental-types\fixed-width-types.html
 D:\Studies\cppQuest\cppQuest.Server\obj\Release\net10.0\linux-x64\PubTmp\Out\CppCourse\theory\chapter-2\fundamental-types\index.html
 D:\Studies\cppQuest\cppQuest.Server\obj\Release\net10.0\linux-x64\PubTmp\Out\CppCourse\theory\chapter-2\fundamental-types\integer-overflow.html
 D:\Studies\cppQuest\cppQuest.Server\obj\Release\net10.0\linux-x64\PubTmp\Out\CppCourse\theory\chapter-2\fundamental-types\integer-types.html
 D:\Studies\cppQuest\cppQuest.Server\obj\Release\net10.0\linux-x64\PubTmp\Out\CppCourse\theory\chapter-2\fundamental-types\introduction-to-fundamental-data-types.html
+D:\Studies\cppQuest\cppQuest.Server\obj\Release\net10.0\linux-x64\PubTmp\Out\CppCourse\theory\chapter-2\fundamental-types\introduction-to-fundamental-data-types.svg
 D:\Studies\cppQuest\cppQuest.Server\obj\Release\net10.0\linux-x64\PubTmp\Out\CppCourse\theory\chapter-2\fundamental-types\signed-unsigned.html
 D:\Studies\cppQuest\cppQuest.Server\obj\Release\net10.0\linux-x64\PubTmp\Out\CppCourse\theory\chapter-3b\type-conversion\arithmetic-conversions.html
 D:\Studies\cppQuest\cppQuest.Server\obj\Release\net10.0\linux-x64\PubTmp\Out\CppCourse\theory\chapter-3b\type-conversion\explicit-cast.html

@@ -654,3 +654,5 @@ D:\Studies\cppQuest\cppQuest.Server\bin\Release\net10.0\linux-x64\gated\chapter-
 D:\Studies\cppQuest\cppQuest.Server\bin\Release\net10.0\linux-x64\CppCourse\js\chapter-index.js
 D:\Studies\cppQuest\cppQuest.Server\bin\Release\net10.0\linux-x64\cppquest.db-shm
 D:\Studies\cppQuest\cppQuest.Server\bin\Release\net10.0\linux-x64\cppquest.db-wal
+D:\Studies\cppQuest\cppQuest.Server\bin\Release\net10.0\linux-x64\CppCourse\theory\chapter-2\fundamental-types\d.svg
+D:\Studies\cppQuest\cppQuest.Server\bin\Release\net10.0\linux-x64\CppCourse\theory\chapter-2\fundamental-types\introduction-to-fundamental-data-types.svg

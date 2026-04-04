@@ -74,13 +74,30 @@
         'std_cpp23': { label: 'C++23', icon: '🌿', color: '#84cc16' },
     };
 
-    let _shopItems = []; // загружается с сервера
+    let _shopItems = [];
     let _shopCoins = 0;
     let _shopLevel = 1;
+
+    const SHOP_CACHE_KEY = 'shop_cache';
+    const SHOP_CACHE_TTL = 2 * 60 * 1000; // 2 минуты
 
     function getUser() { try { return JSON.parse(localStorage.getItem('cpp_user') || 'null'); } catch { return null; } }
     function formatPrice(n) {
         return n >= 1000 ? (n / 1000).toFixed(0) + 'К' : n;
+    }
+
+    function readShopCache() {
+        try {
+            const c = JSON.parse(localStorage.getItem(SHOP_CACHE_KEY) || 'null');
+            if (c && Date.now() - c.ts < SHOP_CACHE_TTL) return c;
+        } catch {}
+        return null;
+    }
+
+    function writeShopCache(coins, level, items, ownedIds) {
+        try {
+            localStorage.setItem(SHOP_CACHE_KEY, JSON.stringify({ ts: Date.now(), coins, level, items, ownedIds }));
+        } catch {}
     }
 
     function formatDesc(text) {
@@ -161,8 +178,8 @@
             }
             _shopCoins = data.coins;
             localStorage.setItem('gs_coins', JSON.stringify(_shopCoins));
-            // Invalidate compiler std cache so it re-fetches on next page load
             localStorage.removeItem('shop_unlocked_stds');
+            localStorage.removeItem(SHOP_CACHE_KEY); // инвалидируем кэш
             const meta = SHOP_ITEM_META[item.id] || { label: item.name };
             showToast(`${meta.label} разблокирован!`);
             renderShop([...ownedIds, item.id]);
@@ -173,35 +190,56 @@
         }
     }
 
+    async function fetchShopData(user) {
+        const [profileRes, itemsRes] = await Promise.all([
+            fetch(`/api/profile/${user.isuNumber}`),
+            fetch('/api/shop/items')
+        ]);
+        let coins = _shopCoins, level = _shopLevel, items = _shopItems, ownedIds = [];
+        if (profileRes.ok) {
+            const profile = await profileRes.json();
+            coins = profile.coins;
+            level = profile.level;
+            localStorage.setItem('gs_coins', JSON.stringify(coins));
+            localStorage.setItem('gs_level', JSON.stringify(level));
+            ownedIds = (profile.unlockedContentStds || '')
+                .split(',').filter(Boolean)
+                .map(std => 'std_' + std.replace('c++', 'cpp'));
+        }
+        if (itemsRes.ok) {
+            items = await itemsRes.json();
+        }
+        return { coins, level, items, ownedIds };
+    }
+
     async function initShop() {
         const user = getUser();
         if (!user?.isuNumber) { window.location.href = 'login.html'; return; }
 
-        let ownedIds = [];
-        try {
-            const [profileRes, itemsRes] = await Promise.all([
-                fetch(`/api/profile/${user.isuNumber}`),
-                fetch('/api/shop/items')
-            ]);
-            if (profileRes.ok) {
-                const profile = await profileRes.json();
-                _shopCoins = profile.coins;
-                _shopLevel = profile.level;
-                localStorage.setItem('gs_coins', JSON.stringify(_shopCoins));
-                localStorage.setItem('gs_level', JSON.stringify(_shopLevel));
-                ownedIds = (profile.unlockedContentStds || '')
-                    .split(',').filter(Boolean)
-                    .map(std => 'std_' + std.replace('c++', 'cpp'));
-            }
-            if (itemsRes.ok) {
-                _shopItems = await itemsRes.json();
-            }
-        } catch {
-            _shopCoins = (() => { try { return JSON.parse(localStorage.getItem('gs_coins') || '0'); } catch { return 0; } })();
-            _shopLevel = (() => { try { return JSON.parse(localStorage.getItem('gs_level') || '1'); } catch { return 1; } })();
+        // Показываем кэш мгновенно
+        const cached = readShopCache();
+        if (cached) {
+            _shopCoins = cached.coins;
+            _shopLevel = cached.level;
+            _shopItems = cached.items;
+            renderShop(cached.ownedIds);
         }
 
-        renderShop(ownedIds);
+        // Грузим свежие данные (если кэш свежий — пропускаем)
+        if (!cached) {
+            try {
+                const { coins, level, items, ownedIds } = await fetchShopData(user);
+                _shopCoins = coins;
+                _shopLevel = level;
+                _shopItems = items;
+                writeShopCache(coins, level, items, ownedIds);
+                renderShop(ownedIds);
+            } catch {
+                _shopCoins = (() => { try { return JSON.parse(localStorage.getItem('gs_coins') || '0'); } catch { return 0; } })();
+                _shopLevel = (() => { try { return JSON.parse(localStorage.getItem('gs_level') || '1'); } catch { return 1; } })();
+                renderShop([]);
+            }
+        }
     }
 
     document.addEventListener('DOMContentLoaded', initShop);

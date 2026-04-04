@@ -11,13 +11,21 @@ public class TestAttempt
     public int CorrectAnswers { get; set; }
     public int TotalQuestions { get; set; }
 
-    // п.8 — номера вопросов с ошибками, JSON: "[3,7,12]"
+    /// <summary>
+    /// Номера вопросов, на которых пользователь ошибся в этой попытке.
+    /// Хранится как JSON-массив, например: "[3,7,12]".
+    /// </summary>
     public string WrongQuestionIds { get; set; } = "[]";
 
-    // номера вопросов, на которые ответили правильно в этой попытке
+    /// <summary>
+    /// Номера вопросов, на которые ответили правильно в этой попытке (JSON-массив).
+    /// </summary>
     public string CorrectQuestionIds { get; set; } = "[]";
 
+    /// <summary>Затраченное время на попытку в секундах.</summary>
     public int TimeSpent { get; set; }
+
+    /// <summary>Время создания попытки.</summary>
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
     // Navigation

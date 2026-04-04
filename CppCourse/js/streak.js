@@ -203,6 +203,7 @@
 .hpm-coins  { font-size: .68rem; font-weight: 700; color: #fde68a; }
 .hpm-keys   { font-size: .68rem; font-weight: 700; color: rgba(205,214,244,.7); }
 .hpm-streak { font-size: .68rem; font-weight: 700; color: #fab387; }
+.hpm-freeze { font-size: .68rem; font-weight: 700; color: #94e2d5; }
 /* hide on small screens */
 @media (max-width: 900px) {
     .hpm-xp-bar-wrap { display: none; }
@@ -237,6 +238,148 @@
     text-decoration: none;
 }
 @media (max-width: 480px) { .header-auth-link { display: none; } }
+
+/* ── Bell Button ── */
+.hpm-bell-btn {
+    position: relative;
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 8px;
+    padding: 5px 8px;
+    cursor: pointer;
+    color: var(--text-primary, #cdd6f4);
+    font-size: 1rem;
+    line-height: 1;
+    transition: background .15s, border-color .15s;
+    flex-shrink: 0;
+}
+.hpm-bell-btn:hover {
+    background: rgba(255,255,255,.09);
+    border-color: rgba(203,166,247,.4);
+}
+.hpm-bell-btn.has-items .hpm-bell-icon {
+    display: inline-block;
+    animation: bell-ring .5s cubic-bezier(.36,.07,.19,.97) both;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    filter: drop-shadow(0 0 6px rgba(137,180,250,.9));
+}
+@keyframes bell-ring {
+    0%   { transform: rotate(-18deg); }
+    25%  { transform: rotate(18deg); }
+    50%  { transform: rotate(-12deg); }
+    75%  { transform: rotate(12deg); }
+    100% { transform: rotate(0deg); }
+}
+.hpm-bell-dot {
+    position: absolute;
+    top: 3px; right: 3px;
+    width: 7px; height: 7px;
+    background: #f38ba8;
+    border-radius: 50%;
+    border: 1px solid var(--bg-primary, #1e1e2e);
+}
+/* Mobile bell count badge */
+.bnb-bell-count {
+    position: absolute;
+    top: -4px; right: -4px;
+    min-width: 16px; height: 16px;
+    background: #f38ba8;
+    color: #1e1e2e;
+    border-radius: 99px;
+    font-size: .6rem;
+    font-weight: 800;
+    line-height: 16px;
+    text-align: center;
+    padding: 0 3px;
+    border: 1px solid var(--bg-primary, #1e1e2e);
+}
+/* Desktop bell hidden on mobile, mobile bell hidden on desktop */
+.hpm-bell-desktop { display: inline-flex; }
+.bnb-bell-btn { display: none; }
+@media (max-width: 640px) {
+    .hpm-bell-desktop { display: none !important; }
+    .bnb-bell-btn { display: inline-flex !important; }
+}
+/* ── Bell Dropdown ── */
+.hpm-bell-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    min-width: 280px;
+    max-width: 340px;
+    background: var(--bg-card, #1e1c3a);
+    border: 1px solid var(--border-primary, #2e2b55);
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(10,8,40,.6);
+    z-index: 1200;
+    display: none;
+    flex-direction: column;
+    padding: 10px 0;
+    animation: bell-drop .18s ease both;
+}
+@keyframes bell-drop {
+    from { opacity:0; transform: translateY(-6px); }
+    to   { opacity:1; transform: translateY(0); }
+}
+.hpm-bell-dropdown.hpm-bell-open { display: flex; }
+.hpm-bell-dropdown-title {
+    font-size: .72rem;
+    font-weight: 700;
+    color: var(--text-muted, #6c7086);
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    padding: 0 14px 6px;
+    border-bottom: 1px solid rgba(255,255,255,.06);
+    margin-bottom: 4px;
+}
+.hpm-bell-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 14px;
+    color: var(--text-primary, #cdd6f4);
+    text-decoration: none;
+    font-size: .83rem;
+    transition: background .12s;
+}
+.hpm-bell-item:hover {
+    background: rgba(255,255,255,.05);
+    text-decoration: none;
+    color: var(--text-primary, #cdd6f4);
+}
+.hpm-bell-item-num {
+    font-size: .68rem;
+    font-weight: 700;
+    color: rgba(203,166,247,.6);
+    font-family: 'JetBrains Mono', monospace;
+    flex-shrink: 0;
+    min-width: 28px;
+}
+.hpm-bell-item-name {
+    flex: 1;
+    min-width: 0;
+}
+.hpm-bell-item-score {
+    margin-left: auto;
+    font-size: .72rem;
+    font-weight: 700;
+    color: #f38ba8;
+    flex-shrink: 0;
+}
+.hpm-bell-item-score--wrong {
+    color: #f38ba8;
+}
+.hpm-bell-item-score--due {
+    color: rgba(205,214,244,.35);
+    font-weight: 500;
+}
+.hpm-bell-empty {
+    padding: 10px 14px;
+    font-size: .82rem;
+    color: var(--text-muted, #6c7086);
+    text-align: center;
+}
 
 /* ── Bottom Nav Bar ── */
 #bottom-nav-bar {
@@ -277,7 +420,25 @@
     border-color: rgba(203,166,247,.4);
 }
 /* Add bottom padding to body so content isn't hidden behind bar */
-body { padding-bottom: 52px; }`;
+body { padding-bottom: 52px; }
+
+/* ── Mobile bell in bottom-nav ── */
+.bnb-bell-btn {
+    padding: 7px 12px;
+    border-radius: 99px;
+    font-size: .9rem;
+    flex-shrink: 0;
+}
+.bnb-bell-btn .hpm-bell-dot {
+    top: 2px; right: 2px;
+}
+
+/* ── Theme picker: move up on mobile so it's above achievements button ── */
+@media (max-width: 480px) {
+    #theme-picker-root {
+        bottom: 70px;
+    }
+}`;
 
     function injectStyle() {
         if (document.getElementById('streak-css')) return;
@@ -367,6 +528,7 @@ body { padding-bottom: 52px; }`;
                 </div>
                 <span class="hpm-coins"><span class="coin-spin">🪙</span> ${coins}</span>
                 ${streak > 0 ? `<span class="hpm-streak"><span class="fire-flicker">🔥</span> ${streak}</span>` : ''}
+                ${(profile.freezeCount ?? 0) > 0 ? `<span class="hpm-freeze">❄️ ${profile.freezeCount}</span>` : ''}
             </div>`;
 
         // Insert into header-inner, centered between logo and nav
@@ -377,7 +539,31 @@ body { padding-bottom: 52px; }`;
         mini.style.cssText = 'position:absolute;left:50%;transform:translateX(-50%);';
         inner.style.position = 'relative';
         inner.appendChild(mini);
+
+        // Bell button — review notifications (desktop only, hidden on mobile)
+        inner.querySelectorAll('.hpm-bell-btn').forEach(el => el.remove());
+
     }
+    // ── Sync bell count ───────────────────────────────────────────────────
+    function _syncMobileBell(hasItems, count) {
+        const countEl = document.getElementById('bnb-bell-count');
+        const btn = document.getElementById('bnb-bell-btn');
+        if (!btn) return;
+        if (hasItems) {
+            btn.classList.add('has-items');
+            btn.style.display = '';
+            if (countEl) {
+                countEl.textContent = count || '';
+                countEl.style.display = count ? '' : 'none';
+            }
+        } else {
+            btn.classList.remove('has-items');
+            if (countEl) countEl.style.display = 'none';
+            btn.style.display = 'none';
+        }
+    }
+    window._syncMobileBell = _syncMobileBell;
+
     // Экспортируем глобально чтобы gamification.js мог вызвать после загрузки данных
     window.renderHeaderProfile = renderHeaderProfile;
 
@@ -540,10 +726,25 @@ body { padding-bottom: 52px; }`;
         const bar = document.createElement('div');
         bar.id = 'bottom-nav-bar';
         bar.innerHTML = `
+            <button class="hpm-bell-btn bnb-bell-btn" id="bnb-bell-btn" aria-label="Уведомления о повторении">
+                <span class="hpm-bell-icon">🔔</span><span class="bnb-bell-count" id="bnb-bell-count" style="display:none"></span>
+            </button>
             <a href="${root}achievements.html" class="bnb-btn" id="bnb-achievements">🏆 Достижения</a>
             <a href="${root}shop.html"         class="bnb-btn" id="bnb-shop">🛒 Магазин</a>
             <a href="${root}leaderboard.html"  class="bnb-btn" id="bnb-leaderboard">🥇 Лидеры</a>`;
         document.body.appendChild(bar);
+
+        // Bell click — toggle dropdown (dropdown is appended by review-banner.js)
+        const bell = document.getElementById('bnb-bell-btn');
+        bell.style.position = 'relative';
+        bell.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const dropdown = document.getElementById('hpm-bell-dropdown');
+            if (dropdown) dropdown.classList.toggle('hpm-bell-open');
+        });
+        document.addEventListener('click', () => {
+            document.getElementById('hpm-bell-dropdown')?.classList.remove('hpm-bell-open');
+        });
 
         // Highlight active
         const path = location.pathname;
