@@ -166,7 +166,7 @@
     background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-secondary) 100%);
     border: 1px solid var(--border-primary);
     border-radius: var(--radius-xl);
-    padding: var(--space-6);
+    padding: var(--space-6) calc(var(--space-6) + 3px);
     text-decoration: none;
     transition: all var(--transition-base);
     display: flex;
@@ -197,6 +197,10 @@
     display: flex;
     flex-direction: column;
     flex: 1;
+    margin-left: -15px;
+    margin-right: -8px;
+    padding-left: 15px;
+    padding-right: 8px;
 }
 .chapter-card::before {
     content: '';
@@ -277,11 +281,11 @@
 .chapter-section-link {
     display: flex;
     align-items: center;
-    gap: var(--space-2);
+    gap: 0;
     font-size: var(--fs-xs);
     color: var(--text-tertiary);
     text-decoration: none;
-    padding: 3px var(--space-2);
+    padding: 3px 0 1px;
     border-radius: var(--radius-sm);
     transition: color var(--transition-fast), background var(--transition-fast);
     position: relative;
@@ -293,21 +297,78 @@
     text-decoration: none;
 }
 
-/* Para mastery badge — rounded rectangle, фиксированная ширина */
+/* Замок — фиксированная ширина, всегда занимает место */
+.para-lock {
+    flex-shrink: 0;
+    width: 1rem;
+    font-size: .65rem;
+    text-align: center;
+    opacity: 0.7;
+    margin-right: 0.35rem;
+}
+
+.para-num {
+    flex-shrink: 0;
+    font-family: var(--font-mono);
+    font-size: .65rem;
+    color: var(--card-color, var(--accent-violet));
+    font-weight: 700;
+    width: 2.8em;
+    margin-right: 0.4rem;
+}
+
+.para-title {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Стандарты — вторая строка строго под § */
+/* отступ = lock.width(1rem) + lock.margin-right(0.35rem) */
+.para-item {
+    border-radius: var(--radius-sm);
+    transition: background var(--transition-fast);
+    padding: 1px 0;
+}
+.para-item:hover {
+    background: rgba(255,255,255,.05);
+}
+.para-item:hover .chapter-section-link {
+    background: transparent;
+}
+.para-stds {
+    display: none;
+    gap: 3px;
+    flex-wrap: wrap;
+    padding: 1px 70px 3px 1.35rem;
+    opacity: 0.8;
+}
+.para-stds:not(:empty) {
+    display: flex;
+}
+.para-stds span {
+    font-size: .58rem;
+    font-weight: 700;
+    padding: 1px 5px;
+    border-radius: 4px;
+}
+
+/* Para mastery badge — фиксированный размер для всех состояний */
 .para-badge {
     flex-shrink: 0;
-    margin-left: auto;
+    align-self: center;
     font-size: .65rem;
     font-weight: 700;
     padding: 2px 6px;
     border-radius: 5px;
     white-space: nowrap;
     line-height: 1.4;
-    min-width: 62px;
+    width: 58px;
     text-align: center;
-    display: inline-block;
+    box-sizing: border-box;
 }
-.para-badge--none   { color: rgba(107,114,128,.5); background: transparent; border: 1px solid transparent; }
+.para-badge--none   { color: rgba(107,114,128,.4); background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.07); }
 .para-badge--gold   { background: rgba(253,230,138,.15); color: #fde68a; border: 1px solid rgba(253,230,138,.35); }
 .para-badge--silver { background: rgba(209,213,219,.12); color: #d1d5db; border: 1px solid rgba(209,213,219,.3); }
 .para-badge--bronze { background: rgba(205,127,50,.12);  color: #cd7f32; border: 1px solid rgba(205,127,50,.3); }
@@ -475,9 +536,4 @@
     opacity: 0.4;
     cursor: not-allowed;
     pointer-events: auto;
-}
-.chapter-section-link.para-locked::after {
-    content: '🔒';
-    font-size: 0.65rem;
-    margin-left: 4px;
 }
