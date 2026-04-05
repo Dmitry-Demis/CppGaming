@@ -126,8 +126,11 @@ int g_y { 5 };
                     </div>
                 </div>
 
-                <div class="warning-block">
-                    <div class="warning-block__title">Антипаттерн: Static Initialization Order Fiasco</div>
+                <div class="callout callout--warning">
+                    <div class="callout__title">Антипаттерн: Static Initialization Order Fiasco
+                    </div>
+                    <div class="callout__body">
+                        </div>
                     <p>Неопределённый порядок инициализации глобальных объектов из разных единиц трансляции — классическая ловушка C++. Избегайте инициализации глобальных переменных значениями других глобальных переменных из других файлов.</p>
                 </div>
 
@@ -135,8 +138,12 @@ int g_y { 5 };
 
                 <p>Есть редкие случаи, когда глобальная переменная оправдана:</p>
 
-                <div class="info-card">
-                    <div class="info-card__title">✅ Допустимые случаи</div>
+                <div class="callout callout--info">
+                    <div class="callout__body">
+                        
+                    <div class="callout__title">✅ Допустимые случаи
+                    </div>
+                </div>
                     <ul>
                         <li>Объект существует в единственном экземпляре во всей программе</li>
                         <li>Используется повсеместно (например, лог-файл, генератор случайных чисел)</li>
@@ -210,8 +217,11 @@ int main()
                     </div>
                 </div>
 
-                <div class="warning-block">
-                    <div class="warning-block__title">Лучшая практика</div>
+                <div class="callout callout--warning">
+                    <div class="callout__title">Лучшая практика
+                    </div>
+                    <div class="callout__body">
+                        </div>
                     <p>Используйте локальные переменные вместо глобальных везде, где это возможно.</p>
                 </div>
 
@@ -219,8 +229,9 @@ int main()
                 <div class="quiz-widget" data-final="global-variables-evil" data-final-desc="Опасность глобальных переменных"></div>
 
                 <section class="feedback-section"></section>
-                <div class="paragraph-nav"></div>
-            </div>
+                <div class="paragraph-nav">
+                    </div>
+                </div>
         </main>
 
         <aside class="right-sidebar">

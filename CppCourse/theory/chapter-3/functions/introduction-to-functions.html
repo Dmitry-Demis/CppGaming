@@ -79,8 +79,11 @@
                     и она выполнится, после чего управление вернётся обратно.
                 </p>
 
-                <div class="info-card">
-                    <div class="info-card__title">Зачем нужны функции</div>
+                <div class="callout callout--info">
+                    <div class="callout__title">Зачем нужны функции
+                    </div>
+                    <div class="callout__body">
+                        </div>
                     <ul>
                         <li><strong>Повторное использование</strong> — написал один раз, вызываешь сколько угодно</li>
                         <li><strong>Читаемость</strong> — код разбит на логические блоки с понятными именами</li>
@@ -97,8 +100,9 @@
                 <div class="code-block" data-example="chapter-3/functions/intro-basic.cpp">
                     <div class="code-header">
                         <span class="code-lang">C++ — первая функция</span>
-                        <div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button></div>
+                        <div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button>
                     </div>
+                </div>
                     <div class="code-content">
 <pre><code class="language-cpp">// загрузка...</code></pre>
                     </div>
@@ -151,8 +155,11 @@
                     </div>
                 </div>
 
-                <div class="warning-block">
-                    <div class="warning-block__title">Порядок имеет значение</div>
+                <div class="callout callout--warning">
+                    <div class="callout__title">Порядок имеет значение
+                    </div>
+                    <div class="callout__body">
+                        </div>
                     <p>
                         Компилятор читает файл сверху вниз. Если вызвать функцию до её определения
                         <em>и</em> без объявления — ошибка компиляции. Решения:
@@ -166,8 +173,12 @@
                 <!-- ============================================== -->
                 <h2 id="main-is-function">main() — тоже функция</h2>
 
-                <div class="info-card">
-                    <div class="info-card__title">Правила для main()</div>
+                <div class="callout callout--info">
+                    <div class="callout__body">
+                        
+                    <div class="callout__title">Правила для main()
+                    </div>
+                </div>
                     <ul>
                         <li>Должна быть ровно одна функция <code>main()</code> в программе</li>
                         <li>Возвращает <code>int</code> — код завершения для ОС</li>

@@ -86,10 +86,15 @@
                 <!-- ============================================== -->
                 <h2 id="cstdint">Заголовок &lt;cstdint&gt;</h2>
 
-                <div class="iso-quote">
-                    <span class="iso-ref">[cstdint.syn] — ISO/IEC 14882:2020</span>
+                <div class="callout callout--quote">
+                    <div class="callout__title">? Используйте int32_t / uint8_t когда:
+                    </div>
+                    <div class="callout__body">
+                        <span class="callout__title">[cstdint.syn] — ISO/IEC 14882:2020</span>
                     The header &lt;cstdint&gt; defines all functions, types, and macros
                     the same as the C standard library header &lt;stdint.h&gt;.
+                
+                    </div>
                 </div>
 
                 <p>Типы делятся на четыре категории:</p>
@@ -306,8 +311,9 @@ int main() {
                 <!-- ============================================== -->
                 <h2 id="when-to-use">Когда использовать fixed-width типы?</h2>
 
-                <div class="info-card">
-                    <div class="info-card__title">? Используйте int32_t / uint8_t когда:</div>
+                <div class="callout callout--info">
+                    <div class="callout__body">
+</div>
                     <ul>
                         <li><strong>Бинарные форматы</strong> — BMP, PNG, JPEG, ZIP, ELF</li>
                         <li><strong>Сетевые протоколы</strong> — TCP/IP заголовки, HTTP/2 frames</li>
@@ -317,8 +323,12 @@ int main() {
                     </ul>
                 </div>
 
-                <div class="info-card">
-                    <div class="info-card__title">Используйте int / long long для общего кода</div>
+                <div class="callout callout--info">
+                    <div class="callout__body">
+                        
+                    <div class="callout__title">Используйте int / long long для общего кода
+                    </div>
+                </div>
                     <p>
                         В обычном бизнес-логике: счётчики, флаги, результаты вычислений — используйте
                         <code>int</code> (или <code>long long</code> для больших значений).

@@ -148,8 +148,11 @@ int main() {
                     </div>
                 </div>
 
-                <div class="info-card">
-                    <div class="info-card__title">Безопасные расширяющие преобразования</div>
+                <div class="callout callout--info">
+                    <div class="callout__title">Безопасные расширяющие преобразования
+                    </div>
+                    <div class="callout__body">
+                        </div>
                     <p>
                         Расширяющие преобразования между целочисленными типами ($\text{short} \to \text{int} \to \text{long} \to \text{long long}$)
                         и от <code>float</code> к <code>double</code> всегда безопасны — значение сохраняется точно.
@@ -168,8 +171,8 @@ int main() {
                         <span class="code-lang">C++</span>
                         <div class="code-actions">
                             <button class="btn-code" onclick="copyCode(this)">Копировать</button>
-                        </div>
                     </div>
+                </div>
                     <div class="code-content">
                         <pre><code class="language-cpp">#include &lt;iostream&gt;
 
@@ -192,8 +195,11 @@ int main() {
                     </div>
                 </div>
 
-                <div class="warning-block">
-                    <div class="warning-block__title">? Опасность сужающих преобразований</div>
+                <div class="callout callout--warning">
+                    <div class="callout__title">? Опасность сужающих преобразований
+                    </div>
+                    <div class="callout__body">
+                        </div>
                     <p>
                         Сужающие преобразования могут привести к:
                     </p>
@@ -219,16 +225,19 @@ int main() {
                         <span class="code-lang">C++ — C-style cast</span>
                         <div class="code-actions">
                             <button class="btn-code" onclick="copyCode(this)">Копировать</button>
-                        </div>
                     </div>
+                </div>
                     <div class="code-content">
                         <pre><code class="language-cpp">double d = 3.14;
 int i = (int)d;  // C-style cast (не рекомендуется в C++)</code></pre>
                     </div>
                 </div>
 
-                <div class="warning-block">
-                    <div class="warning-block__title">? Не используйте C-style cast в C++</div>
+                <div class="callout callout--warning">
+                    <div class="callout__title">? Не используйте C-style cast в C++
+                    </div>
+                    <div class="callout__body">
+                        </div>
                     <p>
                         C-style cast <code>(int)value</code> слишком мощный и может выполнять опасные преобразования
                         (например, <code>reinterpret_cast</code>). В C++ используйте <code>static_cast</code>.
@@ -252,8 +261,8 @@ int i = (int)d;  // C-style cast (не рекомендуется в C++)</code>
                         <span class="code-lang">C++</span>
                         <div class="code-actions">
                             <button class="btn-code" onclick="copyCode(this)">Копировать</button>
-                        </div>
                     </div>
+                </div>
                     <div class="code-content">
                         <pre><code class="language-cpp">static_cast&lt;новый_тип&gt;(выражение)</code></pre>
                     </div>
@@ -341,8 +350,11 @@ int main() {
                     </div>
                 </div>
 
-                <div class="info-card">
-                    <div class="info-card__title">Правила числовых повышений</div>
+                <div class="callout callout--info">
+                    <div class="callout__title">Правила числовых повышений
+                    </div>
+                    <div class="callout__body">
+                        </div>
                     <p>
                         При арифметических операциях компилятор повышает типы в следующем порядке:
                     </p>
@@ -367,8 +379,8 @@ int main() {
                         <span class="code-lang">C++11</span>
                         <div class="code-actions">
                             <button class="btn-code" onclick="copyCode(this)">Копировать</button>
-                        </div>
                     </div>
+                </div>
                     <div class="code-content">
                         <pre><code class="language-cpp">#include &lt;iostream&gt;
 
@@ -392,8 +404,11 @@ int main() {
                     </div>
                 </div>
 
-                <div class="info-card">
-                    <div class="info-card__title">Рекомендация: используйте brace-init</div>
+                <div class="callout callout--info">
+                    <div class="callout__title">Рекомендация: используйте brace-init
+                    </div>
+                    <div class="callout__body">
+                        </div>
                     <p>
                         Всегда используйте <code>{}</code> для инициализации переменных — это защитит вас
                         от случайных сужающих преобразований и потери данных.
@@ -410,8 +425,8 @@ int main() {
                         <span class="code-lang">C++</span>
                         <div class="code-actions">
                             <button class="btn-code" onclick="copyCode(this)">Копировать</button>
-                        </div>
                     </div>
+                </div>
                     <div class="code-content">
                         <pre><code class="language-cpp">#include &lt;iostream&gt;
 
@@ -474,8 +489,11 @@ int main() {
                 <!-- ============================================ -->
                 <h2 id="summary">Заключение</h2>
 
-                <div class="info-card">
-                    <div class="info-card__title">Ключевые моменты</div>
+                <div class="callout callout--info">
+                    <div class="callout__title">Ключевые моменты
+                    </div>
+                    <div class="callout__body">
+                        </div>
                     <ul style="margin:0;padding-left:var(--space-4);">
                         <li><strong>Неявные преобразования</strong> выполняются автоматически, но могут быть опасны</li>
                         <li><strong>Расширяющие преобразования</strong> безопасны (short > int > long)</li>
@@ -487,11 +505,14 @@ int main() {
                     </ul>
                 </div>
 
-                <div class="iso-quote">
-                    <span class="iso-ref">ISO/IEC 14882 — [expr.static.cast] §7.6.1.9</span>
+                <div class="callout callout--quote">
+                    <div class="callout__body">
+                        
+                    <span class="callout__title">ISO/IEC 14882 — [expr.static.cast] §7.6.1.9</span>
                     «The result of the expression static_cast&lt;T&gt;(v) is the result of converting the value
                     of v to type T. If T is a reference type, the result is an lvalue; otherwise, the result
                     is a prvalue.»
+                    </div>
                 </div>
 
                 <h2 id="tests">Проверьте знания</h2>

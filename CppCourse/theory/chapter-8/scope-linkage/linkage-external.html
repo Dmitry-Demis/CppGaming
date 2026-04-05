@@ -126,8 +126,11 @@ int main()
 
                 <h2 id="extern-meanings">Два значения <code>extern</code></h2>
 
-                <div class="info-card">
-                    <div class="info-card__title">⚠️ Важно: extern имеет два смысла</div>
+                <div class="callout callout--info">
+                    <div class="callout__title">⚠️ Важно: extern имеет два смысла
+                    </div>
+                    <div class="callout__body">
+                        </div>
                     <ul>
                         <li><code>extern const int g_y { 3 };</code> — <em>определение</em> с внешней компоновкой</li>
                         <li><code>extern const int g_y;</code> — <em>предварительное объявление</em> (без инициализатора)</li>
@@ -139,8 +142,9 @@ int main()
                 <div class="code-block">
                     <div class="code-header">
                         <span class="code-lang">C++ — синтаксис внешней компоновки</span>
-                        <div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button></div>
+                        <div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button>
                     </div>
+                </div>
                     <div class="code-content">
 <pre><code class="language-cpp">// Предварительные объявления (extern без инициализатора):
 extern int g_y;             // для неконстантной глобальной
@@ -154,8 +158,11 @@ extern const int g_x { 2 }; // const с внешней компоновкой</c
                     </div>
                 </div>
 
-                <div class="warning-block">
-                    <div class="warning-block__title">Лучшая практика</div>
+                <div class="callout callout--warning">
+                    <div class="callout__title">Лучшая практика
+                    </div>
+                    <div class="callout__body">
+                        </div>
                     <p>Используйте <code>extern</code> только для предварительных объявлений глобальных переменных или для определений <code>const</code> глобальных переменных с внешней компоновкой. Не добавляйте <code>extern</code> к неконстантным определениям — они и так внешние.</p>
                 </div>
 
@@ -163,8 +170,9 @@ extern const int g_x { 2 }; // const с внешней компоновкой</c
                 <div class="quiz-widget" data-final="linkage-external" data-final-desc="Внешняя компоновка"></div>
 
                 <section class="feedback-section"></section>
-                <div class="paragraph-nav"></div>
-            </div>
+                <div class="paragraph-nav">
+                    </div>
+                </div>
         </main>
 
         <aside class="right-sidebar">

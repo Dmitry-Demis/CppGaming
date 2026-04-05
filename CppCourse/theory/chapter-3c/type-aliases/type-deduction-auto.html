@@ -125,8 +125,11 @@ auto s3 { "Hello"sv };  // std::string_view</code></pre>
 
                 <h2 id="pros-cons">Плюсы и минусы auto</h2>
 
-                <div class="info-card">
-                    <div class="info-card__title">✅ Плюсы</div>
+                <div class="callout callout--info">
+                    <div class="callout__title">✅ Плюсы
+                    </div>
+                    <div class="callout__body">
+                        </div>
                     <ul>
                         <li>Имена переменных выровнены — код читается лучше</li>
                         <li>Нельзя забыть инициализировать (<code>auto x;</code> — ошибка компиляции)</li>
@@ -135,8 +138,12 @@ auto s3 { "Hello"sv };  // std::string_view</code></pre>
                     </ul>
                 </div>
 
-                <div class="info-card">
-                    <div class="info-card__title">⚠️ Минусы</div>
+                <div class="callout callout--info">
+                    <div class="callout__body">
+                        
+                    <div class="callout__title">⚠️ Минусы
+                    </div>
+                </div>
                     <ul>
                         <li>Тип не виден в коде — нужен IDE для подсказки</li>
                         <li>Легко ошибиться с типом литерала: <code>auto y { 5 }</code> — int, а не double</li>
@@ -169,8 +176,11 @@ int main()
                     </div>
                 </div>
 
-                <div class="warning-block">
-                    <div class="warning-block__title">Лучшая практика</div>
+                <div class="callout callout--warning">
+                    <div class="callout__title">Лучшая практика
+                    </div>
+                    <div class="callout__body">
+                        </div>
                     <p>Используйте <code>auto</code>, когда тип очевиден из инициализатора или не важен. Указывайте тип явно, когда нужен конкретный тип или когда это улучшает читаемость.</p>
                 </div>
 
@@ -178,8 +188,9 @@ int main()
                 <div class="quiz-widget" data-final="type-deduction-auto" data-final-desc="Вывод типа: auto для переменных"></div>
 
                 <section class="feedback-section"></section>
-                <div class="paragraph-nav"></div>
-            </div>
+                <div class="paragraph-nav">
+                    </div>
+                </div>
         </main>
         <aside class="right-sidebar">
             <div class="toc-container"><div class="toc-title">Содержание</div><nav class="toc-nav"></nav></div>

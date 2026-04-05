@@ -174,8 +174,11 @@
                 <!-- ============================================== -->
                 <h2 id="missing-return">Забытый return — UB</h2>
 
-                <div class="warning-block">
-                    <div class="warning-block__title">Отсутствие return в не-void функции — UB</div>
+                <div class="callout callout--warning">
+                    <div class="callout__title">Отсутствие return в не-void функции — UB
+                    </div>
+                    <div class="callout__body">
+                        </div>
                     <p>
                         Если функция должна вернуть значение, но <code>return</code> не достигается —
                         это <strong>неопределённое поведение</strong>. Включайте <code>-Wall -Wextra</code>
@@ -190,9 +193,9 @@
                 
                 <section class="feedback-section"></section>
 
-                <div class="paragraph-nav"></div>
-
-            </div>
+                <div class="paragraph-nav">
+                    </div>
+                </div>
         </main>
 
         <aside class="right-sidebar">

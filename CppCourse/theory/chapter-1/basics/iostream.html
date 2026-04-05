@@ -109,8 +109,11 @@
                     В большинстве случаев именно он предпочтителен.
                 </p>
 
-                <div class="info-card">
-                    <div class="info-card__title">Формы записи \n</div>
+                <div class="callout callout--info">
+                    <div class="callout__title">Формы записи \n
+                    </div>
+                    <div class="callout__body">
+                        </div>
                     <ul>
                         <li><code>"текст\n"</code> — встроен в строку (наиболее распространённо)</li>
                         <li><code>"\n"</code> — отдельный строковый литерал (тоже допустимо)</li>
@@ -207,8 +210,11 @@
                     </div>
                 </div>
 
-                <div class="warning-block">
-                    <div class="warning-block__title">cin и пробелы</div>
+                <div class="callout callout--warning">
+                    <div class="callout__title">cin и пробелы
+                    </div>
+                    <div class="callout__body">
+                        </div>
                     <p>
                         <code>std::cin &gt;&gt; x</code> пропускает ведущие пробелы и читает до следующего пробела/переноса.
                         Для чтения строки с пробелами используйте <a href="https://en.cppreference.com/w/cpp/string/basic_string/getline" target="_blank" rel="noopener" class="ref-link"><code>std::getline(std::cin, str)</code></a>.
@@ -233,8 +239,9 @@
                 <div class="code-block" data-example="cin-buffer">
                     <div class="code-header">
                         <span class="code-lang">C++ — два числа из одного ввода</span>
-                        <div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button></div>
+                        <div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button>
                     </div>
+                </div>
                     <div class="code-content">
 <pre><code class="language-cpp">// загрузка...</code></pre>
                     </div>

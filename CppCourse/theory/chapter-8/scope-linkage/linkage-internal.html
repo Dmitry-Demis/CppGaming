@@ -72,8 +72,11 @@
                     Компилятор обрабатывает каждую единицу трансляции независимо.
                 </p>
 
-                <div class="info-card">
-                    <div class="info-card__title">📐 Диаграмма компоновки</div>
+                <div class="callout callout--info">
+                    <div class="callout__title">📐 Диаграмма компоновки
+                    </div>
+                    <div class="callout__body">
+                        </div>
                     <pre style="font-size:0.85em; line-height:1.6">
 ┌─────────────────────────────────────────────────────┐
 │                    Программа                        │
@@ -98,8 +101,9 @@
                 <div class="code-block">
                     <div class="code-header">
                         <span class="code-lang">C++ — внутренняя компоновка через static</span>
-                        <div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button></div>
+                        <div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button>
                     </div>
+                </div>
                     <div class="code-content">
 <pre><code class="language-cpp">#include &lt;iostream&gt;
 
@@ -115,8 +119,11 @@ int main()
                     </div>
                 </div>
 
-                <div class="info-card">
-                    <div class="info-card__title">💡 Ключевой момент</div>
+                <div class="callout callout--info">
+                    <div class="callout__title">💡 Ключевой момент
+                    </div>
+                    <div class="callout__body">
+                        </div>
                     <p><code>const</code> и <code>constexpr</code> глобальные переменные имеют внутреннюю компоновку по умолчанию — <code>static</code> для них не нужен.</p>
                 </div>
 
@@ -125,8 +132,9 @@ int main()
                 <div class="code-block">
                     <div class="code-header">
                         <span class="code-lang">C++ — независимые g_x в двух файлах</span>
-                        <div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button></div>
+                        <div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button>
                     </div>
+                </div>
                     <div class="code-content">
 <pre><code class="language-cpp">// a.cpp
 [[maybe_unused]] constexpr int g_x { 2 }; // только в a.cpp
@@ -179,8 +187,11 @@ static int foo() {}      // внутренняя функция</code></pre>
                     </div>
                 </div>
 
-                <div class="warning-block">
-                    <div class="warning-block__title">Лучшая практика</div>
+                <div class="callout callout--warning">
+                    <div class="callout__title">Лучшая практика
+                    </div>
+                    <div class="callout__body">
+                        </div>
                     <p>Давайте внутреннюю компоновку всем идентификаторам, которые не должны быть доступны из других файлов. Для группы таких идентификаторов удобнее использовать безымянное пространство имён (см. следующий параграф).</p>
                 </div>
 
@@ -188,8 +199,9 @@ static int foo() {}      // внутренняя функция</code></pre>
                 <div class="quiz-widget" data-final="linkage-internal" data-final-desc="Внутренняя компоновка"></div>
 
                 <section class="feedback-section"></section>
-                <div class="paragraph-nav"></div>
-            </div>
+                <div class="paragraph-nav">
+                    </div>
+                </div>
         </main>
 
         <aside class="right-sidebar">

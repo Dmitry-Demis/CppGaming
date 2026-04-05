@@ -79,8 +79,11 @@ int main()
                     </div>
                 </div>
 
-                <div class="info-card">
-                    <div class="info-card__title">📋 Когда гарантировано compile-time?</div>
+                <div class="callout callout--info">
+                    <div class="callout__title">📋 Когда гарантировано compile-time?
+                    </div>
+                    <div class="callout__body">
+                        </div>
                     <ul>
                         <li><strong>Всегда</strong> — результат используется в контексте, требующем константного выражения (инициализатор <code>constexpr</code>, размер массива, аргумент шаблона)</li>
                         <li><strong>Вероятно</strong> — все аргументы — константные выражения, но результат не обязан быть константным</li>
@@ -102,7 +105,9 @@ int main()
                 </p>
 
                 <div class="code-block" data-example="constexpr-functions-advanced/diagnose">
-                    <div class="code-header"><span class="code-lang">C++ — ошибка только при constexpr</span><div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button></div></div>
+                    <div class="code-header"><span class="code-lang">C++ — ошибка только при constexpr</span><div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button>
+                    </div>
+                </div>
                     <div class="code-content">
 <pre><code class="language-cpp">#include &lt;iostream&gt;
 
@@ -123,8 +128,11 @@ int main()
                     </div>
                 </div>
 
-                <div class="warning-block">
-                    <div class="warning-block__title">Лучшая практика</div>
+                <div class="callout callout--warning">
+                    <div class="callout__title">Лучшая практика
+                    </div>
+                    <div class="callout__body">
+                        </div>
                     <p>Всегда проверяйте <code>constexpr</code>-функцию в контексте, требующем константного выражения — например, инициализируя <code>constexpr</code>-переменную. Иначе ошибка проявится позже.</p>
                 </div>
 
@@ -136,7 +144,9 @@ int main()
                 </p>
 
                 <div class="code-block" data-example="constexpr-functions-advanced/params">
-                    <div class="code-header"><span class="code-lang">C++ — параметры не constexpr</span><div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button></div></div>
+                    <div class="code-header"><span class="code-lang">C++ — параметры не constexpr</span><div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button>
+                    </div>
+                </div>
                     <div class="code-content">
 <pre><code class="language-cpp">constexpr int foo(int b) // b — не constexpr
 {
@@ -169,16 +179,20 @@ int main()
                     обычно определяют в заголовочных файлах.
                 </p>
 
-                <div class="warning-block">
-                    <div class="warning-block__title">Правило</div>
+                <div class="callout callout--warning">
+                    <div class="callout__title">Правило
+                    </div>
+                    <div class="callout__body">
+                        </div>
                     <p>Компилятор должен видеть полное определение <code>constexpr</code>-функции до её вызова в контексте, требующем константного выражения. Предварительного объявления недостаточно.</p>
                 </div>
 
                 <h2 id="tests">Проверьте знания</h2>
                 <div class="quiz-widget" data-final="constexpr-functions-advanced" data-final-desc="constexpr-функции: детали"></div>
                 <section class="feedback-section"></section>
-                <div class="paragraph-nav"></div>
-            </div>
+                <div class="paragraph-nav">
+                    </div>
+                </div>
         </main>
         <aside class="right-sidebar"><div class="toc-container"><div class="toc-title">Содержание</div><nav class="toc-nav"></nav></div></aside>
     </div>

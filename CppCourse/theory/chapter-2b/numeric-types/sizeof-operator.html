@@ -169,8 +169,11 @@ int main() {
                     <div class="code-content"><pre><code class="language-cpp">// загрузка...</code></pre></div>
                 </div>
 
-                <div class="info-card">
-                    <div class="info-card__title">Типичный вывод на 64-битной системе</div>
+                <div class="callout callout--info">
+                    <div class="callout__title">Типичный вывод на 64-битной системе
+                    </div>
+                    <div class="callout__body">
+                        </div>
                     <pre style="background:rgba(0,0,0,0.3);padding:var(--space-3);border-radius:8px;font-size:var(--fs-sm);"><code>sizeof(bool):       1 байт
 sizeof(char):       1 байт
 sizeof(short):      2 байт
@@ -198,8 +201,12 @@ sizeof(long double):16 байт</code></pre>
                     <li><code>long double</code> может быть 8, 10, 12 или 16 байт</li>
                 </ul>
 
-                <div class="warning-block">
-                    <div class="warning-block__title">? Портируемость кода</div>
+                <div class="callout callout--warning">
+                    <div class="callout__body">
+                        
+                    <div class="callout__title">? Портируемость кода
+                    </div>
+                </div>
                     <p>
                         Никогда не полагайтесь на конкретные размеры типов в переносимом коде!
                         Используйте <code>sizeof</code> для динамического определения размеров или
@@ -267,8 +274,11 @@ int main() {
                     </div>
                 </div>
 
-                <div class="info-card">
-                    <div class="info-card__title">Почему sizeof не вычисляет выражение?</div>
+                <div class="callout callout--info">
+                    <div class="callout__title">Почему sizeof не вычисляет выражение?
+                    </div>
+                    <div class="callout__body">
+                        </div>
                     <p>
                         Компилятор определяет тип выражения <code>x++</code> (это <code>int</code>),
                         затем возвращает <code>sizeof(int)</code>. Само выражение не нужно вычислять —
@@ -290,8 +300,8 @@ int main() {
                         <span class="code-lang">C++</span>
                         <div class="code-actions">
                             <button class="btn-code" onclick="copyCode(this)">Копировать</button>
-                        </div>
                     </div>
+                </div>
                     <div class="code-content">
                         <pre><code class="language-cpp">#include &lt;iostream&gt;
 #include &lt;cstddef&gt;  // для std::size_t
@@ -338,8 +348,11 @@ int main() {
                     </div>
                 </div>
 
-                <div class="warning-block">
-                    <div class="warning-block__title">? Массивы и указатели</div>
+                <div class="callout callout--warning">
+                    <div class="callout__title">? Массивы и указатели
+                    </div>
+                    <div class="callout__body">
+                        </div>
                     <p>
                         Этот приём работает <strong>только для массивов</strong>, объявленных локально.
                         Если массив передан в функцию как параметр, он «распадается» в указатель, и
@@ -355,8 +368,8 @@ int main() {
                         <span class="code-lang">C++</span>
                         <div class="code-actions">
                             <button class="btn-code" onclick="copyCode(this)">Копировать</button>
-                        </div>
                     </div>
+                </div>
                     <div class="code-content">
                         <pre><code class="language-cpp">#include &lt;iostream&gt;
 
@@ -413,8 +426,11 @@ int main() {
                 <!-- ============================================ -->
                 <h2 id="vazhnye-zamechaniya">Важные замечания</h2>
 
-                <div class="info-card">
-                    <div class="info-card__title">Ключевые моменты</div>
+                <div class="callout callout--info">
+                    <div class="callout__title">Ключевые моменты
+                    </div>
+                    <div class="callout__body">
+                        </div>
                     <ul style="margin:0;padding-left:var(--space-4);">
                         <li><code>sizeof</code> — оператор времени компиляции, не функция</li>
                         <li>Результат имеет тип <code>std::size_t</code></li>
@@ -426,11 +442,14 @@ int main() {
                     </ul>
                 </div>
 
-                <div class="iso-quote">
-                    <span class="iso-ref">ISO/IEC 14882 — [expr.sizeof] §7.6.2.5</span>
+                <div class="callout callout--quote">
+                    <div class="callout__body">
+                        
+                    <span class="callout__title">ISO/IEC 14882 — [expr.sizeof] §7.6.2.5</span>
                     «The sizeof operator yields the number of bytes occupied by a non-potentially-overlapping
                     object representation of its operand. The operand is either an expression, which is an
                     unevaluated operand, or a parenthesized type-id.»
+                    </div>
                 </div>
 
                 <!-- ============================================ -->

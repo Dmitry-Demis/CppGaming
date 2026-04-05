@@ -70,8 +70,11 @@
 
                 <p>Базовая форма:</p>
 
-                <div class="info-card">
-                    <div class="info-card__title">Синтаксис</div>
+                <div class="callout callout--info">
+                    <div class="callout__title">Синтаксис
+                    </div>
+                    <div class="callout__body">
+                        </div>
                     <pre style="margin:0"><code class="language-cpp">if (условие)
     инструкция_если_истина;
 
@@ -90,8 +93,9 @@ else
                 <div class="code-block" data-example="chapter-5/control-flow/if-basic.cpp">
                     <div class="code-header">
                         <span class="code-lang">C++ — базовый if/else</span>
-                        <div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button></div>
+                        <div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button>
                     </div>
+                </div>
                     <div class="code-content"><pre><code class="language-cpp">// загрузка...</code></pre></div>
                 </div>
 
@@ -103,8 +107,11 @@ else
                     Блок считается одной составной инструкцией.
                 </p>
 
-                <div class="warning-block">
-                    <div class="warning-block__title">Ловушка отступов</div>
+                <div class="callout callout--warning">
+                    <div class="callout__title">Ловушка отступов
+                    </div>
+                    <div class="callout__body">
+                        </div>
                     <p>
                         Отступ не влияет на логику. Только <code>{ }</code> объединяют инструкции в блок.
                         Без блока вторая строка выполняется <em>всегда</em>, независимо от условия.
@@ -114,8 +121,9 @@ else
                 <div class="code-block" data-example="chapter-5/control-flow/if-blocks.cpp">
                     <div class="code-header">
                         <span class="code-lang">C++ — блоки в if/else</span>
-                        <div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button></div>
+                        <div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button>
                     </div>
+                </div>
                     <div class="code-content"><pre><code class="language-cpp">// загрузка...</code></pre></div>
                 </div>
 
@@ -127,8 +135,11 @@ else
                     <strong>уничтожается</strong> в конце этой ветки и недоступна снаружи.
                 </p>
 
-                <div class="info-card">
-                    <div class="info-card__title">Почему это не компилируется</div>
+                <div class="callout callout--info">
+                    <div class="callout__title">Почему это не компилируется
+                    </div>
+                    <div class="callout__body">
+                        </div>
                     <pre style="margin:0"><code class="language-cpp">if (true)
     int x{ 5 };   // x живёт только внутри неявного блока
 else
@@ -137,8 +148,12 @@ else
 std::cout &lt;&lt; x;   // ошибка: x не существует здесь</code></pre>
                 </div>
 
-                <div class="info-card">
-                    <div class="info-card__title">? Лучшая практика</div>
+                <div class="callout callout--info">
+                    <div class="callout__body">
+                        
+                    <div class="callout__title">? Лучшая практика
+                    </div>
+                </div>
                     <p>
                         Всегда используйте явные блоки <code>{ }</code> после <code>if</code> и <code>else</code>,
                         особенно пока учитесь. Это предотвращает случайные ошибки при добавлении новых строк
@@ -162,8 +177,11 @@ std::cout &lt;&lt; x;   // ошибка: x не существует здесь<
                     <div class="code-content"><pre><code class="language-cpp">// загрузка...</code></pre></div>
                 </div>
 
-                <div class="info-card">
-                    <div class="info-card__title">Когда else не нужен</div>
+                <div class="callout callout--info">
+                    <div class="callout__title">Когда else не нужен
+                    </div>
+                    <div class="callout__body">
+                        </div>
                     <p>
                         Если каждая ветка заканчивается <code>return</code>, <code>else</code> не добавляет смысла —
                         после первого <code>return</code> функция уже завершилась. Многие разработчики
@@ -188,8 +206,9 @@ if (b) return 'b';       // чище</code></pre>
                 
                 <section class="feedback-section"></section>
 
-                <div class="paragraph-nav"></div>
-            </div>
+                <div class="paragraph-nav">
+                    </div>
+                </div>
         </main>
 
         <aside class="right-sidebar">

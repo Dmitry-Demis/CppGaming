@@ -146,8 +146,11 @@ int main()
                     </div>
                 </div>
 
-                <div class="info-card">
-                    <div class="info-card__title">💡 const vs constexpr</div>
+                <div class="callout callout--info">
+                    <div class="callout__title">💡 const vs constexpr
+                    </div>
+                    <div class="callout__body">
+                        </div>
                     <ul>
                         <li><code>const</code> — значение не изменится, но может быть вычислено в runtime</li>
                         <li><code>constexpr</code> — значение вычисляется при компиляции, гарантированно</li>
@@ -155,8 +158,12 @@ int main()
                     </ul>
                 </div>
 
-                <div class="warning-block">
-                    <div class="warning-block__title">Лучшая практика</div>
+                <div class="callout callout--warning">
+                    <div class="callout__body">
+                        
+                    <div class="callout__title">Лучшая практика
+                    </div>
+                </div>
                     <p>Делайте переменные константными везде, где это возможно. Используйте <code>constexpr</code> для числовых констант. Избегайте «магических чисел» — давайте константам говорящие имена.</p>
                 </div>
 

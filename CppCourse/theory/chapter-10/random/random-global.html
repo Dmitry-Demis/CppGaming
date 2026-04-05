@@ -165,8 +165,11 @@ int main()
 
                 <h2 id="how-it-works">Как это работает</h2>
 
-                <div class="info-card">
-                    <div class="info-card__title">🔧 Технические детали</div>
+                <div class="callout callout--info">
+                    <div class="callout__title">🔧 Технические детали
+                    </div>
+                    <div class="callout__body">
+                        </div>
                     <ul>
                         <li><code>inline std::mt19937 mt</code> — глобальная переменная с внешней компоновкой. Ключевое слово <code>inline</code> позволяет включать заголовок в несколько .cpp файлов без нарушения ODR.</li>
                         <li>Функция <code>generate()</code> инициализирует генератор комбинацией системных часов и <code>std::random_device</code> — это даёт хорошее качество seed.</li>
@@ -176,8 +179,12 @@ int main()
 
                 <h2 id="three-steps">Три шага для использования</h2>
 
-                <div class="info-card">
-                    <div class="info-card__title">📋 Инструкция</div>
+                <div class="callout callout--info">
+                    <div class="callout__body">
+                        
+                    <div class="callout__title">📋 Инструкция
+                    </div>
+                </div>
                     <ol>
                         <li>Скопируйте код Random.h в файл <code>Random.h</code> в директории проекта</li>
                         <li>Добавьте <code>#include "Random.h"</code> в любой .cpp файл, которому нужны случайные числа</li>
@@ -185,8 +192,11 @@ int main()
                     </ol>
                 </div>
 
-                <div class="warning-block">
-                    <div class="warning-block__title">Требования</div>
+                <div class="callout callout--warning">
+                    <div class="callout__title">Требования
+                    </div>
+                    <div class="callout__body">
+                        </div>
                     <p>Random.h требует C++17 из-за использования <code>inline</code> переменных. Убедитесь, что компилятор настроен на стандарт C++17 или новее.</p>
                 </div>
 
@@ -194,8 +204,9 @@ int main()
                 <div class="quiz-widget" data-final="random-global" data-final-desc="Глобальный генератор случайных чисел"></div>
 
                 <section class="feedback-section"></section>
-                <div class="paragraph-nav"></div>
-            </div>
+                <div class="paragraph-nav">
+                    </div>
+                </div>
         </main>
         <aside class="right-sidebar">
             <div class="toc-container"><div class="toc-title">Содержание</div><nav class="toc-nav"></nav></div>

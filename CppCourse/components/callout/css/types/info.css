@@ -1,0 +1,18 @@
+/**
+ * Callout Type: Info
+ * Информационный блок (голубой/cyan)
+ */
+
+.callout--info {
+    background: var(--accent-cyan-dim, rgba(56, 189, 248, 0.08));
+    border-color: rgba(56, 189, 248, 0.25);
+    border-left-color: var(--accent-cyan, #38bdf8);
+}
+
+.callout--info .callout__icon svg {
+    color: var(--accent-cyan, #38bdf8);
+}
+
+.callout--info .callout__title {
+    color: var(--accent-cyan, #38bdf8);
+}

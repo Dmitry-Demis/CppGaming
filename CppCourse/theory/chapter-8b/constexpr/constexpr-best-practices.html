@@ -148,8 +148,11 @@ int main()
 
                 <h2 id="when-constexpr">Когда делать функцию constexpr?</h2>
 
-                <div class="info-card">
-                    <div class="info-card__title">📋 Правило</div>
+                <div class="callout callout--info">
+                    <div class="callout__title">📋 Правило
+                    </div>
+                    <div class="callout__body">
+                        </div>
                     <ul>
                         <li>Если функция <strong>может</strong> быть частью константного выражения — сделайте её <code>constexpr</code></li>
                         <li><strong>Чистые функции</strong> (одинаковый результат для одинаковых аргументов, нет побочных эффектов) — почти всегда стоит делать <code>constexpr</code></li>
@@ -167,8 +170,12 @@ int main()
                     </p>
                 </div>
 
-                <div class="warning-block">
-                    <div class="warning-block__title">Лучшая практика</div>
+                <div class="callout callout--warning">
+                    <div class="callout__body">
+                        
+                    <div class="callout__title">Лучшая практика
+                    </div>
+                </div>
                     <p>Если функция может быть частью константного выражения — сделайте её <code>constexpr</code>, даже если сейчас она используется только в runtime-контексте.</p>
                 </div>
 

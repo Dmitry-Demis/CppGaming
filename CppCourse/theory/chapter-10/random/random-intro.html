@@ -125,8 +125,11 @@ int main()
                     последовательность. Начальное состояние задаётся через <span class="key-term">seed</span> (зерно).
                 </p>
 
-                <div class="info-card">
-                    <div class="info-card__title">📐 Как работает seed</div>
+                <div class="callout callout--info">
+                    <div class="callout__title">📐 Как работает seed
+                    </div>
+                    <div class="callout__body">
+                        </div>
                     <pre style="font-size:0.85em; line-height:1.6">
 seed = 7  →  PRNG  →  10458, 3853, 16032, 17299, ...
 seed = 7  →  PRNG  →  10458, 3853, 16032, 17299, ...  (та же последовательность!)
@@ -140,8 +143,12 @@ seed = 9876 → PRNG →  24071, 18138, 27917, ...        (другая посл
 
                 <h2 id="quality">Что делает PRNG хорошим</h2>
 
-                <div class="info-card">
-                    <div class="info-card__title">✅ Свойства хорошего PRNG</div>
+                <div class="callout callout--info">
+                    <div class="callout__body">
+                        
+                    <div class="callout__title">✅ Свойства хорошего PRNG
+                    </div>
+                </div>
                     <ul>
                         <li><strong>Равномерное распределение</strong> — каждое число генерируется с одинаковой вероятностью</li>
                         <li><strong>Непредсказуемость</strong> — следующее число нельзя угадать по предыдущим</li>
@@ -193,8 +200,11 @@ seed = 9876 → PRNG →  24071, 18138, 27917, ...        (другая посл
                 </table>
                 </div>
 
-                <div class="warning-block">
-                    <div class="warning-block__title">Лучшая практика</div>
+                <div class="callout callout--warning">
+                    <div class="callout__title">Лучшая практика
+                    </div>
+                    <div class="callout__body">
+                        </div>
                     <p>Используйте <code>std::mt19937</code> из заголовка <code>&lt;random&gt;</code>. Никогда не используйте <code>rand()</code>.</p>
                 </div>
 
@@ -202,8 +212,9 @@ seed = 9876 → PRNG →  24071, 18138, 27917, ...        (другая посл
                 <div class="quiz-widget" data-final="random-intro" data-final-desc="Введение в генерацию случайных чисел"></div>
 
                 <section class="feedback-section"></section>
-                <div class="paragraph-nav"></div>
-            </div>
+                <div class="paragraph-nav">
+                    </div>
+                </div>
         </main>
         <aside class="right-sidebar">
             <div class="toc-container"><div class="toc-title">Содержание</div><nav class="toc-nav"></nav></div>

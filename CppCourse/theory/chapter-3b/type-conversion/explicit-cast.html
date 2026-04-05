@@ -158,8 +158,11 @@ std::cout &lt;&lt; static_cast&lt;double&gt;(x) / y &lt;&lt; '\n';</code></pre>
                     </div>
                 </div>
 
-                <div class="info-card">
-                    <div class="info-card__title">💡 Живое применение</div>
+                <div class="callout callout--info">
+                    <div class="callout__title">💡 Живое применение
+                    </div>
+                    <div class="callout__body">
+                        </div>
                     <p>Типичные случаи для <code>static_cast</code>:</p>
                     <ul>
                         <li>Вещественное деление из целых переменных: <code>static_cast&lt;double&gt;(a) / b</code></li>
@@ -169,8 +172,12 @@ std::cout &lt;&lt; static_cast&lt;double&gt;(x) / y &lt;&lt; '\n';</code></pre>
                     </ul>
                 </div>
 
-                <div class="warning-block">
-                    <div class="warning-block__title">Лучшая практика</div>
+                <div class="callout callout--warning">
+                    <div class="callout__body">
+                        
+                    <div class="callout__title">Лучшая практика
+                    </div>
+                </div>
                     <p>Используйте <code>static_cast</code> для явных преобразований. Избегайте C-style cast. Не используйте <code>const_cast</code> и <code>reinterpret_cast</code> без веской причины.</p>
                 </div>
 

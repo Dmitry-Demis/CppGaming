@@ -1,0 +1,18 @@
+/**
+ * Callout Type: Danger
+ * Опасность/ошибка (красный)
+ */
+
+.callout--danger {
+    background: var(--accent-red-dim, rgba(248, 113, 113, 0.08));
+    border-color: rgba(248, 113, 113, 0.25);
+    border-left-color: var(--accent-red, #f87171);
+}
+
+.callout--danger .callout__icon svg {
+    color: var(--accent-red, #f87171);
+}
+
+.callout--danger .callout__title {
+    color: var(--accent-red, #f87171);
+}

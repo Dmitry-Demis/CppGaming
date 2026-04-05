@@ -82,8 +82,11 @@ int main()
                 </div>
 
                 <h2 id="rules">Правила</h2>
-                <div class="info-card">
-                    <div class="info-card__title">📋 Ключевые правила</div>
+                <div class="callout callout--info">
+                    <div class="callout__title">📋 Ключевые правила
+                    </div>
+                    <div class="callout__body">
+                        </div>
                     <ul>
                         <li>Только знак <code>=</code>: <code>void f(int x = 5)</code> — OK; скобки и фигурные скобки — нет</li>
                         <li>Параметры с умолчаниями должны быть <strong>правее</strong> параметров без умолчаний</li>
@@ -93,7 +96,9 @@ int main()
                 </div>
 
                 <div class="code-block">
-                    <div class="code-header"><span class="code-lang">C++ — несколько умолчаний</span><div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button></div></div>
+                    <div class="code-header"><span class="code-lang">C++ — несколько умолчаний</span><div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button>
+                    </div>
+                </div>
                     <div class="code-content">
 <pre><code class="language-cpp">#include &lt;iostream&gt;
 
@@ -139,8 +144,11 @@ int main()
                     </div>
                 </div>
 
-                <div class="warning-block">
-                    <div class="warning-block__title">Умолчания и перегрузка могут конфликтовать</div>
+                <div class="callout callout--warning">
+                    <div class="callout__title">Умолчания и перегрузка могут конфликтовать
+                    </div>
+                    <div class="callout__body">
+                        </div>
                     <p>Если функция с умолчанием и другая перегрузка могут совпасть при одном и том же вызове — компилятор выдаст ошибку неоднозначности.</p>
                     <pre><code class="language-cpp">void foo(int x = 0) {}
 void foo(double d = 0.0) {}
@@ -150,8 +158,9 @@ foo(); // error: ambiguous — какую вызвать?</code></pre>
                 <h2 id="tests">Проверьте знания</h2>
                 <div class="quiz-widget" data-final="default-arguments" data-final-desc="Аргументы по умолчанию"></div>
                 <section class="feedback-section"></section>
-                <div class="paragraph-nav"></div>
-            </div>
+                <div class="paragraph-nav">
+                    </div>
+                </div>
         </main>
         <aside class="right-sidebar"><div class="toc-container"><div class="toc-title">Содержание</div><nav class="toc-nav"></nav></div></aside>
     </div>

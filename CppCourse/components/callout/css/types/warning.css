@@ -1,0 +1,18 @@
+/**
+ * Callout Type: Warning
+ * Предупреждение (оранжевый)
+ */
+
+.callout--warning {
+    background: rgba(251, 146, 60, 0.07);
+    border-color: rgba(251, 146, 60, 0.25);
+    border-left-color: var(--accent-orange, #fb923c);
+}
+
+.callout--warning .callout__icon svg {
+    color: var(--accent-orange, #fb923c);
+}
+
+.callout--warning .callout__title {
+    color: var(--accent-orange, #fb923c);
+}

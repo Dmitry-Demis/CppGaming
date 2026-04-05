@@ -87,8 +87,11 @@ std::cout &lt;&lt; 5 &lt;&lt; '\n';</code></pre>
                     </div>
                 </div>
 
-                <div class="info-card">
-                    <div class="info-card__title">💡 Современная реальность</div>
+                <div class="callout callout--info">
+                    <div class="callout__title">💡 Современная реальность
+                    </div>
+                    <div class="callout__body">
+                        </div>
                     <p>Современные компиляторы сами решают, встраивать ли вызов. Ключевое слово <code>inline</code> как подсказка для встраивания игнорируется. Не используйте его с этой целью.</p>
                 </div>
 
@@ -104,8 +107,9 @@ std::cout &lt;&lt; 5 &lt;&lt; '\n';</code></pre>
                 <div class="code-block">
                     <div class="code-header">
                         <span class="code-lang">C++ — inline-функция в заголовке</span>
-                        <div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button></div>
+                        <div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button>
                     </div>
+                </div>
                     <div class="code-content">
 <pre><code class="language-cpp">// pi.h
 #ifndef PI_H
@@ -145,8 +149,11 @@ namespace constants
                     </div>
                 </div>
 
-                <div class="info-card">
-                    <div class="info-card__title">📌 Неявно inline</div>
+                <div class="callout callout--info">
+                    <div class="callout__title">📌 Неявно inline
+                    </div>
+                    <div class="callout__body">
+                        </div>
                     <p>Следующие сущности неявно являются inline:</p>
                     <ul>
                         <li>Функции, определённые внутри класса/структуры/объединения</li>
@@ -156,8 +163,12 @@ namespace constants
                     <p><code>constexpr</code> переменные — НЕ неявно inline!</p>
                 </div>
 
-                <div class="warning-block">
-                    <div class="warning-block__title">Лучшая практика</div>
+                <div class="callout callout--warning">
+                    <div class="callout__body">
+                        
+                    <div class="callout__title">Лучшая практика
+                    </div>
+                </div>
                     <p>Не используйте <code>inline</code> для запроса встраивания. Используйте его только когда определяете функции или переменные в заголовочных файлах.</p>
                 </div>
 

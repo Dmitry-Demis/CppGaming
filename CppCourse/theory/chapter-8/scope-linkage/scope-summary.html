@@ -66,8 +66,11 @@
 
                 <h2 id="scope-summary">Область видимости</h2>
 
-                <div class="info-card">
-                    <div class="info-card__title">📋 Виды области видимости</div>
+                <div class="callout callout--info">
+                    <div class="callout__title">📋 Виды области видимости
+                    </div>
+                    <div class="callout__body">
+                        </div>
                     <ul>
                         <li><strong>Блочная (локальная)</strong> — от точки объявления до конца блока. Локальные переменные, параметры функций, типы объявленные внутри блока.</li>
                         <li><strong>Глобальная</strong> — от точки объявления до конца файла. Глобальные переменные, функции, типы в пространстве имён.</li>
@@ -76,8 +79,12 @@
 
                 <h2 id="duration-summary">Время жизни</h2>
 
-                <div class="info-card">
-                    <div class="info-card__title">📋 Виды времени жизни</div>
+                <div class="callout callout--info">
+                    <div class="callout__body">
+                        
+                    <div class="callout__title">📋 Виды времени жизни
+                    </div>
+                </div>
                     <ul>
                         <li><strong>Автоматическое</strong> — создаётся при объявлении, уничтожается при выходе из блока. Локальные переменные, параметры.</li>
                         <li><strong>Статическое</strong> — создаётся при запуске программы, уничтожается при завершении. Глобальные переменные, статические локальные переменные.</li>
@@ -87,8 +94,11 @@
 
                 <h2 id="linkage-summary">Компоновка</h2>
 
-                <div class="info-card">
-                    <div class="info-card__title">📋 Виды компоновки</div>
+                <div class="callout callout--info">
+                    <div class="callout__title">📋 Виды компоновки
+                    </div>
+                    <div class="callout__body">
+                        </div>
                     <ul>
                         <li><strong>Нет компоновки</strong> — каждое объявление — отдельный объект. Локальные переменные.</li>
                         <li><strong>Внутренняя</strong> — одно объявление в пределах одной единицы трансляции. <code>static</code> глобальные, <code>const</code>/<code>constexpr</code> глобальные, безымянные пространства имён.</li>
@@ -187,8 +197,9 @@
                 <div class="code-block">
                     <div class="code-header">
                         <span class="code-lang">C++ — предварительные объявления</span>
-                        <div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button></div>
+                        <div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button>
                     </div>
+                </div>
                     <div class="code-content">
 <pre><code class="language-cpp">// Предварительные объявления:
 void foo(int x);          // функция

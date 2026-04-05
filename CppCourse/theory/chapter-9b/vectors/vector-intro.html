@@ -94,8 +94,11 @@
                     </div>
                 </div>
 
-                <div class="info-card">
-                    <div class="info-card__title">⚠️ { } vs ( ) при создании вектора</div>
+                <div class="callout callout--info">
+                    <div class="callout__title">⚠️ { } vs ( ) при создании вектора
+                    </div>
+                    <div class="callout__body">
+                        </div>
                     <p><code>std::vector&lt;int&gt; v { 10 }</code> — вектор из одного элемента со значением 10.</p>
                     <p><code>std::vector&lt;int&gt; v ( 10 )</code> — вектор из 10 элементов, каждый равен 0.</p>
                     <p>Фигурные скобки вызывают list-конструктор, круглые — конструктор с длиной.</p>
@@ -148,15 +151,19 @@
                 <div class="code-block" data-example="indexing">
                     <div class="code-header">
                         <span class="code-lang">C++ — доступ к элементам</span>
-                        <div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button></div>
+                        <div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button>
                     </div>
+                </div>
                     <div class="code-content">
 <pre><code class="language-cpp">// загрузка...</code></pre>
                     </div>
                 </div>
 
-                <div class="warning-block">
-                    <div class="warning-block__title">Нет элемента с индексом N!</div>
+                <div class="callout callout--warning">
+                    <div class="callout__title">Нет элемента с индексом N!
+                    </div>
+                    <div class="callout__body">
+                        </div>
                     <p>Для вектора из 5 элементов допустимые индексы: 0, 1, 2, 3, 4. Индекс 5 — выход за границы и неопределённое поведение.</p>
                 </div>
 
@@ -165,8 +172,9 @@
                 <div class="code-block" data-example="grades">
                     <div class="code-header">
                         <span class="code-lang">C++ — хранение оценок студентов</span>
-                        <div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button></div>
+                        <div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button>
                     </div>
+                </div>
                     <div class="code-content">
 <pre><code class="language-cpp">// загрузка...</code></pre>
                     </div>

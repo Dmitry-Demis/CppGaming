@@ -269,11 +269,16 @@
                     </li>
                 </ul>
 
-                <div class="iso-quote">
-                    <span class="iso-ref">ISO/IEC 14882 — [basic.fundamental] §6.7.1</span>
+                <div class="callout callout--quote">
+                    <div class="callout__title">Статическая типизация и производительность
+                    </div>
+                    <div class="callout__body">
+                        <span class="callout__title">ISO/IEC 14882 — [basic.fundamental] §6.7.1</span>
                     «There are five <em>standard signed integer types</em>: "signed char", "short int",
                     "int", "long int", and "long long int". In this list, each type provides at least as
                     much storage as those preceding it in the list.»
+                
+                    </div>
                 </div>
 
                 <div class="code-block"
@@ -300,8 +305,9 @@
                         контролем программиста.</li>
                 </ul>
 
-                <div class="info-card">
-                    <div class="info-card__title">Статическая типизация и производительность</div>
+                <div class="callout callout--info">
+                    <div class="callout__body">
+</div>
                     <p>
                         Знание типов на этапе компиляции позволяет компилятору выбирать оптимальные
                         машинные инструкции: для <code>int</code> — 32-битные целочисленные операции,
@@ -315,8 +321,8 @@
                         <span class="code-lang">C++ — все базовые типы</span>
                         <div class="code-actions">
                             <button class="btn-code" onclick="copyCode(this)">Копировать</button>
-                        </div>
                     </div>
+                </div>
                     <div class="code-content">
                         <pre><code class="language-cpp">// загрузка...</code></pre>
                     </div>
@@ -324,8 +330,11 @@
 
                 <div id="compiler-intro-types"></div>
 
-                <div class="warning-block">
-                    <div class="warning-block__title">? Неявные преобразования типов</div>
+                <div class="callout callout--warning">
+                    <div class="callout__title">? Неявные преобразования типов
+                    </div>
+                    <div class="callout__body">
+                        </div>
                     <p>
                         C++ разрешает неявные преобразования между числовыми типами, но они могут приводить
                         к потере данных. Например, присваивание <code>int</code> в <code>short</code>
@@ -350,8 +359,6 @@
                     <div class="zoomable-svg-container">
                         <object data="introduction-to-fundamental-data-types.svg" type="image/svg+xml" class="zoomable-svg"></object>
                     </div>
-
-
                 </div>
 
                 <!-- ============================================ -->
@@ -365,8 +372,11 @@
                     <a href="sizeof-operator.html"><strong>§1.1.9 Оператор sizeof</strong></a>.
                 </p>
 
-                <div class="info-card">
-                    <div class="info-card__title">Быстрая справка: sizeof на x86-64</div>
+                <div class="callout callout--info">
+                    <div class="callout__title">Быстрая справка: sizeof на x86-64
+                    </div>
+                    <div class="callout__body">
+                        </div>
                     <p style="font-family:var(--font-mono);font-size:.85rem;line-height:1.8;">
                         char=1 · short=2 · int=4 · long=4/8 · long long=8<br>
                         float=4 · double=8 · bool=1 · pointer=8
@@ -378,8 +388,8 @@
                     <div class="code-header">
                         <span class="code-lang">C++ — оператор sizeof</span>
                         <div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button>
-                        </div>
                     </div>
+                </div>
                     <div class="code-content">
                         <pre><code class="language-cpp">// загрузка...</code></pre>
                     </div>
@@ -486,9 +496,12 @@
                     </table>
                 </div>
 
-                <div class="warning-block">
-                    <div class="warning-block__title">? Знаковость <code>char</code>: платформенная неопределённость
+                <div class="callout callout--warning">
+                    <div class="callout__title">? Знаковость <code>char</code>: платформенная неопределённость
+                    
                     </div>
+                    <div class="callout__body">
+                        </div>
                     <p>
                         Знаковость простого <code>char</code> <strong>не определена стандартом</strong> — она зависит
                         от платформы. На x86 обычно signed, на некоторых ARM — unsigned. Используйте
@@ -500,8 +513,8 @@
                     <div class="code-header">
                         <span class="code-lang">C++</span>
                         <div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button>
-                        </div>
                     </div>
+                </div>
                     <div class="code-content">
                         <pre><code class="language-cpp">#include &lt;iostream&gt;
 #include &lt;limits&gt;
@@ -534,8 +547,11 @@ int main() {
                 </div>
                 <div id="compiler-modifiers"></div>
 
-                <div class="info-card">
-                    <div class="info-card__title">Рекомендация: используйте &lt;cstdint&gt;</div>
+                <div class="callout callout--info">
+                    <div class="callout__title">Рекомендация: используйте &lt;cstdint&gt;
+                    </div>
+                    <div class="callout__body">
+                        </div>
                     <p>
                         Когда нужен тип с <em>точно</em> заданным размером (бинарные протоколы, оборудование),
                         используйте <code>int8_t</code>, <code>int16_t</code>, <code>int32_t</code>,
@@ -557,9 +573,8 @@ int main() {
 
                 <div class="paragraph-nav">
                     <!-- navigation.js заполнит динамически из course-structure.json -->
+                    </div>
                 </div>
-
-            </div>
         </main>
 
         <!-- Right Sidebar: TOC -->

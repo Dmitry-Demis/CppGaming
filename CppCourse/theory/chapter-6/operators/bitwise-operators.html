@@ -78,8 +78,11 @@
 
                 <h2 id="overview">Таблица операторов</h2>
 
-                <div class="info-card">
-                    <div class="info-card__title">Шесть побитовых операторов</div>
+                <div class="callout callout--info">
+                    <div class="callout__title">Шесть побитовых операторов
+                    </div>
+                    <div class="callout__body">
+                        </div>
                     <table style="width:100%;border-collapse:collapse;font-size:0.9em">
                         <thead><tr style="border-bottom:1px solid var(--border)">
                             <th style="padding:4px 8px;text-align:left">Оператор</th>
@@ -105,8 +108,12 @@
                     а справа добавляются нули. Оператор <code>&gt;&gt;</code> работает симметрично вправо.
                 </p>
 
-                <div class="info-card">
-                    <div class="info-card__title">Примеры сдвигов (4-битные значения)</div>
+                <div class="callout callout--info">
+                    <div class="callout__body">
+                        
+                    <div class="callout__title">Примеры сдвигов (4-битные значения)
+                    </div>
+                </div>
                     <pre style="margin:0"><code class="language-cpp">0011 &lt;&lt; 1  →  0110
 0011 &lt;&lt; 2  →  1100
 0011 &lt;&lt; 3  →  1000  // бит 1 потерян!
@@ -183,8 +190,11 @@ int main()
                     Для каждой пары битов: результат = 1, если хотя бы один бит = 1.
                 </p>
 
-                <div class="info-card">
-                    <div class="info-card__title">Пример: 0101 | 0110</div>
+                <div class="callout callout--info">
+                    <div class="callout__title">Пример: 0101 | 0110
+                    </div>
+                    <div class="callout__body">
+                        </div>
                     <pre style="margin:0"><code>0 1 0 1  OR
 0 1 1 0
 -------
@@ -194,8 +204,9 @@ int main()
                 <div class="code-block" data-example="chapter-6/operators/bitwise-or.cpp">
                     <div class="code-header">
                         <span class="code-lang">C++ — побитовое ИЛИ</span>
-                        <div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button></div>
+                        <div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button>
                     </div>
+                </div>
                     <div class="code-content"><pre><code class="language-cpp">#include &lt;bitset&gt;
 #include &lt;iostream&gt;
 
@@ -212,8 +223,11 @@ int main()
                     Для каждой пары битов: результат = 1, только если оба бита = 1.
                 </p>
 
-                <div class="info-card">
-                    <div class="info-card__title">Пример: 0101 &amp; 0110</div>
+                <div class="callout callout--info">
+                    <div class="callout__title">Пример: 0101 &amp; 0110
+                    </div>
+                    <div class="callout__body">
+                        </div>
                     <pre style="margin:0"><code>0 1 0 1  AND
 0 1 1 0
 --------
@@ -223,8 +237,9 @@ int main()
                 <div class="code-block" data-example="chapter-6/operators/bitwise-and.cpp">
                     <div class="code-header">
                         <span class="code-lang">C++ — побитовое И</span>
-                        <div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button></div>
+                        <div class="code-actions"><button class="btn-code" onclick="copyCode(this)">Копировать</button>
                     </div>
+                </div>
                     <div class="code-content"><pre><code class="language-cpp">#include &lt;bitset&gt;
 #include &lt;iostream&gt;
 
@@ -241,8 +256,11 @@ int main()
                     Для каждой пары битов: результат = 1, если биты <em>различаются</em>.
                 </p>
 
-                <div class="info-card">
-                    <div class="info-card__title">Пример: 0110 ^ 0011</div>
+                <div class="callout callout--info">
+                    <div class="callout__title">Пример: 0110 ^ 0011
+                    </div>
+                    <div class="callout__body">
+                        </div>
                     <pre style="margin:0"><code>0 1 1 0  XOR
 0 0 1 1
 -------
@@ -251,8 +269,12 @@ int main()
 
                 <h2 id="assignment">Операторы присваивания</h2>
 
-                <div class="info-card">
-                    <div class="info-card__title">Побитовые операторы присваивания</div>
+                <div class="callout callout--info">
+                    <div class="callout__body">
+                        
+                    <div class="callout__title">Побитовые операторы присваивания
+                    </div>
+                </div>
                     <table style="width:100%;border-collapse:collapse;font-size:0.9em">
                         <thead><tr style="border-bottom:1px solid var(--border)">
                             <th style="padding:4px 8px;text-align:left">Оператор</th>
@@ -300,8 +322,11 @@ int main()
 
                 <h2 id="summary">Правила вычисления по столбцам</h2>
 
-                <div class="info-card">
-                    <div class="info-card__title">Итог</div>
+                <div class="callout callout--info">
+                    <div class="callout__title">Итог
+                    </div>
+                    <div class="callout__body">
+                        </div>
                     <ul style="margin:0;padding-left:1.2em">
                         <li>OR: если хотя бы один бит в столбце = 1 → результат 1</li>
                         <li>AND: если все биты в столбце = 1 → результат 1</li>
@@ -313,8 +338,9 @@ int main()
                 <div class="quiz-widget" data-final="bitwise-operators" data-final-desc="сдвиги, NOT, AND, OR, XOR, операторы присваивания"></div>
 
                 <section class="feedback-section"></section>
-                <div class="paragraph-nav"></div>
-            </div>
+                <div class="paragraph-nav">
+                    </div>
+                </div>
         </main>
         <aside class="right-sidebar">
             <div class="toc-container">

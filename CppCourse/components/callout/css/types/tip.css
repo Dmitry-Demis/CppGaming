@@ -1,0 +1,18 @@
+/**
+ * Callout Type: Tip
+ * Совет (зеленый)
+ */
+
+.callout--tip {
+    background: rgba(166, 227, 161, 0.07);
+    border-color: rgba(166, 227, 161, 0.25);
+    border-left-color: var(--accent-green, #a6e3a1);
+}
+
+.callout--tip .callout__icon svg {
+    color: var(--accent-green, #a6e3a1);
+}
+
+.callout--tip .callout__title {
+    color: var(--accent-green, #a6e3a1);
+}

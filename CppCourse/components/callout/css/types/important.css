@@ -1,0 +1,18 @@
+/**
+ * Callout Type: Important
+ * Важное (фиолетовый)
+ */
+
+.callout--important {
+    background: var(--accent-purple-dim, rgba(203, 166, 247, 0.08));
+    border-color: rgba(203, 166, 247, 0.25);
+    border-left-color: var(--accent-purple, #cba6f7);
+}
+
+.callout--important .callout__icon svg {
+    color: var(--accent-purple, #cba6f7);
+}
+
+.callout--important .callout__title {
+    color: var(--accent-purple, #cba6f7);
+}
