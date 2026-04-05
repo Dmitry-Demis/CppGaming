@@ -55,8 +55,13 @@ public static class ProgressEndpoints
 
     /// <summary>Возвращает полный профиль пользователя (XP, монеты, уровень и т.д.).</summary>
     private static async Task<IResult> GetProfileAsync(
-        string isuNumber, ProfileService profileService)
+        string isuNumber, ProfileService profileService, HttpContext ctx)
     {
+        // IDOR-защита: пользователь может видеть только свой профиль
+        var callerIsu = EndpointHelpers.GetIsuNumber(ctx);
+        if (callerIsu is null || callerIsu != isuNumber)
+            return Results.Forbid();
+
         var profile = await profileService.GetProfileAsync(isuNumber);
         return profile is not null ? Results.Ok(profile) : Results.NotFound();
     }

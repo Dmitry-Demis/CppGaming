@@ -220,3 +220,4 @@ D:\Studies\cppQuest\cppQuest.Server\obj\Debug\net10.0\cppQuest.Server.genruntime
 D:\Studies\cppQuest\cppQuest.Server\obj\Debug\net10.0\ref\cppQuest.Server.dll
 D:\Studies\cppQuest\cppQuest.Server\bin\Debug\net10.0\cppquest.db-shm
 D:\Studies\cppQuest\cppQuest.Server\bin\Debug\net10.0\cppquest.db-wal
+D:\Studies\cppQuest\cppQuest.Server\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt

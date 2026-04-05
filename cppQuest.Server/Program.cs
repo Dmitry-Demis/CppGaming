@@ -20,7 +20,7 @@ builder.Services.AddAntiforgery(options =>
     options.Cookie.Name = "XSRF-TOKEN";
     options.Cookie.HttpOnly = false;   // JS должен читать куку
     options.Cookie.SameSite = SameSiteMode.Strict;
-    options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
 });
 
 // Rate limiting — защита от брутфорса на auth endpoints
@@ -62,6 +62,9 @@ builder.Services.AddScoped<IQuestionProgressRepository, QuestionProgressReposito
 // Services
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<XpService>();
+builder.Services.AddScoped<CurrencyService>();
+builder.Services.AddScoped<StreakService>();
 builder.Services.AddScoped<GamificationService>();
 builder.Services.AddScoped<StatsService>();
 builder.Services.AddScoped<ProfileService>();
@@ -71,6 +74,24 @@ builder.Services.AddScoped<QuestionProgressService>();
 var app = builder.Build();
 
 app.UseRateLimiter();
+
+// Security headers
+app.Use(async (ctx, next) =>
+{
+    ctx.Response.Headers["X-Content-Type-Options"] = "nosniff";
+    ctx.Response.Headers["X-Frame-Options"] = "SAMEORIGIN";
+    ctx.Response.Headers["X-XSS-Protection"] = "1; mode=block";
+    ctx.Response.Headers["Referrer-Policy"] = "strict-origin-when-cross-origin";
+    if (!ctx.Request.IsHttps)
+    {
+        // Не добавляем HSTS по HTTP — браузер всё равно его проигнорирует
+    }
+    else
+    {
+        ctx.Response.Headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains";
+    }
+    await next(ctx);
+});
 
 // Выдаём CSRF-токен при каждом GET-запросе (браузер читает куку и кладёт в заголовок)
 app.Use(async (ctx, next) =>

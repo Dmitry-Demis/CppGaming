@@ -7,9 +7,7 @@ public class QuestionProgressService(IQuestionProgressRepository repo)
 {
     // Интервалы SR: 1→2→4→8→16→30 дней
     private static int NextInterval(int currentInterval, bool wasCorrect) =>
-        wasCorrect
-            ? Math.Min(currentInterval * 2, 30)
-            : 1;
+        SpacedRepetitionService.NextQuestionInterval(currentInterval, wasCorrect);
 
     /// <summary>
     /// Возвращает pick ID вопросов по алгоритму приоритетов:

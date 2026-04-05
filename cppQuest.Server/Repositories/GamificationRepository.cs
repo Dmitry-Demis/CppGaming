@@ -1,12 +1,22 @@
 using Microsoft.EntityFrameworkCore;
 using cppQuest.Server.Models;
+using cppQuest.Server.Services;
 
 namespace cppQuest.Server.Repositories;
 
 public class GamificationRepository(AppDbContext db) : IGamificationRepository
 {
-    public async Task<GamificationProfile?> GetAsync(int userId) =>
-        await db.GamificationProfiles.FindAsync(userId);
+    public async Task<GamificationProfile?> GetAsync(int userId)
+    {
+        var profile = await db.GamificationProfiles.FindAsync(userId);
+        if (profile is null) return null;
+
+        // Исправляем рассинхронизацию XP/Level после ручного изменения в БД
+        if (XpService.Normalize(profile))
+            await SaveAsync(profile);
+
+        return profile;
+    }
 
     public async Task SaveAsync(GamificationProfile profile)
     {

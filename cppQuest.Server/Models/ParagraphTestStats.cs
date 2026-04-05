@@ -33,6 +33,13 @@ public class ParagraphTestStats
     /// <summary>Лучший статус: 0=none, 1=passed, 2=bronze, 3=silver, 4=gold.</summary>
     public int BestStatus { get; set; }
 
+    /// <summary>
+    /// Битовая маска выданных наград за освоение банка вопросов.
+    /// Бит 0 = 70%, бит 1 = 80%, бит 2 = 90%, бит 3 = 100% банка решено верно.
+    /// Позволяет выдавать XP за каждый порог ровно один раз, даже если банк вырастет.
+    /// </summary>
+    public int BankMasteryXpAwarded { get; set; }
+
     /// <summary>Время последней попытки.</summary>
     public DateTime LastAttemptAt { get; set; } = DateTime.UtcNow;
 

@@ -2,6 +2,16 @@
    QUIZ SYSTEM - Mini Tests & Final Tests
    ============================================ */
 
+/** Экранирует HTML-спецсимволы для безопасной вставки в innerHTML */
+function _qsEscapeHtml(str) {
+    return String(str ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
 class QuizSystem {
     constructor() {
         this.currentTest = null;
@@ -450,13 +460,13 @@ class QuizSystem {
         
         body.innerHTML = `
             <div class="quiz-question">
-                <h3>${question.question}</h3>
+                <h3>${_qsEscapeHtml(question.question)}</h3>
                 <div class="quiz-options">
                     ${question.options.map((option, index) => `
                         <label class="quiz-option">
                             <input type="radio" name="answer" value="${index}" 
                                 ${this.answers[this.currentQuestion] === index ? 'checked' : ''}>
-                            <span class="quiz-option-text">${option}</span>
+                            <span class="quiz-option-text">${_qsEscapeHtml(option)}</span>
                         </label>
                     `).join('')}
                 </div>

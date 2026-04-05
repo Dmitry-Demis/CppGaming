@@ -26,7 +26,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("cppQuest.AppHost")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bc7903efbf2e45da360c6cf36d60b0e36fac4be4")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+aa8e900caf4cd6ae5fcad3e11e980b4138309db9")]
 [assembly: System.Reflection.AssemblyProductAttribute("cppQuest.AppHost")]
 [assembly: System.Reflection.AssemblyTitleAttribute("cppQuest.AppHost")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -18,8 +18,9 @@ public static class AnalyticsEndpoints
 
         // GET /api/analytics/{isuNumber}
         // Делегируем обработку в отдельный метод для читаемости и комментирования.
-        group.MapGet("{isuNumber}", (string isuNumber, ProfileService profileService, AppDbContext db)
-            => GetAnalyticsForUserAsync(isuNumber, profileService, db));
+        group.MapGet("{isuNumber}", (string isuNumber, ProfileService profileService, AppDbContext db, HttpContext ctx)
+            => GetAnalyticsForUserAsync(isuNumber, profileService, db, ctx))
+            .RequireRateLimiting("api");
     }
     /// <summary>
     /// Собирает все аналитические данные для дашборда пользователя.
@@ -28,8 +29,13 @@ public static class AnalyticsEndpoints
     /// <param name="profileService">Сервис профиля — получает внутренний User.Id по ISU.</param>
     /// <param name="db">Экземпляр <see cref="AppDbContext"/> для запросов в БД.</param>
     /// <returns>Возвращает <see cref="IResult"/> с набором аналитических данных или NotFound.</returns>
-    private static async Task<IResult> GetAnalyticsForUserAsync(string isuNumber, ProfileService profileService, AppDbContext db)
+    private static async Task<IResult> GetAnalyticsForUserAsync(string isuNumber, ProfileService profileService, AppDbContext db, HttpContext ctx)
     {
+        // IDOR-защита: пользователь может видеть только свою аналитику
+        var callerIsu = EndpointHelpers.GetIsuNumber(ctx);
+        if (callerIsu is null || callerIsu != isuNumber)
+            return Results.Forbid();
+
         var profile = await profileService.GetProfileAsync(isuNumber);
         if (profile is null) return Results.NotFound();
         int userId = profile.Id;

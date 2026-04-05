@@ -59,7 +59,7 @@ public class AuthService(
     {
         var user = await userRepo.GetByIsuNumberAsync(request.IsuNumber);
         if (user is null)
-            return (false, "Студент с таким идентификатором не найден. Сначала зарегистрируйтесь.", null);
+            return (false, "Неверный идентификатор или пароль.", null);
 
         if (!user.IsActive)
             return (false, "Аккаунт заблокирован", null);

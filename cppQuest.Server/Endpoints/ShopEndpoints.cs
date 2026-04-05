@@ -61,12 +61,6 @@ public static class ShopEndpoints
 
     /// <summary>Списывает монеты и ключи с gamification-профиля.</summary>
     private static async Task DeductAndSaveAsync(
-        GamificationService gamification, int userId, int coins, int keys)
-    {
-        var gProfile = await gamification.GetAsync(userId)
-            ?? throw new InvalidOperationException($"GamificationProfile not found for userId={userId}");
-        if (coins > 0) gProfile.Coins -= coins;
-        if (keys  > 0) gProfile.Keys  -= keys;
-        await gamification.SaveAsync(gProfile);
-    }
+        GamificationService gamification, int userId, int coins, int keys) =>
+        await gamification.DeductCurrencyAsync(userId, coins, keys);
 }
