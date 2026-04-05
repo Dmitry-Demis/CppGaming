@@ -659,3 +659,5 @@ D:\Studies\cppQuest\cppQuest.Server\bin\Release\net10.0\linux-x64\CppCourse\comp
 D:\Studies\cppQuest\cppQuest.Server\bin\Release\net10.0\linux-x64\CppCourse\components\notifications\templates\bell-button.html
 D:\Studies\cppQuest\cppQuest.Server\bin\Release\net10.0\linux-x64\CppCourse\components\notifications\templates\dropdown.html
 D:\Studies\cppQuest\cppQuest.Server\bin\Release\net10.0\linux-x64\CppCourse\quiz-preview.html
+D:\Studies\cppQuest\cppQuest.Server\bin\Release\net10.0\linux-x64\cppquest.db-shm
+D:\Studies\cppQuest\cppQuest.Server\bin\Release\net10.0\linux-x64\cppquest.db-wal

@@ -536,6 +536,8 @@ D:\Studies\cppQuest\cppQuest.Server\obj\Release\net10.0\linux-x64\PubTmp\Out\gat
 D:\Studies\cppQuest\cppQuest.Server\obj\Release\net10.0\linux-x64\PubTmp\Out\gated\chapter-5\control-flow\if-statements.html
 D:\Studies\cppQuest\cppQuest.Server\obj\Release\net10.0\linux-x64\PubTmp\Out\gated\chapter-5\control-flow\switch-fallthrough.html
 D:\Studies\cppQuest\cppQuest.Server\obj\Release\net10.0\linux-x64\PubTmp\Out\cppquest.db
+D:\Studies\cppQuest\cppQuest.Server\obj\Release\net10.0\linux-x64\PubTmp\Out\cppquest.db-shm
+D:\Studies\cppQuest\cppQuest.Server\obj\Release\net10.0\linux-x64\PubTmp\Out\cppquest.db-wal
 D:\Studies\cppQuest\cppQuest.Server\obj\Release\net10.0\linux-x64\PubTmp\Out\cppQuest.Server.dll
 D:\Studies\cppQuest\cppQuest.Server\obj\Release\net10.0\linux-x64\PubTmp\Out\cppQuest.Server.runtimeconfig.json
 D:\Studies\cppQuest\cppQuest.Server\obj\Release\net10.0\linux-x64\PubTmp\Out\cppQuest.Server.pdb
