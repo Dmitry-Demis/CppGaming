@@ -314,21 +314,38 @@
                 card.style.animationDelay = (ci * 0.04) + 's';
                 card.addEventListener('click', () => { location.href = chapterIndex; });
                 card.innerHTML = `
-                    <div class="card-header">
+                    <div class="card-meta">
                         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
                             <span class="card-number">Глава ${chapterNumFromId(chapter.id)} <span style="font-size:.7rem;font-weight:500;opacity:.6">(${paragraphs.length} §§)</span>${chapter.level ? `<span class="card-level card-level--${chapter.level.replace('+','-plus')}">${chapter.level}</span>` : ''}</span>
                             <span class="ch-mastery-badge" style="font-size:.72rem;font-weight:800;color:#6b7280;background:rgba(255,255,255,.06);padding:2px 8px;border-radius:99px;border:1px solid #6b728033">—</span>
                         </div>
                         <h3>${chapter.title}</h3>
+                    </div>
+                    <div class="card-desc">
                         <p>${chapter.description || ''}</p>
                     </div>
                     <div class="chapter-topics">
                         <div class="chapter-sections-list" id="list-${cardId}">${renderParaList(paragraphs.slice(0, PREVIEW), 0)}</div>
                         ${hasMore ? `<div class="chapter-sections-list" id="rest-${cardId}" style="display:none">${renderParaList(paragraphs.slice(PREVIEW), PREVIEW)}</div>` : ''}
+                        ${hasMore ? `<button class="expand-btn" onclick="event.stopPropagation();toggleExpand('${cardId}')" style="background:none;border:none;color:var(--card-color,#a78bfa);font-size:.75rem;font-weight:700;cursor:pointer;padding:4px 0;margin-top:4px">▼ Показать все (${paragraphs.length})</button>` : ''}
                     </div>
-                    ${hasMore ? `<button class="expand-btn" onclick="event.stopPropagation();toggleExpand('${cardId}')" style="background:none;border:none;color:var(--card-color,#a78bfa);font-size:.75rem;font-weight:700;cursor:pointer;padding:4px 0;margin-top:4px">▼ Показать все (${paragraphs.length})</button>` : ''}
                     <span class="card-arrow">Изучить →</span>`;
                 grid.appendChild(card);
+            });
+
+            // Выравниваем высоты заголовков и описаний по строкам грида
+            requestAnimationFrame(() => {
+                const cols = Math.round(grid.offsetWidth / 300) || 1;
+                const cards = [...grid.querySelectorAll('.chapter-card:not(.chapter-card--skeleton)')];
+                for (let i = 0; i < cards.length; i += cols) {
+                    const row = cards.slice(i, i + cols);
+                    ['card-meta', 'card-desc'].forEach(cls => {
+                        const els = row.map(c => c.querySelector('.' + cls)).filter(Boolean);
+                        els.forEach(el => { el.style.minHeight = ''; });
+                        const max = Math.max(...els.map(el => el.offsetHeight));
+                        if (max > 0) els.forEach(el => { el.style.minHeight = max + 'px'; });
+                    });
+                }
             });
 
             // ── Фаза 4: прогресс (только если залогинен) ──────────────────

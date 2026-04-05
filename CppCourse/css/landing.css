@@ -175,18 +175,28 @@
     overflow: hidden;
 }
 
-/* Header block: grows to fill available space so the divider aligns across cards */
-.card-header {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    margin-bottom: var(--space-4);
+/* Title area */
+.card-meta {
+    margin-bottom: var(--space-3);
 }
 
-/* Description sits at the bottom of the header, pushes divider to a consistent position */
-.card-header p {
-    margin-top: auto;
-    padding-top: var(--space-2);
+/* Description area — фиксированная высота через JS-выравнивание */
+.card-desc {
+    margin-bottom: var(--space-4);
+}
+.card-desc p {
+    font-size: var(--fs-sm);
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+/* Topics занимают оставшееся место, черта всегда на одном уровне */
+.chapter-topics {
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--border-primary);
+    display: flex;
+    flex-direction: column;
+    flex: 1;
 }
 .chapter-card::before {
     content: '';
@@ -219,12 +229,13 @@
     font-size: var(--fs-lg);
     font-family: var(--font-sans);
     margin-top: 0;
-    margin-bottom: var(--space-3);
+    margin-bottom: 0;
     color: var(--text-heading);
 }
 .chapter-card p {
     font-size: var(--fs-sm);
     color: var(--text-secondary);
+    margin: 0;
 }
 
 /* Chapter level badges */
@@ -257,13 +268,6 @@
 }
 
 /* Chapter Topics List — divider line */
-.chapter-topics {
-    padding-top: var(--space-4);
-    border-top: 1px solid var(--border-primary);
-    display: flex;
-    flex-direction: column;
-}
-
 .chapter-sections-list {
     display: flex;
     flex-direction: column;
