@@ -1,36 +1,73 @@
-# Visual Studio
+# ── IDE / Tools ──────────────────────────────────────────────────────────────
 .vs/
 .vscode/
+.idea/
+*.swp
+*.swo
 
-# Secrets
+# Kiro IDE
+.kiro/
+
+# ── Secrets & local config ────────────────────────────────────────────────────
+# appsettings.json (base) остаётся в репо — он не содержит секретов
+# Все environment-specific конфиги — только локально
 appsettings.Development.json
+appsettings.Production.json
+appsettings.Staging.json
 appsettings.*.json
 !appsettings.json
 
-# Build outputs
-bin/
-obj/
+# Список допущенных студентов — содержит реальные ISU-номера
+cppQuest.Server/allowed-isu.json
+
+# ── Build outputs ─────────────────────────────────────────────────────────────
+**/bin/
+**/obj/
 *.exe
 *.dll
 *.pdb
+*.nupkg
 
-# Logs
+# .NET user-specific project settings
+*.csproj.user
+*.user
+
+# ── Database ──────────────────────────────────────────────────────────────────
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+
+# ── Logs ──────────────────────────────────────────────────────────────────────
 *.log
+logs/
 
-# OS
+# ── OS ────────────────────────────────────────────────────────────────────────
 .DS_Store
 Thumbs.db
+desktop.ini
 
-# Node
+# ── Node ──────────────────────────────────────────────────────────────────────
 node_modules/
 npm-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
 
-# Python
+# ── Frontend build ────────────────────────────────────────────────────────────
+frontend/dist/
+frontend/.env
+frontend/.env.local
+frontend/.env.*.local
+
+# ── Python ────────────────────────────────────────────────────────────────────
 __pycache__/
 *.pyc
 *.pyo
 
-# IDE
-.idea/
-*.swp
-*.swo
+# ── Doxygen generated docs ────────────────────────────────────────────────────
+doxygen_docs/
+
+# ── .NET publish / deploy artifacts ──────────────────────────────────────────
+publish/
+*.zip
