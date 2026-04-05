@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ru">
     <script>document.documentElement.setAttribute("data-theme",localStorage.getItem("cpp_theme")||"dark")</script>
 <head>
@@ -9,8 +9,8 @@
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/layout.css">
     <link rel="stylesheet" href="css/components.css">
-    <link rel="stylesheet" href="css/quiz.css">
-    <link rel="stylesheet" href="css/gamification.css">
+    <link rel="stylesheet" href="components/quiz/css/quiz-standalone.css">
+    <link rel="stylesheet" href="components/gamification/css/gamification.css">
     <link rel="stylesheet" href="css/code-highlight.css">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📝</text></svg>">
     <style>
@@ -67,8 +67,8 @@
     </div>
 
     <script src="js/quiz.js"></script>
-    <script src="js/gamification.js"></script>
-    <script src="js/theme.js"></script>
+    <script src="components/gamification/gamification.js"></script>
+    <script src="components/theme/theme.js"></script>
     <script>
     (async function () {
         const params  = new URLSearchParams(location.search);

@@ -20,7 +20,7 @@ builder.Services.AddAntiforgery(options =>
     options.Cookie.Name = "XSRF-TOKEN";
     options.Cookie.HttpOnly = false;   // JS должен читать куку
     options.Cookie.SameSite = SameSiteMode.Strict;
-    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+    options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
 });
 
 // Rate limiting — защита от брутфорса на auth endpoints
