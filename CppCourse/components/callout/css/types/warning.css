@@ -1,13 +1,20 @@
-/**
- * Callout Type: Warning
- * Предупреждение (оранжевый)
- */
-
+/* warning (orange) — резкое качание как колокол */
 .callout--warning {
     background: rgba(251, 146, 60, 0.07);
     border-color: rgba(251, 146, 60, 0.25);
     border-left-color: var(--accent-orange, #fb923c);
 }
+.callout--warning .callout__icon svg {
+    color: var(--accent-orange, #fb923c);
+    animation: callout-icon-spin 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both,
+               callout-anim-warning 1.4s 0.5s ease-in-out infinite;
+}
+.callout--warning .callout__title { color: var(--accent-orange, #fb923c); }
 
-.callout--warning .callout__icon svg { color: var(--accent-orange, #fb923c); }
-.callout--warning .callout__title    { color: var(--accent-orange, #fb923c); }
+@keyframes callout-anim-warning {
+    0%, 100% { transform: rotateZ(0deg);   filter: drop-shadow(0 0 0px #fb923c); }
+    20%       { transform: rotateZ(-18deg); filter: drop-shadow(0 0 4px #fb923c); }
+    40%       { transform: rotateZ(18deg);  filter: drop-shadow(0 0 8px #fb923c); }
+    60%       { transform: rotateZ(-10deg); filter: drop-shadow(0 0 4px #fb923c); }
+    80%       { transform: rotateZ(10deg);  filter: drop-shadow(0 0 2px #fb923c); }
+}

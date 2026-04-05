@@ -1,22 +1,20 @@
-/**
- * Callout Type: Quote
- * Цитата/ISO стандарт (фиолетовый) с моноширинным шрифтом
- */
-
+/* quote (violet) — обратное вращение -360° с паузой */
 .callout--quote {
     background: var(--accent-violet-dim, rgba(139, 92, 246, 0.08));
     border-color: rgba(139, 92, 246, 0.25);
     border-left-color: var(--accent-violet, #8b5cf6);
     font-family: var(--font-mono, monospace);
 }
-
-.callout--quote .callout__icon svg { color: var(--accent-violet, #8b5cf6); }
-
-/* Заголовок использует обычный шрифт */
-.callout--quote .callout__title {
+.callout--quote .callout__icon svg {
     color: var(--accent-violet, #8b5cf6);
-    font-family: var(--font-sans, sans-serif);
+    animation: callout-icon-spin 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both,
+               callout-anim-quote 5s 0.5s ease-in-out infinite;
 }
+.callout--quote .callout__title { color: var(--accent-violet, #8b5cf6); font-family: var(--font-sans, sans-serif); }
+.callout--quote .callout__body  { font-size: 0.82rem; }
 
-/* Немного меньший размер для моноширинного текста */
-.callout--quote .callout__body { font-size: 0.82rem; }
+@keyframes callout-anim-quote {
+    0%   { transform: rotateZ(0deg);    filter: drop-shadow(0 0 0px #8b5cf6); }
+    50%  { transform: rotateZ(-360deg); filter: drop-shadow(0 0 6px #8b5cf6); }
+    100% { transform: rotateZ(-360deg); filter: drop-shadow(0 0 0px #8b5cf6); }
+}

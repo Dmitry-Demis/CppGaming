@@ -1,13 +1,18 @@
-/**
- * Callout Type: Important
- * Важное (фиолетовый)
- */
-
+/* important (purple) — непрерывное вращение 360° */
 .callout--important {
     background: var(--accent-purple-dim, rgba(203, 166, 247, 0.08));
     border-color: rgba(203, 166, 247, 0.25);
     border-left-color: var(--accent-purple, #cba6f7);
 }
+.callout--important .callout__icon svg {
+    color: var(--accent-purple, #cba6f7);
+    animation: callout-icon-spin 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both,
+               callout-anim-important 4s 0.5s linear infinite;
+}
+.callout--important .callout__title { color: var(--accent-purple, #cba6f7); }
 
-.callout--important .callout__icon svg { color: var(--accent-purple, #cba6f7); }
-.callout--important .callout__title    { color: var(--accent-purple, #cba6f7); }
+@keyframes callout-anim-important {
+    0%   { transform: rotateZ(0deg);   filter: drop-shadow(0 0 2px #cba6f7); }
+    50%  { transform: rotateZ(180deg); filter: drop-shadow(0 0 7px #cba6f7); }
+    100% { transform: rotateZ(360deg); filter: drop-shadow(0 0 2px #cba6f7); }
+}

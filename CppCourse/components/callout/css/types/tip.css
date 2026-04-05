@@ -1,13 +1,19 @@
-/**
- * Callout Type: Tip
- * Совет (зеленый)
- */
-
+/* tip (green) — наклон + подпрыгивание */
 .callout--tip {
     background: rgba(166, 227, 161, 0.07);
     border-color: rgba(166, 227, 161, 0.25);
     border-left-color: var(--accent-green, #a6e3a1);
 }
+.callout--tip .callout__icon svg {
+    color: var(--accent-green, #a6e3a1);
+    animation: callout-icon-spin 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both,
+               callout-anim-tip 2.2s 0.5s ease-in-out infinite;
+}
+.callout--tip .callout__title { color: var(--accent-green, #a6e3a1); }
 
-.callout--tip .callout__icon svg { color: var(--accent-green, #a6e3a1); }
-.callout--tip .callout__title    { color: var(--accent-green, #a6e3a1); }
+@keyframes callout-anim-tip {
+    0%, 100% { transform: rotateZ(0deg)   translateY(0);    filter: drop-shadow(0 0 0px #a6e3a1); }
+    30%       { transform: rotateZ(20deg)  translateY(-3px); filter: drop-shadow(0 0 6px #a6e3a1); }
+    60%       { transform: rotateZ(-10deg) translateY(0);    filter: drop-shadow(0 0 3px #a6e3a1); }
+    80%       { transform: rotateZ(5deg)   translateY(-1px); filter: drop-shadow(0 0 2px #a6e3a1); }
+}

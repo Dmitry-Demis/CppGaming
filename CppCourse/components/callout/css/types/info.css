@@ -1,12 +1,20 @@
-/**
- * Callout Type: Info — голубой/cyan
- */
-
+/* info (cyan) — маятник ±15° + свечение */
 .callout--info {
     background: var(--accent-cyan-dim, rgba(56, 189, 248, 0.08));
     border-color: rgba(56, 189, 248, 0.25);
     border-left-color: var(--accent-cyan, #38bdf8);
 }
+.callout--info .callout__icon svg {
+    color: var(--accent-cyan, #38bdf8);
+    animation: callout-icon-spin 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both,
+               callout-anim-info 3s 0.5s ease-in-out infinite;
+}
+.callout--info .callout__title { color: var(--accent-cyan, #38bdf8); }
 
-.callout--info .callout__icon svg { color: var(--accent-cyan, #38bdf8); }
-.callout--info .callout__title    { color: var(--accent-cyan, #38bdf8); }
+@keyframes callout-anim-info {
+    0%   { transform: rotateZ(0deg)   scale(1);   filter: drop-shadow(0 0 0px #38bdf8); }
+    25%  { transform: rotateZ(15deg)  scale(1.1); filter: drop-shadow(0 0 6px #38bdf8); }
+    50%  { transform: rotateZ(0deg)   scale(1);   filter: drop-shadow(0 0 0px #38bdf8); }
+    75%  { transform: rotateZ(-15deg) scale(1.1); filter: drop-shadow(0 0 6px #38bdf8); }
+    100% { transform: rotateZ(0deg)   scale(1);   filter: drop-shadow(0 0 0px #38bdf8); }
+}
