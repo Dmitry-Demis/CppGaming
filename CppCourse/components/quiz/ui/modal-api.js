@@ -29,8 +29,8 @@ window.openQuizModal = async function(quizId) {
         return;
     }
 
-    // isAdmin — из localStorage (устанавливается только при входе через мастер-пароль)
-    const isAdmin = !!(user?.isAdmin);
+    // isAdmin — из ответа сервера (проверяется по БД, не по localStorage)
+    const isAdmin = !!(data.isAdmin);
 
     let pickedIds;
     if (isAdmin) {
@@ -71,6 +71,14 @@ window.openQuizModal = async function(quizId) {
             overlay.appendChild(box);
             document.body.appendChild(overlay);
         }
+    }
+
+    // Сбрасываем состояние box перед каждым открытием
+    const box = document.getElementById('quiz-modal-box');
+    if (box) {
+        box.style.padding = '';
+        delete box.dataset.adminMode;
+        box.querySelector('.qm-footer--fixed')?.remove();
     }
 
     overlay.classList.add('active');

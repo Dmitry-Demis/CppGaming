@@ -284,11 +284,12 @@ public class StatsService(
                     ? JsonSerializer.Deserialize<List<int>>(lastAttempt.WrongQuestionIds) ?? []
                     : [];
 
-                var qProgress = await questionProgressRepo.GetByTestAsync(userId, ts.TestId);
-                var currentlyCorrect = qProgress.Count(q => q.IsCorrect);
-
                 var quizMeta = await quizService.GetQuizAsync(ts.TestId);
                 var bankSize = quizMeta?.Questions.Count ?? 0;
+                var bankIds  = quizMeta?.Questions.Select(q => q.Id).ToHashSet() ?? [];
+
+                var qProgress = await questionProgressRepo.GetByTestAsync(userId, ts.TestId);
+                var currentlyCorrect = qProgress.Count(q => q.IsCorrect && bankIds.Contains(q.QuestionId));
 
                 tests[ts.TestId] = new TestStatsDto(
                 ts.TestTitle,
@@ -335,11 +336,12 @@ public class StatsService(
                 ? JsonSerializer.Deserialize<List<int>>(lastAttempt.WrongQuestionIds) ?? []
                 : [];
 
-            var qProgress = await questionProgressRepo.GetByTestAsync(userId, ts.TestId);
-            var currentlyCorrect = qProgress.Count(q => q.IsCorrect);
-
             var quizMeta = await quizService.GetQuizAsync(ts.TestId);
             var bankSize = quizMeta?.Questions.Count ?? 0;
+            var bankIds  = quizMeta?.Questions.Select(q => q.Id).ToHashSet() ?? [];
+
+            var qProgress = await questionProgressRepo.GetByTestAsync(userId, ts.TestId);
+            var currentlyCorrect = qProgress.Count(q => q.IsCorrect && bankIds.Contains(q.QuestionId));
 
             tests[ts.TestId] = new TestStatsDto(
                 ts.TestTitle,

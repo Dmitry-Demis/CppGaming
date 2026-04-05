@@ -15,8 +15,7 @@
         "Для документирования кода"
       ],
       "correct": 1,
-      "explanation": "Header guards предотвращают многократное включение одного .h файла в одну единицу трансляции, что вызвало бы ошибки переопределения.",
-      "id": 0
+      "explanation": "Header guards предотвращают многократное включение одного .h файла в одну единицу трансляции, что вызвало бы ошибки переопределения."
     },
     {
       "type": "single",
@@ -28,8 +27,7 @@
         "#define GUARD"
       ],
       "correct": 1,
-      "explanation": "#pragma once — простой и надёжный способ. Поддерживается GCC, Clang, MSVC. Рекомендуется в большинстве проектов.",
-      "id": 1
+      "explanation": "#pragma once — простой и надёжный способ. Поддерживается GCC, Clang, MSVC. Рекомендуется в большинстве проектов."
     },
     {
       "type": "fill",
@@ -39,8 +37,7 @@
         "#ifndef MATH_H_",
         "#ifndef MATH_H_INCLUDED"
       ],
-      "explanation": "#ifndef MATH_H проверяет, не был ли уже определён макрос MATH_H. Если нет — включает содержимое файла.",
-      "id": 2
+      "explanation": "#ifndef MATH_H проверяет, не был ли уже определён макрос MATH_H. Если нет — включает содержимое файла."
     },
     {
       "type": "single",
@@ -52,8 +49,7 @@
         "Предупреждение компилятора"
       ],
       "correct": 1,
-      "explanation": "#pragma once указывает препроцессору включить файл только один раз. При повторном #include файл полностью пропускается.",
-      "id": 3
+      "explanation": "#pragma once указывает препроцессору включить файл только один раз. При повторном #include файл полностью пропускается."
     },
     {
       "type": "multiple",
@@ -71,8 +67,7 @@
         2,
         3
       ],
-      "explanation": "#pragma once проще, но не стандартен. #ifndef стандартен, требует уникального имени. Оба работают корректно на современных компиляторах.",
-      "id": 4
+      "explanation": "#pragma once проще, но не стандартен. #ifndef стандартен, требует уникального имени. Оба работают корректно на современных компиляторах."
     },
     {
       "type": "single",
@@ -84,8 +79,7 @@
         "GUARD_filename"
       ],
       "correct": 1,
-      "explanation": "Рекомендуется PROJECTNAME_FILENAME_H, например MYAPP_MATH_H. Это снижает риск конфликта имён между разными проектами.",
-      "id": 5
+      "explanation": "Рекомендуется PROJECTNAME_FILENAME_H, например MYAPP_MATH_H. Это снижает риск конфликта имён между разными проектами."
     },
     {
       "type": "fill-code",
@@ -94,8 +88,7 @@
       "correct": [
         "pragma"
       ],
-      "explanation": "#pragma once — современный способ защиты от повторного включения.",
-      "id": 6
+      "explanation": "#pragma once — современный способ защиты от повторного включения."
     },
     {
       "type": "code",
@@ -108,8 +101,7 @@
         "Ошибка компоновки"
       ],
       "correct": 1,
-      "explanation": "#pragma once гарантирует, что math.h включится только один раз, даже при нескольких #include.",
-      "id": 7
+      "explanation": "#pragma once гарантирует, что math.h включится только один раз, даже при нескольких #include."
     },
     {
       "type": "single",
@@ -121,8 +113,7 @@
         "Ускорение компиляции"
       ],
       "correct": 1,
-      "explanation": "Без header guard повторное включение приводит к повторным объявлениям типов и функций — ошибка компиляции.",
-      "id": 8
+      "explanation": "Без header guard повторное включение приводит к повторным объявлениям типов и функций — ошибка компиляции."
     },
     {
       "type": "fill-code-drag",
@@ -139,8 +130,7 @@
         "#ifndef",
         "#endif"
       ],
-      "explanation": "#ifndef UTILS_H / #define UTILS_H / ... / #endif — классический header guard.",
-      "id": 9
+      "explanation": "#ifndef UTILS_H / #define UTILS_H / ... / #endif — классический header guard."
     },
     {
       "type": "multiple",
@@ -158,8 +148,7 @@
         2,
         3
       ],
-      "explanation": "#pragma once проще, но не стандартен. #ifndef стандартен, требует уникального имени. Оба работают на современных компиляторах.",
-      "id": 10
+      "explanation": "#pragma once проще, но не стандартен. #ifndef стандартен, требует уникального имени. Оба работают на современных компиляторах."
     },
     {
       "type": "fill",
@@ -167,8 +156,7 @@
       "correct": [
         "#endif"
       ],
-      "explanation": "#endif завершает блок #ifndef. Каждый #ifndef должен иметь соответствующий #endif.",
-      "id": 11
+      "explanation": "#endif завершает блок #ifndef. Каждый #ifndef должен иметь соответствующий #endif."
     },
     {
       "type": "matching",
@@ -191,8 +179,7 @@
           "right": "Современная альтернатива"
         }
       ],
-      "explanation": "Классический header guard: #ifndef → #define → содержимое → #endif.",
-      "id": 12
+      "explanation": "Классический header guard: #ifndef → #define → содержимое → #endif."
     },
     {
       "type": "single",
@@ -204,8 +191,7 @@
         "GUARD_filename"
       ],
       "correct": 1,
-      "explanation": "Рекомендуется PROJECTNAME_FILENAME_H, например MYAPP_MATH_H. Снижает риск конфликта имён между проектами.",
-      "id": 13
+      "explanation": "Рекомендуется PROJECTNAME_FILENAME_H, например MYAPP_MATH_H. Снижает риск конфликта имён между проектами."
     },
     {
       "type": "single",
@@ -217,8 +203,7 @@
         "Это требование стандарта"
       ],
       "correct": 1,
-      "explanation": "Если math.h и utils.h оба используют #ifndef HEADER_H, то второй файл не включится после первого. Имена должны быть уникальными.",
-      "id": 14
+      "explanation": "Если math.h и utils.h оба используют #ifndef HEADER_H, то второй файл не включится после первого. Имена должны быть уникальными."
     }
   ]
 }

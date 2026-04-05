@@ -15,8 +15,7 @@
         "Константный тип"
       ],
       "correct": 1,
-      "explanation": "Псевдоним типа — другое имя для существующего типа. Компилятор подставляет исходный тип везде, где встречает псевдоним.",
-      "id": 0
+      "explanation": "Псевдоним типа — другое имя для существующего типа. Компилятор подставляет исходный тип везде, где встречает псевдоним."
     },
     {
       "type": "fill-code",
@@ -25,8 +24,7 @@
       "correct": [
         "using"
       ],
-      "explanation": "using Distance = double; — объявление псевдонима типа в современном C++.",
-      "id": 1
+      "explanation": "using Distance = double; — объявление псевдонима типа в современном C++."
     },
     {
       "type": "single",
@@ -38,8 +36,7 @@
         "using только для C++20"
       ],
       "correct": 1,
-      "explanation": "using и typedef создают псевдонимы. using читается лучше: using FcnType = int(*)(double); vs typedef int (*FcnType)(double);",
-      "id": 2
+      "explanation": "using и typedef создают псевдонимы. using читается лучше: using FcnType = int(*)(double); vs typedef int (*FcnType)(double);"
     },
     {
       "type": "code",
@@ -52,8 +49,7 @@
         "Distance"
       ],
       "correct": 0,
-      "explanation": "Distance — псевдоним для double. Distance d{3.14} — то же что double d{3.14}. Вывод: 3.14.",
-      "id": 3
+      "explanation": "Distance — псевдоним для double. Distance d{3.14} — то же что double d{3.14}. Вывод: 3.14."
     },
     {
       "type": "single",
@@ -65,8 +61,7 @@
         "Только в C++20"
       ],
       "correct": 1,
-      "explanation": "Псевдоним — не новый тип. Miles и Speed, оба псевдонимы long, взаимозаменяемы. Компилятор не различает их.",
-      "id": 4
+      "explanation": "Псевдоним — не новый тип. Miles и Speed, оба псевдонимы long, взаимозаменяемы. Компилятор не различает их."
     },
     {
       "type": "code",
@@ -79,8 +74,7 @@
         "Только в C++17"
       ],
       "correct": 1,
-      "explanation": "Miles и Speed — оба псевдонимы long. Компилятор не различает их. Присваивание допустимо, хотя семантически бессмысленно.",
-      "id": 5
+      "explanation": "Miles и Speed — оба псевдонимы long. Компилятор не различает их. Присваивание допустимо, хотя семантически бессмысленно."
     },
     {
       "type": "multiple",
@@ -98,8 +92,7 @@
         2,
         4
       ],
-      "explanation": "Псевдонимы полезны для: упрощения сложных типов, документирования, кроссплатформенности, обслуживания. Не создают новых типов с проверкой.",
-      "id": 6
+      "explanation": "Псевдонимы полезны для: упрощения сложных типов, документирования, кроссплатформенности, обслуживания. Не создают новых типов с проверкой."
     },
     {
       "type": "fill",
@@ -107,8 +100,7 @@
       "correct": [
         "typedef double Distance;"
       ],
-      "explanation": "typedef double Distance; — старый C-стиль. Предпочтительнее: using Distance = double;",
-      "id": 7
+      "explanation": "typedef double Distance; — старый C-стиль. Предпочтительнее: using Distance = double;"
     },
     {
       "type": "matching",
@@ -127,8 +119,7 @@
           "right": "Упрощение сложного типа"
         }
       ],
-      "explanation": "using предпочтительнее typedef для псевдонимов типов.",
-      "id": 8
+      "explanation": "using предпочтительнее typedef для псевдонимов типов."
     },
     {
       "type": "single",
@@ -140,8 +131,7 @@
         "Всеми заглавными: DISTANCE"
       ],
       "correct": 1,
-      "explanation": "Псевдонимы называют с заглавной буквы: Distance, TestScore, VectPairSI. Это отличает их от переменных и функций.",
-      "id": 9
+      "explanation": "Псевдонимы называют с заглавной буквы: Distance, TestScore, VectPairSI. Это отличает их от переменных и функций."
     },
     {
       "type": "code",
@@ -154,8 +144,7 @@
         "0"
       ],
       "correct": 0,
-      "explanation": "TestScore — псевдоним для int. gradeTest() возвращает int 95. Вывод: 95.",
-      "id": 10
+      "explanation": "TestScore — псевдоним для int. gradeTest() возвращает int 95. Вывод: 95."
     },
     {
       "type": "fill-code",
@@ -164,8 +153,7 @@
       "correct": [
         "using"
       ],
-      "explanation": "using StudentId = short; — псевдоним для short. Позже можно изменить на long в одном месте.",
-      "id": 11
+      "explanation": "using StudentId = short; — псевдоним для short. Позже можно изменить на long в одном месте."
     },
     {
       "type": "single",
@@ -177,8 +165,7 @@
         "using работает только с C++17"
       ],
       "correct": 1,
-      "explanation": "using FcnType = int(*)(double, char); — имя слева. typedef int (*FcnType)(double, char); — имя в середине. using читается лучше.",
-      "id": 12
+      "explanation": "using FcnType = int(*)(double, char); — имя слева. typedef int (*FcnType)(double, char); — имя в середине. using читается лучше."
     },
     {
       "type": "multiple",
@@ -196,8 +183,7 @@
         2,
         4
       ],
-      "explanation": "Псевдонимы: не новый тип, using предпочтительнее, взаимозаменяемы, улучшают читаемость. Строгой типизации нет.",
-      "id": 13
+      "explanation": "Псевдонимы: не новый тип, using предпочтительнее, взаимозаменяемы, улучшают читаемость. Строгой типизации нет."
     },
     {
       "type": "single",
@@ -209,8 +195,7 @@
         "Нужно перекомпилировать только файл с псевдонимом"
       ],
       "correct": 1,
-      "explanation": "Это главное преимущество псевдонимов: изменение типа в одном месте автоматически применяется везде, где используется псевдоним.",
-      "id": 14
+      "explanation": "Это главное преимущество псевдонимов: изменение типа в одном месте автоматически применяется везде, где используется псевдоним."
     }
   ]
 }

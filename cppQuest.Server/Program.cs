@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.RateLimiting;
 using cppQuest.Server.Endpoints;
 using cppQuest.Server.Models;
 using cppQuest.Server.Services;
@@ -10,6 +12,19 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.ConfigureHttpJsonOptions(o =>
     o.SerializerOptions.PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase);
+
+// Rate limiting — защита от брутфорса на auth endpoints
+builder.Services.AddRateLimiter(options =>
+{
+    options.AddFixedWindowLimiter("auth", opt =>
+    {
+        opt.PermitLimit         = 10;
+        opt.Window              = TimeSpan.FromMinutes(1);
+        opt.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+        opt.QueueLimit          = 0;
+    });
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+});
 
 // Database
 builder.Services.AddDbContext<AppDbContext>(opt =>
@@ -37,6 +52,8 @@ builder.Services.AddScoped<IQuizService, QuizService>();
 builder.Services.AddScoped<QuestionProgressService>();
 
 var app = builder.Build();
+
+app.UseRateLimiter();
 
 // Auto-migrate on startup
 await using (var scope = app.Services.CreateAsyncScope())

@@ -674,7 +674,10 @@ D:\Studies\cppQuest\cppQuest.Server\bin\Release\net10.0\CppCourse\examples\chapt
 D:\Studies\cppQuest\cppQuest.Server\bin\Release\net10.0\CppCourse\examples\chapter-2\fundamental-types\introduction-to-fundamental-data-types\what-are-types\what-are-types.cpp
 D:\Studies\cppQuest\cppQuest.Server\bin\Release\net10.0\CppCourse\examples\chapter-2\fundamental-types\signed-unsigned\ranges\ranges.cpp
 D:\Studies\cppQuest\cppQuest.Server\bin\Release\net10.0\CppCourse\js\chapter-index.js
-D:\Studies\cppQuest\cppQuest.Server\bin\Release\net10.0\cppquest.db-shm
-D:\Studies\cppQuest\cppQuest.Server\bin\Release\net10.0\cppquest.db-wal
 D:\Studies\cppQuest\cppQuest.Server\bin\Release\net10.0\CppCourse\theory\chapter-2\fundamental-types\d.svg
 D:\Studies\cppQuest\cppQuest.Server\bin\Release\net10.0\CppCourse\theory\chapter-2\fundamental-types\introduction-to-fundamental-data-types.svg
+D:\Studies\cppQuest\cppQuest.Server\bin\Release\net10.0\CppCourse\components\notifications\css\notifications.css
+D:\Studies\cppQuest\cppQuest.Server\bin\Release\net10.0\CppCourse\components\notifications\notifications.js
+D:\Studies\cppQuest\cppQuest.Server\bin\Release\net10.0\CppCourse\components\notifications\templates\bell-button.html
+D:\Studies\cppQuest\cppQuest.Server\bin\Release\net10.0\CppCourse\components\notifications\templates\dropdown.html
+D:\Studies\cppQuest\cppQuest.Server\bin\Release\net10.0\CppCourse\quiz-preview.html

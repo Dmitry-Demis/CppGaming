@@ -140,11 +140,48 @@ export function attachListeners(q, container, checkBtn, quizId, onCorrect) {
 export function initDnd(container, quizId) {
     let draggedSource   = null;
     let draggedFromSlot = null;
+    let selected        = null;  // для tap
+    let selectedFromSlot = null;
+
+    const pool = () => container.querySelector(`#fdcards-${quizId}`);
+
+    const deselect = () => {
+        selected?.classList.remove('quiz-matching-card--selected');
+        selected = null;
+        selectedFromSlot = null;
+    };
+
+    const placeIntoSlot = (slot) => {
+        if (!selected) return;
+
+        slot.querySelector('.quiz-fill-drag-card')?.remove();
+        slot.querySelector('.quiz-fill-slot-hint')?.remove();
+
+        if (selectedFromSlot && selectedFromSlot !== slot) {
+            // перемещаем из слота в слот — освобождаем старый
+            selected.remove();
+            const hint = document.createElement('span');
+            hint.className = 'quiz-fill-slot-hint';
+            hint.textContent = '?';
+            selectedFromSlot.appendChild(hint);
+            slot.appendChild(selected);
+        } else if (!selectedFromSlot) {
+            // из пула — клонируем
+            const clone = selected.cloneNode(true);
+            bindCard(clone);
+            slot.appendChild(clone);
+        }
+
+        slot.dispatchEvent(new Event('drop', { bubbles: true }));
+        deselect();
+    };
 
     const bindCard = card => {
+        // --- drag ---
         card.addEventListener('dragstart', e => {
             draggedSource   = card;
             draggedFromSlot = card.closest('.quiz-fill-drop-slot') || null;
+            deselect();
             card.classList.add('quiz-fill-drag-card--dragging');
             e.dataTransfer.effectAllowed = 'copy';
         });
@@ -153,11 +190,23 @@ export function initDnd(container, quizId) {
             draggedSource   = null;
             draggedFromSlot = null;
         });
+
+        // --- tap ---
+        card.addEventListener('click', e => {
+            e.stopPropagation();
+            const fromSlot = card.closest('.quiz-fill-drop-slot') || null;
+            if (selected === card) { deselect(); return; }
+            deselect();
+            selected = card;
+            selectedFromSlot = fromSlot;
+            card.classList.add('quiz-matching-card--selected');
+        });
     };
 
     container.querySelectorAll('.quiz-fill-drag-card').forEach(bindCard);
 
     container.querySelectorAll('.quiz-fill-drop-slot').forEach(slot => {
+        // --- drag ---
         slot.addEventListener('dragover',  e => { e.preventDefault(); slot.classList.add('quiz-fill-drop-slot--over'); });
         slot.addEventListener('dragleave', () => slot.classList.remove('quiz-fill-drop-slot--over'));
         slot.addEventListener('drop', e => {
@@ -180,21 +229,36 @@ export function initDnd(container, quizId) {
             bindCard(clone);
             slot.appendChild(clone);
         });
+
+        // --- tap ---
+        slot.addEventListener('click', e => {
+            if (e.target.closest('.quiz-fill-drag-card')) return;
+            if (!selected) return;
+            placeIntoSlot(slot);
+        });
     });
 
-    const pool = container.querySelector(`#fdcards-${quizId}`);
-    if (pool) {
-        pool.addEventListener('dragover', e => e.preventDefault());
-        pool.addEventListener('drop', e => {
-            e.preventDefault();
-            if (!draggedSource || !draggedFromSlot) return;
-            draggedSource.remove();
-            const hint = document.createElement('span');
-            hint.className = 'quiz-fill-slot-hint';
-            hint.textContent = '?';
-            draggedFromSlot.appendChild(hint);
-        });
-    }
+    // Тык на пул — возвращает карточку из слота обратно
+    pool()?.addEventListener('dragover', e => e.preventDefault());
+    pool()?.addEventListener('drop', e => {
+        e.preventDefault();
+        if (!draggedSource || !draggedFromSlot) return;
+        draggedSource.remove();
+        const hint = document.createElement('span');
+        hint.className = 'quiz-fill-slot-hint';
+        hint.textContent = '?';
+        draggedFromSlot.appendChild(hint);
+    });
+    pool()?.addEventListener('click', e => {
+        if (!selected || !selectedFromSlot) return;
+        if (e.target.closest('.quiz-fill-drag-card')) return;
+        selected.remove();
+        const hint = document.createElement('span');
+        hint.className = 'quiz-fill-slot-hint';
+        hint.textContent = '?';
+        selectedFromSlot.appendChild(hint);
+        deselect();
+    });
 }
 
 export function submit(q, _value, container, quizId, tplGet) {

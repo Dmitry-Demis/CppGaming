@@ -15,8 +15,7 @@
         "Делает переменную константной"
       ],
       "correct": 1,
-      "explanation": "auto: компилятор выводит тип переменной из инициализатора. auto d{5.0} — тип double.",
-      "id": 0
+      "explanation": "auto: компилятор выводит тип переменной из инициализатора. auto d{5.0} — тип double."
     },
     {
       "type": "code",
@@ -29,8 +28,7 @@
         "long double"
       ],
       "correct": 1,
-      "explanation": "5.0 — литерал типа double. auto x{5.0} выводит тип double.",
-      "id": 1
+      "explanation": "5.0 — литерал типа double. auto x{5.0} выводит тип double."
     },
     {
       "type": "code",
@@ -43,8 +41,7 @@
         "long double"
       ],
       "correct": 0,
-      "explanation": "5.0f — литерал типа float (суффикс f). auto x{5.0f} выводит тип float.",
-      "id": 2
+      "explanation": "5.0f — литерал типа float (суффикс f). auto x{5.0f} выводит тип float."
     },
     {
       "type": "single",
@@ -56,8 +53,7 @@
         "Ошибка компиляции"
       ],
       "correct": 1,
-      "explanation": "auto отбрасывает const. const int a{5}; auto b{a}; — b имеет тип int, не const int.",
-      "id": 3
+      "explanation": "auto отбрасывает const. const int a{5}; auto b{a}; — b имеет тип int, не const int."
     },
     {
       "type": "code",
@@ -70,8 +66,7 @@
         "Ошибка"
       ],
       "correct": 1,
-      "explanation": "auto отбрасывает const. b имеет тип int. Для const int нужно: const auto b{a};",
-      "id": 4
+      "explanation": "auto отбрасывает const. b имеет тип int. Для const int нужно: const auto b{a};"
     },
     {
       "type": "code",
@@ -84,8 +79,7 @@
         "Ошибка"
       ],
       "correct": 1,
-      "explanation": "3 и 2 — int-литералы. auto x{3} и auto y{2} — оба int. Целочисленное деление: 3/2=1.",
-      "id": 5
+      "explanation": "3 и 2 — int-литералы. auto x{3} и auto y{2} — оба int. Целочисленное деление: 3/2=1."
     },
     {
       "type": "single",
@@ -97,8 +91,7 @@
         "std::string_view"
       ],
       "correct": 1,
-      "explanation": "Строковый литерал \"Hello\" имеет тип const char*. auto s{\"Hello\"} выводит const char*, не std::string!",
-      "id": 6
+      "explanation": "Строковый литерал \"Hello\" имеет тип const char*. auto s{\"Hello\"} выводит const char*, не std::string!"
     },
     {
       "type": "multiple",
@@ -116,8 +109,7 @@
         2,
         4
       ],
-      "explanation": "Плюсы auto: выравнивание, обязательная инициализация, нет неожиданных преобразований, экономия для сложных типов. Минус: тип не виден.",
-      "id": 7
+      "explanation": "Плюсы auto: выравнивание, обязательная инициализация, нет неожиданных преобразований, экономия для сложных типов. Минус: тип не виден."
     },
     {
       "type": "fill-code",
@@ -126,8 +118,7 @@
       "correct": [
         "constexpr"
       ],
-      "explanation": "constexpr auto pi{3.14159}; — constexpr переменная с выводом типа (double).",
-      "id": 8
+      "explanation": "constexpr auto pi{3.14159}; — constexpr переменная с выводом типа (double)."
     },
     {
       "type": "code",
@@ -140,8 +131,7 @@
         "Ошибка"
       ],
       "correct": 1,
-      "explanation": "3.0 и 2.0 — double-литералы. auto a{3.0} и auto b{2.0} — оба double. 3.0/2.0=1.5.",
-      "id": 9
+      "explanation": "3.0 и 2.0 — double-литералы. auto a{3.0} и auto b{2.0} — оба double. 3.0/2.0=1.5."
     },
     {
       "type": "single",
@@ -153,8 +143,7 @@
         "Только в C++20"
       ],
       "correct": 1,
-      "explanation": "auto x; — ошибка компиляции. Компилятор не может вывести тип без инициализатора. Это одно из преимуществ auto.",
-      "id": 10
+      "explanation": "auto x; — ошибка компиляции. Компилятор не может вывести тип без инициализатора. Это одно из преимуществ auto."
     },
     {
       "type": "matching",
@@ -177,8 +166,7 @@
           "right": "unsigned int"
         }
       ],
-      "explanation": "Тип выводится из литерала. Суффиксы влияют на вывод типа.",
-      "id": 11
+      "explanation": "Тип выводится из литерала. Суффиксы влияют на вывод типа."
     },
     {
       "type": "single",
@@ -190,8 +178,7 @@
         "Никогда — явные типы лучше"
       ],
       "correct": 1,
-      "explanation": "auto: когда тип очевиден из инициализатора или не важен. Явный тип: когда нужен конкретный тип или это улучшает читаемость.",
-      "id": 12
+      "explanation": "auto: когда тип очевиден из инициализатора или не важен. Явный тип: когда нужен конкретный тип или это улучшает читаемость."
     },
     {
       "type": "fill",
@@ -200,8 +187,7 @@
         "вывод типа",
         "type deduction"
       ],
-      "explanation": "Вывод типа (type deduction) — компилятор определяет тип из инициализатора при использовании auto.",
-      "id": 13
+      "explanation": "Вывод типа (type deduction) — компилятор определяет тип из инициализатора при использовании auto."
     },
     {
       "type": "code",
@@ -214,8 +200,7 @@
         "Ошибка"
       ],
       "correct": 0,
-      "explanation": "1+2 = int 3. 3.0*2 = double 6.0. cout выводит 3 6 (double 6.0 выводится как 6 без .0).",
-      "id": 14
+      "explanation": "1+2 = int 3. 3.0*2 = double 6.0. cout выводит 3 6 (double 6.0 выводится как 6 без .0)."
     }
   ]
 }

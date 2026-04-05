@@ -15,8 +15,7 @@
         "Signed не поддерживает арифметику"
       ],
       "correct": 1,
-      "explanation": "signed int: от -2147483648 до 2147483647. unsigned int: от 0 до 4294967295. Оба занимают 4 байта.",
-      "id": 0
+      "explanation": "signed int: от -2147483648 до 2147483647. unsigned int: от 0 до 4294967295. Оба занимают 4 байта."
     },
     {
       "type": "code",
@@ -29,8 +28,7 @@
         "Неопределённое поведение"
       ],
       "correct": 1,
-      "explanation": "-1 при сравнении с unsigned преобразуется в UINT_MAX (4294967295), который больше 0. Результат: yes.",
-      "id": 1
+      "explanation": "-1 при сравнении с unsigned преобразуется в UINT_MAX (4294967295), который больше 0. Результат: yes."
     },
     {
       "type": "single",
@@ -42,8 +40,7 @@
         "Ошибка компиляции"
       ],
       "correct": 1,
-      "explanation": "-1 ≡ 2^32 - 1 (mod 2^32) = 4294967295 = UINT_MAX. Это строго определённое поведение.",
-      "id": 2
+      "explanation": "-1 ≡ 2^32 - 1 (mod 2^32) = 4294967295 = UINT_MAX. Это строго определённое поведение."
     },
     {
       "type": "multiple",
@@ -60,8 +57,7 @@
         1,
         3
       ],
-      "explanation": "unsigned подходит для битовых операций, размеров и протокольных полей. Обратный цикл с unsigned — бесконечный цикл!",
-      "id": 3
+      "explanation": "unsigned подходит для битовых операций, размеров и протокольных полей. Обратный цикл с unsigned — бесконечный цикл!"
     },
     {
       "type": "single",
@@ -73,8 +69,7 @@
         "Это функция из C++11"
       ],
       "correct": 1,
-      "explanation": "std::cmp_less из <utility> (C++20) корректно сравнивает signed и unsigned числа без UB и неожиданных результатов.",
-      "id": 4
+      "explanation": "std::cmp_less из <utility> (C++20) корректно сравнивает signed и unsigned числа без UB и неожиданных результатов."
     },
     {
       "type": "code",
@@ -87,8 +82,7 @@
         "Неопределённое поведение"
       ],
       "correct": 0,
-      "explanation": "Приведение v.size() к int даёт 3. -1 < 3 — true. Без приведения -1 стало бы UINT_MAX и сравнение дало бы false.",
-      "id": 5
+      "explanation": "Приведение v.size() к int даёт 3. -1 < 3 — true. Без приведения -1 стало бы UINT_MAX и сравнение дало бы false."
     },
     {
       "type": "fill",
@@ -97,8 +91,7 @@
         "usual arithmetic conversions",
         "usual arithmetic conversion"
       ],
-      "explanation": "Usual arithmetic conversions — правило, по которому при операциях с разными типами оба приводятся к общему типу.",
-      "id": 6
+      "explanation": "Usual arithmetic conversions — правило, по которому при операциях с разными типами оба приводятся к общему типу."
     },
     {
       "type": "single",
@@ -110,8 +103,7 @@
         "Это запрещено стандартом"
       ],
       "correct": 1,
-      "explanation": "Usual arithmetic conversions приводят signed к unsigned в смешанных выражениях. Это источник классических багов: -1 > 0u = true.",
-      "id": 7
+      "explanation": "Usual arithmetic conversions приводят signed к unsigned в смешанных выражениях. Это источник классических багов: -1 > 0u = true."
     },
     {
       "type": "single",
@@ -123,8 +115,7 @@
         "Это не бесконечный цикл"
       ],
       "correct": 1,
-      "explanation": "unsigned >= 0 всегда true, так как unsigned не может быть отрицательным. При i=0 выполняется --i, давая UINT_MAX.",
-      "id": 8
+      "explanation": "unsigned >= 0 всегда true, так как unsigned не может быть отрицательным. При i=0 выполняется --i, давая UINT_MAX."
     },
     {
       "type": "code",
@@ -137,8 +128,7 @@
         "Неопределённое поведение"
       ],
       "correct": 1,
-      "explanation": "std::cmp_less(-5, 3u) корректно сравнивает: -5 < 3 = true. Без cmp_less результат был бы false (UB).",
-      "id": 9
+      "explanation": "std::cmp_less(-5, 3u) корректно сравнивает: -5 < 3 = true. Без cmp_less результат был бы false (UB)."
     },
     {
       "type": "fill-code",
@@ -147,8 +137,7 @@
       "correct": [
         "cmp_less"
       ],
-      "explanation": "std::cmp_less из <utility> (C++20) корректно сравнивает signed и unsigned числа.",
-      "id": 10
+      "explanation": "std::cmp_less из <utility> (C++20) корректно сравнивает signed и unsigned числа."
     },
     {
       "type": "single",
@@ -160,8 +149,7 @@
         "0 до 65535"
       ],
       "correct": 1,
-      "explanation": "unsigned int (32 бит): 0 до 2^32-1 = 4294967295. Вдвое больше положительного диапазона signed int.",
-      "id": 11
+      "explanation": "unsigned int (32 бит): 0 до 2^32-1 = 4294967295. Вдвое больше положительного диапазона signed int."
     },
     {
       "type": "code",
@@ -174,8 +162,7 @@
         "Ошибка"
       ],
       "correct": 0,
-      "explanation": "b=-3 преобразуется в unsigned: UINT_MAX-2. 5 + (UINT_MAX-2) = UINT_MAX+3 = 2 (mod 2^32). Результат: 2.",
-      "id": 12
+      "explanation": "b=-3 преобразуется в unsigned: UINT_MAX-2. 5 + (UINT_MAX-2) = UINT_MAX+3 = 2 (mod 2^32). Результат: 2."
     },
     {
       "type": "matching",
@@ -194,8 +181,7 @@
           "right": "-32768 до 32767"
         }
       ],
-      "explanation": "Диапазоны зависят от размера типа. int и unsigned int — 4 байта, short — 2 байта.",
-      "id": 13
+      "explanation": "Диапазоны зависят от размера типа. int и unsigned int — 4 байта, short — 2 байта."
     },
     {
       "type": "multiple",
@@ -212,8 +198,7 @@
         1,
         2
       ],
-      "explanation": "Проблемы: обратный цикл (бесконечный), вычитание с отрицательным результатом (wrap-around), сравнение со знаковым (неожиданный результат).",
-      "id": 14
+      "explanation": "Проблемы: обратный цикл (бесконечный), вычитание с отрицательным результатом (wrap-around), сравнение со знаковым (неожиданный результат)."
     }
   ]
 }

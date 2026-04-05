@@ -73,8 +73,8 @@ export function saveResult({ quizId, title, questions, answers, pct }) {
 
     const parts       = location.pathname.replace(/\/$/, '').split('/').filter(Boolean);
     const paragraphId = (parts.at(-1) || '').replace(/\.html$/, '') || 'unknown';
-    const wrongIds    = answers.map((a, i) => (!a?.isRight && questions[i]?.id != null) ? questions[i].id : null).filter(Boolean);
-    const correctIds  = answers.map((a, i) => (a?.isRight  && questions[i]?.id != null) ? questions[i].id : null).filter(Boolean);
+    const wrongIds    = answers.map((a, i) => (!a?.isRight && questions[i]?.id != null) ? questions[i].id : null).filter(v => v !== null);
+    const correctIds  = answers.map((a, i) => (a?.isRight  && questions[i]?.id != null) ? questions[i].id : null).filter(v => v !== null);
 
     return fetch('/api/test/complete', {
         method: 'POST',

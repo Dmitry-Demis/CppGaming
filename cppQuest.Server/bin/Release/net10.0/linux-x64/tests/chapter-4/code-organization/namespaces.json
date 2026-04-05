@@ -15,8 +15,7 @@
         "Только для стандартной библиотеки"
       ],
       "correct": 1,
-      "explanation": "Namespaces группируют имена и предотвращают конфликты. Например, std::cout и mylib::cout — разные функции.",
-      "id": 0
+      "explanation": "Namespaces группируют имена и предотвращают конфликты. Например, std::cout и mylib::cout — разные функции."
     },
     {
       "type": "fill",
@@ -24,8 +23,7 @@
       "correct": [
         "std"
       ],
-      "explanation": "std — пространство имён стандартной библиотеки C++. cout, cin, vector, string и другие находятся в std.",
-      "id": 1
+      "explanation": "std — пространство имён стандартной библиотеки C++. cout, cin, vector, string и другие находятся в std."
     },
     {
       "type": "single",
@@ -37,8 +35,7 @@
         "Это ошибка компиляции"
       ],
       "correct": 1,
-      "explanation": "using namespace std; вводит все имена из std в текущую область видимости. Удобно, но может вызвать конфликты имён.",
-      "id": 2
+      "explanation": "using namespace std; вводит все имена из std в текущую область видимости. Удобно, но может вызвать конфликты имён."
     },
     {
       "type": "single",
@@ -50,8 +47,7 @@
         "Заголовочные файлы не поддерживают using"
       ],
       "correct": 1,
-      "explanation": "using namespace в .h файле применяется ко всем файлам, включающим этот заголовок. Это может вызвать неожиданные конфликты имён.",
-      "id": 3
+      "explanation": "using namespace в .h файле применяется ко всем файлам, включающим этот заголовок. Это может вызвать неожиданные конфликты имён."
     },
     {
       "type": "code",
@@ -64,8 +60,7 @@
         "Ошибка компиляции"
       ],
       "correct": 2,
-      "explanation": "math::add(3, 4) вызывает функцию add из пространства имён math. Результат: 3 + 4 = 7.",
-      "id": 4
+      "explanation": "math::add(3, 4) вызывает функцию add из пространства имён math. Результат: 3 + 4 = 7."
     },
     {
       "type": "single",
@@ -77,8 +72,7 @@
         "using-declaration запрещена в C++"
       ],
       "correct": 1,
-      "explanation": "using std::cout; — using-declaration, вводит только cout. using namespace std; — using-directive, вводит все имена. Declaration предпочтительнее.",
-      "id": 5
+      "explanation": "using std::cout; — using-declaration, вводит только cout. using namespace std; — using-directive, вводит все имена. Declaration предпочтительнее."
     },
     {
       "type": "single",
@@ -90,8 +84,7 @@
         "nested namespace a::b { }"
       ],
       "correct": 1,
-      "explanation": "C++17 позволяет: namespace a::b { } вместо namespace a { namespace b { } }. Более компактная запись.",
-      "id": 6
+      "explanation": "C++17 позволяет: namespace a::b { } вместо namespace a { namespace b { } }. Более компактная запись."
     },
     {
       "type": "fill-code",
@@ -100,8 +93,7 @@
       "correct": [
         "namespace"
       ],
-      "explanation": "namespace имя { ... } — объявление пространства имён.",
-      "id": 7
+      "explanation": "namespace имя { ... } — объявление пространства имён."
     },
     {
       "type": "code",
@@ -114,8 +106,7 @@
         "Ошибка"
       ],
       "correct": 0,
-      "explanation": "A::x и B::x — разные переменные в разных пространствах имён. Вывод: 1 2.",
-      "id": 8
+      "explanation": "A::x и B::x — разные переменные в разных пространствах имён. Вывод: 1 2."
     },
     {
       "type": "single",
@@ -127,8 +118,7 @@
         "Оператор конкатенации"
       ],
       "correct": 1,
-      "explanation": ":: — оператор разрешения области видимости. std::cout означает 'cout из пространства имён std'.",
-      "id": 9
+      "explanation": ":: — оператор разрешения области видимости. std::cout означает 'cout из пространства имён std'."
     },
     {
       "type": "multiple",
@@ -146,8 +136,7 @@
         2,
         4
       ],
-      "explanation": "Namespaces: предотвращают конфликты, можно разбивать по файлам, using в .h — плохо, вложенность допустима, анонимные — file-scope.",
-      "id": 10
+      "explanation": "Namespaces: предотвращают конфликты, можно разбивать по файлам, using в .h — плохо, вложенность допустима, анонимные — file-scope."
     },
     {
       "type": "fill",
@@ -155,8 +144,7 @@
       "correct": [
         "using std::cout;"
       ],
-      "explanation": "using std::cout; вводит только cout в текущую область видимости. Предпочтительнее using namespace std;",
-      "id": 11
+      "explanation": "using std::cout; вводит только cout в текущую область видимости. Предпочтительнее using namespace std;"
     },
     {
       "type": "code",
@@ -169,8 +157,7 @@
         "Ошибка компоновки"
       ],
       "correct": 0,
-      "explanation": "Вложенные пространства имён: outer::inner::val = 42.",
-      "id": 12
+      "explanation": "Вложенные пространства имён: outer::inner::val = 42."
     },
     {
       "type": "matching",
@@ -193,8 +180,7 @@
           "right": "Ввод только x из N"
         }
       ],
-      "explanation": "Основные конструкции для работы с пространствами имён.",
-      "id": 13
+      "explanation": "Основные конструкции для работы с пространствами имён."
     },
     {
       "type": "single",
@@ -206,8 +192,7 @@
         "Пространство имён внутри функции"
       ],
       "correct": 0,
-      "explanation": "namespace { ... } — анонимное пространство имён. Его содержимое видно только в текущей единице трансляции. Альтернатива static для функций.",
-      "id": 14
+      "explanation": "namespace { ... } — анонимное пространство имён. Его содержимое видно только в текущей единице трансляции. Альтернатива static для функций."
     }
   ]
 }

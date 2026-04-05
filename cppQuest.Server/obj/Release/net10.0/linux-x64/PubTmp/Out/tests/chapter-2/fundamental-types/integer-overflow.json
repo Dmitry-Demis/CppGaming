@@ -15,8 +15,7 @@
         "Генерируется исключение"
       ],
       "correct": 2,
-      "explanation": "Переполнение signed-типа — это UB. Компилятор вправе оптимизировать код, считая, что UB никогда не происходит.",
-      "id": 0
+      "explanation": "Переполнение signed-типа — это UB. Компилятор вправе оптимизировать код, считая, что UB никогда не происходит."
     },
     {
       "type": "single",
@@ -28,8 +27,7 @@
         "Значение остаётся максимальным"
       ],
       "correct": 1,
-      "explanation": "Для unsigned-типов переполнение строго определено: результат берётся по модулю 2^n. Это называется wrap-around.",
-      "id": 1
+      "explanation": "Для unsigned-типов переполнение строго определено: результат берётся по модулю 2^n. Это называется wrap-around."
     },
     {
       "type": "code",
@@ -42,8 +40,7 @@
         "Ошибка компиляции"
       ],
       "correct": 1,
-      "explanation": "UINT_MAX + 1 = 0 по правилу wrap-around для unsigned. Это строго определённое поведение.",
-      "id": 2
+      "explanation": "UINT_MAX + 1 = 0 по правилу wrap-around для unsigned. Это строго определённое поведение."
     },
     {
       "type": "single",
@@ -55,8 +52,7 @@
         "-std=c++17"
       ],
       "correct": 1,
-      "explanation": "UBSan с флагом -fsanitize=signed-integer-overflow добавляет runtime-проверки на signed overflow.",
-      "id": 3
+      "explanation": "UBSan с флагом -fsanitize=signed-integer-overflow добавляет runtime-проверки на signed overflow."
     },
     {
       "type": "single",
@@ -68,8 +64,7 @@
         "Использовать float"
       ],
       "correct": 1,
-      "explanation": "Нужно проверять ДО операции. Проверка после — уже UB, если переполнение произошло.",
-      "id": 4
+      "explanation": "Нужно проверять ДО операции. Проверка после — уже UB, если переполнение произошло."
     },
     {
       "type": "code",
@@ -82,8 +77,7 @@
         "Ошибка"
       ],
       "correct": 2,
-      "explanation": "0u - 1 = UINT_MAX = 4294967295 по правилу wrap-around для unsigned.",
-      "id": 5
+      "explanation": "0u - 1 = UINT_MAX = 4294967295 по правилу wrap-around для unsigned."
     },
     {
       "type": "multiple",
@@ -101,8 +95,7 @@
         2,
         4
       ],
-      "explanation": "Безопасные подходы: предварительная проверка, intrinsic-функции, вычисление в более широком типе, UBSan для отладки.",
-      "id": 6
+      "explanation": "Безопасные подходы: предварительная проверка, intrinsic-функции, вычисление в более широком типе, UBSan для отладки."
     },
     {
       "type": "single",
@@ -114,8 +107,7 @@
         "Это стандартная функция C++20"
       ],
       "correct": 1,
-      "explanation": "__builtin_add_overflow — расширение GCC/Clang. Возвращает true при переполнении, иначе записывает результат в &result.",
-      "id": 7
+      "explanation": "__builtin_add_overflow — расширение GCC/Clang. Возвращает true при переполнении, иначе записывает результат в &result."
     },
     {
       "type": "fill",
@@ -124,8 +116,7 @@
         "wrap-around",
         "wraparound"
       ],
-      "explanation": "Wrap-around — строго определённое поведение для unsigned: результат берётся по модулю 2^n.",
-      "id": 8
+      "explanation": "Wrap-around — строго определённое поведение для unsigned: результат берётся по модулю 2^n."
     },
     {
       "type": "single",
@@ -137,8 +128,7 @@
         "Потому что это запрещено стандартом C++20"
       ],
       "correct": 1,
-      "explanation": "Компилятор вправе считать, что UB никогда не происходит, и удалять 'невозможные' ветки кода. Это может привести к неожиданным результатам.",
-      "id": 9
+      "explanation": "Компилятор вправе считать, что UB никогда не происходит, и удалять 'невозможные' ветки кода. Это может привести к неожиданным результатам."
     },
     {
       "type": "fill-code",
@@ -147,8 +137,7 @@
       "correct": [
         "INT_MAX"
       ],
-      "explanation": "Проверяем до операции: если b > 0 и a > INT_MAX - b, то a + b переполнится.",
-      "id": 10
+      "explanation": "Проверяем до операции: если b > 0 и a > INT_MAX - b, то a + b переполнится."
     },
     {
       "type": "single",
@@ -160,8 +149,7 @@
         "Флаг оптимизации"
       ],
       "correct": 1,
-      "explanation": "UBSan (Undefined Behavior Sanitizer) — инструмент для обнаружения UB во время выполнения. Включается флагом -fsanitize=undefined.",
-      "id": 11
+      "explanation": "UBSan (Undefined Behavior Sanitizer) — инструмент для обнаружения UB во время выполнения. Включается флагом -fsanitize=undefined."
     },
     {
       "type": "code",
@@ -174,8 +162,7 @@
         "Ошибка компиляции"
       ],
       "correct": 2,
-      "explanation": "Переполнение знакового int — UB. Компилятор может оптимизировать x+1 > x как всегда true или false.",
-      "id": 12
+      "explanation": "Переполнение знакового int — UB. Компилятор может оптимизировать x+1 > x как всегда true или false."
     },
     {
       "type": "multiple",
@@ -192,8 +179,7 @@
         2,
         4
       ],
-      "explanation": "Wrap-around строго определён только для беззнаковых типов. Для знаковых (int, long long) переполнение — UB.",
-      "id": 13
+      "explanation": "Wrap-around строго определён только для беззнаковых типов. Для знаковых (int, long long) переполнение — UB."
     },
     {
       "type": "fill",
@@ -201,8 +187,7 @@
       "correct": [
         "<limits>"
       ],
-      "explanation": "<limits> содержит std::numeric_limits<T> для получения min/max значений типов.",
-      "id": 14
+      "explanation": "<limits> содержит std::numeric_limits<T> для получения min/max значений типов."
     }
   ]
 }

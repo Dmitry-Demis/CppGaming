@@ -15,8 +15,7 @@
         "Ошибка компиляции"
       ],
       "correct": 1,
-      "explanation": "Явное преобразование — программист явно запрашивает преобразование через оператор приведения (cast).",
-      "id": 0
+      "explanation": "Явное преобразование — программист явно запрашивает преобразование через оператор приведения (cast)."
     },
     {
       "type": "single",
@@ -28,8 +27,7 @@
         "const_cast<T>(x)"
       ],
       "correct": 1,
-      "explanation": "static_cast — основной инструмент. Явный, безопасный, проверяется на этапе компиляции.",
-      "id": 1
+      "explanation": "static_cast — основной инструмент. Явный, безопасный, проверяется на этапе компиляции."
     },
     {
       "type": "code",
@@ -42,8 +40,7 @@
         "Ошибка"
       ],
       "correct": 1,
-      "explanation": "static_cast<double>(x) = 10.0. 10.0 / 4 = 2.5. Явное преобразование для вещественного деления.",
-      "id": 2
+      "explanation": "static_cast<double>(x) = 10.0. 10.0 / 4 = 2.5. Явное преобразование для вещественного деления."
     },
     {
       "type": "code",
@@ -56,8 +53,7 @@
         "Ошибка"
       ],
       "correct": 1,
-      "explanation": "static_cast<int>('a') = 97 (ASCII-код 'a'). Явное преобразование char → int.",
-      "id": 3
+      "explanation": "static_cast<int>('a') = 97 (ASCII-код 'a'). Явное преобразование char → int."
     },
     {
       "type": "single",
@@ -69,8 +65,7 @@
         "Он не работает с указателями"
       ],
       "correct": 1,
-      "explanation": "C-style cast непрозрачен: может выполнить static_cast, reinterpret_cast или const_cast. Трудно найти в коде и понять намерение.",
-      "id": 4
+      "explanation": "C-style cast непрозрачен: может выполнить static_cast, reinterpret_cast или const_cast. Трудно найти в коде и понять намерение."
     },
     {
       "type": "multiple",
@@ -88,8 +83,7 @@
         2,
         3
       ],
-      "explanation": "В C++ 4 именованных оператора приведения: static_cast, dynamic_cast, const_cast, reinterpret_cast. type_cast не существует.",
-      "id": 5
+      "explanation": "В C++ 4 именованных оператора приведения: static_cast, dynamic_cast, const_cast, reinterpret_cast. type_cast не существует."
     },
     {
       "type": "fill-code",
@@ -98,8 +92,7 @@
       "correct": [
         "static_cast<int>"
       ],
-      "explanation": "static_cast<int>(pi) = 3. Явное сужение с документированием намерения.",
-      "id": 6
+      "explanation": "static_cast<int>(pi) = 3. Явное сужение с документированием намерения."
     },
     {
       "type": "single",
@@ -111,8 +104,7 @@
         "Возвращает 0 при потере данных"
       ],
       "correct": 1,
-      "explanation": "static_cast<int>(3.9) = 3, не 4. Дробная часть усекается, не округляется.",
-      "id": 7
+      "explanation": "static_cast<int>(3.9) = 3, не 4. Дробная часть усекается, не округляется."
     },
     {
       "type": "matching",
@@ -135,8 +127,7 @@
           "right": "Переинтерпретация битов"
         }
       ],
-      "explanation": "Четыре именованных оператора приведения C++ и их назначения.",
-      "id": 8
+      "explanation": "Четыре именованных оператора приведения C++ и их назначения."
     },
     {
       "type": "code",
@@ -149,8 +140,7 @@
         "Ошибка"
       ],
       "correct": 0,
-      "explanation": "static_cast<int>(3.14) = 3 (усечение). Вывод: 3.",
-      "id": 9
+      "explanation": "static_cast<int>(3.14) = 3 (усечение). Вывод: 3."
     },
     {
       "type": "single",
@@ -162,8 +152,7 @@
         "Только для сужающих преобразований"
       ],
       "correct": 1,
-      "explanation": "static_cast используется для явного документирования намеренного преобразования: вещественное деление, вывод кода символа, явное сужение.",
-      "id": 10
+      "explanation": "static_cast используется для явного документирования намеренного преобразования: вещественное деление, вывод кода символа, явное сужение."
     },
     {
       "type": "fill",
@@ -171,8 +160,7 @@
       "correct": [
         "static_cast<double>(x)"
       ],
-      "explanation": "static_cast<TargetType>(expression) — синтаксис явного преобразования.",
-      "id": 11
+      "explanation": "static_cast<TargetType>(expression) — синтаксис явного преобразования."
     },
     {
       "type": "multiple",
@@ -190,8 +178,7 @@
         2,
         4
       ],
-      "explanation": "static_cast: вещественное деление, код символа, явное сужение, size_t→int. Переинтерпретация битов — reinterpret_cast.",
-      "id": 12
+      "explanation": "static_cast: вещественное деление, код символа, явное сужение, size_t→int. Переинтерпретация битов — reinterpret_cast."
     },
     {
       "type": "single",
@@ -203,8 +190,7 @@
         "static_cast не требует заголовков"
       ],
       "correct": 1,
-      "explanation": "static_cast: явный (видно намерение), безопасный (compile-time проверка), легко найти grep'ом. C-style cast непрозрачен и опасен.",
-      "id": 13
+      "explanation": "static_cast: явный (видно намерение), безопасный (compile-time проверка), легко найти grep'ом. C-style cast непрозрачен и опасен."
     },
     {
       "type": "code",
@@ -217,8 +203,7 @@
         "Ошибка"
       ],
       "correct": 2,
-      "explanation": "r1: целочисленное деление 7/2=3, затем 3→3.0. r2: static_cast<double>(7)/2=3.5. Вывод: 3 3.5.",
-      "id": 14
+      "explanation": "r1: целочисленное деление 7/2=3, затем 3→3.0. r2: static_cast<double>(7)/2=3.5. Вывод: 3 3.5."
     }
   ]
 }

@@ -73,8 +73,6 @@ D:\Studies\cppQuest\cppQuest.Server\bin\Debug\net10.0\gated\chapter-2\fundamenta
 D:\Studies\cppQuest\cppQuest.Server\bin\Debug\net10.0\gated\chapter-5\control-flow\if-statements.html
 D:\Studies\cppQuest\cppQuest.Server\bin\Debug\net10.0\gated\chapter-5\control-flow\switch-fallthrough.html
 D:\Studies\cppQuest\cppQuest.Server\bin\Debug\net10.0\cppquest.db
-D:\Studies\cppQuest\cppQuest.Server\bin\Debug\net10.0\cppquest.db-shm
-D:\Studies\cppQuest\cppQuest.Server\bin\Debug\net10.0\cppquest.db-wal
 D:\Studies\cppQuest\cppQuest.Server\bin\Debug\net10.0\cppQuest.Server.staticwebassets.runtime.json
 D:\Studies\cppQuest\cppQuest.Server\bin\Debug\net10.0\cppQuest.Server.staticwebassets.endpoints.json
 D:\Studies\cppQuest\cppQuest.Server\bin\Debug\net10.0\cppQuest.Server.exe
@@ -214,10 +212,12 @@ D:\Studies\cppQuest\cppQuest.Server\obj\Debug\net10.0\staticwebassets.build.json
 D:\Studies\cppQuest\cppQuest.Server\obj\Debug\net10.0\staticwebassets.development.json
 D:\Studies\cppQuest\cppQuest.Server\obj\Debug\net10.0\staticwebassets.build.endpoints.json
 D:\Studies\cppQuest\cppQuest.Server\obj\Debug\net10.0\swae.build.ex.cache
-D:\Studies\cppQuest\cppQuest.Server\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt
 D:\Studies\cppQuest\cppQuest.Server\obj\Debug\net10.0\cppQuest.9B0762BC.Up2Date
 D:\Studies\cppQuest\cppQuest.Server\obj\Debug\net10.0\cppQuest.Server.dll
 D:\Studies\cppQuest\cppQuest.Server\obj\Debug\net10.0\refint\cppQuest.Server.dll
 D:\Studies\cppQuest\cppQuest.Server\obj\Debug\net10.0\cppQuest.Server.pdb
 D:\Studies\cppQuest\cppQuest.Server\obj\Debug\net10.0\cppQuest.Server.genruntimeconfig.cache
 D:\Studies\cppQuest\cppQuest.Server\obj\Debug\net10.0\ref\cppQuest.Server.dll
+D:\Studies\cppQuest\cppQuest.Server\bin\Debug\net10.0\cppquest.db-shm
+D:\Studies\cppQuest\cppQuest.Server\bin\Debug\net10.0\cppquest.db-wal
+D:\Studies\cppQuest\cppQuest.Server\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt

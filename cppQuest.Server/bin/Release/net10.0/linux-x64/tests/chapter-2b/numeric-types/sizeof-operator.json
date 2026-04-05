@@ -15,8 +15,7 @@
         "Адрес переменной"
       ],
       "correct": 1,
-      "explanation": "sizeof возвращает размер в байтах. Результат имеет тип std::size_t.",
-      "id": 0
+      "explanation": "sizeof возвращает размер в байтах. Результат имеет тип std::size_t."
     },
     {
       "type": "single",
@@ -28,8 +27,7 @@
         "Зависит от платформы"
       ],
       "correct": 2,
-      "explanation": "По стандарту C++ sizeof(char) == 1 всегда. Это единственный тип с гарантированным размером.",
-      "id": 1
+      "explanation": "По стандарту C++ sizeof(char) == 1 всегда. Это единственный тип с гарантированным размером."
     },
     {
       "type": "code",
@@ -42,8 +40,7 @@
         "Ошибка"
       ],
       "correct": 1,
-      "explanation": "sizeof не вычисляет выражение — x++ не выполняется. sizeof(x++) = sizeof(int) = 4, x остаётся 5.",
-      "id": 2
+      "explanation": "sizeof не вычисляет выражение — x++ не выполняется. sizeof(x++) = sizeof(int) = 4, x остаётся 5."
     },
     {
       "type": "single",
@@ -55,8 +52,7 @@
         "long long"
       ],
       "correct": 2,
-      "explanation": "sizeof возвращает значение типа std::size_t — беззнаковый тип, достаточный для хранения размера любого объекта.",
-      "id": 3
+      "explanation": "sizeof возвращает значение типа std::size_t — беззнаковый тип, достаточный для хранения размера любого объекта."
     },
     {
       "type": "single",
@@ -68,8 +64,7 @@
         "sizeof(arr[0])"
       ],
       "correct": 1,
-      "explanation": "sizeof(arr) / sizeof(arr[0]) или sizeof(arr) / sizeof(int) даёт количество элементов. Работает только для массивов, не для указателей!",
-      "id": 4
+      "explanation": "sizeof(arr) / sizeof(arr[0]) или sizeof(arr) / sizeof(int) даёт количество элементов. Работает только для массивов, не для указателей!"
     },
     {
       "type": "multiple",
@@ -86,8 +81,7 @@
         1,
         3
       ],
-      "explanation": "sizeof — compile-time оператор, sizeof(char)==1 гарантировано, результат std::size_t. Выражение НЕ вычисляется. sizeof(int) зависит от платформы.",
-      "id": 5
+      "explanation": "sizeof — compile-time оператор, sizeof(char)==1 гарантировано, результат std::size_t. Выражение НЕ вычисляется. sizeof(int) зависит от платформы."
     },
     {
       "type": "code",
@@ -100,8 +94,7 @@
         "8 8"
       ],
       "correct": 1,
-      "explanation": "На x86-64: sizeof(int) = 4, sizeof(long long) = 8. Это типичные значения для большинства платформ.",
-      "id": 6
+      "explanation": "На x86-64: sizeof(int) = 4, sizeof(long long) = 8. Это типичные значения для большинства платформ."
     },
     {
       "type": "fill",
@@ -110,8 +103,7 @@
         "sizeof(double)",
         "sizeof double"
       ],
-      "explanation": "sizeof(double) возвращает размер типа double в байтах (обычно 8 на x86-64).",
-      "id": 7
+      "explanation": "sizeof(double) возвращает размер типа double в байтах (обычно 8 на x86-64)."
     },
     {
       "type": "single",
@@ -123,8 +115,7 @@
         "sizeof работает только с примитивными типами"
       ],
       "correct": 1,
-      "explanation": "При передаче массива в функцию он распадается в указатель. sizeof вернёт размер указателя (4 или 8 байт), а не массива.",
-      "id": 8
+      "explanation": "При передаче массива в функцию он распадается в указатель. sizeof вернёт размер указателя (4 или 8 байт), а не массива."
     },
     {
       "type": "code",
@@ -137,8 +128,7 @@
         "4 5"
       ],
       "correct": 1,
-      "explanation": "sizeof(arr) = 5 * sizeof(int) = 5 * 4 = 20. sizeof(arr)/sizeof(arr[0]) = 20/4 = 5.",
-      "id": 9
+      "explanation": "sizeof(arr) = 5 * sizeof(int) = 5 * 4 = 20. sizeof(arr)/sizeof(arr[0]) = 20/4 = 5."
     },
     {
       "type": "single",
@@ -150,8 +140,7 @@
         "Ошибка компиляции"
       ],
       "correct": 1,
-      "explanation": "sizeof для ссылки возвращает размер типа, на который она ссылается, а не размер самой ссылки.",
-      "id": 10
+      "explanation": "sizeof для ссылки возвращает размер типа, на который она ссылается, а не размер самой ссылки."
     },
     {
       "type": "fill",
@@ -159,8 +148,7 @@
       "correct": [
         "<cstddef>"
       ],
-      "explanation": "<cstddef> определяет std::size_t, std::ptrdiff_t и другие типы.",
-      "id": 11
+      "explanation": "<cstddef> определяет std::size_t, std::ptrdiff_t и другие типы."
     },
     {
       "type": "code",
@@ -173,8 +161,7 @@
         "8 4"
       ],
       "correct": 1,
-      "explanation": "sizeof(d) и sizeof(double) — одно и то же. double = 8 байт на большинстве платформ.",
-      "id": 12
+      "explanation": "sizeof(d) и sizeof(double) — одно и то же. double = 8 байт на большинстве платформ."
     },
     {
       "type": "matching",
@@ -197,8 +184,7 @@
           "right": "8 байт"
         }
       ],
-      "explanation": "Типичные размеры на x86-64. char всегда 1 байт по стандарту.",
-      "id": 13
+      "explanation": "Типичные размеры на x86-64. char всегда 1 байт по стандарту."
     },
     {
       "type": "single",
@@ -210,8 +196,7 @@
         "Зависит от компилятора"
       ],
       "correct": 1,
-      "explanation": "sizeof — compile-time оператор. sizeof(x++) не инкрементирует x. Это важно для побочных эффектов.",
-      "id": 14
+      "explanation": "sizeof — compile-time оператор. sizeof(x++) не инкрементирует x. Это важно для побочных эффектов."
     }
   ]
 }

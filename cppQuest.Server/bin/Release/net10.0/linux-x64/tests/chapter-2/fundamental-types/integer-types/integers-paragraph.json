@@ -6,7 +6,6 @@
   "passingScore": 70,
   "questions": [
     {
-      "id": 0,
       "type": "single",
       "question": "Какой минимальный гарантированный размер типа short?",
       "answers": [
@@ -19,7 +18,6 @@
       "explanation": "Стандарт гарантирует sizeof(short) >= 16 бит (2 байта). На большинстве платформ ровно 2 байта."
     },
     {
-      "id": 1,
       "type": "single",
       "question": "Каков диапазон значений signed short (16 бит)?",
       "answers": [
@@ -32,7 +30,6 @@
       "explanation": "signed short: от -2^15 = -32768 до 2^15-1 = 32767."
     },
     {
-      "id": 2,
       "type": "single",
       "question": "Что произойдёт при переполнении signed int?",
       "answers": [
@@ -45,7 +42,6 @@
       "explanation": "Переполнение signed целых — неопределённое поведение по стандарту C++. Компилятор может оптимизировать код, предполагая что UB не происходит."
     },
     {
-      "id": 3,
       "type": "single",
       "question": "Чем отличается тип long на Windows (MSVC) и Linux (GCC x86-64)?",
       "answers": [
@@ -58,7 +54,6 @@
       "explanation": "LLP64 (Windows): long = 4 байта. LP64 (Linux/macOS): long = 8 байт. Это ключевое отличие при портировании кода."
     },
     {
-      "id": 4,
       "type": "single",
       "question": "Какой минимальный гарантированный размер типа long long?",
       "answers": [
@@ -71,7 +66,6 @@
       "explanation": "Стандарт C++11 гарантирует sizeof(long long) >= 64 бит (8 байт)."
     },
     {
-      "id": 5,
       "type": "fill",
       "question": "Какой суффикс используется для литералов типа long long? (например: 100___)",
       "correct": [
@@ -81,7 +75,6 @@
       "explanation": "Суффикс LL (или ll) указывает компилятору тип long long. Например: 9000000000LL."
     },
     {
-      "id": 6,
       "type": "code",
       "question": "Что выведет программа?",
       "code": "#include <iostream>\nint main() {\n    unsigned short x = 0;\n    x--;\n    std::cout << x;\n}",
@@ -95,7 +88,6 @@
       "explanation": "Переполнение unsigned — определённое поведение: wrap around. 0 - 1 = 65535 для unsigned short (2^16 - 1)."
     },
     {
-      "id": 7,
       "type": "multiple",
       "question": "Отметьте корректные объявления переменной long long:",
       "answers": [
@@ -112,7 +104,6 @@
       "explanation": "100.0 — double, потребует явного каста. long long и long long int — одно и то же."
     },
     {
-      "id": 8,
       "type": "code",
       "question": "Что произойдёт при выполнении кода?",
       "code": "int a = 2000000000;\nint b = 2000000000;\nlong long result = a + b;\nstd::cout << result;",
@@ -126,7 +117,6 @@
       "explanation": "a + b вычисляется как int + int и переполняется до приведения к long long. Нужно: (long long)a + b."
     },
     {
-      "id": 9,
       "type": "single",
       "question": "Какой тип использовать для хранения размера файла в несколько ГБ?",
       "answers": [
@@ -139,7 +129,6 @@
       "explanation": "Несколько ГБ > 2^31 (2.1 млрд). int не хватит. long long (до ~9.2 * 10^18) подходит."
     },
     {
-      "id": 10,
       "type": "single",
       "question": "Что такое integer promotion?",
       "answers": [
@@ -152,7 +141,6 @@
       "explanation": "Integer promotion: типы меньше int (char, short) автоматически расширяются до int при арифметических операциях."
     },
     {
-      "id": 11,
       "type": "code",
       "question": "Что выведет программа?",
       "code": "#include <iostream>\nint main() {\n    short a = 30000, b = 30000;\n    int result = a + b;\n    std::cout << result;\n}",
@@ -166,7 +154,6 @@
       "explanation": "a и b расширяются до int (integer promotion) перед сложением. 30000 + 30000 = 60000 — в диапазоне int."
     },
     {
-      "id": 12,
       "type": "multiple",
       "question": "Какие применения требуют long long (а не int)?",
       "answers": [
@@ -184,7 +171,6 @@
       "explanation": "long long нужен когда значения превышают ~2.1 млрд. Размеры файлов, timestamp в мс и большие ID требуют 64-битного типа."
     },
     {
-      "id": 13,
       "type": "single",
       "question": "Чем отличается unsigned int от signed int?",
       "answers": [
@@ -197,7 +183,6 @@
       "explanation": "unsigned int: 0 до 4294967295 (2^32-1). signed int: -2147483648 до 2147483647. Одинаковый размер, разный диапазон."
     },
     {
-      "id": 14,
       "type": "code",
       "question": "Найдите проблему в коде:",
       "code": "unsigned int x = 5;\nunsigned int y = 10;\nif (x - y > 0) std::cout << \"positive\";",

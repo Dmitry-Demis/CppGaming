@@ -1043,6 +1043,9 @@ body.modal-open .site-footer {
 }
 .quiz-matching-card:hover { border-color: var(--accent-blue); }
 .quiz-matching-card--dragging { opacity: .4; box-shadow: 0 4px 16px rgba(0,0,0,.3); }
+.quiz-matching-card--selected { border-color: var(--accent-blue); box-shadow: 0 0 0 2px var(--accent-blue); cursor: pointer; }
+.quiz-matching-slot { cursor: pointer; }
+.quiz-fill-drop-slot { cursor: pointer; }
 
 .quiz-matching-drag-handle {
     color: var(--text-tertiary);

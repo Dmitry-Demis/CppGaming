@@ -71,11 +71,21 @@ export function attachListeners(q, container, checkBtn, quizId, onCorrect) {
 }
 
 function _initDnd(container, quizId) {
-    let dragged = null;
+    let dragged  = null;
+    let selected = null;
+
+    const pool = () => container.querySelector(`#classify-pool-${quizId}`);
+
+    const deselect = () => {
+        selected?.classList.remove('quiz-matching-card--selected');
+        selected = null;
+    };
 
     const bindCard = card => {
+        // --- drag ---
         card.addEventListener('dragstart', e => {
             dragged = card;
+            deselect();
             card.classList.add('quiz-matching-card--dragging');
             e.dataTransfer.effectAllowed = 'move';
         });
@@ -83,14 +93,24 @@ function _initDnd(container, quizId) {
             card.classList.remove('quiz-matching-card--dragging');
             dragged = null;
         });
+
+        // --- tap ---
+        card.addEventListener('click', e => {
+            e.stopPropagation();
+            if (selected === card) { deselect(); return; }
+            deselect();
+            selected = card;
+            card.classList.add('quiz-matching-card--selected');
+        });
     };
 
     container.querySelectorAll('.quiz-classify-card').forEach(bindCard);
 
     const zones = [...container.querySelectorAll('.quiz-classify-dropzone'),
-                   container.querySelector(`#classify-pool-${quizId}`)].filter(Boolean);
+                   pool()].filter(Boolean);
 
     zones.forEach(zone => {
+        // --- drag ---
         zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('quiz-classify-over'); });
         zone.addEventListener('dragleave', () => zone.classList.remove('quiz-classify-over'));
         zone.addEventListener('drop', e => {
@@ -99,6 +119,15 @@ function _initDnd(container, quizId) {
             if (!dragged) return;
             zone.appendChild(dragged);
             bindCard(dragged);
+        });
+
+        // --- tap ---
+        zone.addEventListener('click', e => {
+            if (!selected) return;
+            if (e.target.closest('.quiz-classify-card')) return;
+            zone.appendChild(selected);
+            zone.dispatchEvent(new Event('drop', { bubbles: true }));
+            deselect();
         });
     });
 }

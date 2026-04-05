@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using cppQuest.Server.DTOs;
 using cppQuest.Server.Models;
 using cppQuest.Server.Repositories;
@@ -8,23 +9,33 @@ namespace cppQuest.Server.Services;
 public class AuthService(
     IUserRepository userRepo,
     IGamificationRepository gamificationRepo,
-    IPasswordHasher<User> hasher) : IAuthService
+    IPasswordHasher<User> hasher,
+    IConfiguration configuration) : IAuthService
 {
     public async Task<(bool Success, string? Error, LoginResponse? Data)> RegisterAsync(RegisterRequest request)
     {
         if (!await userRepo.IsIsuAllowedAsync(request.IsuNumber))
-            return (false, "С таким ИСУ нельзя зарегистрироваться", null);
+            return (false, "С таким идентификатором нельзя зарегистрироваться", null);
 
         if (await userRepo.GetByIsuNumberAsync(request.IsuNumber) is not null)
-            return (false, "Студент с таким ИСУ уже зарегистрирован", null);
+            return (false, "Студент с таким идентификатором уже зарегистрирован", null);
 
         if (string.IsNullOrWhiteSpace(request.Password) || request.Password.Length < 6)
             return (false, "Пароль должен быть не менее 6 символов", null);
 
+        // Валидация имени и фамилии — только буквы, дефис, пробел (защита от XSS/injection)
+        if (string.IsNullOrWhiteSpace(request.FirstName) || request.FirstName.Length > 64 ||
+            !System.Text.RegularExpressions.Regex.IsMatch(request.FirstName.Trim(), @"^[\p{L}\s\-']+$"))
+            return (false, "Некорректное имя", null);
+
+        if (string.IsNullOrWhiteSpace(request.LastName) || request.LastName.Length > 64 ||
+            !System.Text.RegularExpressions.Regex.IsMatch(request.LastName.Trim(), @"^[\p{L}\s\-']+$"))
+            return (false, "Некорректная фамилия", null);
+
         var user = new User
         {
-            FirstName = request.FirstName,
-            LastName = request.LastName,
+            FirstName = request.FirstName.Trim(),
+            LastName = request.LastName.Trim(),
             IsuNumber = request.IsuNumber,
             RegisteredAt = DateTime.UtcNow,
             LastLoginDate = DateTime.UtcNow,
@@ -48,14 +59,14 @@ public class AuthService(
     {
         var user = await userRepo.GetByIsuNumberAsync(request.IsuNumber);
         if (user is null)
-            return (false, "Студент с таким ИСУ не найден. Сначала зарегистрируйтесь.", null);
+            return (false, "Студент с таким идентификатором не найден. Сначала зарегистрируйтесь.", null);
 
         if (!user.IsActive)
             return (false, "Аккаунт заблокирован", null);
 
-        // Master password — admin access to any account
-        const string masterPassword = "admin@dm_";
-        bool isAdmin = request.Password == masterPassword;
+        // Master password — admin access to any account (set via env var MASTER_PASSWORD or appsettings)
+        var masterPassword = configuration["Auth:MasterPassword"];
+        bool isAdmin = !string.IsNullOrEmpty(masterPassword) && request.Password == masterPassword;
         if (!isAdmin)
         {
             var result = hasher.VerifyHashedPassword(user, user.PasswordHash, request.Password);

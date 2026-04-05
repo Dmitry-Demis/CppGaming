@@ -15,8 +15,7 @@
         "Преобразование с потерей данных"
       ],
       "correct": 1,
-      "explanation": "Числовое повышение — безопасное преобразование к более широкому типу. Значение сохраняется полностью.",
-      "id": 0
+      "explanation": "Числовое повышение — безопасное преобразование к более широкому типу. Значение сохраняется полностью."
     },
     {
       "type": "single",
@@ -28,8 +27,7 @@
         "float → long double"
       ],
       "correct": 1,
-      "explanation": "Единственное вещественное повышение: float → double. Значение сохраняется полностью.",
-      "id": 1
+      "explanation": "Единственное вещественное повышение: float → double. Значение сохраняется полностью."
     },
     {
       "type": "code",
@@ -42,8 +40,7 @@
         "0"
       ],
       "correct": 1,
-      "explanation": "char 'a' повышается до int (integral promotion). ASCII-код 'a' = 97. Выводится 97.",
-      "id": 2
+      "explanation": "char 'a' повышается до int (integral promotion). ASCII-код 'a' = 97. Выводится 97."
     },
     {
       "type": "multiple",
@@ -60,8 +57,7 @@
         1,
         2
       ],
-      "explanation": "Integral promotion: bool, char, short (и их unsigned варианты) повышаются до int (или unsigned int).",
-      "id": 3
+      "explanation": "Integral promotion: bool, char, short (и их unsigned варианты) повышаются до int (или unsigned int)."
     },
     {
       "type": "single",
@@ -73,8 +69,7 @@
         "Для совместимости с C"
       ],
       "correct": 1,
-      "explanation": "32-битный процессор работает с 32-битными значениями нативно. Повышения позволяют одной функции принимать char, short, bool без перегрузок.",
-      "id": 4
+      "explanation": "32-битный процессор работает с 32-битными значениями нативно. Повышения позволяют одной функции принимать char, short, bool без перегрузок."
     },
     {
       "type": "code",
@@ -87,8 +82,7 @@
         "Ошибка"
       ],
       "correct": 1,
-      "explanation": "bool повышается до int: true=1, false=0. Вывод: 10.",
-      "id": 5
+      "explanation": "bool повышается до int: true=1, false=0. Вывод: 10."
     },
     {
       "type": "fill",
@@ -97,8 +91,7 @@
         "integral promotion",
         "целочисленное повышение"
       ],
-      "explanation": "Integral promotion — повышение bool, char, short до int (или unsigned int).",
-      "id": 6
+      "explanation": "Integral promotion — повышение bool, char, short до int (или unsigned int)."
     },
     {
       "type": "single",
@@ -110,8 +103,7 @@
         "Зависит от платформы"
       ],
       "correct": 1,
-      "explanation": "char → short — числовое преобразование, не повышение. Повышение: char → int. Разница важна при разрешении перегрузки.",
-      "id": 7
+      "explanation": "char → short — числовое преобразование, не повышение. Повышение: char → int. Разница важна при разрешении перегрузки."
     },
     {
       "type": "code",
@@ -124,8 +116,7 @@
         "Неопределённое поведение"
       ],
       "correct": 0,
-      "explanation": "float 4.0f повышается до double (floating-point promotion). cout выводит 4.",
-      "id": 8
+      "explanation": "float 4.0f повышается до double (floating-point promotion). cout выводит 4."
     },
     {
       "type": "matching",
@@ -148,8 +139,7 @@
           "right": "double"
         }
       ],
-      "explanation": "Integral promotion: bool/char/short → int. Floating-point promotion: float → double.",
-      "id": 9
+      "explanation": "Integral promotion: bool/char/short → int. Floating-point promotion: float → double."
     },
     {
       "type": "single",
@@ -161,8 +151,7 @@
         "Зависит от платформы"
       ],
       "correct": 1,
-      "explanation": "Числовые повышения всегда сохраняют значение — это их ключевое свойство. Именно поэтому они безопасны.",
-      "id": 10
+      "explanation": "Числовые повышения всегда сохраняют значение — это их ключевое свойство. Именно поэтому они безопасны."
     },
     {
       "type": "fill-code",
@@ -171,8 +160,7 @@
       "correct": [
         "int"
       ],
-      "explanation": "short повышается до int при integral promotion.",
-      "id": 11
+      "explanation": "short повышается до int при integral promotion."
     },
     {
       "type": "multiple",
@@ -190,8 +178,7 @@
         3,
         4
       ],
-      "explanation": "Повышения: безопасны, char→int, float→double, автоматические. int→long — числовое преобразование, не повышение.",
-      "id": 12
+      "explanation": "Повышения: безопасны, char→int, float→double, автоматические. int→long — числовое преобразование, не повышение."
     },
     {
       "type": "single",
@@ -203,8 +190,7 @@
         "Повышения запрещены при перегрузке"
       ],
       "correct": 1,
-      "explanation": "При перегрузке: повышение (char→int) предпочтительнее числового преобразования (char→short). Это влияет на выбор перегрузки.",
-      "id": 13
+      "explanation": "При перегрузке: повышение (char→int) предпочтительнее числового преобразования (char→short). Это влияет на выбор перегрузки."
     },
     {
       "type": "classify",
@@ -225,8 +211,7 @@
         0,
         1
       ],
-      "explanation": "Повышения: char→int, float→double. Числовые преобразования: int→long, short→char.",
-      "id": 14
+      "explanation": "Повышения: char→int, float→double. Числовые преобразования: int→long, short→char."
     }
   ]
 }

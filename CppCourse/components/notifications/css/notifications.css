@@ -1,0 +1,168 @@
+/* ============================================
+   NOTIFICATIONS COMPONENT
+   Колокольчик + dropdown повторения параграфов
+   ============================================ */
+
+/* ── Bell Button (общий) ── */
+.ntf-bell-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 99px;
+    cursor: pointer;
+    color: var(--text-primary, #cdd6f4);
+    font-size: 1.1rem;
+    padding: 6px 10px;
+    flex-shrink: 0;
+    transition: background .15s, border-color .15s;
+}
+.ntf-bell-btn:hover {
+    background: rgba(255,255,255,.09);
+    border-color: rgba(203,166,247,.4);
+}
+.ntf-bell-btn.has-items .ntf-bell-icon {
+    display: inline-block;
+    animation: ntf-bell-ring .5s cubic-bezier(.36,.07,.19,.97) both;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    filter: drop-shadow(0 0 6px rgba(137,180,250,.9));
+}
+@keyframes ntf-bell-ring {
+    0%   { transform: rotate(-18deg); }
+    25%  { transform: rotate(18deg); }
+    75%  { transform: rotate(-10deg); }
+    100% { transform: rotate(0deg); }
+}
+
+/* ── Badge счётчика ── */
+.ntf-bell-count {
+    position: absolute;
+    top: -4px; right: -4px;
+    min-width: 16px; height: 16px;
+    background: #f38ba8;
+    color: #1e1e2e;
+    font-size: .65rem;
+    font-weight: 700;
+    border-radius: 99px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 3px;
+    border: 1px solid var(--bg-primary, #1e1e2e);
+    pointer-events: none;
+}
+
+/* ── Dropdown ── */
+.ntf-dropdown {
+    display: none;
+    position: absolute;
+    min-width: 280px;
+    max-width: 340px;
+    background: #1e1e2e;
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0,0,0,.5);
+    z-index: 1200;
+    flex-direction: column;
+    padding: 10px 0;
+    animation: ntf-drop .18s ease both;
+}
+@keyframes ntf-drop {
+    from { opacity:0; transform: translateY(-6px); }
+    to   { opacity:1; transform: translateY(0); }
+}
+.ntf-dropdown.ntf-open { display: flex; }
+
+.ntf-dropdown-title {
+    font-size: .72rem;
+    font-weight: 700;
+    color: rgba(205,214,244,.45);
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    padding: 4px 14px 8px;
+    border-bottom: 1px solid rgba(255,255,255,.06);
+    margin-bottom: 4px;
+}
+
+.ntf-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 14px;
+    color: var(--text-primary, #cdd6f4);
+    text-decoration: none;
+    font-size: .82rem;
+    transition: background .12s;
+}
+.ntf-item:hover {
+    background: rgba(255,255,255,.05);
+    text-decoration: none;
+    color: var(--text-primary, #cdd6f4);
+}
+.ntf-item-num {
+    font-size: .65rem;
+    color: rgba(203,166,247,.6);
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+.ntf-item-name {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+.ntf-item-name-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.ntf-item-chapter {
+    font-size: .65rem;
+    color: rgba(205,214,244,.35);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.ntf-item-score {
+    margin-left: auto;
+    font-size: .72rem;
+    flex-shrink: 0;
+}
+.ntf-item-score--wrong { color: #f38ba8; }
+.ntf-item-score--due   { color: rgba(205,214,244,.35); font-weight: 500; }
+
+/* ── Позиционирование: bottom-nav (мобилки) ── */
+/* Колокольчик стоит рядом с "Достижения", dropdown открывается вверх */
+#ntf-bell-btn-mobile {
+    position: relative;
+}
+#ntf-bell-btn-mobile .ntf-dropdown {
+    bottom: calc(100% + 8px);
+    top: auto;
+    left: 0;
+    right: auto;
+}
+
+/* ── Позиционирование: header (десктоп) ── */
+#ntf-bell-btn-desktop {
+    position: relative;
+}
+#ntf-bell-btn-desktop .ntf-dropdown {
+    top: calc(100% + 8px);
+    left: 0;
+    right: auto;
+    bottom: auto;
+}
+
+/* ── Видимость по breakpoint ── */
+.ntf-bell-desktop { display: inline-flex; }
+.ntf-bell-mobile  { display: none; }
+
+@media (max-width: 640px) {
+    .ntf-bell-desktop { display: none !important; }
+    .ntf-bell-mobile  { display: inline-flex !important; }
+}

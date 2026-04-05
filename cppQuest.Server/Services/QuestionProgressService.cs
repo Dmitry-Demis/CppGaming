@@ -25,20 +25,23 @@ public class QuestionProgressService(IQuestionProgressRepository repo)
 
         var rng = new Random();
 
+        // Дедупликация на случай дублей в банке вопросов
+        var uniqueIds = allQuestionIds.Distinct().ToList();
+
         // Новые — никогда не видели (абсолютный приоритет)
-        var unseen = allQuestionIds
+        var unseen = uniqueIds
             .Where(id => !progressMap.ContainsKey(id))
             .OrderBy(_ => rng.Next())
             .ToList();
 
         // Неправильные из последней попытки (IsCorrect=false)
-        var wrong = allQuestionIds
+        var wrong = uniqueIds
             .Where(id => progressMap.TryGetValue(id, out var p) && !p.IsCorrect)
             .OrderBy(_ => rng.Next())
             .ToList();
 
         // Видели и ответили правильно — самые давние первыми
-        var seenCorrect = allQuestionIds
+        var seenCorrect = uniqueIds
             .Where(id => progressMap.TryGetValue(id, out var p) && p.IsCorrect)
             .OrderBy(id => progressMap[id].LastSeenAt ?? DateTime.MinValue)
             .ToList();

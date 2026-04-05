@@ -26,7 +26,7 @@ public class QuizService : IQuizService
 
         var root = doc.RootElement;
 
-        var questions = root.GetProperty("questions").EnumerateArray().Select(q =>
+        var questions = root.GetProperty("questions").EnumerateArray().Select((q, idx) =>
         {
             var type = q.GetProperty("type").GetString()!;
             var code = q.TryGetProperty("code", out var c) ? c.GetString() : null;
@@ -61,7 +61,7 @@ public class QuizService : IQuizService
             }
 
             return new QuizQuestionDto(
-                q.GetProperty("id").GetInt32(),
+                idx,
                 type,
                 q.GetProperty("question").GetString()!,
                 code,
@@ -105,10 +105,10 @@ public class QuizService : IQuizService
         int earned = 0;
         int total = 0;
 
-        foreach (var q in root.GetProperty("questions").EnumerateArray())
+        foreach (var (q, idx) in root.GetProperty("questions").EnumerateArray().Select((q, i) => (q, i)))
         {
             total++;
-            var id = q.GetProperty("id").GetInt32();
+            var id = idx;
             var type = q.GetProperty("type").GetString()!;
             var explanation = q.TryGetProperty("explanation", out var ex) ? ex.GetString()! : "";
 

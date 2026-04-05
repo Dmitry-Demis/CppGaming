@@ -4,6 +4,16 @@
 (function () {
     'use strict';
 
+    /** Экранирует HTML-спецсимволы для безопасной вставки в innerHTML */
+    function escapeHtml(str) {
+        return String(str)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
+
     const FREEZE_MILESTONES = [3, 7, 14, 21, 35, 56, 84, 126, 189, 280, 420, 630];
 
     function nextMilestone(total) {
@@ -433,6 +443,14 @@ body { padding-bottom: 52px; }
     top: 2px; right: 2px;
 }
 
+/* ── Обёртка колокольчик + Достижения ── */
+.bnb-achievements-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    position: relative;
+}
+
 /* ── Theme picker: move up on mobile so it's above achievements button ── */
 @media (max-width: 480px) {
     #theme-picker-root {
@@ -517,10 +535,11 @@ body { padding-bottom: 52px; }
         mini.href = (typeof _siteRoot !== 'undefined' ? _siteRoot : '') + 'profile.html';
         mini.className = 'header-profile-mini';
         mini.title = `${profile.firstName} ${profile.lastName} · Ур. ${level} · ${xp} XP`;
+        const safeName = `${escapeHtml(profile.firstName)} ${escapeHtml(profile.lastName)}`;
         mini.innerHTML = `
             <div class="hpm-avatar">${icon}</div>
             <div class="hpm-info">
-                <span class="hpm-name">${profile.firstName} ${profile.lastName}</span>
+                <span class="hpm-name">${safeName}</span>
                 <span class="hpm-level-badge">Ур.${level} · ${title}</span>
                 <div class="hpm-xp-bar-wrap">
                     <div class="hpm-xp-bar"><div class="hpm-xp-fill" style="width:${pct}%"></div></div>
@@ -540,27 +559,30 @@ body { padding-bottom: 52px; }
         inner.style.position = 'relative';
         inner.appendChild(mini);
 
-        // Bell button — review notifications (desktop only, hidden on mobile)
-        inner.querySelectorAll('.hpm-bell-btn').forEach(el => el.remove());
-
+        // Убираем старые bell-кнопки из хедера — колокольчик только в bottom-nav
+        inner.querySelectorAll('.hpm-bell-btn, .ntf-bell-btn').forEach(el => el.remove());
     }
     // ── Sync bell count ───────────────────────────────────────────────────
     function _syncMobileBell(hasItems, count) {
-        const countEl = document.getElementById('bnb-bell-count');
-        const btn = document.getElementById('bnb-bell-btn');
-        if (!btn) return;
-        if (hasItems) {
-            btn.classList.add('has-items');
-            btn.style.display = '';
-            if (countEl) {
-                countEl.textContent = count || '';
-                countEl.style.display = count ? '' : 'none';
+        // Обратная совместимость — теперь notifications.js управляет кнопками напрямую
+        // Оставляем для случаев когда вызывается из gamification.js
+        const btns = document.querySelectorAll('#ntf-bell-btn-mobile, #ntf-bell-btn-desktop');
+        btns.forEach(btn => {
+            const countEl = btn.querySelector('.ntf-bell-count');
+            if (!btn) return;
+            if (hasItems) {
+                btn.classList.add('has-items');
+                btn.style.display = '';
+                if (countEl) {
+                    countEl.textContent = count || '';
+                    countEl.style.display = count ? '' : 'none';
+                }
+            } else {
+                btn.classList.remove('has-items');
+                btn.style.display = 'none';
+                if (countEl) countEl.style.display = 'none';
             }
-        } else {
-            btn.classList.remove('has-items');
-            if (countEl) countEl.style.display = 'none';
-            btn.style.display = 'none';
-        }
+        });
     }
     window._syncMobileBell = _syncMobileBell;
 
@@ -725,26 +747,18 @@ body { padding-bottom: 52px; }
         const root = (typeof _siteRoot !== 'undefined' ? _siteRoot : '');
         const bar = document.createElement('div');
         bar.id = 'bottom-nav-bar';
+        // Колокольчик стоит рядом с "Достижения" — notifications.js управляет им через id ntf-bell-btn-mobile
         bar.innerHTML = `
-            <button class="hpm-bell-btn bnb-bell-btn" id="bnb-bell-btn" aria-label="Уведомления о повторении">
-                <span class="hpm-bell-icon">🔔</span><span class="bnb-bell-count" id="bnb-bell-count" style="display:none"></span>
-            </button>
-            <a href="${root}achievements.html" class="bnb-btn" id="bnb-achievements">🏆 Достижения</a>
+            <div class="bnb-achievements-wrap">
+                <a href="${root}achievements.html" class="bnb-btn" id="bnb-achievements">🏆 Достижения</a>
+                <button class="ntf-bell-btn ntf-bell-mobile" id="ntf-bell-btn-mobile" aria-label="Уведомления о повторении" aria-haspopup="true" aria-expanded="false" style="display:none">
+                    <span class="ntf-bell-icon">🔔</span>
+                    <span class="ntf-bell-count" style="display:none"></span>
+                </button>
+            </div>
             <a href="${root}shop.html"         class="bnb-btn" id="bnb-shop">🛒 Магазин</a>
             <a href="${root}leaderboard.html"  class="bnb-btn" id="bnb-leaderboard">🥇 Лидеры</a>`;
         document.body.appendChild(bar);
-
-        // Bell click — toggle dropdown (dropdown is appended by review-banner.js)
-        const bell = document.getElementById('bnb-bell-btn');
-        bell.style.position = 'relative';
-        bell.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const dropdown = document.getElementById('hpm-bell-dropdown');
-            if (dropdown) dropdown.classList.toggle('hpm-bell-open');
-        });
-        document.addEventListener('click', () => {
-            document.getElementById('hpm-bell-dropdown')?.classList.remove('hpm-bell-open');
-        });
 
         // Highlight active
         const path = location.pathname;
@@ -785,7 +799,7 @@ body { padding-bottom: 52px; }
         renderHeaderProfile(profile);
         updateHeaderAuthLinks(true);
 
-        if (user?.isAdmin) return;
+        if (profile.isAdmin) return;
 
         // Check streak once per calendar day
         const sessionKey = `streak_checked_${new Date().toDateString()}`;

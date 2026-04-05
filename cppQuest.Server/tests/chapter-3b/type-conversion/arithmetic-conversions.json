@@ -15,8 +15,7 @@
         "Преобразования только для вещественных типов"
       ],
       "correct": 1,
-      "explanation": "Usual arithmetic conversions — правила C++, по которым компилятор приводит операнды бинарных операций к общему типу.",
-      "id": 0
+      "explanation": "Usual arithmetic conversions — правила C++, по которым компилятор приводит операнды бинарных операций к общему типу."
     },
     {
       "type": "code",
@@ -29,8 +28,7 @@
         "Ошибка"
       ],
       "correct": 1,
-      "explanation": "int 2 повышается до double (более высокий ранг). 2.0 + 3.5 = 5.5.",
-      "id": 1
+      "explanation": "int 2 повышается до double (более высокий ранг). 2.0 + 3.5 = 5.5."
     },
     {
       "type": "code",
@@ -43,8 +41,7 @@
         "Ошибка"
       ],
       "correct": 2,
-      "explanation": "10 и 4 — оба int. Целочисленное деление: 10/4 = 2. Затем 2 преобразуется в double: 2.0.",
-      "id": 2
+      "explanation": "10 и 4 — оба int. Целочисленное деление: 10/4 = 2. Затем 2 преобразуется в double: 2.0."
     },
     {
       "type": "code",
@@ -57,8 +54,7 @@
         "Ошибка"
       ],
       "correct": 1,
-      "explanation": "10.0 — double. 4 (int) повышается до double. 10.0 / 4.0 = 2.5.",
-      "id": 3
+      "explanation": "10.0 — double. 4 (int) повышается до double. 10.0 / 4.0 = 2.5."
     },
     {
       "type": "single",
@@ -70,8 +66,7 @@
         "unsigned short"
       ],
       "correct": 1,
-      "explanation": "short + short: оба повышаются до int (integral promotion). Результат — int.",
-      "id": 4
+      "explanation": "short + short: оба повышаются до int (integral promotion). Результат — int."
     },
     {
       "type": "multiple",
@@ -89,8 +84,7 @@
         2,
         4
       ],
-      "explanation": "Usual arithmetic conversions: бинарная арифметика, сравнение, побитовые, тернарный оператор. Унарный минус — нет.",
-      "id": 5
+      "explanation": "Usual arithmetic conversions: бинарная арифметика, сравнение, побитовые, тернарный оператор. Унарный минус — нет."
     },
     {
       "type": "code",
@@ -103,8 +97,7 @@
         "4294967291"
       ],
       "correct": 3,
-      "explanation": "5u — unsigned. 10 (int) приводится к unsigned. 5u - 10u = UINT_MAX - 4 = 4294967291.",
-      "id": 6
+      "explanation": "5u — unsigned. 10 (int) приводится к unsigned. 5u - 10u = UINT_MAX - 4 = 4294967291."
     },
     {
       "type": "matching",
@@ -127,8 +120,7 @@
           "right": "long long"
         }
       ],
-      "explanation": "Операнд с более высоким рангом определяет тип результата.",
-      "id": 7
+      "explanation": "Операнд с более высоким рангом определяет тип результата."
     },
     {
       "type": "fill",
@@ -137,8 +129,7 @@
         "usual arithmetic conversions",
         "обычные арифметические преобразования"
       ],
-      "explanation": "Usual arithmetic conversions — правила C++ для приведения операндов бинарных операций к общему типу.",
-      "id": 8
+      "explanation": "Usual arithmetic conversions — правила C++ для приведения операндов бинарных операций к общему типу."
     },
     {
       "type": "single",
@@ -150,8 +141,7 @@
         "Это невозможно"
       ],
       "correct": 0,
-      "explanation": "Чтобы получить вещественное деление, хотя бы один операнд должен быть double: 10.0/4, 10/4.0, или static_cast<double>(10)/4.",
-      "id": 9
+      "explanation": "Чтобы получить вещественное деление, хотя бы один операнд должен быть double: 10.0/4, 10/4.0, или static_cast<double>(10)/4."
     },
     {
       "type": "code",
@@ -164,8 +154,7 @@
         "Неопределённое поведение"
       ],
       "correct": 1,
-      "explanation": "-3 (int) приводится к unsigned: огромное число > 5u. Результат: false. Классическая ловушка!",
-      "id": 10
+      "explanation": "-3 (int) приводится к unsigned: огромное число > 5u. Результат: false. Классическая ловушка!"
     },
     {
       "type": "single",
@@ -177,8 +166,7 @@
         "Диапазон значений типа"
       ],
       "correct": 1,
-      "explanation": "Ранг определяет приоритет при арифметических преобразованиях. Операнд с меньшим рангом приводится к типу с большим рангом.",
-      "id": 11
+      "explanation": "Ранг определяет приоритет при арифметических преобразованиях. Операнд с меньшим рангом приводится к типу с большим рангом."
     },
     {
       "type": "fill-code",
@@ -187,8 +175,7 @@
       "correct": [
         "static_cast<double>"
       ],
-      "explanation": "static_cast<double>(x) / y — явное преобразование для вещественного деления.",
-      "id": 12
+      "explanation": "static_cast<double>(x) / y — явное преобразование для вещественного деления."
     },
     {
       "type": "multiple",
@@ -205,8 +192,7 @@
         2,
         3
       ],
-      "explanation": "Верно: меньший ранг → больший, int+double=double, signed/unsigned опасно. Неверно: short+short=int, компилятор не всегда предупреждает.",
-      "id": 13
+      "explanation": "Верно: меньший ранг → больший, int+double=double, signed/unsigned опасно. Неверно: short+short=int, компилятор не всегда предупреждает."
     },
     {
       "type": "single",
@@ -218,8 +204,7 @@
         "Это вызывает UB"
       ],
       "correct": 1,
-      "explanation": "При смешивании signed приводится к unsigned. -3 < 5u = false. Компилятор обычно не предупреждает по умолчанию.",
-      "id": 14
+      "explanation": "При смешивании signed приводится к unsigned. -3 < 5u = false. Компилятор обычно не предупреждает по умолчанию."
     }
   ]
 }

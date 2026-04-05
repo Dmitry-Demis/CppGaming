@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz Preview — все типы вопросов</title>
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/quiz.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="components/quiz/css/quiz.css">
+  <style>
+    body { padding: 2rem; max-width: 900px; margin: 0 auto; }
+    h2   { margin: 2.5rem 0 .5rem; font-size: 1rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: .05em; }
+    .preview-block { border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem; }
+    .preview-label { font-size: .75rem; color: var(--text-muted); margin-bottom: 1rem; font-family: monospace; }
+    #loading { text-align: center; padding: 4rem; color: var(--text-muted); }
+  </style>
+</head>
+<body>
+
+<h1>Quiz — предпросмотр всех типов</h1>
+<div id="loading">⏳ Загрузка шаблонов…</div>
+<div id="root" hidden></div>
+
+<!-- Шаблоны -->
+<script type="module">
+import { load } from './components/quiz/ui/templates.js';
+import { buildNodes, attachListeners } from './components/quiz/ui/dispatcher.js';
+
+const QUESTIONS = [
+  {
+    type: 'single',
+    text: 'Что выведет `cout << 2 + 3;`?',
+    answers: ['2', '3', '5', '23'],
+    correct: 2,
+  },
+  {
+    type: 'multiple',
+    text: 'Какие из этих типов являются целочисленными?',
+    answers: ['int', 'float', 'long', 'double', 'short'],
+    correct: [0, 2, 4],
+  },
+  {
+    type: 'fill',
+    text: 'Напишите ключевое слово для объявления константы в C++:',
+    correct: ['const', 'constexpr'],
+  },
+  {
+    type: 'fill-code',
+    text: 'Заполните пропуски:',
+    code: '#include <___>\nint main() {\n    std::___ << "Hello";\n    return ___;\n}',
+    correct: ['iostream', 'cout', '0'],
+  },
+  {
+    type: 'matching',
+    text: 'Сопоставьте тип с его размером:',
+    pairs: [
+      { left: 'char',   right: '1 байт'  },
+      { left: 'int',    right: '4 байта' },
+      { left: 'double', right: '8 байт'  },
+    ],
+  },
+  {
+    type: 'fill-code-drag',
+    text: 'Перетащите нужные фрагменты:',
+    code: '___ x = 5;\n___ y = 3.14;',
+    answers: ['int', 'double', 'float', 'char'],
+    correct: ['int', 'double'],
+  },
+  {
+    type: 'classify',
+    text: 'Распределите по категориям:',
+    items: ['int', 'float', 'std::string', 'char', 'double', 'bool'],
+    categories: ['Целочисленные', 'Вещественные', 'Прочие'],
+    correct: [0, 1, 2, 0, 1, 0],
+  },
+];
+
+const TYPE_NAMES = {
+  single:        'single — один вариант',
+  multiple:      'multiple — несколько вариантов',
+  fill:          'fill — текстовый ввод',
+  'fill-code':   'fill-code — заполнить код',
+  matching:      'matching — сопоставление',
+  'fill-code-drag': 'fill-code-drag — перетащить в код',
+  classify:      'classify — распределить по категориям',
+};
+
+await load();
+
+const root = document.getElementById('root');
+document.getElementById('loading').remove();
+root.hidden = false;
+
+QUESTIONS.forEach((q, i) => {
+  const block = document.createElement('div');
+  block.className = 'preview-block';
+
+  const label = document.createElement('div');
+  label.className = 'preview-label';
+  label.textContent = `type: "${q.type}" — ${TYPE_NAMES[q.type] ?? q.type}`;
+
+  const questionText = document.createElement('div');
+  questionText.className = 'quiz-question';
+  questionText.textContent = q.text;
+
+  const answersWrap = document.createElement('div');
+  answersWrap.className = 'quiz-answers';
+
+  const checkBtn = document.createElement('button');
+  checkBtn.className = 'btn-quiz btn--check';
+  checkBtn.textContent = 'Проверить';
+  checkBtn.style.marginTop = '1rem';
+
+  const quizId = `preview-${i}`;
+  const nodes = buildNodes(q, quizId);
+  nodes.forEach(n => answersWrap.appendChild(n));
+
+  attachListeners(q, answersWrap, checkBtn, quizId, (value) => {
+    checkBtn.hidden = true;
+  });
+
+  block.append(label, questionText, answersWrap, checkBtn);
+  root.appendChild(block);
+});
+</script>
+</body>
+</html>

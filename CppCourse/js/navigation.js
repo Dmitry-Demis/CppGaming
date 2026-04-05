@@ -39,17 +39,12 @@ const _siteRoot = (() => {
     document.head.appendChild(s);
 }());
 
-// ── review-banner.css + review-banner.js ──────────────────────────────────
+// ── notifications component (заменяет review-banner.js) ──────────────────
 (function () {
-    if (document.getElementById('review-banner-css')) return;
-    const link = document.createElement('link');
-    link.id   = 'review-banner-css';
-    link.rel  = 'stylesheet';
-    link.href = _siteRoot + 'css/review-banner.css';
-    document.head.appendChild(link);
-
+    if (document.getElementById('ntf-component-js')) return;
     const s = document.createElement('script');
-    s.src = _siteRoot + 'js/review-banner.js';
+    s.id  = 'ntf-component-js';
+    s.src = _siteRoot + 'components/notifications/notifications.js';
     document.head.appendChild(s);
 
     const pl = document.createElement('script');

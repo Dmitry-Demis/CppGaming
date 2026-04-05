@@ -87,6 +87,15 @@ public static class QuizEndpoints
         var quiz = await quizService.GetQuizAsync(quizId);
         if (quiz is null) return Results.NotFound(new { message = $"Quiz '{quizId}' not found" });
 
+        // Admin видит все вопросы без фильтрации по стандартам
+        var isuNumber = EndpointHelpers.GetIsuNumber(ctx);
+        if (isuNumber is not null)
+        {
+            var profile = await profileService.GetProfileAsync(isuNumber);
+            if (profile?.IsAdmin == true)
+                return Results.Ok(quiz with { IsAdmin = true });
+        }
+
         var unlockedStds = await EndpointHelpers.GetUnlockedStdsAsync(profileService, shopRepo, ctx);
 
         var filtered = quiz with

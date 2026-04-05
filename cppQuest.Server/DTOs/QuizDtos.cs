@@ -6,7 +6,8 @@ public record QuizResponse(
     string Type,
     int PassingScore,
     int Pick,
-    List<QuizQuestionDto> Questions
+    List<QuizQuestionDto> Questions,
+    bool IsAdmin = false
 );
 
 public record QuizQuestionDto(

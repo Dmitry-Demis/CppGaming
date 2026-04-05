@@ -15,8 +15,7 @@
         "Тип нулевого указателя"
       ],
       "correct": 1,
-      "explanation": "void — неполный тип (incomplete type), у которого нет ни одного значения. Объекты типа void создать невозможно.",
-      "id": 0
+      "explanation": "void — неполный тип (incomplete type), у которого нет ни одного значения. Объекты типа void создать невозможно."
     },
     {
       "type": "single",
@@ -28,8 +27,7 @@
         "void& ref = x;"
       ],
       "correct": 2,
-      "explanation": "void* — допустимый обобщённый указатель. Объявить переменную, массив или ссылку типа void нельзя.",
-      "id": 1
+      "explanation": "void* — допустимый обобщённый указатель. Объявить переменную, массив или ссылку типа void нельзя."
     },
     {
       "type": "code",
@@ -42,8 +40,7 @@
         "void"
       ],
       "correct": 0,
-      "explanation": "void-функция выполняет действия, но не возвращает значение. greet() выводит Hello.",
-      "id": 2
+      "explanation": "void-функция выполняет действия, но не возвращает значение. greet() выводит Hello."
     },
     {
       "type": "single",
@@ -55,8 +52,7 @@
         "nullptr работает только с void*"
       ],
       "correct": 1,
-      "explanation": "nullptr — типизированный литерал типа std::nullptr_t. В отличие от NULL (= 0), он не приводится неявно к int, что устраняет ошибки перегрузки.",
-      "id": 3
+      "explanation": "nullptr — типизированный литерал типа std::nullptr_t. В отличие от NULL (= 0), он не приводится неявно к int, что устраняет ошибки перегрузки."
     },
     {
       "type": "code",
@@ -69,8 +65,7 @@
         "Зависит от компилятора"
       ],
       "correct": 1,
-      "explanation": "nullptr имеет тип указателя, поэтому выбирается перегрузка func(int*). С NULL или 0 был бы выбран func(int).",
-      "id": 4
+      "explanation": "nullptr имеет тип указателя, поэтому выбирается перегрузка func(int*). С NULL или 0 был бы выбран func(int)."
     },
     {
       "type": "fill",
@@ -79,8 +74,7 @@
         "std::nullptr_t",
         "nullptr_t"
       ],
-      "explanation": "Тип nullptr — std::nullptr_t, определён в <cstddef>. sizeof(std::nullptr_t) == sizeof(void*).",
-      "id": 5
+      "explanation": "Тип nullptr — std::nullptr_t, определён в <cstddef>. sizeof(std::nullptr_t) == sizeof(void*)."
     },
     {
       "type": "multiple",
@@ -97,8 +91,7 @@
         1,
         3
       ],
-      "explanation": "void-функции, void* указатели и f(void) в C-стиле — корректны. Переменная void x и ссылка void& — ошибки компиляции.",
-      "id": 6
+      "explanation": "void-функции, void* указатели и f(void) в C-стиле — корректны. Переменная void x и ссылка void& — ошибки компиляции."
     },
     {
       "type": "single",
@@ -110,8 +103,7 @@
         "Зависит от платформы, не связано с указателями"
       ],
       "correct": 2,
-      "explanation": "Стандарт гарантирует sizeof(std::nullptr_t) == sizeof(void*). На 64-битных платформах это 8 байт.",
-      "id": 7
+      "explanation": "Стандарт гарантирует sizeof(std::nullptr_t) == sizeof(void*). На 64-битных платформах это 8 байт."
     },
     {
       "type": "code",
@@ -124,8 +116,7 @@
         "Зависит от компилятора"
       ],
       "correct": 1,
-      "explanation": "nullptr нельзя неявно преобразовать в int — это ошибка компиляции. Именно это и делает nullptr безопаснее NULL.",
-      "id": 8
+      "explanation": "nullptr нельзя неявно преобразовать в int — это ошибка компиляции. Именно это и делает nullptr безопаснее NULL."
     },
     {
       "type": "single",
@@ -137,8 +128,7 @@
         "Как замена nullptr"
       ],
       "correct": 1,
-      "explanation": "void* — обобщённый указатель, может хранить адрес объекта любого типа. Используется в C-совместимых API (malloc, memcpy). Для разыменования требует явного приведения типа.",
-      "id": 9
+      "explanation": "void* — обобщённый указатель, может хранить адрес объекта любого типа. Используется в C-совместимых API (malloc, memcpy). Для разыменования требует явного приведения типа."
     },
     {
       "type": "fill-code",
@@ -147,8 +137,7 @@
       "correct": [
         "void"
       ],
-      "explanation": "void перед именем функции означает, что функция не возвращает значения.",
-      "id": 10
+      "explanation": "void перед именем функции означает, что функция не возвращает значения."
     },
     {
       "type": "code",
@@ -161,8 +150,7 @@
         "Ошибка"
       ],
       "correct": 0,
-      "explanation": "f(&x): p != nullptr, выводит *p = 42. f(nullptr): p == nullptr, выводит 'null'. Итог: 42null.",
-      "id": 11
+      "explanation": "f(&x): p != nullptr, выводит *p = 42. f(nullptr): p == nullptr, выводит 'null'. Итог: 42null."
     },
     {
       "type": "single",
@@ -174,8 +162,7 @@
         "Только в C++20"
       ],
       "correct": 1,
-      "explanation": "void* нельзя разыменовать напрямую — компилятор не знает тип. Нужно static_cast<T*>(ptr) перед разыменованием.",
-      "id": 12
+      "explanation": "void* нельзя разыменовать напрямую — компилятор не знает тип. Нужно static_cast<T*>(ptr) перед разыменованием."
     },
     {
       "type": "fill",
@@ -183,8 +170,7 @@
       "correct": [
         "<cstddef>"
       ],
-      "explanation": "<cstddef> определяет std::nullptr_t — тип литерала nullptr.",
-      "id": 13
+      "explanation": "<cstddef> определяет std::nullptr_t — тип литерала nullptr."
     },
     {
       "type": "classify",
@@ -205,8 +191,7 @@
         1,
         0
       ],
-      "explanation": "void* и void-функции допустимы. Переменная void и присваивание nullptr к int — ошибки.",
-      "id": 14
+      "explanation": "void* и void-функции допустимы. Переменная void и присваивание nullptr к int — ошибки."
     }
   ]
 }

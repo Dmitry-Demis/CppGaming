@@ -27,6 +27,10 @@ D:\Studies\cppQuest\cppQuest.Server\obj\Release\net10.0\linux-x64\PubTmp\Out\Cpp
 D:\Studies\cppQuest\cppQuest.Server\obj\Release\net10.0\linux-x64\PubTmp\Out\CppCourse\backend\obj\Release\net8.0\CppCourse.csproj.AssemblyReference.cache
 D:\Studies\cppQuest\cppQuest.Server\obj\Release\net10.0\linux-x64\PubTmp\Out\CppCourse\backend\obj\Release\net8.0\CppCourse.GeneratedMSBuildEditorConfig.editorconfig
 D:\Studies\cppQuest\cppQuest.Server\obj\Release\net10.0\linux-x64\PubTmp\Out\CppCourse\backend\obj\Release\net8.0\CppCourse.GlobalUsings.g.cs
+D:\Studies\cppQuest\cppQuest.Server\obj\Release\net10.0\linux-x64\PubTmp\Out\CppCourse\components\notifications\css\notifications.css
+D:\Studies\cppQuest\cppQuest.Server\obj\Release\net10.0\linux-x64\PubTmp\Out\CppCourse\components\notifications\notifications.js
+D:\Studies\cppQuest\cppQuest.Server\obj\Release\net10.0\linux-x64\PubTmp\Out\CppCourse\components\notifications\templates\bell-button.html
+D:\Studies\cppQuest\cppQuest.Server\obj\Release\net10.0\linux-x64\PubTmp\Out\CppCourse\components\notifications\templates\dropdown.html
 D:\Studies\cppQuest\cppQuest.Server\obj\Release\net10.0\linux-x64\PubTmp\Out\CppCourse\components\quiz\css\quiz.css
 D:\Studies\cppQuest\cppQuest.Server\obj\Release\net10.0\linux-x64\PubTmp\Out\CppCourse\components\quiz\css\widget.css
 D:\Studies\cppQuest\cppQuest.Server\obj\Release\net10.0\linux-x64\PubTmp\Out\CppCourse\components\quiz\quiz.js
@@ -256,6 +260,7 @@ D:\Studies\cppQuest\cppQuest.Server\obj\Release\net10.0\linux-x64\PubTmp\Out\Cpp
 D:\Studies\cppQuest\cppQuest.Server\obj\Release\net10.0\linux-x64\PubTmp\Out\CppCourse\locked.html
 D:\Studies\cppQuest\cppQuest.Server\obj\Release\net10.0\linux-x64\PubTmp\Out\CppCourse\login.html
 D:\Studies\cppQuest\cppQuest.Server\obj\Release\net10.0\linux-x64\PubTmp\Out\CppCourse\profile.html
+D:\Studies\cppQuest\cppQuest.Server\obj\Release\net10.0\linux-x64\PubTmp\Out\CppCourse\quiz-preview.html
 D:\Studies\cppQuest\cppQuest.Server\obj\Release\net10.0\linux-x64\PubTmp\Out\CppCourse\quiz-standalone.html
 D:\Studies\cppQuest\cppQuest.Server\obj\Release\net10.0\linux-x64\PubTmp\Out\CppCourse\reference\F.1 — Constexpr functions.1 — Constexpr functions.1 — Constexpr functions
 D:\Studies\cppQuest\cppQuest.Server\obj\Release\net10.0\linux-x64\PubTmp\Out\CppCourse\reference\F.2 — Constexpr functions (part 2).2 — Constexpr functions (part 2).2 — Constexpr functions (part 2)
@@ -531,8 +536,6 @@ D:\Studies\cppQuest\cppQuest.Server\obj\Release\net10.0\linux-x64\PubTmp\Out\gat
 D:\Studies\cppQuest\cppQuest.Server\obj\Release\net10.0\linux-x64\PubTmp\Out\gated\chapter-5\control-flow\if-statements.html
 D:\Studies\cppQuest\cppQuest.Server\obj\Release\net10.0\linux-x64\PubTmp\Out\gated\chapter-5\control-flow\switch-fallthrough.html
 D:\Studies\cppQuest\cppQuest.Server\obj\Release\net10.0\linux-x64\PubTmp\Out\cppquest.db
-D:\Studies\cppQuest\cppQuest.Server\obj\Release\net10.0\linux-x64\PubTmp\Out\cppquest.db-shm
-D:\Studies\cppQuest\cppQuest.Server\obj\Release\net10.0\linux-x64\PubTmp\Out\cppquest.db-wal
 D:\Studies\cppQuest\cppQuest.Server\obj\Release\net10.0\linux-x64\PubTmp\Out\cppQuest.Server.dll
 D:\Studies\cppQuest\cppQuest.Server\obj\Release\net10.0\linux-x64\PubTmp\Out\cppQuest.Server.runtimeconfig.json
 D:\Studies\cppQuest\cppQuest.Server\obj\Release\net10.0\linux-x64\PubTmp\Out\cppQuest.Server.pdb

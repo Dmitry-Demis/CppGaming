@@ -19,11 +19,11 @@ public static class AuthEndpoints
 
         group.MapPost("register", HandleRegisterAsync)
              .WithName("RegisterUser")
-             ;
+             .RequireRateLimiting("auth");
 
         group.MapPost("login", HandleLoginAsync)
              .WithName("LoginUser")
-             ;
+             .RequireRateLimiting("auth");
     }
 
     /// <summary>

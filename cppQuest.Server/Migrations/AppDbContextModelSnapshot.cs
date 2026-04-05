@@ -57,21 +57,6 @@ namespace cppQuest.Server.Migrations
                     b.ToTable("ActivityLogs");
                 });
 
-            modelBuilder.Entity("cppQuest.Server.Models.AllowedIsu", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("IsuNumber")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AllowedIsus");
-                });
-
             modelBuilder.Entity("cppQuest.Server.Models.GamificationProfile", b =>
                 {
                     b.Property<int>("UserId")

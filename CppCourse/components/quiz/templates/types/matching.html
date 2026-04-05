@@ -1,37 +1,32 @@
 <!-- Matching — карточки перетаскиваются в слоты -->
 
-<!-- Пул карточек (правая колонка) -->
 <template id="tpl-matching-pool">
-  <div class="quiz-matching-cards js-matching-pool"></div>
+  <div class="quiz-matching-cards js-matching-pool" id="{{poolId}}"></div>
 </template>
 
-<!-- Одна карточка -->
 <template id="tpl-matching-card">
-  <div class="quiz-matching-card" draggable="true">
+  <div class="quiz-matching-card" draggable="true" data-value="{{value}}">
     <span class="quiz-matching-drag-handle">⠿</span>
-    <span class="js-card-text"></span>
+    <span>{{text}}</span>
   </div>
 </template>
 
-<!-- Обёртка слотов -->
 <template id="tpl-matching-slots">
   <div class="quiz-matching-slots js-matching-slots"></div>
 </template>
 
-<!-- Одна строка: левый элемент + слот -->
 <template id="tpl-matching-row">
   <div class="quiz-matching-row">
     <div class="quiz-matching-label">
-      <span class="quiz-answer-letter js-row-letter"></span>
-      <span class="js-row-left"></span>
+      <span class="quiz-answer-letter">{{letter}}</span>
+      <span>{{left}}</span>
     </div>
-    <div class="quiz-matching-slot js-slot">
+    <div class="quiz-matching-slot" data-slot="{{slot}}" data-expected="{{expected}}" id="{{slotId}}">
       <span class="quiz-matching-slot-hint">Перетащите сюда</span>
     </div>
   </div>
 </template>
 
-<!-- Подсказка правильного ответа (показывается при ошибке) -->
 <template id="tpl-matching-hint">
-  <span class="quiz-matching-answer-hint js-hint-text"></span>
+  <span class="quiz-matching-answer-hint">{{expected}}</span>
 </template>

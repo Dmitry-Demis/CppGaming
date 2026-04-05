@@ -2,6 +2,11 @@
 .vs/
 .vscode/
 
+# Secrets
+appsettings.Development.json
+appsettings.*.json
+!appsettings.json
+
 # Build outputs
 bin/
 obj/

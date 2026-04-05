@@ -8,7 +8,6 @@ namespace cppQuest.Server.Models;
 /// </summary>
 public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {
-    public DbSet<AllowedIsu> AllowedIsus => Set<AllowedIsu>();
     public DbSet<User> Users => Set<User>();
     public DbSet<GamificationProfile> GamificationProfiles => Set<GamificationProfile>();
     public DbSet<ParagraphReadingStats> ParagraphReadingStats => Set<ParagraphReadingStats>();

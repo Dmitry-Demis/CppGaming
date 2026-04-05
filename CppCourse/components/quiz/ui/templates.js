@@ -43,3 +43,11 @@ export function load() {
 export function get(id) {
     return document.getElementById(id);
 }
+
+// Клонирует шаблон и заполняет {{key}} плейсхолдеры данными из data.
+export function fill(id, data = {}) {
+    const html = get(id).innerHTML.replace(/\{\{(\w+)\}\}/g, (_, key) => data[key] ?? '');
+    const div = document.createElement('div');
+    div.innerHTML = html.trim();
+    return div.firstElementChild;
+}

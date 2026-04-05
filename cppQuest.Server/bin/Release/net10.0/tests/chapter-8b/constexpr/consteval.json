@@ -6,7 +6,6 @@
   "passingScore": 70,
   "questions": [
     {
-      "id": 0,
       "type": "single",
       "question": "Что гарантирует ключевое слово consteval (C++20)?",
       "answers": [
@@ -19,7 +18,6 @@
       "explanation": "consteval создаёт «immediate function» — функцию, которая обязана вычисляться исключительно при компиляции. Вызов с runtime-аргументами — ошибка компиляции."
     },
     {
-      "id": 1,
       "type": "single",
       "question": "Как называются функции, помеченные consteval?",
       "answers": [
@@ -32,7 +30,6 @@
       "explanation": "Функции, помеченные consteval, называются immediate functions (немедленные функции) — они немедленно вычисляются при компиляции."
     },
     {
-      "id": 2,
       "type": "code",
       "question": "Что произойдёт при компиляции?",
       "code": "consteval int greater(int x, int y) {\n    return x > y ? x : y;\n}\nint main() {\n    int x { 5 };\n    int r { greater(x, 6) };\n}",
@@ -46,16 +43,19 @@
       "explanation": "consteval-функция обязана вычисляться при компиляции. x — обычная переменная (не constexpr), поэтому greater(x, 6) — ошибка компиляции."
     },
     {
-      "id": 3,
       "type": "code",
       "question": "Что выведет программа?",
       "code": "#include <iostream>\nconsteval int greater(int x, int y) {\n    return x > y ? x : y;\n}\nint main() {\n    constexpr int g { greater(5, 6) };\n    std::cout << g;\n}",
-      "answers": ["5", "6", "Ошибка компиляции", "Неопределённое поведение"],
+      "answers": [
+        "5",
+        "6",
+        "Ошибка компиляции",
+        "Неопределённое поведение"
+      ],
       "correct": 1,
       "explanation": "greater(5, 6) — оба аргумента константные выражения, вызов consteval-функции разрешён. 6 > 5, поэтому возвращается 6."
     },
     {
-      "id": 4,
       "type": "multiple",
       "question": "Чем consteval отличается от constexpr для функций?",
       "answers": [
@@ -65,11 +65,14 @@
         "constexpr нельзя использовать для функций",
         "Вызов consteval с runtime-аргументами — ошибка компиляции"
       ],
-      "correct": [0, 1, 4],
+      "correct": [
+        0,
+        1,
+        4
+      ],
       "explanation": "consteval: только при компиляции, вызов с runtime-аргументами — ошибка. constexpr: может вычисляться и при компиляции, и при выполнении. Скорость не является критерием различия."
     },
     {
-      "id": 5,
       "type": "single",
       "question": "Зачем нужна вспомогательная consteval-функция CONSTEVAL(auto value)?",
       "answers": [
@@ -82,23 +85,28 @@
       "explanation": "Передача результата constexpr-функции в consteval-функцию гарантирует compile-time вычисление. Это паттерн для принудительного вычисления при компиляции."
     },
     {
-      "id": 6,
       "type": "code",
       "question": "Что выведет программа?",
       "code": "#include <iostream>\nconsteval auto CONSTEVAL(auto v) { return v; }\nconstexpr int square(int x) { return x * x; }\nint main() {\n    std::cout << CONSTEVAL(square(4));\n}",
-      "answers": ["4", "8", "16", "Ошибка компиляции"],
+      "answers": [
+        "4",
+        "8",
+        "16",
+        "Ошибка компиляции"
+      ],
       "correct": 2,
       "explanation": "square(4) = 16. CONSTEVAL принудительно вычисляет это при компиляции. Выводится 16."
     },
     {
-      "id": 7,
       "type": "fill",
       "question": "В каком стандарте C++ появилось ключевое слово consteval?",
-      "correct": ["C++20", "20"],
+      "correct": [
+        "C++20",
+        "20"
+      ],
       "explanation": "consteval введён в C++20. До этого для принудительного compile-time вычисления использовались обходные пути."
     },
     {
-      "id": 8,
       "type": "single",
       "question": "Когда следует использовать consteval вместо constexpr?",
       "answers": [
@@ -111,7 +119,6 @@
       "explanation": "consteval используют, когда функция должна вычисляться только при компиляции (генерация таблиц, compile-time проверки). В остальных случаях предпочтительнее constexpr."
     },
     {
-      "id": 9,
       "type": "code",
       "question": "Что произойдёт при компиляции?",
       "code": "consteval int double_val(int x) { return x * 2; }\nint main() {\n    constexpr int a { double_val(5) };   // строка 1\n    int b { double_val(5) };              // строка 2\n}",
@@ -125,7 +132,6 @@
       "explanation": "В обоих случаях аргумент 5 — литерал (константное выражение). consteval-функцию можно вызывать с константными аргументами в любом контексте. Обе строки скомпилируются."
     },
     {
-      "id": 10,
       "type": "single",
       "question": "Являются ли параметры consteval-функции константными выражениями внутри неё?",
       "answers": [
@@ -138,7 +144,6 @@
       "explanation": "Параметры consteval-функции не являются constexpr внутри неё — это сделано для единообразия с constexpr-функциями. Хотя вызов гарантированно происходит при компиляции, параметры не помечены constexpr."
     },
     {
-      "id": 11,
       "type": "multiple",
       "question": "Какие вызовы consteval-функции greater(int x, int y) допустимы?",
       "answers": [
@@ -148,7 +153,11 @@
         "greater(2+3, 4*2)",
         "std::cin >> x; greater(x, 6)"
       ],
-      "correct": [0, 1, 3],
+      "correct": [
+        0,
+        1,
+        3
+      ],
       "explanation": "Допустимы вызовы с константными выражениями: литералами (5, 6), constexpr-переменными (a), выражениями из констант (2+3, 4*2). Недопустимы: обычные переменные (x) и runtime-значения (cin >> x)."
     }
   ]
