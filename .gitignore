@@ -8,6 +8,9 @@
 # Kiro IDE
 .kiro/
 
+# GitHub Actions / CI config (local only)
+.github/
+
 # ── Secrets & local config ────────────────────────────────────────────────────
 # appsettings.json (base) остаётся в репо — он не содержит секретов
 # Все environment-specific конфиги — только локально
