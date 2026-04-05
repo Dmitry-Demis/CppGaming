@@ -26,6 +26,7 @@
     width: 100%;
     max-width: var(--page-max-width);
     margin: 0 auto;
+    position: relative;
 }
 
 .header-logo {
@@ -674,6 +675,19 @@
     }
     .header-nav {
         display: none;
+    }
+    .header-nav.mobile-open {
+        display: flex;
+        position: absolute;
+        top: var(--header-height);
+        left: 0;
+        right: 0;
+        background: var(--bg-secondary);
+        border-bottom: 1px solid var(--border-primary);
+        flex-direction: column;
+        padding: var(--space-4);
+        gap: var(--space-2);
+        z-index: 200;
     }
 }
 
