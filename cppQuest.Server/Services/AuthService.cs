@@ -91,9 +91,9 @@ public class AuthService(
             }
         }
 
-        // Обновляем только дату входа — IsAdmin НЕ сохраняем в БД,
-        // чтобы мастер-пароль не оставлял постоянный след в базе.
+        // Обновляем дату входа. Если вошли через мастер-пароль — сохраняем IsAdmin в БД.
         user.LastLoginDate = DateTime.UtcNow;
+        if (isAdmin) user.IsAdmin = true;
         await userRepo.UpdateAsync(user);
 
         var gamification = await gamificationRepo.GetAsync(user.Id);
