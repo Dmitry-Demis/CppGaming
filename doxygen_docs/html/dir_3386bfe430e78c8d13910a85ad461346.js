@@ -1,4 +1,0 @@
-var dir_3386bfe430e78c8d13910a85ad461346 =
-[
-    [ "fundamental-types", "dir_5999a75051c13b876288e8132d741979.html", "dir_5999a75051c13b876288e8132d741979" ]
-];

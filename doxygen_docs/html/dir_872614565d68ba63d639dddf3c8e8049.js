@@ -1,5 +1,0 @@
-var dir_872614565d68ba63d639dddf3c8e8049 =
-[
-    [ "array-intro", "dir_130c1414448cc7df277669c1e82f078d.html", "dir_130c1414448cc7df277669c1e82f078d" ],
-    [ "array-passing", "dir_9202696f592c886d0472867d86c34e91.html", "dir_9202696f592c886d0472867d86c34e91" ]
-];

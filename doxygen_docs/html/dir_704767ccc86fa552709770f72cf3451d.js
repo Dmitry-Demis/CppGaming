@@ -1,4 +1,0 @@
-var dir_704767ccc86fa552709770f72cf3451d =
-[
-    [ "vector-intro", "dir_30d9ea1146054957e184f0a27202765c.html", "dir_30d9ea1146054957e184f0a27202765c" ]
-];

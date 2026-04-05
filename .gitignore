@@ -54,11 +54,11 @@ npm-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# ── Frontend build ────────────────────────────────────────────────────────────
-frontend/dist/
-frontend/.env
-frontend/.env.local
-frontend/.env.*.local
+# ── Frontend (unused Aspire scaffold) ────────────────────────────────────────
+frontend/
+
+# ── Migrate (build artifacts only, no source) ────────────────────────────────
+migrate/
 
 # ── Python ────────────────────────────────────────────────────────────────────
 __pycache__/

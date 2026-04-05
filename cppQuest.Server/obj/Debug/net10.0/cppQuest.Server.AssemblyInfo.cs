@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("cppQuest.Server")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+aa8e900caf4cd6ae5fcad3e11e980b4138309db9")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+854ab3479278e9c99a76146030a276090ef235c8")]
 [assembly: System.Reflection.AssemblyProductAttribute("cppQuest.Server")]
 [assembly: System.Reflection.AssemblyTitleAttribute("cppQuest.Server")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
