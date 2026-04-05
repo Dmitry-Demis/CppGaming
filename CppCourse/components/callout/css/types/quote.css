@@ -10,17 +10,13 @@
     font-family: var(--font-mono, monospace);
 }
 
-.callout--quote .callout__icon svg {
-    color: var(--accent-violet, #8b5cf6);
-}
+.callout--quote .callout__icon svg { color: var(--accent-violet, #8b5cf6); }
 
+/* Заголовок использует обычный шрифт */
 .callout--quote .callout__title {
     color: var(--accent-violet, #8b5cf6);
-    /* Заголовок использует обычный шрифт */
     font-family: var(--font-sans, sans-serif);
 }
 
-.callout--quote .callout__body {
-    /* Немного меньший размер для моноширинного текста */
-    font-size: 0.82rem;
-}
+/* Немного меньший размер для моноширинного текста */
+.callout--quote .callout__body { font-size: 0.82rem; }

@@ -9,10 +9,5 @@
     border-left-color: var(--accent-green, #a6e3a1);
 }
 
-.callout--tip .callout__icon svg {
-    color: var(--accent-green, #a6e3a1);
-}
-
-.callout--tip .callout__title {
-    color: var(--accent-green, #a6e3a1);
-}
+.callout--tip .callout__icon svg { color: var(--accent-green, #a6e3a1); }
+.callout--tip .callout__title    { color: var(--accent-green, #a6e3a1); }

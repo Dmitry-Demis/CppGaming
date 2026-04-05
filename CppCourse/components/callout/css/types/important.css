@@ -9,10 +9,5 @@
     border-left-color: var(--accent-purple, #cba6f7);
 }
 
-.callout--important .callout__icon svg {
-    color: var(--accent-purple, #cba6f7);
-}
-
-.callout--important .callout__title {
-    color: var(--accent-purple, #cba6f7);
-}
+.callout--important .callout__icon svg { color: var(--accent-purple, #cba6f7); }
+.callout--important .callout__title    { color: var(--accent-purple, #cba6f7); }

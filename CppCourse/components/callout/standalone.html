@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Callout Component - Demo</title>
+    
+    <!-- Базовые стили для демо -->
+    <style>
+        :root {
+            /* Цвета */
+            --accent-cyan: #38bdf8;
+            --accent-cyan-dim: rgba(56, 189, 248, 0.08);
+            --accent-orange: #fb923c;
+            --accent-red: #f87171;
+            --accent-red-dim: rgba(248, 113, 113, 0.08);
+            --accent-green: #a6e3a1;
+            --accent-purple: #cba6f7;
+            --accent-purple-dim: rgba(203, 166, 247, 0.08);
+            --accent-blue: #60a5fa;
+            --accent-blue-dim: rgba(96, 165, 250, 0.08);
+            --accent-violet: #8b5cf6;
+            --accent-violet-dim: rgba(139, 92, 246, 0.08);
+            
+            /* Текст */
+            --text-primary: #cdd6f4;
+            --text-secondary: #a6adc8;
+            --text-heading: #f5e0dc;
+            
+            /* Фон */
+            --bg-primary: #1e1e2e;
+            --bg-secondary: #181825;
+            
+            /* Шрифты */
+            --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --font-mono: 'Fira Code', 'Cascadia Code', Consolas, monospace;
+            --fs-sm: 0.875rem;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-sans);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding: 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            color: var(--text-heading);
+            margin-bottom: 0.5rem;
+            font-size: 2rem;
+        }
+        
+        .subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+        }
+        
+        .section {
+            margin-bottom: 4rem;
+        }
+        
+        .section-title {
+            color: var(--text-heading);
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent-purple);
+        }
+        
+        code {
+            background: var(--bg-secondary);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: var(--font-mono);
+            font-size: 0.9em;
+        }
+    </style>
+    
+    <!-- Стили компонента -->
+    <link rel="stylesheet" href="css/callout.css">
+</head>
+<body>
+    <h1>Callout Component</h1>
+    <p class="subtitle">Демонстрация всех типов и вариантов использования</p>
+
+    <!-- ========== INFO ========== -->
+    <section class="section">
+        <h2 class="section-title">Info (Информация)</h2>
+        
+        <div class="callout callout--info">
+            <div class="callout__title">С заголовком</div>
+            <div class="callout__body">
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            </div>
+        </div>
+
+        <div class="callout callout--info">
+            <div class="callout__body">
+                <p>Без заголовка. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            </div>
+        </div>
+
+        <div class="callout callout--info">
+            <div class="callout__title">Со списком</div>
+            <div class="callout__body">
+                <p>Основные возможности:</p>
+                <ul>
+                    <li>Поддержка различных типов контента</li>
+                    <li>Автоматическая загрузка иконок</li>
+                    <li>Плавная анимация появления</li>
+                    <li>Адаптивный дизайн</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="callout callout--info">
+            <div class="callout__title">С кодом</div>
+            <div class="callout__body">
+                <p>Используйте <code>std::vector</code> для динамических массивов и <code>std::array</code> для фиксированных.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== WARNING ========== -->
+    <section class="section">
+        <h2 class="section-title">Warning (Предупреждение)</h2>
+        
+        <div class="callout callout--warning">
+            <div class="callout__title">Важное предупреждение</div>
+            <div class="callout__body">
+                <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+            </div>
+        </div>
+
+        <div class="callout callout--warning">
+            <div class="callout__body">
+                <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            </div>
+        </div>
+
+        <div class="callout callout--warning">
+            <div class="callout__title">Частые ошибки</div>
+            <div class="callout__body">
+                <p>Избегайте следующих проблем:</p>
+                <ol>
+                    <li>Неинициализированные переменные</li>
+                    <li>Выход за границы массива</li>
+                    <li>Утечки памяти</li>
+                </ol>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== DANGER ========== -->
+    <section class="section">
+        <h2 class="section-title">Danger (Опасность)</h2>
+        
+        <div class="callout callout--danger">
+            <div class="callout__title">Критическая ошибка</div>
+            <div class="callout__body">
+                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.</p>
+            </div>
+        </div>
+
+        <div class="callout callout--danger">
+            <div class="callout__body">
+                <p>Totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+            </div>
+        </div>
+
+        <div class="callout callout--danger">
+            <div class="callout__title">Неопределенное поведение</div>
+            <div class="callout__body">
+                <p>Следующие действия приводят к UB:</p>
+                <ul>
+                    <li>Разыменование нулевого указателя</li>
+                    <li>Доступ к освобожденной памяти</li>
+                    <li>Переполнение знакового целого</li>
+                    <li>Гонка данных между потоками</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== TIP ========== -->
+    <section class="section">
+        <h2 class="section-title">Tip (Совет)</h2>
+        
+        <div class="callout callout--tip">
+            <div class="callout__title">Полезный совет</div>
+            <div class="callout__body">
+                <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores.</p>
+            </div>
+        </div>
+
+        <div class="callout callout--tip">
+            <div class="callout__body">
+                <p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.</p>
+            </div>
+        </div>
+
+        <div class="callout callout--tip">
+            <div class="callout__title">Лучшие практики</div>
+            <div class="callout__body">
+                <p>Рекомендации для чистого кода:</p>
+                <ol>
+                    <li>Используйте говорящие имена переменных</li>
+                    <li>Предпочитайте <code>const</code> по умолчанию</li>
+                    <li>Избегайте магических чисел</li>
+                    <li>Пишите короткие функции</li>
+                </ol>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== IMPORTANT ========== -->
+    <section class="section">
+        <h2 class="section-title">Important (Важное)</h2>
+        
+        <div class="callout callout--important">
+            <div class="callout__title">Обратите внимание</div>
+            <div class="callout__body">
+                <p>Sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
+            </div>
+        </div>
+
+        <div class="callout callout--important">
+            <div class="callout__body">
+                <p>Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam.</p>
+            </div>
+        </div>
+
+        <div class="callout callout--important">
+            <div class="callout__title">Ключевые моменты</div>
+            <div class="callout__body">
+                <p>Запомните эти правила:</p>
+                <ul>
+                    <li>RAII - основа управления ресурсами</li>
+                    <li>Move-семантика избегает копирований</li>
+                    <li>Smart pointers управляют памятью автоматически</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== HOT ========== -->
+    <section class="section">
+        <h2 class="section-title">Hot (Горячая тема)</h2>
+        
+        <div class="callout callout--hot">
+            <div class="callout__title">Актуальная информация</div>
+            <div class="callout__body">
+                <p>Nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate.</p>
+            </div>
+        </div>
+
+        <div class="callout callout--hot">
+            <div class="callout__body">
+                <p>Velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur.</p>
+            </div>
+        </div>
+
+        <div class="callout callout--hot">
+            <div class="callout__title">Новые возможности C++23</div>
+            <div class="callout__body">
+                <p>Самые интересные фичи:</p>
+                <ul>
+                    <li><code>std::print</code> - форматированный вывод</li>
+                    <li><code>std::expected</code> - обработка ошибок</li>
+                    <li>Deducing this - упрощение методов</li>
+                    <li><code>flat_map</code> - эффективные контейнеры</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== NOTE ========== -->
+    <section class="section">
+        <h2 class="section-title">Note (Заметка)</h2>
+        
+        <div class="callout callout--note">
+            <div class="callout__title">Примечание</div>
+            <div class="callout__body">
+                <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti.</p>
+            </div>
+        </div>
+
+        <div class="callout callout--note">
+            <div class="callout__body">
+                <p>Quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa.</p>
+            </div>
+        </div>
+
+        <div class="callout callout--note">
+            <div class="callout__title">Дополнительная информация</div>
+            <div class="callout__body">
+                <p>Полезные ссылки:</p>
+                <ol>
+                    <li>Документация на cppreference.com</li>
+                    <li>Стандарт C++ (ISO/IEC 14882)</li>
+                    <li>Compiler Explorer для экспериментов</li>
+                </ol>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== QUOTE ========== -->
+    <section class="section">
+        <h2 class="section-title">Quote (Цитата)</h2>
+        
+        <div class="callout callout--quote">
+            <div class="callout__title">ISO C++ Standard</div>
+            <div class="callout__body">
+                <p>Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat.</p>
+            </div>
+        </div>
+
+        <div class="callout callout--quote">
+            <div class="callout__body">
+                <p>Facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis.</p>
+            </div>
+        </div>
+
+        <div class="callout callout--quote">
+            <div class="callout__title">§5.1.2 Lambda expressions</div>
+            <div class="callout__body">
+                <p>A lambda-expression provides a concise way to create simple function objects:</p>
+                <ul>
+                    <li>The lambda-introducer [ ] may be empty</li>
+                    <li>The parameter-declaration-clause is optional</li>
+                    <li>The compound-statement defines the function body</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== КОМБИНАЦИИ ========== -->
+    <section class="section">
+        <h2 class="section-title">Сложный контент</h2>
+        
+        <div class="callout callout--info">
+            <div class="callout__title">Параграфы и списки</div>
+            <div class="callout__body">
+                <p>Первый параграф с важной информацией.</p>
+                <p>Второй параграф с дополнительными деталями:</p>
+                <ul>
+                    <li>Первый пункт списка</li>
+                    <li>Второй пункт с <code>inline code</code></li>
+                    <li>Третий пункт списка</li>
+                </ul>
+                <p>Заключительный параграф.</p>
+            </div>
+        </div>
+
+        <div class="callout callout--tip">
+            <div class="callout__title">Вложенные списки</div>
+            <div class="callout__body">
+                <p>Иерархическая структура:</p>
+                <ol>
+                    <li>Первый уровень
+                        <ul>
+                            <li>Вложенный пункт A</li>
+                            <li>Вложенный пункт B</li>
+                        </ul>
+                    </li>
+                    <li>Второй уровень</li>
+                    <li>Третий уровень</li>
+                </ol>
+            </div>
+        </div>
+    </section>
+
+    <!-- Скрипт компонента -->
+    <script src="callout.js"></script>
+</body>
+</html>

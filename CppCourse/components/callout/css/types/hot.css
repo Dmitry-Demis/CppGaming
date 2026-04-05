@@ -1,6 +1,6 @@
 /**
  * Callout Type: Hot
- * Горячая тема (розовый/magenta) с пульсацией
+ * Горячая тема (розовый/magenta) с пульсацией иконки
  */
 
 .callout--hot {
@@ -11,24 +11,14 @@
 
 .callout--hot .callout__icon svg {
     color: #f5c2e7;
-    /* Добавляем пульсацию к базовой анимации */
-    animation: 
+    animation:
         callout-icon-spin 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both,
         callout-hot-pulse 1.8s 0.5s ease-in-out infinite;
 }
 
-.callout--hot .callout__title {
-    color: #f5c2e7;
-}
+.callout--hot .callout__title { color: #f5c2e7; }
 
-/* Анимация пульсации для hot типа */
 @keyframes callout-hot-pulse {
-    0%, 100% { 
-        transform: scale(1); 
-        filter: drop-shadow(0 0 0px #f5c2e7); 
-    }
-    50% { 
-        transform: scale(1.15); 
-        filter: drop-shadow(0 0 5px #f5c2e7); 
-    }
+    0%, 100% { transform: scale(1);    filter: drop-shadow(0 0 0px #f5c2e7); }
+    50%       { transform: scale(1.15); filter: drop-shadow(0 0 5px #f5c2e7); }
 }

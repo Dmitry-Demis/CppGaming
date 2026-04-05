@@ -9,10 +9,5 @@
     border-left-color: var(--accent-orange, #fb923c);
 }
 
-.callout--warning .callout__icon svg {
-    color: var(--accent-orange, #fb923c);
-}
-
-.callout--warning .callout__title {
-    color: var(--accent-orange, #fb923c);
-}
+.callout--warning .callout__icon svg { color: var(--accent-orange, #fb923c); }
+.callout--warning .callout__title    { color: var(--accent-orange, #fb923c); }

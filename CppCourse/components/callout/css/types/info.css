@@ -1,6 +1,5 @@
 /**
- * Callout Type: Info
- * Информационный блок (голубой/cyan)
+ * Callout Type: Info — голубой/cyan
  */
 
 .callout--info {
@@ -9,10 +8,5 @@
     border-left-color: var(--accent-cyan, #38bdf8);
 }
 
-.callout--info .callout__icon svg {
-    color: var(--accent-cyan, #38bdf8);
-}
-
-.callout--info .callout__title {
-    color: var(--accent-cyan, #38bdf8);
-}
+.callout--info .callout__icon svg { color: var(--accent-cyan, #38bdf8); }
+.callout--info .callout__title    { color: var(--accent-cyan, #38bdf8); }

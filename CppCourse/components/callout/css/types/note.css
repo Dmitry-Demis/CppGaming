@@ -9,10 +9,5 @@
     border-left-color: var(--accent-blue, #60a5fa);
 }
 
-.callout--note .callout__icon svg {
-    color: var(--accent-blue, #60a5fa);
-}
-
-.callout--note .callout__title {
-    color: var(--accent-blue, #60a5fa);
-}
+.callout--note .callout__icon svg { color: var(--accent-blue, #60a5fa); }
+.callout--note .callout__title    { color: var(--accent-blue, #60a5fa); }

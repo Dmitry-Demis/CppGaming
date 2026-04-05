@@ -9,10 +9,5 @@
     border-left-color: var(--accent-red, #f87171);
 }
 
-.callout--danger .callout__icon svg {
-    color: var(--accent-red, #f87171);
-}
-
-.callout--danger .callout__title {
-    color: var(--accent-red, #f87171);
-}
+.callout--danger .callout__icon svg { color: var(--accent-red, #f87171); }
+.callout--danger .callout__title    { color: var(--accent-red, #f87171); }
