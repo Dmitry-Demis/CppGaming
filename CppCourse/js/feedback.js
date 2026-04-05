@@ -20,7 +20,7 @@
     }
 
     function headers() {
-        const h = { 'Content-Type': 'application/json' };
+        const h = { 'Content-Type': 'application/json', ...csrfHeader() };
         const isu = getIsu();
         if (isu) h['X-Isu-Number'] = isu;
         return h;

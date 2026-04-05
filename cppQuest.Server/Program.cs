@@ -13,6 +13,16 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.ConfigureHttpJsonOptions(o =>
     o.SerializerOptions.PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase);
 
+// CSRF protection
+builder.Services.AddAntiforgery(options =>
+{
+    options.HeaderName = "X-CSRF-Token";
+    options.Cookie.Name = "XSRF-TOKEN";
+    options.Cookie.HttpOnly = false;   // JS должен читать куку
+    options.Cookie.SameSite = SameSiteMode.Strict;
+    options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+});
+
 // Rate limiting — защита от брутфорса на auth endpoints
 builder.Services.AddRateLimiter(options =>
 {
@@ -22,6 +32,13 @@ builder.Services.AddRateLimiter(options =>
         opt.Window              = TimeSpan.FromMinutes(1);
         opt.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
         opt.QueueLimit          = 0;
+    });
+    options.AddFixedWindowLimiter("api", opt =>
+    {
+        opt.PermitLimit          = 60;
+        opt.Window               = TimeSpan.FromMinutes(1);
+        opt.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+        opt.QueueLimit           = 0;
     });
     options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
 });
@@ -54,6 +71,15 @@ builder.Services.AddScoped<QuestionProgressService>();
 var app = builder.Build();
 
 app.UseRateLimiter();
+
+// Выдаём CSRF-токен при каждом GET-запросе (браузер читает куку и кладёт в заголовок)
+app.Use(async (ctx, next) =>
+{
+    var antiforgery = ctx.RequestServices.GetRequiredService<Microsoft.AspNetCore.Antiforgery.IAntiforgery>();
+    if (HttpMethods.IsGet(ctx.Request.Method))
+        antiforgery.SetCookieTokenAndHeader(ctx);
+    await next(ctx);
+});
 
 // Auto-migrate on startup
 await using (var scope = app.Services.CreateAsyncScope())

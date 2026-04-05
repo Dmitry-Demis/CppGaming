@@ -1,5 +1,6 @@
 using cppQuest.Server.Models;
 using cppQuest.Server.Services;
+using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.EntityFrameworkCore;
 
 namespace cppQuest.Server.Endpoints;
@@ -11,7 +12,7 @@ public static class FeedbackEndpoints
         var group = app.MapGroup("/api/feedback");
 
         // POST /api/feedback — сохранить отзыв на страницу
-        group.MapPost("", SaveFeedbackAsync);
+        group.MapPost("", SaveFeedbackAsync).RequireRateLimiting("api");
 
         // GET /api/feedback/{pageId} — статистика страницы + оценка текущего пользователя
         group.MapGet("{pageId}", GetFeedbackAsync);
@@ -26,8 +27,13 @@ public static class FeedbackEndpoints
         FeedbackRequest req,
         AppDbContext db,
         ProfileService profileService,
+        IAntiforgery antiforgery,
         HttpContext ctx)
     {
+        // ── CSRF-проверка ────────────────────────────────────────────────────
+        try { await antiforgery.ValidateRequestAsync(ctx); }
+        catch { return Results.StatusCode(StatusCodes.Status403Forbidden); }
+
         // ── Валидация ────────────────────────────────────────────────────────
         if (ValidateFeedback(req) is { } validationError) return validationError;
 
@@ -63,6 +69,11 @@ public static class FeedbackEndpoints
         ProfileService profileService,
         HttpContext ctx)
     {
+        // Валидация pageId из URL
+        if (string.IsNullOrWhiteSpace(pageId) || pageId.Length > 128 ||
+            !System.Text.RegularExpressions.Regex.IsMatch(pageId, @"^[\w\-]+$"))
+            return Results.BadRequest("Invalid pageId.");
+
         var ratings = await db.PageFeedbacks
             .Where(f => f.PageId == pageId)
             .Select(f => new { f.UserId, f.Rating })
@@ -85,6 +96,9 @@ public static class FeedbackEndpoints
     /// </summary>
     private static IResult? ValidateFeedback(FeedbackRequest req)
     {
+        if (string.IsNullOrWhiteSpace(req.PageId) || req.PageId.Length > 128 ||
+            !System.Text.RegularExpressions.Regex.IsMatch(req.PageId.Trim(), @"^[\w\-]+$"))
+            return Results.BadRequest("Invalid pageId.");
         if (req.Rating < 1 || req.Rating > 10)
             return Results.BadRequest("Rating must be 1–10.");
         if (req.Comment?.Length > 1024)

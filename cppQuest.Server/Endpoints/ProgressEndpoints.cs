@@ -2,6 +2,7 @@ using cppQuest.Server.DTOs;
 using cppQuest.Server.Models;
 using cppQuest.Server.Repositories;
 using cppQuest.Server.Services;
+using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.EntityFrameworkCore;
 
 namespace cppQuest.Server.Endpoints;
@@ -25,15 +26,15 @@ public static class ProgressEndpoints
         group.MapGet("progress/{isuNumber}/all",                GetAllProgressAsync);
 
         // ── Чтение ───────────────────────────────────────────────────────────
-        group.MapPost("reading/complete", CompleteReadingAsync);
+        group.MapPost("reading/complete", CompleteReadingAsync).RequireRateLimiting("api");
         group.MapGet("review/due",        GetReviewDueAsync);
 
         // ── Стрик и активность ───────────────────────────────────────────────
         group.MapGet("streak/{isuNumber}", GetStreakAsync);
-        group.MapPost("scroll",            AddScrollPixelsAsync);
+        group.MapPost("scroll",            AddScrollPixelsAsync).RequireRateLimiting("api");
 
         // ── Тесты ────────────────────────────────────────────────────────────
-        group.MapPost("test/complete", CompleteTestAsync);
+        group.MapPost("test/complete", CompleteTestAsync).RequireRateLimiting("api");
     }
 
     // ── Handlers ────────────────────────────────────────────────────────────
@@ -106,8 +107,12 @@ public static class ProgressEndpoints
         ReadingSessionRequest req,
         ProfileService profileService,
         StatsService statsService,
+        IAntiforgery antiforgery,
         HttpContext ctx)
     {
+        try { await antiforgery.ValidateRequestAsync(ctx); }
+        catch { return Results.StatusCode(StatusCodes.Status403Forbidden); }
+
         var isuNumber = EndpointHelpers.GetIsuNumber(ctx);
         if (isuNumber is null) return Results.BadRequest();
         var profile = await profileService.GetProfileAsync(isuNumber);
@@ -141,8 +146,11 @@ public static class ProgressEndpoints
     /// Использует bulk UPDATE без загрузки сущности в память.
     /// </summary>
     private static async Task<IResult> AddScrollPixelsAsync(
-        ScrollRequest req, AppDbContext db, HttpContext ctx)
+        ScrollRequest req, AppDbContext db, IAntiforgery antiforgery, HttpContext ctx)
     {
+        try { await antiforgery.ValidateRequestAsync(ctx); }
+        catch { return Results.StatusCode(StatusCodes.Status403Forbidden); }
+
         var isuNumber = EndpointHelpers.GetIsuNumber(ctx);
         if (isuNumber is null || req.Pixels <= 0) return Results.Ok();
 
@@ -164,8 +172,12 @@ public static class ProgressEndpoints
         ProfileService profileService,
         StatsService statsService,
         QuestionProgressService qpService,
+        IAntiforgery antiforgery,
         HttpContext ctx)
     {
+        try { await antiforgery.ValidateRequestAsync(ctx); }
+        catch { return Results.StatusCode(StatusCodes.Status403Forbidden); }
+
         var isuNumber = EndpointHelpers.GetIsuNumber(ctx);
         if (isuNumber is null) return Results.BadRequest();
 

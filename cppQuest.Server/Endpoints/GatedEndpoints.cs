@@ -2,6 +2,7 @@ using cppQuest.Server.DTOs;
 using cppQuest.Server.Models;
 using cppQuest.Server.Repositories;
 using cppQuest.Server.Services;
+using Microsoft.AspNetCore.Antiforgery;
 
 namespace cppQuest.Server.Endpoints;
 
@@ -21,7 +22,7 @@ public static class GatedEndpoints
         group.MapGet("gated/content", GetSlotContentAsync);
 
         // POST /api/gated/purchase — покупка отдельного gated-слота
-        group.MapPost("gated/purchase", PurchaseSlotAsync);
+        group.MapPost("gated/purchase", PurchaseSlotAsync).RequireRateLimiting("api");
     }
 
     // ── Handlers ────────────────────────────────────────────────────────────
@@ -134,9 +135,13 @@ public static class GatedEndpoints
         GamificationService gamification,
         ISlotRepository slotRepo,
         IShopRepository shopRepo,
+        IAntiforgery antiforgery,
         HttpContext ctx,
         IWebHostEnvironment env)
     {
+        try { await antiforgery.ValidateRequestAsync(ctx); }
+        catch { return Results.StatusCode(StatusCodes.Status403Forbidden); }
+
         // ── Guards ───────────────────────────────────────────────────────────
         if (EndpointHelpers.GetIsuNumber(ctx) is not { } isuNumber)
             return Results.BadRequest(new { message = "Нет заголовка X-Isu-Number" });

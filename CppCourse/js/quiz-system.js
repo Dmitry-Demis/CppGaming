@@ -521,7 +521,7 @@ class QuizSystem {
 
             fetch('/api/test/complete', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'X-Isu-Number': user.isuNumber },
+                headers: { 'Content-Type': 'application/json', 'X-Isu-Number': user.isuNumber, ...csrfHeader() },
                 body: JSON.stringify({
                     paragraphId,
                     testId:          this.currentTest,

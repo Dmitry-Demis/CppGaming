@@ -2,6 +2,7 @@ using cppQuest.Server.DTOs;
 using cppQuest.Server.Models;
 using cppQuest.Server.Repositories;
 using cppQuest.Server.Services;
+using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.EntityFrameworkCore;
 
 namespace cppQuest.Server.Endpoints;
@@ -19,7 +20,7 @@ public static class QuizEndpoints
         group.MapGet("{quizId}", GetQuizAsync);
 
         // POST /api/quiz/{quizId}/submit — проверка ответов
-        group.MapPost("{quizId}/submit", SubmitQuizAsync);
+        group.MapPost("{quizId}/submit", SubmitQuizAsync).RequireRateLimiting("api");
 
         // GET /api/quiz/{quizId}/wrong-ids — ID вопросов, на которые пользователь ответил неверно в последний раз
         group.MapGet("{quizId}/wrong-ids", GetWrongIdsAsync);
@@ -110,8 +111,12 @@ public static class QuizEndpoints
         string quizId,
         QuizSubmitRequest req,
         IQuizService quizService,
+        IAntiforgery antiforgery,
         HttpContext ctx)
     {
+        try { await antiforgery.ValidateRequestAsync(ctx); }
+        catch { return Results.StatusCode(StatusCodes.Status403Forbidden); }
+
         var result = await quizService.SubmitQuizAsync(quizId, req);
         return result is not null
             ? Results.Ok(result)

@@ -2,6 +2,7 @@ using cppQuest.Server.DTOs;
 using cppQuest.Server.Models;
 using cppQuest.Server.Repositories;
 using cppQuest.Server.Services;
+using Microsoft.AspNetCore.Antiforgery;
 
 namespace cppQuest.Server.Endpoints;
 
@@ -16,21 +17,20 @@ public static class ShopEndpoints
             Results.Ok(await shopRepo.GetAllItemsAsync()));
 
         // POST /api/shop/purchase — покупка товара (стандарт C++, скин и т.д.)
-        group.MapPost("shop/purchase", PurchaseItemAsync);
+        group.MapPost("shop/purchase", PurchaseItemAsync).RequireRateLimiting("api");
     }
 
-    /// <summary>
-    /// Покупает товар из магазина.
-    /// Валидация и guard-проверки делегированы в <see cref="EndpointGuards"/>.
-    /// </summary>
-    /// <param name="req">Тело запроса: идентификатор товара.</param>
     private static async Task<IResult> PurchaseItemAsync(
         ShopPurchaseRequest req,
         ProfileService profileService,
         GamificationService gamification,
         IShopRepository shopRepo,
+        IAntiforgery antiforgery,
         HttpContext ctx)
     {
+        try { await antiforgery.ValidateRequestAsync(ctx); }
+        catch { return Results.StatusCode(StatusCodes.Status403Forbidden); }
+
         // ── Guards ───────────────────────────────────────────────────────────
         if (EndpointHelpers.GetIsuNumber(ctx) is not { } isuNumber)
             return Results.BadRequest(new { message = "Нет заголовка X-Isu-Number" });

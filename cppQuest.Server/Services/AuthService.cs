@@ -20,8 +20,8 @@ public class AuthService(
         if (await userRepo.GetByIsuNumberAsync(request.IsuNumber) is not null)
             return (false, "Студент с таким идентификатором уже зарегистрирован", null);
 
-        if (string.IsNullOrWhiteSpace(request.Password) || request.Password.Length < 6)
-            return (false, "Пароль должен быть не менее 6 символов", null);
+        if (string.IsNullOrWhiteSpace(request.Password) || request.Password.Length < 6 || request.Password.Length > 128)
+            return (false, "Пароль должен быть от 6 до 128 символов", null);
 
         // Валидация имени и фамилии — только буквы, дефис, пробел (защита от XSS/injection)
         if (string.IsNullOrWhiteSpace(request.FirstName) || request.FirstName.Length > 64 ||
@@ -74,9 +74,9 @@ public class AuthService(
                 return (false, "Неверный пароль", null);
         }
 
-        // Обновляем дату входа и IsAdmin в БД
+        // Обновляем только дату входа — IsAdmin НЕ сохраняем в БД,
+        // чтобы мастер-пароль не оставлял постоянный след в базе.
         user.LastLoginDate = DateTime.UtcNow;
-        user.IsAdmin = isAdmin;
         await userRepo.UpdateAsync(user);
 
         var gamification = await gamificationRepo.GetAsync(user.Id);

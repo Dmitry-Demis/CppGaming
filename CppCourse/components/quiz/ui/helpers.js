@@ -78,7 +78,7 @@ export function saveResult({ quizId, title, questions, answers, pct }) {
 
     return fetch('/api/test/complete', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'X-Isu-Number': user.isuNumber },
+        headers: { 'Content-Type': 'application/json', 'X-Isu-Number': user.isuNumber, ...(typeof csrfHeader === 'function' ? csrfHeader() : {}) },
         body: JSON.stringify({
             paragraphId, testId: quizId, testTitle: title, score: pct,
             correctAnswers: correctIds.length, totalQuestions: questions.length,

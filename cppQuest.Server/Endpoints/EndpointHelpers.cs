@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using cppQuest.Server.Repositories;
 using cppQuest.Server.Services;
 
@@ -14,12 +15,20 @@ internal static class EndpointHelpers
     /// </summary>
     public static readonly HashSet<string> FreeStds = ["98"];
 
+    // Только цифры и латинские буквы, максимум 12 символов
+    private static readonly Regex IsuNumberRegex = new(@"^[A-Za-z0-9]{1,12}$", RegexOptions.Compiled);
+
     /// <summary>
     /// Читает ISU-номер из заголовка <c>X-Isu-Number</c>.
-    /// Возвращает <c>null</c>, если заголовок отсутствует или пустой.
+    /// Возвращает <c>null</c>, если заголовок отсутствует, пустой или не соответствует формату.
+    /// Формат: только латинские буквы и цифры, максимум 12 символов.
     /// </summary>
-    public static string? GetIsuNumber(HttpContext ctx) =>
-        ctx.Request.Headers["X-Isu-Number"].FirstOrDefault() is { Length: > 0 } v ? v : null;
+    public static string? GetIsuNumber(HttpContext ctx)
+    {
+        var v = ctx.Request.Headers["X-Isu-Number"].FirstOrDefault();
+        if (string.IsNullOrEmpty(v)) return null;
+        return IsuNumberRegex.IsMatch(v) ? v : null;
+    }
 
     /// <summary>
     /// Возвращает множество разблокированных стандартов C++ для текущего пользователя.

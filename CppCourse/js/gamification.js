@@ -3,6 +3,15 @@
    Coins, XP, Quests, Daily reward, Reading time
    ============================================ */
 
+// ── CSRF helper (используется во всех POST-запросах) ─────────────────────────
+function getCookie(name) {
+    const match = document.cookie.match(new RegExp('(?:^|;\\s*)' + name + '=([^;]*)'));
+    return match ? decodeURIComponent(match[1]) : null;
+}
+function csrfHeader() {
+    return { 'X-CSRF-Token': getCookie('XSRF-TOKEN') || '' };
+}
+
 // ── Storage helpers ──────────────────────────────────────────────────────────
 const GS = {
     get: (k, def) => { try { const v = localStorage.getItem(k); return v === null ? def : JSON.parse(v); } catch { return def; } },
@@ -310,7 +319,7 @@ class GameSystem {
         if (user?.isuNumber) {
             fetch(`/api/achievements/${user.isuNumber}/unlock`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 'Content-Type': 'application/json', ...csrfHeader() },
                 body: JSON.stringify({ achievementId: id })
             }).catch(() => {});
         }
@@ -494,7 +503,7 @@ class ReadingTracker {
             this._scrollPixels = 0;
 
             const url = '/api/reading/complete';
-            const headers = { 'Content-Type': 'application/json', 'X-Isu-Number': user.isuNumber };
+            const headers = { 'Content-Type': 'application/json', 'X-Isu-Number': user.isuNumber, ...csrfHeader() };
             fetch(url, {
                 method: 'POST',
                 headers,

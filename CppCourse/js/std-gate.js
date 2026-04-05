@@ -420,7 +420,7 @@
 
         try {
             var res = await fetch(API+'/gated/purchase', {
-                method:'POST', headers:{'Content-Type':'application/json','X-Isu-Number':isu},
+                method:'POST', headers:{'Content-Type':'application/json','X-Isu-Number':isu, ...csrfHeader()},
                 body: JSON.stringify({page:page, slot:slot, std:std})
             });
             var data = await res.json();

@@ -126,7 +126,7 @@ if (document.readyState === 'loading') {
         _sent = true;
         fetch('/api/scroll', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'X-Isu-Number': user.isuNumber },
+            headers: { 'Content-Type': 'application/json', 'X-Isu-Number': user.isuNumber, ...csrfHeader() },
             body: JSON.stringify({ pixels: px }),
             keepalive: true
         }).catch(() => {});

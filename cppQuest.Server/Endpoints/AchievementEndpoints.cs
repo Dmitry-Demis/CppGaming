@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using cppQuest.Server.Models;
 using cppQuest.Server.Services;
+using Microsoft.AspNetCore.Antiforgery;
 
 namespace cppQuest.Server.Endpoints;
 
@@ -31,8 +32,13 @@ public static class AchievementEndpoints
             string isuNumber,
             UnlockAchievementRequest req,
             ProfileService profileService,
-            AppDbContext db) =>
+            IAntiforgery antiforgery,
+            AppDbContext db,
+            HttpContext ctx) =>
         {
+            try { await antiforgery.ValidateRequestAsync(ctx); }
+            catch { return Results.StatusCode(StatusCodes.Status403Forbidden); }
+
             var profile = await profileService.GetProfileAsync(isuNumber);
             if (profile is null) return Results.NotFound();
 
@@ -59,8 +65,13 @@ public static class AchievementEndpoints
             string isuNumber,
             UnlockBatchRequest req,
             ProfileService profileService,
-            AppDbContext db) =>
+            IAntiforgery antiforgery,
+            AppDbContext db,
+            HttpContext ctx) =>
         {
+            try { await antiforgery.ValidateRequestAsync(ctx); }
+            catch { return Results.StatusCode(StatusCodes.Status403Forbidden); }
+
             var profile = await profileService.GetProfileAsync(isuNumber);
             if (profile is null) return Results.NotFound();
 
