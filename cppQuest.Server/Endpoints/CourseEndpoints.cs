@@ -4,6 +4,10 @@ namespace cppQuest.Server.Endpoints;
 
 public static class CourseEndpoints
 {
+    // Кэш структуры курса — строится один раз при первом запросе
+    private static object? _cache;
+    private static readonly Lock _lock = new();
+
     /// <param name="cppCoursePath">Абсолютный путь к директории фронтенда курса (содержит course-meta.json, theory/).</param>
     public static void MapCourseEndpoints(this IEndpointRouteBuilder app, string cppCoursePath)
     {
@@ -11,6 +15,14 @@ public static class CourseEndpoints
         api.MapGet("examples/{**path}",  (string path, IWebHostEnvironment env) => ServeStaticFile(path, env, "examples", null));
         api.MapGet("tests/{**path}",     (string path, IWebHostEnvironment env) => ServeStaticFile(path, env, "tests", "application/json"));
         api.MapGet("course-structure",   (IWebHostEnvironment env)               => GetCourseStructure(cppCoursePath, env));
+    }
+
+    /// <summary>Прогревает кэш структуры курса при старте сервера.</summary>
+    public static void WarmUp(string cppCoursePath, IWebHostEnvironment env, ILogger logger)
+    {
+        logger.LogInformation("[CourseEndpoints] Warming up course structure cache...");
+        BuildCache(cppCoursePath, env);
+        logger.LogInformation("[CourseEndpoints] Course structure cache ready.");
     }
 
     /// <summary>
@@ -41,23 +53,38 @@ public static class CourseEndpoints
     /// <summary>
     /// Строит полную структуру курса из <c>course-meta.json</c>:
     /// главы → параграфы → тесты + примеры кода.
+    /// Результат кэшируется в памяти на всё время жизни процесса.
     /// </summary>
     /// <param name="cppCoursePath">Путь к директории фронтенда курса.</param>
     private static IResult GetCourseStructure(string cppCoursePath, IWebHostEnvironment env)
     {
-        var metaPath = Path.Combine(cppCoursePath, "course-meta.json");
-        if (!File.Exists(metaPath))
-            return Results.NotFound(new { message = "course-meta.json not found" });
+        var cached = BuildCache(cppCoursePath, env);
+        return cached is null
+            ? Results.NotFound(new { message = "course-meta.json not found" })
+            : Results.Ok(cached);
+    }
 
-        using var meta = JsonDocument.Parse(File.ReadAllText(metaPath));
-        var testsRoot  = Path.Combine(env.ContentRootPath, "tests");
-        var theoryRoot = Path.Combine(cppCoursePath, "theory");
+    private static object? BuildCache(string cppCoursePath, IWebHostEnvironment env)
+    {
+        if (_cache is not null) return _cache;
+        lock (_lock)
+        {
+            if (_cache is not null) return _cache;
 
-        var chapters = meta.RootElement.GetProperty("chapters").EnumerateArray()
-            .Select(ch => BuildChapter(ch, theoryRoot, testsRoot, env.ContentRootPath))
-            .ToList();
+            var metaPath = Path.Combine(cppCoursePath, "course-meta.json");
+            if (!File.Exists(metaPath)) return null;
 
-        return Results.Ok(new { chapters });
+            using var meta = JsonDocument.Parse(File.ReadAllText(metaPath));
+            var testsRoot  = Path.Combine(env.ContentRootPath, "tests");
+            var theoryRoot = Path.Combine(cppCoursePath, "theory");
+
+            var chapters = meta.RootElement.GetProperty("chapters").EnumerateArray()
+                .Select(ch => BuildChapter(ch, theoryRoot, testsRoot, env.ContentRootPath))
+                .ToList();
+
+            _cache = new { chapters };
+            return _cache;
+        }
     }
 
     /// <summary>
@@ -68,8 +95,9 @@ public static class CourseEndpoints
         var chapterId = ch.GetProperty("id").GetString()!;
         var groupId   = ch.GetProperty("groupId").GetString()!;
         var title     = ch.GetProperty("title").GetString();
-        var desc      = ch.TryGetProperty("description", out var d)   ? d.GetString()  : null;
-        var chNum     = ch.TryGetProperty("number",      out var num) ? num.GetInt32() : 0;
+        var desc      = ch.TryGetProperty("description", out var d)    ? d.GetString()   : null;
+        var level     = ch.TryGetProperty("level",       out var lv)   ? lv.GetString()  : null;
+        var chNum     = ch.TryGetProperty("number",      out var num)  ? num.GetInt32()  : 0;
 
         var theoryDir     = Path.Combine(theoryRoot,   chapterId, groupId);
         var chTestsDir    = Path.Combine(testsRoot,    chapterId, groupId);
@@ -80,7 +108,7 @@ public static class CourseEndpoints
             .Cast<object>()
             .ToList();
 
-        return new { id = chapterId, number = chNum, groupId, title, description = desc, paragraphs };
+        return new { id = chapterId, number = chNum, groupId, title, description = desc, level, paragraphs };
     }
 
     /// <summary>

@@ -901,7 +901,16 @@ function renderProfile(data, chapters, progressMap) {
         </div>
         <div id="tab-table" class="tab-panel active" style="display:block">
             <div id="course-progress-wrap">
-                <div class="empty-state" style="padding:var(--space-8)"><div class="empty-icon">⏳</div><p>Загрузка прогресса...</p></div>
+                <div id="progress-skeleton" style="padding:var(--space-4) var(--space-5);display:flex;flex-direction:column;gap:10px">
+                    ${Array.from({length: 8}, (_, i) => `
+                    <div style="display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:10px;background:var(--bg-secondary)">
+                        <div class="skeleton" style="width:20px;height:20px;border-radius:50%;flex-shrink:0"></div>
+                        <div class="skeleton" style="flex:1;height:11px;max-width:${180 + (i % 3) * 60}px"></div>
+                        <div class="skeleton" style="width:48px;height:11px"></div>
+                        <div class="skeleton" style="width:36px;height:11px"></div>
+                        <div class="skeleton" style="width:52px;height:11px"></div>
+                    </div>`).join('')}
+                </div>
             </div>
         </div>
         <div id="tab-heatmap"      class="tab-panel" style="display:none"></div>
@@ -925,6 +934,10 @@ function renderProfile(data, chapters, progressMap) {
 async function loadChaptersProgress(isuNumber, chapters, progressMap) {
     const wrap = document.getElementById('course-progress-wrap');
     if (!wrap) return;
+
+    // Убираем скелетон
+    const skeleton = document.getElementById('progress-skeleton');
+    if (skeleton) skeleton.remove();
 
     function chapterNumFromId(id) {
         const m = id.match(/^chapter-(.+)$/);

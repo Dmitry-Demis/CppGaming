@@ -247,6 +247,21 @@
             const desc = document.getElementById('course-description');
             if (!grid) return;
 
+            // ── Фаза 1: скелетоны ──────────────────────────────────────────
+            grid.innerHTML = Array.from({ length: 6 }, () => `
+                <div class="chapter-card chapter-card--skeleton">
+                    <div class="skeleton sk-line" style="width:30%;height:9px;margin-bottom:14px"></div>
+                    <div class="skeleton sk-title"></div>
+                    <div class="skeleton sk-desc"></div>
+                    <div class="skeleton sk-desc2"></div>
+                    <div style="border-top:1px solid var(--border-primary);padding-top:12px;margin-top:4px">
+                        <div class="skeleton sk-para"></div>
+                        <div class="skeleton sk-para2"></div>
+                        <div class="skeleton sk-para3"></div>
+                    </div>
+                </div>`).join('');
+
+            // ── Фаза 2: загружаем структуру курса ─────────────────────────
             let structure;
             try {
                 structure = await loadCourseStructure('');
@@ -267,95 +282,67 @@
                 return m ? m[1] : id;
             }
 
+            // ── Фаза 3: рендерим карточки (без прогресса) ─────────────────
+            grid.innerHTML = '';
             structure.chapters.forEach((chapter, ci) => {
                 const color = CARD_COLORS[ci % CARD_COLORS.length];
                 const paragraphs = chapter.paragraphs || [];
                 const chapterIndex = `theory/${chapter.id}/${chapter.groupId}/index.html`;
-
-                // Compute per-paragraph mastery — заполняется с сервера ниже
-                function paraProgress(p) { return { passed: false, mastery: null }; }
-                function paraScore(p) { return 0; }
-                const chapterMastery = 0;
-                const masteryColor = '#6b7280';
-
                 const PREVIEW = 6;
                 const hasMore = paragraphs.length > PREVIEW;
                 const cardId = `chapter-card-${ci}`;
 
-                function masteryBadge(mastery) {
-                    if (mastery === null) return `<span class="para-badge para-badge--none" data-para-badge>—</span>`;
-                    if (mastery === 100) return `<span class="para-badge para-badge--gold"   data-para-badge>🥇 100%</span>`;
-                    if (mastery >= 90)   return `<span class="para-badge para-badge--silver" data-para-badge>🥈 ${mastery}%</span>`;
-                    if (mastery >= 80)   return `<span class="para-badge para-badge--bronze" data-para-badge>🥉 ${mastery}%</span>`;
-                    if (mastery >= 70)   return `<span class="para-badge para-badge--pass"   data-para-badge>✓ ${mastery}%</span>`;
-                    return `<span class="para-badge para-badge--fail" data-para-badge>${mastery}%</span>`;
-                }
-
                 function renderParaList(list, startIndex) {
                     return list.map((p, i) => {
-                        const { mastery } = paraProgress(p);
                         const href = `theory/${chapter.id}/${chapter.groupId}/${p.id}.html`;
-                const paraNum = `§${chapterNumFromId(chapter.id)}.${startIndex + i + 1}`;
+                        const paraNum = `§${chapterNumFromId(chapter.id)}.${startIndex + i + 1}`;
                         return `<div class="para-item" data-para-id="${p.id}">
                             <a class="chapter-section-link" href="${href}" onclick="event.stopPropagation()" style="display:flex;align-items:center;gap:6px;">
                                 <span class="para-num" style="flex-shrink:0;font-family:var(--font-mono);font-size:.65rem;color:var(--card-color,var(--accent-violet));font-weight:700;min-width:2.8em">${paraNum}</span>
                                 <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${p.title}">${p.title}</span>
-                                ${masteryBadge(mastery)}
+                                <span class="para-badge para-badge--none para-badge--loading" data-para-badge>&nbsp;</span>
                             </a>
                         </div>`;
                     }).join('');
                 }
 
-                const previewHtml = renderParaList(paragraphs.slice(0, PREVIEW), 0);
-                const restHtml = hasMore ? renderParaList(paragraphs.slice(PREVIEW), PREVIEW) : '';
-
                 const card = document.createElement('div');
-                card.className = 'chapter-card';
+                card.className = 'chapter-card chapter-card--loaded';
                 card.id = cardId;
                 card.style.setProperty('--card-color', color);
                 card.style.cursor = 'pointer';
+                card.style.animationDelay = (ci * 0.04) + 's';
                 card.addEventListener('click', () => { location.href = chapterIndex; });
                 card.innerHTML = `
                     <div class="card-header">
                         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
                             <span class="card-number">Глава ${chapterNumFromId(chapter.id)} <span style="font-size:.7rem;font-weight:500;opacity:.6">(${paragraphs.length} §§)</span>${chapter.level ? `<span class="card-level card-level--${chapter.level.replace('+','-plus')}">${chapter.level}</span>` : ''}</span>
-                            <span class="ch-mastery-badge" style="font-size:.72rem;font-weight:800;color:${masteryColor};background:rgba(255,255,255,.06);padding:2px 8px;border-radius:99px;border:1px solid ${masteryColor}33">—</span>
+                            <span class="ch-mastery-badge" style="font-size:.72rem;font-weight:800;color:#6b7280;background:rgba(255,255,255,.06);padding:2px 8px;border-radius:99px;border:1px solid #6b728033">—</span>
                         </div>
                         <h3>${chapter.title}</h3>
                         <p>${chapter.description || ''}</p>
                     </div>
                     <div class="chapter-topics">
-                        <div class="chapter-sections-list" id="list-${cardId}">${previewHtml}</div>
-                        ${hasMore ? `<div class="chapter-sections-list" id="rest-${cardId}" style="display:none">${restHtml}</div>` : ''}
+                        <div class="chapter-sections-list" id="list-${cardId}">${renderParaList(paragraphs.slice(0, PREVIEW), 0)}</div>
+                        ${hasMore ? `<div class="chapter-sections-list" id="rest-${cardId}" style="display:none">${renderParaList(paragraphs.slice(PREVIEW), PREVIEW)}</div>` : ''}
                     </div>
                     ${hasMore ? `<button class="expand-btn" onclick="event.stopPropagation();toggleExpand('${cardId}')" style="background:none;border:none;color:var(--card-color,#a78bfa);font-size:.75rem;font-weight:700;cursor:pointer;padding:4px 0;margin-top:4px">▼ Показать все (${paragraphs.length})</button>` : ''}
                     <span class="card-arrow">Изучить →</span>`;
-
                 grid.appendChild(card);
             });
 
-            // Плоский список всех параграфов для определения порядка
-            const allParas = structure.chapters.flatMap(ch => (ch.paragraphs || []).map(p => p.id));
-
-            // If logged in — fetch real progress from server and update badges
+            // ── Фаза 4: прогресс (только если залогинен) ──────────────────
             const user = JSON.parse(localStorage.getItem('cpp_user') || 'null');
+            const allParas = structure.chapters.flatMap(ch => (ch.paragraphs || []).map(p => p.id));
             let unlockedSet = new Set();
             let isAdmin = false;
 
             if (user?.isuNumber) {
-                // Загружаем прогресс и разблокированные параграфы параллельно
                 const [progressMap, unlockedData] = await Promise.all([
-                    fetch(`/api/progress/${user.isuNumber}/all`, {
-                        headers: { 'X-Isu-Number': user.isuNumber },
-                        cache: 'no-store'
-                    })
-                        .then(r => r.ok ? r.json() : null)
-                        .catch(() => null),
-                    fetch(`/api/progress/${user.isuNumber}/unlocked-paragraphs`, {
-                        headers: { 'X-Isu-Number': user.isuNumber }
-                    })
-                        .then(r => r.ok ? r.json() : null)
-                        .catch(() => null)
+                    fetch(`/api/progress/${user.isuNumber}/all`, { headers: { 'X-Isu-Number': user.isuNumber }, cache: 'no-store' })
+                        .then(r => r.ok ? r.json() : null).catch(() => null),
+                    fetch(`/api/progress/${user.isuNumber}/unlocked-paragraphs`, { headers: { 'X-Isu-Number': user.isuNumber } })
+                        .then(r => r.ok ? r.json() : null).catch(() => null)
                 ]);
 
                 unlockedSet = new Set(unlockedData?.unlocked || []);
@@ -367,43 +354,38 @@
                         const cardEl = document.getElementById(`chapter-card-${ci}`);
                         if (!cardEl) return;
 
-                        // Бейдж главы = среднее покрытие по всем параграфам (непройденные = 0%)
                         let paraScoreSum = 0;
                         paragraphs.forEach(p => {
                             const prog = progressMap[p.id];
-                            if (!prog) return; // нет прогресса → 0, просто не добавляем
+                            if (!prog) return;
                             const attempted = Object.values(prog.tests || {}).filter(t => t.attemptsCount > 0);
                             if (!attempted.length) return;
                             const seenSum  = attempted.reduce((s, t) => s + (t.seenCount || 0), 0);
                             const totalSum = attempted.reduce((s, t) => s + (t.totalQuestionsInBank || 0), 0);
                             if (totalSum > 0) paraScoreSum += Math.min(seenSum / totalSum * 100, 100);
                         });
-                        const mastery = paragraphs.length > 0 ? paraScoreSum / paragraphs.length : 0;
-                        const mc = mastery >= 90 ? '#fde68a' : mastery >= 80 ? '#cd7f32' : mastery >= 70 ? '#a8b5c8' : '#6b7280';
-                        const badge = cardEl.querySelector('.ch-mastery-badge');
-                        if (badge) {
-                            if (paraScoreSum === 0) return; // нет прогресса — оставляем «—»
-                            badge.style.color = mc;
-                            badge.style.borderColor = mc + '33';
-                            badge.textContent = mastery.toFixed(1) + '%';
+
+                        if (paraScoreSum > 0) {
+                            const mastery = paragraphs.length > 0 ? paraScoreSum / paragraphs.length : 0;
+                            const mc = mastery >= 90 ? '#fde68a' : mastery >= 80 ? '#cd7f32' : mastery >= 70 ? '#a8b5c8' : '#6b7280';
+                            const badge = cardEl.querySelector('.ch-mastery-badge');
+                            if (badge) { badge.style.color = mc; badge.style.borderColor = mc + '33'; badge.textContent = mastery.toFixed(1) + '%'; }
                         }
 
                         paragraphs.forEach(p => {
                             const prog = progressMap[p.id];
                             const paraItem = cardEl.querySelector(`.para-item[data-para-id="${p.id}"]`);
-                            if (!paraItem || !prog) return;
+                            if (!paraItem) return;
+                            const badge = paraItem.querySelector('[data-para-badge]');
+                            if (!badge) return;
+                            badge.classList.remove('para-badge--loading');
+                            if (!prog) { badge.className = 'para-badge para-badge--none'; badge.textContent = '—'; return; }
                             const attempted = Object.values(prog.tests || {}).filter(t => t.attemptsCount > 0);
-                            if (!attempted.length) return;
-
-                            // Покрытие параграфа = sum(seen) / sum(total), не более 100%
+                            if (!attempted.length) { badge.className = 'para-badge para-badge--none'; badge.textContent = '—'; return; }
                             const seenSum  = attempted.reduce((s, t) => s + (t.seenCount || 0), 0);
                             const totalSum = attempted.reduce((s, t) => s + (t.totalQuestionsInBank || 0), 0);
                             const pMastery = totalSum > 0 ? Math.min(seenSum / totalSum * 100, 100) : 0;
                             const pLabel   = pMastery.toFixed(1) + '%';
-
-                            const badge = paraItem.querySelector('[data-para-badge]');
-                            if (!badge) return;
-
                             if (pMastery >= 100)     { badge.className = 'para-badge para-badge--gold';   badge.textContent = `🥇 ${pLabel}`; }
                             else if (pMastery >= 90) { badge.className = 'para-badge para-badge--silver'; badge.textContent = `🥈 ${pLabel}`; }
                             else if (pMastery >= 80) { badge.className = 'para-badge para-badge--bronze'; badge.textContent = `🥉 ${pLabel}`; }
@@ -411,17 +393,26 @@
                             else                     { badge.className = 'para-badge para-badge--fail';   badge.textContent = pLabel; }
                         });
                     });
+                } else {
+                    document.querySelectorAll('[data-para-badge]').forEach(b => {
+                        b.classList.remove('para-badge--loading');
+                        b.className = 'para-badge para-badge--none'; b.textContent = '—';
+                    });
                 }
+            } else {
+                document.querySelectorAll('[data-para-badge]').forEach(b => {
+                    b.classList.remove('para-badge--loading');
+                    b.className = 'para-badge para-badge--none'; b.textContent = '';
+                });
             }
 
-            // Применяем замки к ссылкам параграфов (для всех — залогиненных и нет)
+            // ── Замки параграфов ───────────────────────────────────────────
             if (!isAdmin) {
                 function lockParaLink(link, isGuest) {
                     link.classList.add('para-locked');
                     link.title = isGuest ? 'Войдите в аккаунт, чтобы открывать параграфы' : 'Пройдите тесты предыдущего параграфа на ≥70%';
                     link.addEventListener('click', e => {
-                        e.preventDefault();
-                        e.stopPropagation();
+                        e.preventDefault(); e.stopPropagation();
                         const t = document.createElement('div');
                         t.className = 'gs-toast';
                         t.innerHTML = isGuest
@@ -432,74 +423,44 @@
                         setTimeout(() => { t.classList.remove('show'); setTimeout(() => t.remove(), 400); }, 2800);
                     });
                 }
-
                 structure.chapters.forEach((chapter, ci) => {
                     const cardEl = document.getElementById(`chapter-card-${ci}`);
                     if (!cardEl) return;
                     (chapter.paragraphs || []).forEach(p => {
                         const idx = allParas.indexOf(p.id);
-                        if (idx <= 0) return; // первый всегда открыт
-
+                        if (idx <= 0) return;
                         const paraItem = cardEl.querySelector(`.para-item[data-para-id="${p.id}"]`);
                         if (!paraItem) return;
                         const link = paraItem.querySelector('.chapter-section-link');
                         if (!link) return;
-
-                        if (!user?.isuNumber) {
-                            // Незалогинен — всё кроме первого заблокировано
-                            lockParaLink(link, true);
-                        } else {
-                            const prevId = allParas[idx - 1];
-                            if (!unlockedSet.has(prevId)) lockParaLink(link, false);
-                        }
+                        if (!user?.isuNumber) lockParaLink(link, true);
+                        else if (!unlockedSet.has(allParas[idx - 1])) lockParaLink(link, false);
                     });
                 });
             }
 
-            // Плашки стандартов — показываем всем (статус покупки если залогинен)
+            // ── Стандарты (gated content) ──────────────────────────────────
             const slotHeaders = user?.isuNumber ? { 'X-Isu-Number': user.isuNumber } : {};
             fetch('/api/gated/all-slots', { headers: slotHeaders })
                 .then(r => r.ok ? r.json() : null)
                 .then(slots => {
                     if (!slots?.length) return;
                     const byPage = {};
-                    slots.forEach(s => {
-                        if (!byPage[s.page]) byPage[s.page] = [];
-                        byPage[s.page].push(s);
-                    });
-
-                    const STD_COLORS = { '14': '#4a3f1a', '17': '#1e3a4f', '20': '#2a1e4f', '23': '#3d1e3d' };
-                    const STD_TEXT   = { '14': '#f9e2af', '17': '#89dceb', '20': '#cba6f7', '23': '#f5c2e7' };
-
+                    slots.forEach(s => { if (!byPage[s.page]) byPage[s.page] = []; byPage[s.page].push(s); });
+                    const STD_COLORS = { '14':'#4a3f1a','17':'#1e3a4f','20':'#2a1e4f','23':'#3d1e3d' };
+                    const STD_TEXT   = { '14':'#f9e2af','17':'#89dceb','20':'#cba6f7','23':'#f5c2e7' };
                     structure.chapters.forEach((chapter, ci) => {
                         const cardEl = document.getElementById(`chapter-card-${ci}`);
                         if (!cardEl) return;
                         chapter.paragraphs.forEach(p => {
-                            const pageKey = `${chapter.id}/${chapter.groupId}/${p.id}`;
-                            const pageSlots = byPage[pageKey];
+                            const pageSlots = byPage[`${chapter.id}/${chapter.groupId}/${p.id}`];
                             if (!pageSlots?.length) return;
-
                             const paraItem = cardEl.querySelector(`.para-item[data-para-id="${p.id}"]`);
                             if (!paraItem) return;
-
-                            // Уникальные стандарты — показываем все (купленные с галочкой)
                             const stdSet = {};
-                            pageSlots.forEach(s => {
-                                if (!stdSet[s.std]) stdSet[s.std] = { total: 0, purchased: 0 };
-                                stdSet[s.std].total++;
-                                if (s.purchased) stdSet[s.std].purchased++;
-                            });
-
-                            const badgesHtml = Object.entries(stdSet)
-                                .sort(([a], [b]) => Number(a) - Number(b))
-                                .map(([std, info]) => {
-                                    const done = info.purchased >= info.total;
-                                    const bg   = done ? (STD_COLORS[std] || '#1a2a1a') : (STD_COLORS[std] || '#333');
-                                    const col  = STD_TEXT[std] || '#fff';
-                                    const icon = done ? '✓ ' : '';
-                                    return `<span style="background:${bg};color:${col};font-size:.6rem;font-weight:700;padding:1px 6px;border-radius:4px;opacity:${done?'0.6':'1'}">${icon}C++${std}</span>`;
-                                }).join('');
-
+                            pageSlots.forEach(s => { if (!stdSet[s.std]) stdSet[s.std] = { total:0, purchased:0 }; stdSet[s.std].total++; if (s.purchased) stdSet[s.std].purchased++; });
+                            const badgesHtml = Object.entries(stdSet).sort(([a],[b]) => Number(a)-Number(b))
+                                .map(([std, info]) => { const done = info.purchased >= info.total; const bg = done ? (STD_COLORS[std]||'#1a2a1a') : (STD_COLORS[std]||'#333'); const col = STD_TEXT[std]||'#fff'; return `<span style="background:${bg};color:${col};font-size:.6rem;font-weight:700;padding:1px 6px;border-radius:4px;opacity:${done?'0.6':'1'}">${done?'✓ ':''}C++${std}</span>`; }).join('');
                             if (!badgesHtml) return;
                             paraItem.querySelectorAll('.std-para-badges').forEach(b => b.remove());
                             const row = document.createElement('div');
@@ -509,8 +470,7 @@
                             paraItem.appendChild(row);
                         });
                     });
-                })
-                .catch(() => {});
+                }).catch(() => {});
         }
 
         buildChaptersGrid();

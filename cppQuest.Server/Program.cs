@@ -201,6 +201,9 @@ app.MapAnalyticsEndpoints();
 app.MapAchievementEndpoints();
 app.MapLeaderboardEndpoints();
 
+// Прогрев кэша структуры курса при старте
+CourseEndpoints.WarmUp(cppCoursePath, app.Environment, app.Logger);
+
 // Serve static files
 var fileProvider = new PhysicalFileProvider(cppCoursePath);
 app.UseFileServer(new FileServerOptions

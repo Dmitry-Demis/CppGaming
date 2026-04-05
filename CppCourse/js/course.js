@@ -1,7 +1,7 @@
 // ============================================
 // COURSE LOADER
-// Reads course-meta.json, normalizes paragraphs,
-// fetches titles from HTML <title> tags if missing.
+// Fetches pre-built course structure from /api/course-structure.
+// Titles are resolved server-side at startup — no per-paragraph HTML fetches.
 // ============================================
 
 let _courseCache = null;
@@ -17,45 +17,24 @@ function renderInlineCode(text) {
 }
 
 /**
- * @param {string} [base=''] - path prefix to site root, e.g. '../../../'
+ * @param {string} [_base=''] - ignored, kept for API compatibility
  * @returns {Promise<{chapters: Array}>}
  */
-async function loadCourseStructure(base = '') {
+async function loadCourseStructure(_base = '') {
     if (_courseCache) return _courseCache;
 
-    const res = await fetch(base + 'course-meta.json?v=' + Date.now());
-    if (!res.ok) throw new Error('course-meta.json not found');
-    const meta = await res.json();
+    const res = await fetch('/api/course-structure');
+    if (!res.ok) throw new Error('course-structure unavailable');
+    const data = await res.json();
 
-    // Normalize paragraphs and fetch missing titles in parallel
-    await Promise.all(meta.chapters.map(async ch => {
-        // Apply inline code rendering to chapter fields
+    // Apply inline code rendering to titles/descriptions
+    for (const ch of data.chapters || []) {
         if (ch.description) ch.description = renderInlineCode(ch.description);
+        for (const p of ch.paragraphs || []) {
+            if (p.title) p.title = renderInlineCode(p.title);
+        }
+    }
 
-        const paras = (ch.paragraphs || []).map(p =>
-            typeof p === 'string' ? { id: p, title: null, tests: [] } : { tests: [], ...p }
-        );
-
-        await Promise.all(paras.map(async p => {
-            if (p.title) {
-                p.title = renderInlineCode(p.title);
-                return;
-            }
-            try {
-                const r = await fetch(`${base}theory/${ch.id}/${ch.groupId}/${p.id}.html`);
-                if (!r.ok) { p.title = p.id; return; }
-                const text = await r.text();
-                const m = text.match(/<title>(.*?)<\/title>/i);
-                // Only strip em-dash and en-dash separators, NOT regular hyphens (they're part of names like C-style)
-                p.title = m ? renderInlineCode(m[1].replace(/\s*[—–].*$/, '').trim()) : p.id;
-            } catch {
-                p.title = p.id;
-            }
-        }));
-
-        ch.paragraphs = paras;
-    }));
-
-    _courseCache = meta;
-    return meta;
+    _courseCache = data;
+    return data;
 }

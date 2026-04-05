@@ -522,3 +522,75 @@
         grid-template-columns: 1fr;
     }
 }
+
+/* ══════════════════════════════════════════════════════════
+   SKELETON LOADING — используется на index, chapter-index, profile
+   ══════════════════════════════════════════════════════════ */
+
+@keyframes skeleton-shimmer {
+    0%   { background-position: -400px 0; }
+    100% { background-position:  400px 0; }
+}
+
+.skeleton {
+    background: linear-gradient(
+        90deg,
+        var(--bg-tertiary) 25%,
+        var(--bg-card-hover, #252348) 50%,
+        var(--bg-tertiary) 75%
+    );
+    background-size: 800px 100%;
+    animation: skeleton-shimmer 1.4s ease-in-out infinite;
+    border-radius: var(--radius-sm);
+    display: block;
+}
+
+/* Chapter card skeleton (index.html) */
+.chapter-card--skeleton {
+    pointer-events: none;
+    min-height: 220px;
+}
+.chapter-card--skeleton .sk-line  { height: 10px; margin-bottom: 10px; border-radius: 5px; }
+.chapter-card--skeleton .sk-title { width: 55%; height: 16px; margin-bottom: 12px; }
+.chapter-card--skeleton .sk-desc  { width: 90%; height: 10px; margin-bottom: 6px; }
+.chapter-card--skeleton .sk-desc2 { width: 70%; height: 10px; margin-bottom: 18px; }
+.chapter-card--skeleton .sk-para  { width: 80%; height: 9px; margin-bottom: 7px; }
+.chapter-card--skeleton .sk-para2 { width: 65%; height: 9px; margin-bottom: 7px; }
+.chapter-card--skeleton .sk-para3 { width: 72%; height: 9px; }
+
+/* Section card skeleton (chapter index pages) */
+.section-card--skeleton {
+    pointer-events: none;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 var(--space-4);
+    background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-secondary) 100%);
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-lg);
+}
+.section-card--skeleton .sk-num  { width: 28px; height: 12px; flex-shrink: 0; }
+.section-card--skeleton .sk-text { flex: 1; height: 12px; max-width: 220px; }
+
+/* Fade-in for real content */
+@keyframes fade-in-up {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+.chapter-card--loaded  { animation: fade-in-up 0.35s ease both; }
+.section-card--loaded  { animation: fade-in-up 0.25s ease both; }
+
+/* Progress badge pulse while loading */
+@keyframes badge-pulse {
+    0%, 100% { opacity: 0.35; }
+    50%       { opacity: 0.7; }
+}
+.para-badge--loading {
+    animation: badge-pulse 1.2s ease-in-out infinite;
+    background: var(--bg-tertiary) !important;
+    color: transparent !important;
+    border-color: transparent !important;
+    min-width: 48px;
+    pointer-events: none;
+}
