@@ -116,6 +116,19 @@
       ]
     },
     {
+      "id": "chapter-5",
+      "groupId": "control-flow",
+      "level": "JUNIOR",
+      "title": "Циклы",
+      "description": "`while`, `do-while`, `for`, `break` и `continue`",
+      "paragraphs": [
+        "while-loops",
+        "do-while-loops",
+        "for-loops",
+        "break-and-continue"
+      ]
+    },
+    {
       "id": "chapter-5b",
       "groupId": "branching",
       "level": "JUNIOR",
@@ -132,75 +145,15 @@
       ]
     },
     {
-      "id": "chapter-5",
-      "groupId": "control-flow",
-      "level": "JUNIOR",
-      "title": "Циклы",
-      "description": "`while`, `do-while`, `for`, `break` и `continue`",
-      "paragraphs": [
-        "while-loops",
-        "do-while-loops",
-        "for-loops",
-        "break-and-continue"
-      ]
-    },
-    {
-      "id": "chapter-9b",
-      "groupId": "vectors",
-      "level": "JUNIOR",
-      "title": "std::vector",
-      "description": "`std::vector`: создание, индексация, длина, циклы, range-for, изменение размера, стек-поведение, enum-индексы, `vector<bool>`",
-      "paragraphs": [
-        "vector-intro",
-        "vector-length-indexing",
-        "vector-loops",
-        "vector-range-for",
-        "vector-resize-stack",
-        "vector-enum-indexing",
-        "vector-bool"
-      ]
-    },
-    {
-      "id": "chapter-9c",
-      "groupId": "cstyle-arrays",
-      "level": "JUNIOR",
-      "title": "C-style массивы",
-      "description": "Сырые массивы `int[]`, деградация массива, многомерные массивы",
-      "paragraphs": [
-        "cstyle-arrays",
-        "array-decay",
-        "multidimensional-arrays"
-      ]
-    },
-    {
-      "id": "chapter-15",
-      "groupId": "strings",
+      "id": "chapter-6",
+      "groupId": "operators",
       "level": "JUNIOR+",
-      "title": "Строки",
-      "description": "`std::string`: создание, ввод/вывод, поиск, изменение, сравнение, подстроки, преобразования, `string_view`, C-строки, практика",
+      "title": "Побитовые операторы",
+      "description": "Побитовые операции, битовые флаги и маски, `std::bitset`",
       "paragraphs": [
-        "string-intro",
-        "string-search-modify",
-        "string-compare-chars",
-        "string-substr",
-        "string-conversions",
-        "string-view",
-        "cstyle-strings",
-        "char-arrays",
-        "string-wordcount"
-      ]
-    },
-    {
-      "id": "chapter-9d",
-      "groupId": "std-array",
-      "level": "JUNIOR+",
-      "title": "std::array",
-      "description": "Фиксированный массив: объявление, `constexpr`, CTAD, передача в функции, массивы структур, brace elision, многомерные массивы",
-      "paragraphs": [
-        "array-intro",
-        "array-passing",
-        "array-structs",
-        "array-multidimensional"
+        "bitwise-operators",
+        "bit-flags",
+        "bit-masks"
       ]
     },
     {
@@ -220,18 +173,6 @@
         "conditional-operator",
         "relational-operators",
         "logical-operators"
-      ]
-    },
-    {
-      "id": "chapter-6",
-      "groupId": "operators",
-      "level": "JUNIOR+",
-      "title": "Побитовые операторы",
-      "description": "Побитовые операции, битовые флаги и маски, `std::bitset`",
-      "paragraphs": [
-        "bitwise-operators",
-        "bit-flags",
-        "bit-masks"
       ]
     },
     {
@@ -290,6 +231,59 @@
       ]
     },
     {
+      "id": "chapter-9b",
+      "groupId": "vectors",
+      "level": "JUNIOR",
+      "title": "std::vector",
+      "description": "`std::vector`: создание, индексация, длина, циклы, range-for, изменение размера, стек-поведение, enum-индексы, `vector<bool>`",
+      "paragraphs": [
+        "vector-intro",
+        "vector-length-indexing",
+        "vector-loops",
+        "vector-range-for",
+        "vector-resize-stack",
+        "vector-enum-indexing",
+        "vector-bool"
+      ]
+    },
+    {
+      "id": "chapter-9c",
+      "groupId": "cstyle-arrays",
+      "level": "JUNIOR",
+      "title": "C-style массивы",
+      "description": "Сырые массивы `int[]`, деградация массива, многомерные массивы",
+      "paragraphs": [
+        "cstyle-arrays",
+        "array-decay",
+        "multidimensional-arrays"
+      ]
+    },
+    {
+      "id": "chapter-9d",
+      "groupId": "std-array",
+      "level": "JUNIOR+",
+      "title": "std::array",
+      "description": "Фиксированный массив: объявление, `constexpr`, CTAD, передача в функции, массивы структур, brace elision, многомерные массивы",
+      "paragraphs": [
+        "array-intro",
+        "array-passing",
+        "array-structs",
+        "array-multidimensional"
+      ]
+    },
+    {
+      "id": "chapter-10",
+      "groupId": "random",
+      "level": "MIDDLE",
+      "title": "Случайные числа",
+      "description": "Псевдослучайные генераторы, Mersenne Twister, инициализация, распределения и `Random.h`",
+      "paragraphs": [
+        "random-intro",
+        "random-mersenne-twister",
+        "random-global"
+      ]
+    },
+    {
       "id": "chapter-11",
       "groupId": "overloading",
       "level": "MIDDLE",
@@ -300,6 +294,19 @@
         "overload-resolution",
         "default-arguments",
         "delete-functions"
+      ]
+    },
+    {
+      "id": "chapter-12",
+      "groupId": "templates",
+      "level": "MIDDLE+",
+      "title": "Шаблоны функций",
+      "description": "Шаблоны функций, инстанциация, несколько параметров типа, нетиповые параметры, шаблоны в заголовочных файлах",
+      "paragraphs": [
+        "template-intro",
+        "template-multiple-types",
+        "non-type-template-params",
+        "templates-in-headers"
       ]
     },
     {
@@ -317,31 +324,6 @@
       ]
     },
     {
-      "id": "chapter-10",
-      "groupId": "random",
-      "level": "MIDDLE",
-      "title": "Случайные числа",
-      "description": "Псевдослучайные генераторы, Mersenne Twister, инициализация, распределения и `Random.h`",
-      "paragraphs": [
-        "random-intro",
-        "random-mersenne-twister",
-        "random-global"
-      ]
-    },
-    {
-      "id": "chapter-12",
-      "groupId": "templates",
-      "level": "MIDDLE+",
-      "title": "Шаблоны функций",
-      "description": "Шаблоны функций, инстанциация, несколько параметров типа, нетиповые параметры, шаблоны в заголовочных файлах",
-      "paragraphs": [
-        "template-intro",
-        "template-multiple-types",
-        "non-type-template-params",
-        "templates-in-headers"
-      ]
-    },
-    {
       "id": "chapter-14",
       "groupId": "pointers",
       "level": "MIDDLE+",
@@ -354,6 +336,24 @@
         "pointer-arithmetic",
         "pointer-subscripting",
         "std-optional"
+      ]
+    },
+    {
+      "id": "chapter-15",
+      "groupId": "strings",
+      "level": "JUNIOR+",
+      "title": "Строки",
+      "description": "`std::string`: создание, ввод/вывод, поиск, изменение, сравнение, подстроки, преобразования, `string_view`, C-строки, практика",
+      "paragraphs": [
+        "string-intro",
+        "string-search-modify",
+        "string-compare-chars",
+        "string-substr",
+        "string-conversions",
+        "string-view",
+        "cstyle-strings",
+        "char-arrays",
+        "string-wordcount"
       ]
     },
     {

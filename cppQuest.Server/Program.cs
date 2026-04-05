@@ -13,14 +13,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.ConfigureHttpJsonOptions(o =>
     o.SerializerOptions.PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase);
 
-// CSRF protection
+// CSRF protection - настроено для HTTP (без Secure флага)
 builder.Services.AddAntiforgery(options =>
 {
     options.HeaderName = "X-CSRF-Token";
     options.Cookie.Name = "XSRF-TOKEN";
     options.Cookie.HttpOnly = false;   // JS должен читать куку
-    options.Cookie.SameSite = SameSiteMode.Strict;
-    options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+    options.Cookie.SameSite = SameSiteMode.Lax;
+    options.Cookie.SecurePolicy = CookieSecurePolicy.None;  // Разрешаем HTTP
 });
 
 // Rate limiting — защита от брутфорса на auth endpoints
@@ -73,11 +73,41 @@ builder.Services.AddScoped<QuestionProgressService>();
 
 var app = builder.Build();
 
+// Exception handler must be first to catch all errors
+app.UseExceptionHandler(o => o.Run(async ctx =>
+{
+    var exceptionFeature = ctx.Features.Get<Microsoft.AspNetCore.Diagnostics.IExceptionHandlerFeature>();
+    var exception = exceptionFeature?.Error;
+    
+    app.Logger.LogError(exception, "[EXCEPTION] Unhandled exception: {Message}", exception?.Message);
+    
+    ctx.Response.StatusCode = 500;
+    ctx.Response.ContentType = "application/json";
+    await ctx.Response.WriteAsJsonAsync(new 
+    { 
+        message = "Internal server error",
+        detail = app.Environment.IsDevelopment() ? exception?.Message : null,
+        stackTrace = app.Environment.IsDevelopment() ? exception?.StackTrace : null
+    });
+}));
+
+// Disable developer exception page to ensure consistent JSON error responses
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHsts();
+}
+
 app.UseRateLimiter();
 
 // Security headers
 app.Use(async (ctx, next) =>
 {
+    // Логируем каждый запрос
+    app.Logger.LogInformation("[REQUEST] {Method} {Path} from {RemoteIp}", 
+        ctx.Request.Method, 
+        ctx.Request.Path, 
+        ctx.Connection.RemoteIpAddress);
+    
     ctx.Response.Headers["X-Content-Type-Options"] = "nosniff";
     ctx.Response.Headers["X-Frame-Options"] = "SAMEORIGIN";
     ctx.Response.Headers["X-XSS-Protection"] = "1; mode=block";
@@ -91,14 +121,25 @@ app.Use(async (ctx, next) =>
         ctx.Response.Headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains";
     }
     await next(ctx);
+    
+    // Логируем ответ
+    app.Logger.LogInformation("[RESPONSE] {Method} {Path} -> {StatusCode}", 
+        ctx.Request.Method, 
+        ctx.Request.Path, 
+        ctx.Response.StatusCode);
 });
 
-// Выдаём CSRF-токен при каждом GET-запросе (браузер читает куку и кладёт в заголовок)
+// Выдаём CSRF-токен только для HTML-страниц (не для статики и API)
 app.Use(async (ctx, next) =>
 {
-    var antiforgery = ctx.RequestServices.GetRequiredService<Microsoft.AspNetCore.Antiforgery.IAntiforgery>();
-    if (HttpMethods.IsGet(ctx.Request.Method))
+    var path = ctx.Request.Path.Value ?? "";
+    if (HttpMethods.IsGet(ctx.Request.Method)
+        && !path.StartsWith("/api/")
+        && (path.EndsWith(".html") || path == "/" || !path.Contains('.')))
+    {
+        var antiforgery = ctx.RequestServices.GetRequiredService<Microsoft.AspNetCore.Antiforgery.IAntiforgery>();
         antiforgery.SetCookieTokenAndHeader(ctx);
+    }
     await next(ctx);
 });
 
@@ -108,8 +149,6 @@ await using (var scope = app.Services.CreateAsyncScope())
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     await db.Database.MigrateAsync();
 }
-
-app.UseExceptionHandler("/error");
 
 // ---------------------------------------------------------
 // ПОИСК ПАПКИ CppCourse
@@ -151,6 +190,7 @@ app.Logger.LogInformation("Serving static files from: {Path}", cppCoursePath);
 
 // Map endpoints
 app.MapAuthEndpoints();
+app.MapProfileEndpoints();
 app.MapProgressEndpoints();
 app.MapShopEndpoints();
 app.MapGatedEndpoints();

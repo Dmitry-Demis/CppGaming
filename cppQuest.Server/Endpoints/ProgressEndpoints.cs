@@ -17,9 +17,6 @@ public static class ProgressEndpoints
         group.MapGet("stats/avg-reading/{paragraphId}", GetAvgReadingAsync);
         group.MapPost("stats/avg-reading/bulk",         GetAvgReadingBulkAsync);
 
-        // ── Профиль ──────────────────────────────────────────────────────────
-        group.MapGet("profile/{isuNumber}", GetProfileAsync);
-
         // ── Прогресс ─────────────────────────────────────────────────────────
         group.MapGet("progress/{isuNumber}/{paragraphId}",      GetParagraphProgressAsync);
         group.MapGet("progress/{isuNumber}/unlocked-paragraphs", GetUnlockedParagraphsAsync);
@@ -52,19 +49,6 @@ public static class ProgressEndpoints
     private static async Task<IResult> GetAvgReadingBulkAsync(
         List<string> paragraphIds, IStatsRepository statsRepo) =>
         Results.Ok(await statsRepo.GetAvgReadingSecondsBulkAsync(paragraphIds));
-
-    /// <summary>Возвращает полный профиль пользователя (XP, монеты, уровень и т.д.).</summary>
-    private static async Task<IResult> GetProfileAsync(
-        string isuNumber, ProfileService profileService, HttpContext ctx)
-    {
-        // IDOR-защита: пользователь может видеть только свой профиль
-        var callerIsu = EndpointHelpers.GetIsuNumber(ctx);
-        if (callerIsu is null || callerIsu != isuNumber)
-            return Results.Forbid();
-
-        var profile = await profileService.GetProfileAsync(isuNumber);
-        return profile is not null ? Results.Ok(profile) : Results.NotFound();
-    }
 
     /// <summary>Возвращает прогресс пользователя по конкретному параграфу.</summary>
     private static async Task<IResult> GetParagraphProgressAsync(

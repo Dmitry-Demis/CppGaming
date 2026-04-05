@@ -74,7 +74,9 @@
             <form id="loginForm">
                 <div class="form-group">
                     <label for="isuNumber">Идентификатор</label>
-                    <input type="text" id="isuNumber" placeholder="Например: 123456" required />
+                    <input type="text" id="isuNumber" placeholder="Например: 123456" required 
+                           pattern="[A-Za-z0-9]{1,12}" 
+                           title="Только латинские буквы и цифры, максимум 12 символов" />
                 </div>
                 <div class="form-group">
                     <label for="password">Пароль</label>
@@ -87,31 +89,52 @@
         </div>
     </div>
     <script>
+        console.log('[LOGIN] Page loaded');
+        
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
+            console.log('[LOGIN] Form submitted');
+            
             const btn = document.getElementById('submitBtn');
             const msg = document.getElementById('message');
             btn.disabled = true;
             msg.style.display = 'none';
 
+            const isuNumber = document.getElementById('isuNumber').value.trim();
+            const password = document.getElementById('password').value;
+            
+            console.log('[LOGIN] Attempting login for isuNumber:', isuNumber);
+
             try {
                 const res = await fetch('/api/login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ isuNumber: document.getElementById('isuNumber').value.trim(), password: document.getElementById('password').value })
+                    body: JSON.stringify({ isuNumber, password })
                 });
+                
+                console.log('[LOGIN] Response status:', res.status);
+                
                 const data = await res.json();
+                console.log('[LOGIN] Response data:', data);
+                
                 if (res.ok) {
+                    console.log('[LOGIN] Login successful, saving to localStorage');
                     localStorage.setItem('cpp_user', JSON.stringify(data));
+                    
                     const redirect = sessionStorage.getItem('cpp_redirect_after_login');
                     sessionStorage.removeItem('cpp_redirect_after_login');
-                    window.location.href = redirect || 'profile.html';
+                    const safe = redirect && !redirect.includes('login.html') ? redirect : 'profile.html';
+                    
+                    console.log('[LOGIN] Redirecting to:', safe);
+                    window.location.href = safe;
                 } else {
+                    console.log('[LOGIN] Login failed:', data.message);
                     msg.style.display = 'block';
                     msg.className = 'message error';
                     msg.textContent = data.message;
                 }
-            } catch {
+            } catch (err) {
+                console.error('[LOGIN] Network error:', err);
                 msg.style.display = 'block';
                 msg.className = 'message error';
                 msg.textContent = 'Ошибка соединения с сервером';

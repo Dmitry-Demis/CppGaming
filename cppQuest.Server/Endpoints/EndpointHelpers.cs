@@ -26,8 +26,15 @@ internal static class EndpointHelpers
     public static string? GetIsuNumber(HttpContext ctx)
     {
         var v = ctx.Request.Headers["X-Isu-Number"].FirstOrDefault();
-        if (string.IsNullOrEmpty(v)) return null;
-        return IsuNumberRegex.IsMatch(v) ? v : null;
+        
+        if (string.IsNullOrEmpty(v))
+        {
+            return null;
+        }
+        
+        var isMatch = IsuNumberRegex.IsMatch(v);
+        
+        return isMatch ? v : null;
     }
 
     /// <summary>

@@ -145,15 +145,19 @@
                 </div>
                 <div class="form-group">
                     <label for="isuNumber">Идентификатор</label>
-                    <input type="text" id="isuNumber" placeholder="Например: 123456" required />
+                    <input type="text" id="isuNumber" placeholder="Например: 123456" required 
+                           pattern="[A-Za-z0-9]{1,12}" 
+                           title="Только латинские буквы и цифры, максимум 12 символов" />
                 </div>
                 <div class="form-group">
                     <label for="password">Пароль</label>
-                    <input type="password" id="password" placeholder="Минимум 6 символов" required />
+                    <input type="password" id="password" placeholder="Минимум 6 символов" required 
+                           minlength="6" />
                 </div>
                 <div class="form-group">
                     <label for="passwordConfirm">Подтвердите пароль</label>
-                    <input type="password" id="passwordConfirm" placeholder="Повторите пароль" required />
+                    <input type="password" id="passwordConfirm" placeholder="Повторите пароль" required 
+                           minlength="6" />
                 </div>
                 <button type="submit" class="btn-submit" id="submitBtn">Зарегистрироваться</button>
             </form>

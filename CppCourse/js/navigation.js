@@ -35,7 +35,7 @@ const _siteRoot = (() => {
     if (document.getElementById('streak-js')) return;
     const s = document.createElement('script');
     s.id  = 'streak-js';
-    s.src = _siteRoot + 'js/streak.js';
+    s.src = _siteRoot + 'components/gamification/streak.js';
     document.head.appendChild(s);
 }());
 

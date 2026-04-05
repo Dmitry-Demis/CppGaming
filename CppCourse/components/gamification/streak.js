@@ -469,12 +469,16 @@ body { padding-bottom: 52px; }
     // ── Header mini profile ───────────────────────────────────────────────
     function updateHeaderAuthLinks(loggedIn) {
         const nav = document.querySelector('.header-nav');
-        if (!nav) return;
+        if (!nav) {
+            console.log('[STREAK] updateHeaderAuthLinks: nav not found');
+            return;
+        }
 
         // Убираем старые auth-ссылки
         nav.querySelectorAll('.header-auth-link').forEach(el => el.remove());
 
         const root = (typeof _siteRoot !== 'undefined' ? _siteRoot : '');
+        console.log('[STREAK] updateHeaderAuthLinks called, loggedIn:', loggedIn, 'root:', root);
 
         if (loggedIn) {
             // Выйти (профиль доступен через плашку)
@@ -489,6 +493,7 @@ body { padding-bottom: 52px; }
             });
 
             nav.appendChild(logoutLink);
+            console.log('[STREAK] Added logout link');
         } else {
             const regLink = document.createElement('a');
             regLink.href = root + 'register.html';
@@ -502,6 +507,7 @@ body { padding-bottom: 52px; }
 
             nav.appendChild(regLink);
             nav.appendChild(loginLink);
+            console.log('[STREAK] Added register and login links');
         }
     }
 
@@ -793,7 +799,10 @@ body { padding-bottom: 52px; }
             }
             profile = await profileRes.json();
         } catch {
-            return; // offline — show nothing
+            // offline or network error — show login/register links
+            localStorage.removeItem('cpp_user');
+            updateHeaderAuthLinks(false);
+            return;
         }
 
         renderHeaderProfile(profile);
@@ -827,6 +836,7 @@ body { padding-bottom: 52px; }
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', init);
     } else {
-        setTimeout(init, 400);
+        // Document already loaded, init immediately
+        init();
     }
 })();

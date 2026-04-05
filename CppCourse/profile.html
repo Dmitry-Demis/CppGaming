@@ -778,15 +778,31 @@ async function loadProfile() {
     }
 
     try {
+        console.log('[PROFILE] Starting profile load');
+        console.log('[PROFILE] User from localStorage:', user);
+        
         // Load profile + course structure first (required)
+        const profileUrl = `/api/profile/${encodeURIComponent(user.isuNumber)}`;
+        console.log('[PROFILE] Fetching profile from:', profileUrl);
+        console.log('[PROFILE] With header X-Isu-Number:', user.isuNumber);
+        
         const [profileRes, courseRes] = await Promise.all([
-            fetchWithTimeout(`/api/profile/${user.isuNumber}`),
+            fetchWithTimeout(profileUrl, { headers: { 'X-Isu-Number': user.isuNumber } }),
             fetchWithTimeout('/api/course-structure')
         ]);
 
-        if (!profileRes.ok) { window.location.href = 'login.html'; return; }
+        console.log('[PROFILE] Profile response status:', profileRes.status);
+        console.log('[PROFILE] Course response status:', courseRes.status);
+
+        if (!profileRes.ok) { 
+            console.log('[PROFILE] Profile fetch failed, redirecting to login');
+            window.location.href = 'login.html'; 
+            return; 
+        }
 
         const profile = await profileRes.json();
+        console.log('[PROFILE] Profile data received:', profile);
+        
         const course  = courseRes.ok ? await courseRes.json() : { chapters: [] };
         const chapters = course.chapters || [];
 

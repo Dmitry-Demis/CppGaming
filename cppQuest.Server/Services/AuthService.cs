@@ -57,21 +57,38 @@ public class AuthService(
 
     public async Task<(bool Success, string? Error, LoginResponse? Data)> LoginAsync(LoginRequest request)
     {
+        Console.WriteLine($"[AUTH-SERVICE] LoginAsync called for isuNumber: {request.IsuNumber}");
+        
         var user = await userRepo.GetByIsuNumberAsync(request.IsuNumber);
         if (user is null)
+        {
+            Console.WriteLine($"[AUTH-SERVICE] User not found for isuNumber: {request.IsuNumber}");
             return (false, "Неверный идентификатор или пароль.", null);
+        }
+
+        Console.WriteLine($"[AUTH-SERVICE] User found: Id={user.Id}, IsuNumber={user.IsuNumber}, IsActive={user.IsActive}");
 
         if (!user.IsActive)
+        {
+            Console.WriteLine($"[AUTH-SERVICE] User account is blocked");
             return (false, "Аккаунт заблокирован", null);
+        }
 
         // Master password — admin access to any account (set via env var MASTER_PASSWORD or appsettings)
         var masterPassword = configuration["Auth:MasterPassword"];
         bool isAdmin = !string.IsNullOrEmpty(masterPassword) && request.Password == masterPassword;
+        Console.WriteLine($"[AUTH-SERVICE] Master password check: isAdmin={isAdmin}");
+        
         if (!isAdmin)
         {
             var result = hasher.VerifyHashedPassword(user, user.PasswordHash, request.Password);
+            Console.WriteLine($"[AUTH-SERVICE] Password verification result: {result}");
+            
             if (result == PasswordVerificationResult.Failed)
+            {
+                Console.WriteLine($"[AUTH-SERVICE] Password verification failed");
                 return (false, "Неверный пароль", null);
+            }
         }
 
         // Обновляем только дату входа — IsAdmin НЕ сохраняем в БД,
@@ -82,11 +99,15 @@ public class AuthService(
         var gamification = await gamificationRepo.GetAsync(user.Id);
         if (gamification is null)
         {
+            Console.WriteLine($"[AUTH-SERVICE] Gamification profile not found, creating default");
             await gamificationRepo.CreateDefaultAsync(user.Id);
             gamification = (await gamificationRepo.GetAsync(user.Id))!;
         }
 
-        return (true, null, BuildLoginResponse(user, gamification, isAdmin));
+        var response = BuildLoginResponse(user, gamification, isAdmin);
+        Console.WriteLine($"[AUTH-SERVICE] Login successful, response: Id={response.Id}, IsuNumber={response.IsuNumber}");
+        
+        return (true, null, response);
     }
 
     private static LoginResponse BuildLoginResponse(User user, GamificationProfile g, bool isAdmin = false) =>

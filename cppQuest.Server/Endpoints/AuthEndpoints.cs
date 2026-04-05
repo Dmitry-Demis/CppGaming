@@ -46,13 +46,28 @@ public static class AuthEndpoints
     /// </summary>
     /// <param name="req">Данные для входа.</param>
     /// <param name="authService">Сервис аутентификации.</param>
+    /// <param name="logger">Логгер для отладки.</param>
     /// <returns>Токен доступа или сообщение об ошибке.</returns>
-    private static async Task<IResult> HandleLoginAsync(LoginRequest req, IAuthService authService)
+    private static async Task<IResult> HandleLoginAsync(
+        LoginRequest req, 
+        IAuthService authService,
+        ILogger<Program> logger)
     {
+        logger.LogInformation("[AUTH] Login attempt for isuNumber: {IsuNumber}", req.IsuNumber);
+        
         var (success, error, data) = await authService.LoginAsync(req);
 
-        return success
-            ? Results.Ok(data)
-            : Results.BadRequest(new { message = error ?? "Неверный логин или пароль." });
+        if (success)
+        {
+            logger.LogInformation("[AUTH] Login successful for isuNumber: {IsuNumber}", req.IsuNumber);
+            logger.LogInformation("[AUTH] Returning data: {@Data}", data);
+            return Results.Ok(data);
+        }
+        else
+        {
+            logger.LogWarning("[AUTH] Login failed for isuNumber: {IsuNumber}, error: {Error}", 
+                req.IsuNumber, error);
+            return Results.BadRequest(new { message = error ?? "Неверный логин или пароль." });
+        }
     }
 }
