@@ -247,7 +247,15 @@
     border-color: rgba(203,166,247,.35);
     text-decoration: none;
 }
-@media (max-width: 480px) { .header-auth-link { display: none; } }
+@media (max-width: 1024px) {
+    .header-nav:not(.mobile-open) .header-auth-link { display: none; }
+    .header-nav.mobile-open .header-auth-link {
+        display: block;
+        width: 100%;
+        text-align: left;
+        padding: 8px 12px;
+    }
+}
 
 /* ── Bell Button ── */
 .hpm-bell-btn {

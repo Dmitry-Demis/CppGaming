@@ -1,5 +1,14 @@
 // Вспомогательные утилиты
 
+function _getCookie(name) {
+    const match = document.cookie.match(new RegExp('(?:^|;\\s*)' + name + '=([^;]*)'));
+    return match ? decodeURIComponent(match[1]) : null;
+}
+
+function _csrfHeader() {
+    return { 'X-CSRF-Token': _getCookie('XSRF-TOKEN') || '' };
+}
+
 export function quizMd(text) {
     return String(text).replace(/`([^`]+)`/g, '<code>$1</code>');
 }
@@ -73,12 +82,12 @@ export function saveResult({ quizId, title, questions, answers, pct }) {
 
     const parts       = location.pathname.replace(/\/$/, '').split('/').filter(Boolean);
     const paragraphId = (parts.at(-1) || '').replace(/\.html$/, '') || 'unknown';
-    const wrongIds    = answers.map((a, i) => (!a?.isRight && questions[i]?.id != null) ? questions[i].id : null).filter(v => v !== null);
-    const correctIds  = answers.map((a, i) => (a?.isRight  && questions[i]?.id != null) ? questions[i].id : null).filter(v => v !== null);
+    const wrongIds   = answers.map(a => (!a?.isRight && a?.qId != null) ? a.qId : null).filter(v => v !== null);
+    const correctIds = answers.map(a => ( a?.isRight && a?.qId != null) ? a.qId : null).filter(v => v !== null);
 
     return fetch('/api/test/complete', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'X-Isu-Number': user.isuNumber, ...(typeof csrfHeader === 'function' ? csrfHeader() : {}) },
+        headers: { 'Content-Type': 'application/json', 'X-Isu-Number': user.isuNumber, ..._csrfHeader() },
         body: JSON.stringify({
             paragraphId, testId: quizId, testTitle: title, score: pct,
             correctAnswers: correctIds.length, totalQuestions: questions.length,

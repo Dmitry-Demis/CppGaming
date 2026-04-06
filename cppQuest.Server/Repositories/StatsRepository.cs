@@ -61,13 +61,14 @@ public class StatsRepository(AppDbContext db) : IStatsRepository
         }
         else
         {
-            existing.AttemptsCount  = stats.AttemptsCount;
-            existing.TotalScoreSum  = stats.TotalScoreSum;
-            existing.BestScore      = stats.BestScore;
-            existing.LastScore      = stats.LastScore;
-            existing.LastAttemptAt  = stats.LastAttemptAt;
-            existing.ParagraphId    = stats.ParagraphId;
-            existing.BestStatus     = stats.BestStatus;
+            existing.AttemptsCount        = stats.AttemptsCount;
+            existing.TotalScoreSum        = stats.TotalScoreSum;
+            existing.BestScore            = stats.BestScore;
+            existing.LastScore            = stats.LastScore;
+            existing.LastAttemptAt        = stats.LastAttemptAt;
+            existing.ParagraphId          = stats.ParagraphId;
+            existing.BestStatus           = stats.BestStatus;
+            existing.BankMasteryXpAwarded = stats.BankMasteryXpAwarded;
             if (!string.IsNullOrEmpty(stats.TestTitle) && string.IsNullOrEmpty(existing.TestTitle))
                 existing.TestTitle = stats.TestTitle;
         }

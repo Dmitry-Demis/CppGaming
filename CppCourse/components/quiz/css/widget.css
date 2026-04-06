@@ -43,27 +43,31 @@
     display: flex;
     height: 18px;
     border-radius: 99px;
-    overflow: hidden;
+    gap: 2px;
 }
 .qw-dist-seg {
     height: 100%;
-    border-radius: 99px;
+    border-radius: 0;
     transition: width .4s ease;
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
 }
+/* Скруглять только крайние сегменты */
+.qw-dist-seg:first-child { border-radius: 99px 0 0 99px; }
+.qw-dist-seg:last-child  { border-radius: 0 99px 99px 0; }
+.qw-dist-seg:only-child  { border-radius: 99px; }
 .qw-dist-sym {
     font-size: .65rem;
     font-weight: 800;
-    color: rgba(0,0,0,.55);
+    color: rgba(255,255,255,.28);
     line-height: 1;
     pointer-events: none;
 }
-.qw-dist-seg--below { background: var(--accent-green,  #a6e3a1); }
-.qw-dist-seg--same  { background: var(--accent-orange, #fab387); }
-.qw-dist-seg--above { background: var(--accent-red,    #f38ba8); }
+.qw-dist-seg--below { background: rgba(166,227,161,.25); border: 1px solid rgba(166,227,161,.45); }
+.qw-dist-seg--same  { background: rgba(250,179,135,.25); border: 1px solid rgba(250,179,135,.45); }
+.qw-dist-seg--above { background: rgba(243,139,168,.25); border: 1px solid rgba(243,139,168,.45); }
 .qw-dist-labels {
     position: relative;
     height: 1rem;
@@ -76,9 +80,9 @@
     font-weight: 700;
     white-space: nowrap;
 }
-.qw-dist-lbl--below { color: var(--accent-green,  #a6e3a1); }
-.qw-dist-lbl--same  { color: var(--accent-orange, #fab387); }
-.qw-dist-lbl--above { color: var(--accent-red,    #f38ba8); }
+.qw-dist-lbl--below { color: rgba(166,227,161,.75); }
+.qw-dist-lbl--same  { color: rgba(250,179,135,.75); }
+.qw-dist-lbl--above { color: rgba(243,139,168,.75); }
 .qw-stat {
     display: inline-flex;
     flex-direction: column;

@@ -25,51 +25,38 @@ export const QuizLoader = {
             return;
         }
 
-        const wrongIds  = await this._fetchWrongIds(data.quizId);
-        const questions = this._pickQuestions(data, wrongIds);
+        const pickedIds = await this._fetchPickedIds(data.quizId);
+        const questions = this._pickQuestions(data, pickedIds);
         new Quiz(containerId, questions, {
             quizId: data.quizId, title: data.title,
             type: data.type || 'mini', passingScore: data.passingScore ?? 70,
         });
     },
 
-    async _fetchWrongIds(quizId) {
+    // Запрашивает у бэкенда SR-выборку ID вопросов (unseen → wrong → seenCorrect).
+    // Для анонимных пользователей бэкенд вернёт случайную выборку.
+    // При ошибке возвращает null — тогда _pickQuestions сделает случайную выборку на клиенте.
+    async _fetchPickedIds(quizId) {
         try {
             const user = JSON.parse(localStorage.getItem('cpp_user') || 'null');
-            if (!user?.isuNumber) return new Set();
-            const res = await fetch(`/api/quiz/${quizId}/wrong-ids`, { headers: { 'X-Isu-Number': user.isuNumber } });
-            return res.ok ? new Set(await res.json()) : new Set();
-        } catch { return new Set(); }
+            const headers = user?.isuNumber ? { 'X-Isu-Number': user.isuNumber } : {};
+            const res = await fetch(`/api/quiz/${quizId}/pick-questions`, { headers });
+            return res.ok ? await res.json() : null;
+        } catch { return null; }
     },
 
-    _pickQuestions(data, wrongIds = new Set()) {
+    _pickQuestions(data, pickedIds = null) {
         const all  = data.questions || [];
         const pick = Math.min(data.pick || all.length, all.length);
 
-        const unseen = shuffle(all.filter(q => !wrongIds.has(q.id)));
-        const wrong  = shuffle(all.filter(q => wrongIds.has(q.id)));
-
-        const result = [];
-
-        for (const q of unseen) {
-            if (result.length >= pick) break;
-            result.push(q);
+        // Если бэкенд вернул упорядоченный список ID — используем его порядок
+        if (Array.isArray(pickedIds) && pickedIds.length > 0) {
+            const byId = Object.fromEntries(all.map(q => [q.id, q]));
+            const ordered = pickedIds.map(id => byId[id]).filter(Boolean);
+            return shuffle(ordered);
         }
 
-        const remaining = pick - result.length;
-        const wrongCap  = Math.ceil(remaining * 0.5);
-        const wrongAdded = [];
-        for (const q of wrong.slice(0, wrongCap)) {
-            if (result.length >= pick) break;
-            result.push(q);
-            wrongAdded.push(q);
-        }
-
-        for (const q of wrong.filter(q => !wrongAdded.includes(q))) {
-            if (result.length >= pick) break;
-            result.push(q);
-        }
-
-        return shuffle(result);
+        // Fallback: случайная выборка (анонимный пользователь или ошибка сети)
+        return shuffle(all).slice(0, pick);
     },
 };

@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cpp Quest — Презентация ВКР</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="presentation-document">
+        <!-- Slide 1: Титульный -->
+        <section class="slide" id="slide-1">
+            <div class="slide-content title-slide">
+                <div class="title-overlay">
+                    <h1 class="main-title">Разработка образовательной веб-платформы для изучения программирования на C++ с использованием геймификации</h1>
+                    <p class="subtitle">Интерактивная платформа для изучения C++</p>
+                </div>
+                <div class="author-info">
+                    <p class="author">Дзюба Дмитрий Александрович</p>
+                    <p class="program">Программа: Прикладная информатика</p>
+                    <p class="supervisor">Научный руководитель: [ФИО руководителя]</p>
+                    <p class="university">Университет ИТМО, 2026</p>
+                </div>
+            </div>
+            <div class="slide-number">1</div>
+        </section>
+
+        <!-- Slide 2: Актуальность и цель -->
+        <section class="slide" id="slide-2">
+            <div class="slide-content">
+                <h2>Актуальность и проблема</h2>
+                <div class="problem-solution-grid">
+                    <div class="problem-section">
+                        <h3>
+                            <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="15" y1="9" x2="9" y2="15"></line>
+                                <line x1="9" y1="9" x2="15" y2="15"></line>
+                            </svg>
+                            Проблема
+                        </h3>
+                        <div class="problem-content">
+                            <p class="problem-intro">В настоящее время в сфере высшего технического и онлайн-образования, и самостоятельного изучения программирования существует проблема с низким уровнем вовлечённости студентов, фрагментарным усвоением материала и высокой долей отсева при освоении языка C++.</p>
+                            <ul class="problem-items">
+                                <li>Механическое выполнение заданий «для зачёта»</li>
+                                <li>Быстрое забывание теоретических концепций</li>
+                                <li>Отсутствие устойчивой мотивации из-за высокой сложности (управление памятью, шаблоны, концепции, семантика перемещения)</li>
+                                <li>Сухость подачи теории и отсутствие ощущения прогресса при решении однотипных задач</li>
+                            </ul>
+                            <div class="impact-box">
+                                <strong>Последствия:</strong> Студенты сталкиваются с преждевременным прекращением углублённого изучения языка, что напрямую влияет на их профессиональную конкурентоспособность. Преподаватели вынуждены тратить значительное время на объяснение базовых концепций. Это также влияет на поиск кандидатов на места работы: есть огромная нехватка хороших специалистов.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="solution-section">
+                        <h3>
+                            <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                            </svg>
+                            Цель работы
+                        </h3>
+                        <div class="goal-content">
+                            <p class="goal-main">Разработать веб-платформу «C++ Quest», которая повысит вовлечённость и качество усвоения материала</p>
+                            <div class="goals-list">
+                                <div class="goal-item">
+                                    <svg class="icon-svg-large" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <polygon points="10 8 16 12 10 16 10 8"></polygon>
+                                    </svg>
+                                    <div>
+                                        <strong>Геймификация</strong>
+                                        <p>Квесты, достижения, внутренняя валюта («монетки») для открытия доступа к более сложным темам</p>
+                                    </div>
+                                </div>
+                                <div class="goal-item">
+                                    <svg class="icon-svg-large" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polyline points="23 4 23 10 17 10"></polyline>
+                                        <polyline points="1 20 1 14 7 14"></polyline>
+                                        <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                                    </svg>
+                                    <div>
+                                        <strong>Интервальное повторение</strong>
+                                        <p>Алгоритмы для закрепления теоретических знаний и ключевых концепций C++</p>
+                                    </div>
+                                </div>
+                                <div class="goal-item">
+                                    <svg class="icon-svg-large" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                                    </svg>
+                                    <div>
+                                        <strong>Мгновенная обратная связь</strong>
+                                        <p>Автоматическая проверка с объяснениями</p>
+                                    </div>
+                                </div>
+                                <div class="goal-item">
+                                    <svg class="icon-svg-large" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <line x1="18" y1="20" x2="18" y2="10"></line>
+                                        <line x1="12" y1="20" x2="12" y2="4"></line>
+                                        <line x1="6" y1="20" x2="6" y2="14"></line>
+                                    </svg>
+                                    <div>
+                                        <strong>Визуализация прогресса</strong>
+                                        <p>Единая точка входа с синхронизацией через My ITMO</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-number">2</div>
+        </section>
+
+        <!-- Slide 3: Традиционное обучение — Проблемы -->
+        <section class="slide" id="slide-3">
+            <div class="slide-content">
+                <h2>Традиционное обучение — Проблемы</h2>
+                <div class="traditional-learning">
+                    <!-- Legend - Horizontal -->
+                    <div class="metrics-legend-horizontal">
+                        <div class="legend-item-h">
+                            <div class="legend-bar-container">
+                                <div class="legend-square very-poor-0"></div>
+                                <span class="legend-num-h">0</span>
+                            </div>
+                            <span class="legend-text-h">Ужасно</span>
+                        </div>
+                        <div class="legend-item-h">
+                            <div class="legend-bar-container">
+                                <div class="legend-square poor-1"></div>
+                                <span class="legend-num-h">1</span>
+                            </div>
+                            <span class="legend-text-h">Очень плохо</span>
+                        </div>
+                        <div class="legend-item-h">
+                            <div class="legend-bar-container">
+                                <div class="legend-square poor-2"></div>
+                                <span class="legend-num-h">2</span>
+                            </div>
+                            <span class="legend-text-h">Плохо</span>
+                        </div>
+                        <div class="legend-item-h">
+                            <div class="legend-bar-container">
+                                <div class="legend-square poor-3"></div>
+                                <span class="legend-num-h">3</span>
+                            </div>
+                            <span class="legend-text-h">Посредственно</span>
+                        </div>
+                        <div class="legend-item-h">
+                            <div class="legend-bar-container">
+                                <div class="legend-square below-4"></div>
+                                <span class="legend-num-h">4</span>
+                            </div>
+                            <span class="legend-text-h">Ниже среднего</span>
+                        </div>
+                        <div class="legend-item-h">
+                            <div class="legend-bar-container">
+                                <div class="legend-square average-5"></div>
+                                <span class="legend-num-h">5</span>
+                            </div>
+                            <span class="legend-text-h">Средне</span>
+                        </div>
+                        <div class="legend-item-h">
+                            <div class="legend-bar-container">
+                                <div class="legend-square average-6"></div>
+                                <span class="legend-num-h">6</span>
+                            </div>
+                            <span class="legend-text-h">Выше среднего</span>
+                        </div>
+                        <div class="legend-item-h">
+                            <div class="legend-bar-container">
+                                <div class="legend-square good-7"></div>
+                                <span class="legend-num-h">7</span>
+                            </div>
+                            <span class="legend-text-h">Хорошо</span>
+                        </div>
+                        <div class="legend-item-h">
+                            <div class="legend-bar-container">
+                                <div class="legend-square good-8"></div>
+                                <span class="legend-num-h">8</span>
+                            </div>
+                            <span class="legend-text-h">Очень хорошо</span>
+                        </div>
+                        <div class="legend-item-h">
+                            <div class="legend-bar-container">
+                                <div class="legend-square excellent-9"></div>
+                                <span class="legend-num-h">9</span>
+                            </div>
+                            <span class="legend-text-h">Отлично</span>
+                        </div>
+                        <div class="legend-item-h">
+                            <div class="legend-bar-container">
+                                <div class="legend-square excellent-10"></div>
+                                <span class="legend-num-h">10</span>
+                            </div>
+                            <span class="legend-text-h">Превосходно</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Metrics Content Area -->
+                    <div class="metrics-content-full">
+                        <!-- Load CSV Button -->
+                        <div class="csv-loader" id="csv-loader">
+                            <button class="load-csv-btn" onclick="loadTraditionalMetrics()">
+                                <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 18px; height: 18px; vertical-align: middle; margin-right: 6px;">
+                                    <line x1="18" y1="20" x2="18" y2="10"></line>
+                                    <line x1="12" y1="20" x2="12" y2="4"></line>
+                                    <line x1="6" y1="20" x2="6" y2="14"></line>
+                                </svg>
+                                Загрузить данные из CSV
+                            </button>
+                        </div>
+                        
+                        <!-- Metrics Container -->
+                        <div class="metrics-dashboard" id="traditional-metrics">
+                            <!-- Metrics will be loaded from CSV -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-number">3</div>
+        </section>
+
+        <!-- Slide 4: Задачи исследования -->
+        <section class="slide" id="slide-4">
+            <div class="slide-content">
+                <h2>Задачи исследования</h2>
+                <div class="research-tasks">
+                    <div class="tasks-intro">
+                        <p>Для формирования успешного пользовательского опыта необходимо решить следующие исследовательские задачи:</p>
+                    </div>
+                    
+                    <div class="tasks-grid">
+                        <div class="task-card">
+                            <div class="task-number">1</div>
+                            <div class="task-content">
+                                <h4>Анализ проблем и обоснование стека</h4>
+                                <p>Исследовать причины низкой вовлечённости при изучении C++, проанализировать существующие платформы и обосновать выбор технологий</p>
+                            </div>
+                        </div>
+                        
+                        <div class="task-card">
+                            <div class="task-number">2</div>
+                            <div class="task-content">
+                                <h4>Формирование требований</h4>
+                                <p>На основе опросов студентов сформулировать функциональные и нефункциональные требования к платформе</p>
+                            </div>
+                        </div>
+                        
+                        <div class="task-card">
+                            <div class="task-number">3</div>
+                            <div class="task-content">
+                                <h4>Проектирование педагогических алгоритмов</h4>
+                                <p>Разработать модель интервального повторения, систему геймификации и разнообразные типы тестовых заданий</p>
+                            </div>
+                        </div>
+                        
+                        <div class="task-card">
+                            <div class="task-number">4</div>
+                            <div class="task-content">
+                                <h4>Проектирование архитектуры</h4>
+                                <p>Спроектировать многослойную архитектуру веб-приложения, схему БД и спецификацию API</p>
+                            </div>
+                        </div>
+                        
+                        <div class="task-card">
+                            <div class="task-number">5</div>
+                            <div class="task-content">
+                                <h4>Разработка прототипа</h4>
+                                <p>Реализовать модули: интерактивная теория, браузерный компилятор, система тестирования, геймификация, статистика</p>
+                            </div>
+                        </div>
+                        
+                        <div class="task-card">
+                            <div class="task-number">6</div>
+                            <div class="task-content">
+                                <h4>Проверка эффективности</h4>
+                                <p>Протестировать на выборке студентов, собрать метрики вовлечённости и качества знаний, провести сравнительный анализ</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="research-questions">
+                        <h4>Ключевые исследовательские вопросы:</h4>
+                        <div class="questions-columns">
+                            <ul>
+                                <li>Как адаптировать интервальное повторение под программирование?</li>
+                                <li>Как сбалансировать игровые механики, чтобы они мотивировали, а не отвлекали?</li>
+                                <li>Как влияет разнообразие форматов вопросов на удержание внимания?</li>
+                            </ul>
+                            <ul>
+                                <li>Как учитывать историю ошибок при тестировании?</li>
+                                <li>Какие давать вопросы, чтобы студент понимал, а не запоминал ответы?</li>
+                                <li>Как разработать систему для применения к другим языкам?</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-number">4</div>
+        </section>
+
+        <!-- Slide 5: Анализ и постановка задачи -->
+        <section class="slide" id="slide-3">
+            <div class="slide-content">
+                <h2>Анализ и постановка задачи</h2>
+                <div class="comparison-grid">
+                    <div class="problem-card">
+                        <h3>❌ Проблемы существующих решений</h3>
+                        <div class="metrics">
+                            <div class="metric-item bad">
+                                <span class="metric-value">5.7/10</span>
+                                <span class="metric-label">Рейтинг ВУЗа</span>
+                            </div>
+                            <div class="metric-item bad">
+                                <span class="metric-value">5.9/10</span>
+                                <span class="metric-label">Онлайн-курсы</span>
+                            </div>
+                        </div>
+                        <ul class="problem-list">
+                            <li>59% — Непонимание своего прогресса</li>
+                            <li>50% — Поиск информации по всем лекциям</li>
+                            <li>45% — Скучная подача материала</li>
+                            <li>36% — Отсутствие записей лекций</li>
+                        </ul>
+                    </div>
+                    <div class="solution-card">
+                        <h3>✅ Наше решение</h3>
+                        <div class="metrics">
+                            <div class="metric-item good">
+                                <span class="metric-value">8.5/10</span>
+                                <span class="metric-label">Рейтинг Cpp Quest</span>
+                            </div>
+                            <div class="metric-item good">
+                                <span class="metric-value">80%</span>
+                                <span class="metric-label">Заметно лучше</span>
+                            </div>
+                        </div>
+                        <ul class="solution-list">
+                            <li>Структурированный материал в одном месте</li>
+                            <li>Мгновенная автоматическая проверка</li>
+                            <li>Визуализация прогресса в реальном времени</li>
+                            <li>Геймификация и интерактивность</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-number">5</div>
+        </section>
+
+        <!-- Slide 6: Архитектура (C4 Context) -->
+        <section class="slide" id="slide-6">
+            <div class="slide-content">
+                <h2>Архитектура системы — Контекст</h2>
+                <div class="architecture-placeholder">
+                    <button class="add-image-btn" onclick="alert('Добавьте C4 Context диаграмму')">
+                        📷 Добавить C4 Context диаграмму
+                    </button>
+                    <p class="placeholder-text">Диаграмма контекста системы (C4 Level 1)</p>
+                </div>
+            </div>
+            <div class="slide-number">6</div>
+        </section>
+
+        <!-- Slide 7: Архитектура (C4 Container) -->
+        <section class="slide" id="slide-7">
+            <div class="slide-content">
+                <h2>Архитектура системы — Контейнеры</h2>
+                <div class="architecture-placeholder">
+                    <button class="add-image-btn" onclick="alert('Добавьте C4 Container диаграмму')">
+                        📷 Добавить C4 Container диаграмму
+                    </button>
+                    <p class="placeholder-text">Диаграмма контейнеров (C4 Level 2)</p>
+                </div>
+            </div>
+            <div class="slide-number">7</div>
+        </section>
+
+        <!-- Slide 8: Ключевые метрики (Dashboard 1) -->
+        <section class="slide" id="slide-8">
+            <div class="slide-content">
+                <h2>Результаты исследования — Эффективность</h2>
+                <div class="dashboard">
+                    <div class="dashboard-header">
+                        <div class="stat-card">
+                            <div class="stat-icon">📝</div>
+                            <div class="stat-value">15</div>
+                            <div class="stat-label">Респондентов</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">⭐</div>
+                            <div class="stat-value">8.5/10</div>
+                            <div class="stat-label">Общий рейтинг</div>
+                        </div>
+                        <div class="stat-card highlight">
+                            <div class="stat-icon">🚀</div>
+                            <div class="stat-value">80%</div>
+                            <div class="stat-label">Заметно лучше ВУЗа</div>
+                        </div>
+                    </div>
+                    
+                    <div class="comparison-chart">
+                        <h3>Сравнение форматов обучения</h3>
+                        <div class="chart-grid">
+                            <div class="chart-item">
+                                <div class="chart-label">Структура материала</div>
+                                <div class="chart-bars">
+                                    <div class="bar-group">
+                                        <span class="bar-label">Сайт</span>
+                                        <div class="bar bar-site" style="width: 87%">8.7</div>
+                                    </div>
+                                    <div class="bar-group">
+                                        <span class="bar-label">Онлайн</span>
+                                        <div class="bar bar-online" style="width: 68%">6.8</div>
+                                    </div>
+                                    <div class="bar-group">
+                                        <span class="bar-label">ВУЗ</span>
+                                        <div class="bar bar-uni" style="width: 61%">6.1</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="chart-item">
+                                <div class="chart-label">Качество обратной связи</div>
+                                <div class="chart-bars">
+                                    <div class="bar-group">
+                                        <span class="bar-label">Сайт</span>
+                                        <div class="bar bar-site" style="width: 87%">8.7</div>
+                                    </div>
+                                    <div class="bar-group">
+                                        <span class="bar-label">ВУЗ</span>
+                                        <div class="bar bar-uni" style="width: 63%">6.3</div>
+                                    </div>
+                                    <div class="bar-group">
+                                        <span class="bar-label">Онлайн</span>
+                                        <div class="bar bar-online" style="width: 59%">5.9</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-number">8</div>
+        </section>
+
+        <!-- Slide 9: Ключевые метрики (Dashboard 2) -->
+        <section class="slide" id="slide-9">
+            <div class="slide-content">
+                <h2>Результаты исследования — UX и Интерактивность</h2>
+                <div class="dashboard">
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <h4>Встроенный компилятор</h4>
+                            <div class="metric-circle excellent">
+                                <span class="metric-score">9.4</span>
+                                <span class="metric-max">/10</span>
+                            </div>
+                            <p class="metric-desc">60% оценили на 10/10</p>
+                        </div>
+                        
+                        <div class="metric-card">
+                            <h4>Дизайн и оформление</h4>
+                            <div class="metric-circle excellent">
+                                <span class="metric-score">9.3</span>
+                                <span class="metric-max">/10</span>
+                            </div>
+                            <p class="metric-desc">73% оценили на 10/10</p>
+                        </div>
+                        
+                        <div class="metric-card">
+                            <h4>Разнообразие заданий</h4>
+                            <div class="metric-circle good">
+                                <span class="metric-score">8.6</span>
+                                <span class="metric-max">/10</span>
+                            </div>
+                            <p class="metric-desc">Отлично</p>
+                        </div>
+                        
+                        <div class="metric-card">
+                            <h4>Анимации и интерактивность</h4>
+                            <div class="metric-circle good">
+                                <span class="metric-score">8.8</span>
+                                <span class="metric-max">/10</span>
+                            </div>
+                            <p class="metric-desc">Отлично</p>
+                        </div>
+                    </div>
+                    
+                    <div class="features-highlight">
+                        <h3>Лучшие типы заданий</h3>
+                        <div class="features-list">
+                            <div class="feature-item">
+                                <span class="feature-percent">73%</span>
+                                <span class="feature-name">«Что выведет код?»</span>
+                            </div>
+                            <div class="feature-item">
+                                <span class="feature-percent">53%</span>
+                                <span class="feature-name">Восстановление кода</span>
+                            </div>
+                            <div class="feature-item">
+                                <span class="feature-percent">53%</span>
+                                <span class="feature-name">Ввод ответа вручную</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-number">9</div>
+        </section>
+
+        <!-- Slide 10: Отзывы -->
+        <section class="slide" id="slide-10">
+            <div class="slide-content">
+                <h2>Отзывы пользователей</h2>
+                <div class="reviews-grid">
+                    <div class="review-card">
+                        <div class="review-header">
+                            <span class="review-author">Студент 1 курса ИТМО</span>
+                            <span class="review-rating">⭐⭐⭐⭐⭐</span>
+                        </div>
+                        <p class="review-text">«Тесты после каждого параграфа очень удобны и помогают закреплять материал. Нравится разнообразие контента: встроенный компилятор, выделенные блоки с важной информацией. Удобно смотреть на свою активность и прогресс.»</p>
+                    </div>
+                    
+                    <div class="review-card">
+                        <div class="review-header">
+                            <span class="review-author">Студент 1 курса ИТМО</span>
+                            <span class="review-rating">⭐⭐⭐⭐⭐</span>
+                        </div>
+                        <p class="review-text">«Автор рассказывает не только о том, "что есть в языке", но и показывает лучшие практики использования C++. Такой подход формирует правильное мышление разработчика.»</p>
+                    </div>
+                    
+                    <div class="review-card">
+                        <div class="review-header">
+                            <span class="review-author">Студент 3 курса ИТМО</span>
+                            <span class="review-rating">⭐⭐⭐⭐⭐</span>
+                        </div>
+                        <p class="review-text">«Визуальная составляющая и понятная подача материала. Много полезной информации, всё устроено так, чтобы запомнить побольше.»</p>
+                    </div>
+                    
+                    <div class="review-card">
+                        <div class="review-header">
+                            <span class="review-author">Студент 1 курса ИТМО</span>
+                            <span class="review-rating">⭐⭐⭐⭐</span>
+                        </div>
+                        <p class="review-text">«Краткость и лаконичность информации, разнообразие тестовых заданий. Геймификация повышает мотивацию и делает обучение увлекательным.»</p>
+                    </div>
+                    
+                    <div class="review-card">
+                        <div class="review-header">
+                            <span class="review-author">Студент 2 курса магистратуры</span>
+                            <span class="review-rating">⭐⭐⭐⭐⭐</span>
+                        </div>
+                        <p class="review-text">«Хорошая подача материала, визуальное оформление на высоте. Интерактивный формат с достижениями и покупками повышает вовлеченность.»</p>
+                    </div>
+                    
+                    <div class="review-card">
+                        <div class="review-header">
+                            <span class="review-author">Студент 1 курса ИТМО</span>
+                            <span class="review-rating">⭐⭐⭐⭐⭐</span>
+                        </div>
+                        <p class="review-text">«Знания, полученные на сайте, очень помогают в выполнении лабораторных работ и их защитах, а также в подготовке к экзамену.»</p>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-number">10</div>
+        </section>
+
+        <!-- Slide 11: Текущая реализация -->
+        <section class="slide" id="slide-11">
+            <div class="slide-content">
+                <h2>Текущая реализация</h2>
+                <div class="implementation-grid">
+                    <div class="progress-section">
+                        <h3>Прогресс разработки</h3>
+                        <div class="progress-item">
+                            <div class="progress-label">
+                                <span>Frontend (HTML/CSS/JS)</span>
+                                <span class="progress-percent">85%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 85%"></div>
+                            </div>
+                        </div>
+                        <div class="progress-item">
+                            <div class="progress-label">
+                                <span>Система тестирования</span>
+                                <span class="progress-percent">80%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 80%"></div>
+                            </div>
+                        </div>
+                        <div class="progress-item">
+                            <div class="progress-label">
+                                <span>Встроенный компилятор</span>
+                                <span class="progress-percent">90%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 90%"></div>
+                            </div>
+                        </div>
+                        <div class="progress-item">
+                            <div class="progress-label">
+                                <span>Геймификация</span>
+                                <span class="progress-percent">75%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 75%"></div>
+                            </div>
+                        </div>
+                        <div class="progress-item">
+                            <div class="progress-label">
+                                <span>Backend (C# / ASP.NET)</span>
+                                <span class="progress-percent">60%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 60%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="screenshots-section">
+                        <h3>Скриншоты интерфейса</h3>
+                        <div class="screenshot-placeholder">
+                            <button class="add-image-btn" onclick="alert('Добавьте скриншоты интерфейса')">
+                                📷 Добавить скриншоты
+                            </button>
+                        </div>
+                        <div class="repo-link">
+                            <p>🔗 Репозиторий: <a href="https://github.com/dmitry-demis/CppCourse" target="_blank">github.com/dmitry-demis/CppCourse</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-number">11</div>
+        </section>
+
+        <!-- Slide 12: План работ -->
+        <section class="slide" id="slide-12">
+            <div class="slide-content">
+                <h2>План работ до защиты</h2>
+                <div class="timeline">
+                    <div class="timeline-item completed">
+                        <div class="timeline-marker">✓</div>
+                        <div class="timeline-content">
+                            <h4>Февраль — Март 2026</h4>
+                            <ul>
+                                <li>Разработка frontend-компонентов</li>
+                                <li>Реализация системы тестирования</li>
+                                <li>Интеграция компилятора</li>
+                                <li>Проведение опроса пользователей</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item current">
+                        <div class="timeline-marker">⟳</div>
+                        <div class="timeline-content">
+                            <h4>Апрель 2026</h4>
+                            <ul>
+                                <li>Доработка backend API</li>
+                                <li>Реализация системы аутентификации</li>
+                                <li>Оптимизация производительности</li>
+                                <li>Анализ результатов опроса</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item future">
+                        <div class="timeline-marker">○</div>
+                        <div class="timeline-content">
+                            <h4>Май 2026</h4>
+                            <ul>
+                                <li>Финальное тестирование системы</li>
+                                <li>Исправление критических ошибок</li>
+                                <li>Подготовка документации</li>
+                                <li>Написание ВКР</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item future">
+                        <div class="timeline-marker">🎓</div>
+                        <div class="timeline-content">
+                            <h4>Июнь 2026</h4>
+                            <ul>
+                                <li>Финальная проверка ВКР</li>
+                                <li>Подготовка презентации</li>
+                                <li>Защита ВКР</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-number">12</div>
+        </section>
+
+        <!-- Slide 13: Заключение -->
+        <section class="slide" id="slide-13">
+            <div class="slide-content">
+                <h2>Заключение</h2>
+                <div class="conclusion-content">
+                    <div class="conclusion-box">
+                        <h3>📊 Достигнутые результаты</h3>
+                        <ul>
+                            <li>Разработана интерактивная платформа для изучения C++</li>
+                            <li>Реализована система геймификации и мотивации</li>
+                            <li>Интегрирован встроенный компилятор для практики</li>
+                            <li>Проведено исследование с 15 респондентами</li>
+                            <li>Получен рейтинг 8.5/10 (на 2.8 балла выше ВУЗа)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="conclusion-box">
+                        <h3>🎯 Ожидаемый вклад</h3>
+                        <ul>
+                            <li>Повышение мотивации студентов к изучению C++</li>
+                            <li>Улучшение качества усвоения материала</li>
+                            <li>Сокращение времени на поиск информации</li>
+                            <li>Визуализация прогресса обучения</li>
+                            <li>Создание открытого образовательного ресурса</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="conclusion-quote">
+                        <p>«80% респондентов отметили, что платформа заметно лучше традиционных методов обучения в ВУЗе и онлайн-курсов»</p>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-number">13</div>
+        </section>
+
+        <!-- Slide 14: Запасной — Технологический стек -->
+        <section class="slide backup" id="slide-14">
+            <div class="slide-content">
+                <h2>Технологический стек</h2>
+                <div class="tech-stack">
+                    <div class="tech-category">
+                        <h3>Frontend</h3>
+                        <ul>
+                            <li>HTML5 / CSS3 / JavaScript (ES6+)</li>
+                            <li>Модульная архитектура компонентов</li>
+                            <li>Адаптивный дизайн</li>
+                            <li>Web Workers для компиляции</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="tech-category">
+                        <h3>Backend</h3>
+                        <ul>
+                            <li>C# / ASP.NET Core</li>
+                            <li>Entity Framework Core</li>
+                            <li>RESTful API</li>
+                            <li>SQL Server / PostgreSQL</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="tech-category">
+                        <h3>Инструменты</h3>
+                        <ul>
+                            <li>Git / GitHub</li>
+                            <li>Compiler Explorer API</li>
+                            <li>JSON для хранения тестов</li>
+                            <li>Markdown для контента</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-number">14</div>
+            <div class="backup-label">Запасной слайд</div>
+        </section>
+
+        <!-- Slide 15: Запасной — Детальная статистика -->
+        <section class="slide backup" id="slide-15">
+            <div class="slide-content">
+                <h2>Детальная статистика опроса</h2>
+                <div class="detailed-stats">
+                    <div class="stat-row">
+                        <div class="stat-item">
+                            <h4>Респонденты</h4>
+                            <p>15 человек, средний возраст 20 лет</p>
+                            <p>93% мужчин, 73% изучают C++ сейчас</p>
+                        </div>
+                        <div class="stat-item">
+                            <h4>ВУЗы</h4>
+                            <p>ИТМО — 93%, ЛЭТИ — 7%</p>
+                            <p>67% — 1 курс бакалавриата</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-row">
+                        <div class="stat-item">
+                            <h4>Что улучшить</h4>
+                            <ul>
+                                <li>26% — Более сложные тесты</li>
+                                <li>24% — Глубже разобрать edge cases</li>
+                                <li>17% — Ссылки на документацию</li>
+                            </ul>
+                        </div>
+                        <div class="stat-item">
+                            <h4>Предпочтения</h4>
+                            <ul>
+                                <li>73% — Лаконичный формат</li>
+                                <li>60% — Читают всё подряд</li>
+                                <li>40% — Пропуск главы через тест</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-number">15</div>
+            <div class="backup-label">Запасной слайд</div>
+        </section>
+    </div>
+    <script src="metrics-loader.js"></script>
+</body>
+</html>
