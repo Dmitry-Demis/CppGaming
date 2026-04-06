@@ -5,11 +5,11 @@
 *.swp
 *.swo
 
-# Kiro IDE
-.kiro/
 
 # GitHub Actions / CI config (local only)
 .github/
+
+presentation/
 
 # ── Secrets & local config ────────────────────────────────────────────────────
 # appsettings.json (base) остаётся в репо — он не содержит секретов
