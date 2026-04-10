@@ -5,8 +5,22 @@ function _getCookie(name) {
     return match ? decodeURIComponent(match[1]) : null;
 }
 
+let _csrfRequestToken = sessionStorage.getItem('csrf_token') || null;
+
+async function _ensureCsrfToken() {
+    if (_csrfRequestToken) return;
+    try {
+        const r = await fetch('/api/csrf', { method: 'GET' });
+        if (r.ok) {
+            const data = await r.json();
+            _csrfRequestToken = data.token || null;
+            if (_csrfRequestToken) sessionStorage.setItem('csrf_token', _csrfRequestToken);
+        }
+    } catch {}
+}
+
 function _csrfHeader() {
-    return { 'X-CSRF-Token': _getCookie('XSRF-TOKEN') || '' };
+    return { 'X-CSRF-Token': _csrfRequestToken || '' };
 }
 
 export function quizMd(text) {
@@ -85,15 +99,30 @@ export function saveResult({ quizId, title, questions, answers, pct }) {
     const wrongIds   = answers.map(a => (!a?.isRight && a?.qId != null) ? a.qId : null).filter(v => v !== null);
     const correctIds = answers.map(a => ( a?.isRight && a?.qId != null) ? a.qId : null).filter(v => v !== null);
 
-    return fetch('/api/test/complete', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'X-Isu-Number': user.isuNumber, ..._csrfHeader() },
-        body: JSON.stringify({
-            paragraphId, testId: quizId, testTitle: title, score: pct,
-            correctAnswers: correctIds.length, totalQuestions: questions.length,
-            wrongQuestionIds: wrongIds, correctQuestionIds: correctIds, timeSpent: 0,
-        }),
-    }).then(r => r.json()).catch(() => null);
+    const body = JSON.stringify({
+        paragraphId, testId: quizId, testTitle: title, score: pct,
+        correctAnswers: correctIds.length, totalQuestions: questions.length,
+        wrongQuestionIds: wrongIds, correctQuestionIds: correctIds, timeSpent: 0,
+    });
+
+    function doPost() {
+        return fetch('/api/test/complete', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'X-Isu-Number': user.isuNumber, ..._csrfHeader() },
+            body,
+        });
+    }
+
+    return _ensureCsrfToken().then(() => doPost()).then(async r => {
+        if (r.status === 403) {
+            // Токен протух — сбрасываем, получаем новый и повторяем один раз
+            _csrfRequestToken = null;
+            sessionStorage.removeItem('csrf_token');
+            await _ensureCsrfToken();
+            return doPost().then(r2 => r2.ok ? r2.json() : null).catch(() => null);
+        }
+        return r.ok ? r.json() : null;
+    }).catch(() => null);
 }
 
 export function highlightCode(container) {

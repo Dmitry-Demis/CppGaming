@@ -9,7 +9,9 @@ function getCookie(name) {
     return match ? decodeURIComponent(match[1]) : null;
 }
 function csrfHeader() {
-    return { 'X-CSRF-Token': getCookie('XSRF-TOKEN') || '' };
+    // Используем request token из sessionStorage (установлен csrf.js)
+    const token = sessionStorage.getItem('csrf_token') || '';
+    return { 'X-CSRF-Token': token };
 }
 
 // ── Storage helpers ──────────────────────────────────────────────────────────
@@ -496,7 +498,7 @@ class ReadingTracker {
                 paragraphId,
                 timeSpent: this._sessionSecs,
                 codeWasRun: this._codeWasRun,
-                scrollPixels: this._scrollPixels
+                scrollPixels: Math.round(this._scrollPixels)
             });
 
             this._sessionSecs  = 0;

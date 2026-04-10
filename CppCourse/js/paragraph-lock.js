@@ -18,6 +18,19 @@
         _loadAndApply();
     });
 
+    // Возвращает предыдущий параграф ТОЛЬКО если он в той же главе.
+    // Если параграф первый в главе — возвращает null (всегда открыт).
+    function _prevInSameChapter(structure, paragraphId) {
+        for (const ch of structure.chapters) {
+            const paras = ch.paragraphs || [];
+            const localIdx = paras.findIndex(p => p.id === paragraphId);
+            if (localIdx < 0) continue;
+            if (localIdx === 0) return null; // первый в главе — всегда открыт
+            return paras[localIdx - 1].id;   // предыдущий в той же главе
+        }
+        return null;
+    }
+
     async function _fetchUnlocked() {
         if (_unlockedCache !== null) return { unlocked: _unlockedCache, isAdmin: _isAdmin };
 
@@ -67,21 +80,24 @@
         );
 
         const idx = allParas.indexOf(paragraphId);
-        if (idx <= 0) return; // первый параграф всегда открыт
+        if (idx < 0) return;
+
+        // Первый параграф главы всегда открыт — не редиректим
+        const prevId = _prevInSameChapter(structure, paragraphId);
+        if (prevId === null) return;
 
         const user = JSON.parse(localStorage.getItem('cpp_user') || 'null');
 
-        // Незалогиненный пользователь — всё кроме первого параграфа заблокировано
+        // Незалогиненный пользователь — всё кроме первого параграфа главы заблокировано
         if (!user?.isuNumber) {
-            location.replace(`${base}locked.html?para=${encodeURIComponent(paragraphId)}&prev=${encodeURIComponent(allParas[idx - 1])}`);
+            location.replace(`${base}locked.html?para=${encodeURIComponent(paragraphId)}&prev=${encodeURIComponent(prevId)}`);
             return;
         }
 
         const { unlocked, isAdmin } = await _fetchUnlocked();
         if (isAdmin) return; // admin видит всё
 
-        // Параграф открыт если предыдущий пройден
-        const prevId = allParas[idx - 1];
+        // Параграф открыт если предыдущий (в той же главе) пройден
         if (!unlocked.includes(prevId)) {
             location.replace(`${base}locked.html?para=${encodeURIComponent(paragraphId)}&prev=${encodeURIComponent(prevId)}`);
         }
@@ -113,9 +129,12 @@
             if (!last) return;
 
             const idx = allParas.indexOf(last);
-            if (idx <= 0) return; // первый всегда открыт
+            if (idx < 0) return;
 
-            const prevId = allParas[idx - 1];
+            // FIX: проверяем локальный индекс внутри главы, а не глобальный
+            const prevId = _prevInSameChapter(structure, last);
+            if (prevId === null) return; // первый параграф главы всегда открыт
+
             const isLocked = !unlockedSet.has(prevId);
 
             if (isLocked) {
@@ -179,10 +198,13 @@
             if (!paraId) return;
 
             const idx = allParas.indexOf(paraId);
-            if (idx <= 0) return; // первый всегда открыт
+            if (idx < 0) return;
+
+            // FIX: предыдущий только в рамках той же главы
+            const prevId = _prevInSameChapter(structure, paraId);
+            if (prevId === null) return; // первый параграф главы всегда открыт
 
             const isGuest = !user?.isuNumber;
-            const prevId = allParas[idx - 1];
             const isLocked = isGuest || !unlockedSet.has(prevId);
             if (!isLocked) return;
 

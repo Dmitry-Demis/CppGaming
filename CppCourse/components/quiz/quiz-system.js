@@ -529,6 +529,18 @@ class QuizSystem {
             const lastPart = parts[parts.length - 1] || '';
             const paragraphId = lastPart.replace(/\.html$/, '') || 'unknown';
 
+            // FIX: collect real question IDs instead of sending empty arrays
+            const correctQuestionIds = [];
+            const wrongQuestionIds = [];
+            testData.questions.forEach((question, index) => {
+                const qId = question.id ?? index;
+                if (this.answers[index] === question.correct) {
+                    correctQuestionIds.push(qId);
+                } else {
+                    wrongQuestionIds.push(qId);
+                }
+            });
+
             fetch('/api/test/complete', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'X-Isu-Number': user.isuNumber, ...csrfHeader() },
@@ -539,12 +551,13 @@ class QuizSystem {
                     score:           percentage,
                     correctAnswers:  this.score,
                     totalQuestions:  testData.questions.length,
-                    wrongQuestionIds: [],
-                    correctQuestionIds: [],
+                    wrongQuestionIds,
+                    correctQuestionIds,
                     timeSpent:       0
                 })
             })
-            .then(r => r.json())
+            // FIX: check r.ok and throw on non-2xx responses
+            .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
             .then(d => console.log('[Quiz] Progress saved:', d))
             .catch(e => console.error('[Quiz] Failed to save progress:', e));
         } else {

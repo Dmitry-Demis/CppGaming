@@ -1,0 +1,460 @@
+/* ============================================
+   CHAPTER MAP — игровые карточки глав + модальная карта параграфов
+   ============================================ */
+
+/* ── Сетка карточек ── */
+.chapters-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: var(--space-5);
+}
+
+/* ── Карточка главы ── */
+.chmap-card {
+    position: relative;
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--border-primary);
+    background: var(--bg-card);
+    cursor: pointer;
+    overflow: hidden;
+    transition: transform var(--transition-spring), box-shadow var(--transition-base), border-color var(--transition-base);
+    min-height: 180px;
+    display: flex;
+    flex-direction: column;
+    user-select: none;
+}
+.chmap-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    border-color: var(--border-accent);
+    box-shadow: 0 12px 40px rgba(0,0,0,.4), 0 0 0 1px var(--border-accent);
+    z-index: 2;
+}
+.chmap-card:active { transform: translateY(-2px) scale(1.01); }
+
+/* SVG паттерн-фон */
+.chmap-pattern {
+    position: absolute;
+    inset: 0;
+    opacity: 0.12;
+    pointer-events: none;
+}
+.chmap-card:hover .chmap-pattern { opacity: 0.22; transition: opacity .3s; }
+
+/* Цветная полоска сверху */
+.chmap-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--ch-color, var(--accent-violet));
+    opacity: 0.9;
+}
+
+/* Медальки усвоения */
+.chmap-medals {
+    position: absolute;
+    top: 10px; right: 10px;
+    display: flex;
+    gap: 3px;
+    z-index: 2;
+}
+.chmap-medal {
+    font-size: 1rem;
+    filter: drop-shadow(0 1px 3px rgba(0,0,0,.5));
+    opacity: 0.3;
+    transition: opacity .2s, transform .2s;
+}
+.chmap-medal.earned { opacity: 1; transform: scale(1.1); }
+
+/* Стандарт слева */
+.chmap-std {
+    position: absolute;
+    left: 0; top: 50%;
+    transform: translateY(-50%);
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    font-size: .55rem;
+    font-weight: 800;
+    letter-spacing: .08em;
+    padding: 6px 4px;
+    background: var(--ch-color, var(--accent-violet));
+    color: #fff;
+    border-radius: 0 4px 4px 0;
+    opacity: 0.85;
+    z-index: 2;
+    text-transform: uppercase;
+}
+
+/* Контент карточки */
+.chmap-body {
+    position: relative;
+    z-index: 2;
+    padding: 18px 14px 14px 28px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 6px;
+}
+
+.chmap-num {
+    font-family: var(--font-mono);
+    font-size: .65rem;
+    color: var(--ch-color, var(--accent-violet));
+    font-weight: 700;
+    opacity: 0.8;
+}
+
+.chmap-title {
+    font-size: .95rem;
+    font-weight: 700;
+    color: var(--text-heading);
+    line-height: 1.3;
+    flex: 1;
+}
+
+.chmap-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 4px;
+}
+
+.chmap-level {
+    font-size: .58rem;
+    font-weight: 800;
+    padding: 2px 7px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+}
+.chmap-level--BEGINNER    { background: rgba(126,231,135,.15); color: #7ee787; border: 1px solid rgba(126,231,135,.3); }
+.chmap-level--JUNIOR      { background: rgba(88,166,255,.15);  color: #58a6ff; border: 1px solid rgba(88,166,255,.3); }
+.chmap-level--JUNIOR-plus { background: rgba(100,200,255,.15); color: #64c8ff; border: 1px solid rgba(100,200,255,.3); }
+.chmap-level--MIDDLE      { background: rgba(210,168,255,.15); color: #d2a8ff; border: 1px solid rgba(210,168,255,.3); }
+.chmap-level--MIDDLE-plus { background: rgba(255,166,87,.15);  color: #ffa657; border: 1px solid rgba(255,166,87,.3); }
+.chmap-level--ADVANCED    { background: rgba(243,139,168,.15); color: #f38ba8; border: 1px solid rgba(243,139,168,.3); }
+.chmap-level--SENIOR      { background: rgba(253,230,138,.15); color: #fde68a; border: 1px solid rgba(253,230,138,.3); }
+
+.chmap-para-count {
+    font-size: .65rem;
+    color: var(--text-tertiary);
+}
+
+/* Прогресс-бар внизу карточки */
+.chmap-progress-bar {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: rgba(255,255,255,.06);
+}
+.chmap-progress-fill {
+    height: 100%;
+    background: var(--ch-color, var(--accent-violet));
+    opacity: 0.7;
+    transition: width .6s ease;
+    border-radius: 0 2px 2px 0;
+}
+
+/* Скелетон */
+.chmap-card--skeleton {
+    pointer-events: none;
+    animation: chmap-pulse 1.4s ease-in-out infinite;
+}
+@keyframes chmap-pulse {
+    0%, 100% { opacity: .5; }
+    50%       { opacity: .9; }
+}
+
+/* ── Модальное окно карты параграфов ── */
+.chmap-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.75);
+    backdrop-filter: blur(6px);
+    z-index: var(--z-modal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-4);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .25s ease;
+}
+.chmap-overlay * {
+    pointer-events: none;
+}
+.chmap-overlay.open {
+    opacity: 1;
+    pointer-events: all;
+}
+.chmap-overlay.open * {
+    pointer-events: auto;
+}
+
+.chmap-modal {
+    background: var(--bg-card);
+    border: 1px solid var(--border-secondary);
+    border-radius: var(--radius-2xl);
+    width: 100%;
+    max-width: 780px;
+    max-height: 88vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--shadow-xl);
+    transform: scale(.94) translateY(16px);
+    transition: transform .3s var(--transition-spring);
+}
+.chmap-overlay.open .chmap-modal {
+    transform: scale(1) translateY(0);
+}
+
+/* Шапка модалки */
+.chmap-modal-header {
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid var(--border-primary);
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    position: relative;
+    background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-secondary) 100%);
+}
+.chmap-modal-color-bar {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--ch-color, var(--accent-violet));
+}
+.chmap-modal-icon {
+    font-size: 2rem;
+    width: 48px; height: 48px;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-primary);
+    flex-shrink: 0;
+}
+.chmap-modal-info { flex: 1; }
+.chmap-modal-num {
+    font-family: var(--font-mono);
+    font-size: .7rem;
+    color: var(--ch-color, var(--accent-violet));
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+.chmap-modal-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text-heading);
+    margin: 0 0 6px;
+    line-height: 1.3;
+}
+.chmap-modal-desc {
+    font-size: .8rem;
+    color: var(--text-secondary);
+    margin: 0;
+    line-height: 1.5;
+}
+.chmap-modal-meta {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.chmap-modal-medals { display: flex; gap: 4px; }
+.chmap-modal-medal { font-size: 1.1rem; opacity: .25; transition: opacity .2s; }
+.chmap-modal-medal.earned { opacity: 1; }
+
+.chmap-modal-close {
+    position: absolute;
+    top: 14px; right: 14px;
+    width: 32px; height: 32px;
+    border: none;
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-md);
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background .15s, color .15s;
+}
+.chmap-modal-close:hover { background: var(--border-secondary); color: var(--text-primary); }
+
+/* Тело модалки — карта параграфов */
+.chmap-modal-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px;
+    position: relative;
+}
+
+/* ── Карта параграфов (SVG + узлы) ── */
+.chmap-map-wrap {
+    position: relative;
+    width: 100%;
+}
+
+.chmap-map-svg {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    overflow: visible;
+}
+
+.chmap-nodes {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+/* Узел параграфа */
+.chmap-node {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 10px 14px;
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    text-decoration: none;
+    color: var(--text-primary);
+    transition: background .15s, transform .15s;
+    position: relative;
+    z-index: 2;
+}
+.chmap-node:hover {
+    background: rgba(255,255,255,.06);
+    transform: translateX(4px);
+    text-decoration: none;
+    color: var(--text-primary);
+}
+.chmap-node.locked {
+    opacity: .45;
+    cursor: not-allowed;
+    pointer-events: auto;
+}
+.chmap-node.locked:hover { transform: none; background: none; }
+
+/* Иконка узла */
+.chmap-node-icon {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    border: 2px solid var(--ch-color, var(--accent-violet));
+    background: var(--bg-tertiary);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+    position: relative;
+    transition: background .2s, box-shadow .2s;
+}
+.chmap-node:not(.locked):hover .chmap-node-icon {
+    background: var(--bg-card-hover);
+    box-shadow: 0 0 14px var(--ch-color, var(--accent-violet));
+}
+.chmap-node.done .chmap-node-icon {
+    background: var(--ch-color, var(--accent-violet));
+    border-color: var(--ch-color, var(--accent-violet));
+}
+.chmap-node.locked .chmap-node-icon {
+    border-color: var(--border-primary);
+}
+
+/* Замок поверх иконки */
+.chmap-node-lock {
+    position: absolute;
+    bottom: -4px; right: -4px;
+    font-size: .65rem;
+    background: var(--bg-secondary);
+    border-radius: 50%;
+    width: 16px; height: 16px;
+    display: flex; align-items: center; justify-content: center;
+    border: 1px solid var(--border-primary);
+}
+
+/* Текст узла */
+.chmap-node-text { flex: 1; min-width: 0; }
+.chmap-node-num {
+    font-family: var(--font-mono);
+    font-size: .65rem;
+    color: var(--ch-color, var(--accent-violet));
+    font-weight: 700;
+    opacity: .8;
+}
+.chmap-node-title {
+    font-size: .9rem;
+    font-weight: 600;
+    color: var(--text-heading);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.chmap-node.locked .chmap-node-title { color: var(--text-tertiary); }
+
+/* Бейдж прогресса */
+.chmap-node-badge {
+    flex-shrink: 0;
+    font-size: .65rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 6px;
+    white-space: nowrap;
+}
+.chmap-node-badge--none   { color: rgba(107,114,128,.4); background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.07); }
+.chmap-node-badge--gold   { background: rgba(253,230,138,.15); color: #fde68a; border: 1px solid rgba(253,230,138,.35); }
+.chmap-node-badge--silver { background: rgba(209,213,219,.12); color: #d1d5db; border: 1px solid rgba(209,213,219,.3); }
+.chmap-node-badge--bronze { background: rgba(205,127,50,.12);  color: #cd7f32; border: 1px solid rgba(205,127,50,.3); }
+.chmap-node-badge--pass   { background: rgba(110,231,183,.1);  color: #6ee7b7; border: 1px solid rgba(110,231,183,.25); }
+.chmap-node-badge--fail   { background: rgba(243,139,168,.12); color: #f38ba8; border: 1px solid rgba(243,139,168,.3); }
+
+/* Стандарты в узле */
+.chmap-node-stds {
+    display: flex;
+    gap: 3px;
+    flex-wrap: wrap;
+    margin-top: 2px;
+}
+.chmap-node-stds span {
+    font-size: .55rem;
+    font-weight: 700;
+    padding: 1px 5px;
+    border-radius: 4px;
+}
+
+/* Кнопка "Изучить главу" */
+.chmap-modal-cta {
+    display: block;
+    margin: 16px 24px 20px;
+    padding: 12px;
+    background: var(--grad-vivid);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-lg);
+    font-size: .9rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    transition: opacity .2s, transform .15s;
+}
+.chmap-modal-cta:hover { opacity: .88; transform: translateY(-1px); color: #fff; text-decoration: none; }
+
+/* Соединительные линии между узлами */
+.chmap-connector {
+    stroke: var(--ch-color, var(--accent-violet));
+    stroke-width: 2;
+    fill: none;
+    opacity: 0.25;
+    stroke-dasharray: 5 4;
+}
+.chmap-connector.done { opacity: 0.6; stroke-dasharray: none; }
+
+/* ── Адаптив ── */
+@media (max-width: 600px) {
+    .chapters-grid { grid-template-columns: repeat(2, 1fr); gap: var(--space-3); }
+    .chmap-card { min-height: 150px; }
+    .chmap-modal { max-height: 95vh; border-radius: var(--radius-xl) var(--radius-xl) 0 0; }
+    .chmap-overlay { align-items: flex-end; padding: 0; }
+    .chmap-node-title { font-size: .82rem; }
+}

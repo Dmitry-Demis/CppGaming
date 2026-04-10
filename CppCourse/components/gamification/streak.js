@@ -496,7 +496,15 @@ body { padding-bottom: 52px; }
             logoutLink.textContent = 'Выйти';
             logoutLink.addEventListener('click', e => {
                 e.preventDefault();
+                const user = JSON.parse(localStorage.getItem('cpp_user') || 'null');
+                const isuNumber = user?.isuNumber;
                 localStorage.removeItem('cpp_user');
+                if (isuNumber) {
+                    fetch('/api/logout', {
+                        method: 'POST',
+                        headers: { 'X-Isu-Number': isuNumber }
+                    }).catch(() => {});
+                }
                 location.href = root + 'login.html';
             });
 

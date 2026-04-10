@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="CppQuest.Gateway/CppQuest.Gateway.csproj" />
+  <Project Path="CppQuest.Gateway.Tests/CppQuest.Gateway.Tests.csproj" />
+</Solution>
